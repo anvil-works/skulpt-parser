@@ -1,0 +1,147 @@
+{
+    "module": "dist/regex/index.js",
+    "cases": 517,
+    "modes": 1034,
+    "exact": 1026,
+    "content": 813,
+    "expectedErrors": 221,
+    "rejected": 213,
+    "exactErrors": 213,
+    "warnings": 16,
+    "groups": {
+        "strings": {
+            "modes": 1034,
+            "exact": 1026
+        }
+    },
+    "failures": [
+        {
+            "name": "218",
+            "mode": "extra",
+            "expected": {
+                "name": "MemoryError",
+                "message": "",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "actual": {
+                "accepted": true
+            }
+        },
+        {
+            "name": "218",
+            "mode": "strict",
+            "expected": {
+                "name": "MemoryError",
+                "message": "",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "actual": {
+                "accepted": true
+            }
+        },
+        {
+            "name": "250",
+            "mode": "extra",
+            "expected": {
+                "name": "MemoryError",
+                "message": "",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "actual": {
+                "accepted": true
+            }
+        },
+        {
+            "name": "250",
+            "mode": "strict",
+            "expected": {
+                "name": "MemoryError",
+                "message": "",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "actual": {
+                "accepted": true
+            }
+        },
+        {
+            "name": "474",
+            "mode": "extra",
+            "expected": {
+                "name": "MemoryError",
+                "message": "",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "actual": {
+                "accepted": true
+            }
+        },
+        {
+            "name": "474",
+            "mode": "strict",
+            "expected": {
+                "name": "MemoryError",
+                "message": "",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "actual": {
+                "accepted": true
+            }
+        },
+        {
+            "name": "506",
+            "mode": "extra",
+            "expected": {
+                "name": "MemoryError",
+                "message": "",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "actual": {
+                "accepted": true
+            }
+        },
+        {
+            "name": "506",
+            "mode": "strict",
+            "expected": {
+                "name": "MemoryError",
+                "message": "",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "actual": {
+                "accepted": true
+            }
+        }
+    ]
+}

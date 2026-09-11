@@ -1,0 +1,26 @@
+{
+    "module": "dist/regex/index.js",
+    "cases": 561,
+    "modes": 1122,
+    "exact": 1122,
+    "content": 615,
+    "expectedErrors": 507,
+    "rejected": 507,
+    "exactErrors": 507,
+    "warnings": 0,
+    "groups": {
+        "stdlib": {
+            "modes": 104,
+            "exact": 104
+        },
+        "mutated": {
+            "modes": 1000,
+            "exact": 1000
+        },
+        "limits": {
+            "modes": 18,
+            "exact": 18
+        }
+    },
+    "failures": []
+}

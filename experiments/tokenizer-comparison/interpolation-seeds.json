@@ -1,0 +1,170 @@
+[
+    {
+        "name": "ordinary",
+        "source": "answer = 0x1234e455 + 1.25e-3"
+    },
+    {
+        "name": "simple-f",
+        "source": "f\"hello {name}\""
+    },
+    {
+        "name": "simple-t",
+        "source": "t\"hello {name}\""
+    },
+    {
+        "name": "quote-reuse",
+        "source": "f\"{data[\"key\"]}\""
+    },
+    {
+        "name": "nested",
+        "source": "f\"outer {f\"inner {value}\"}\""
+    },
+    {
+        "name": "template-nested",
+        "source": "t\"outer {f\"inner {value}\"}\""
+    },
+    {
+        "name": "format",
+        "source": "f\"{value!r:>{width}.{precision}f}\""
+    },
+    {
+        "name": "debug",
+        "source": "f\"{value = }\""
+    },
+    {
+        "name": "escaped-braces",
+        "source": "f\"{{hello}} {name}\""
+    },
+    {
+        "name": "raw",
+        "source": "rf\"path\\name {value}\""
+    },
+    {
+        "name": "triple",
+        "source": "f\"\"\"line one\n{value}\nline three\"\"\""
+    },
+    {
+        "name": "comment",
+        "source": "f\"\"\"{value # note\n}\"\"\""
+    },
+    {
+        "name": "unicode",
+        "source": "\u03c0 = f\"\ud83d\ude00 {\u53d8\u91cf}\""
+    },
+    {
+        "name": "dict",
+        "source": "f\"{ {'a': value} }\""
+    },
+    {
+        "name": "slice",
+        "source": "f\"{items[1:3]}\""
+    },
+    {
+        "name": "named-escape",
+        "source": "f\"\\N{SNOWMAN} {x}\""
+    },
+    {
+        "name": "format-nested",
+        "source": "t\"{value:{width}.{precision}f}\""
+    },
+    {
+        "name": "literal",
+        "source": "\"ordinary {braces}\""
+    },
+    {
+        "name": "unclosed-field",
+        "source": "f\"{value\""
+    },
+    {
+        "name": "single-close",
+        "source": "f\"oops }\""
+    },
+    {
+        "name": "unclosed-string",
+        "source": "f\"unterminated"
+    },
+    {
+        "name": "unclosed-template",
+        "source": "t\"{value\""
+    },
+    {
+        "name": "empty-f",
+        "source": "f\"\""
+    },
+    {
+        "name": "empty-t",
+        "source": "t\"\""
+    },
+    {
+        "name": "all-braces",
+        "source": "f\"{{}}{{}}\""
+    },
+    {
+        "name": "upper-prefix",
+        "source": "RF\"text {x!s}\""
+    },
+    {
+        "name": "raw-template",
+        "source": "rt\"\\path {item!r}\""
+    },
+    {
+        "name": "double-nesting",
+        "source": "f\"{t'{f\"{x}\"}'}\""
+    },
+    {
+        "name": "debug-conversion",
+        "source": "t\"{ obj.attr = !r:>12}\""
+    },
+    {
+        "name": "dict-subscript",
+        "source": "f\"{ {'x': [1, 2]}['x'][0] }\""
+    },
+    {
+        "name": "comment-quote",
+        "source": "f\"\"\"{x # \" quote in comment\n+ y}\"\"\""
+    },
+    {
+        "name": "escaped-quote",
+        "source": "f\"say \\\"{x}\\\"\""
+    },
+    {
+        "name": "unicode-prefix",
+        "source": "\ud801\udc00 = t\"\u00e9\ud83d\ude00 {\u53d8\u91cf!s}\""
+    },
+    {
+        "name": "walrus",
+        "source": "f\"{(value := 42)}\""
+    },
+    {
+        "name": "conditional",
+        "source": "f\"{x if x != 2 else y}\""
+    },
+    {
+        "name": "numeric",
+        "source": "values = (0b1010, 0o755, 0x1f, 1_000, .5, 2., 3e+2, 4j)"
+    },
+    {
+        "name": "named-unicode",
+        "source": "f\"\\N{LEFT CURLY BRACKET}{x}\""
+    },
+    {
+        "name": "nested-format",
+        "source": "f\"{x:{w}.{p}}\""
+    },
+    {
+        "name": "mismatched-brackets",
+        "source": "f\"{items[0)}\""
+    },
+    {
+        "name": "format-unclosed",
+        "source": "f\"{x:{w}\""
+    },
+    {
+        "name": "raw-unclosed",
+        "source": "rf\"abc\\\""
+    },
+    {
+        "name": "template-close",
+        "source": "t\"bad } tail\""
+    }
+]

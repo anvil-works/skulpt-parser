@@ -1,0 +1,22 @@
+{
+    "small": {
+        "extra": "b05ca759f38887ac8a5dde04f2712fd549998331c839c5ef94e92b021fd18117",
+        "strict": "4a4d0067dff7a75f36b4236c8f83c19c335ee1e7a84af3c5bab32c92084d42a3"
+    },
+    "medium": {
+        "extra": "05d693f2872f51c488baead561a02958cfe37047a349a4d52e0e0e819b687f44",
+        "strict": "848890d7060eb4cf3a64abcffd1f0d9c78a251b14278b56af70d235e04c9e5a6"
+    },
+    "large": {
+        "extra": "650b84f24855d0b19105390e95d5332ddb258957ac42b825a21b616c6c4b14e6",
+        "strict": "0d7df0ca16d49ef6c0e9a216e4f3e626df4e76ef04e91312fe62224be49a8d94"
+    },
+    "long-line": {
+        "extra": "0cecb5b0fa872d732c6052b4759d0e3b0acfcb1f86c39f50969d942653a71aa3",
+        "strict": "b91175c43c8cf4305416f9da26a74e8d672d1d4e25ddfc3a5f6f438244208271"
+    },
+    "unicode": {
+        "extra": "f523d1ec66451900f65d98fceb59a081115ffe750bc57e9eea417447a7071eef",
+        "strict": "214566e7bf2d1d3eb56859054162ff1f5b79dedfae77aeee7215d40593bd1b2a"
+    }
+}

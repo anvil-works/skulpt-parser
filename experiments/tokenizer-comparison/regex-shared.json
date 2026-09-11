@@ -1,0 +1,30 @@
+{
+    "module": "dist/regex/index.js",
+    "cases": 804,
+    "modes": 1608,
+    "exact": 1608,
+    "content": 1545,
+    "expectedErrors": 63,
+    "rejected": 63,
+    "exactErrors": 63,
+    "warnings": 1,
+    "groups": {
+        "project": {
+            "modes": 1112,
+            "exact": 1112
+        },
+        "upstream": {
+            "modes": 296,
+            "exact": 296
+        },
+        "interpolation": {
+            "modes": 84,
+            "exact": 84
+        },
+        "adversarial": {
+            "modes": 116,
+            "exact": 116
+        }
+    },
+    "failures": []
+}

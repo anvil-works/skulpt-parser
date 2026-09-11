@@ -1,0 +1,11 @@
+node_modules
+dist/
+corpus.json
+independent.jsonl
+benchmark-inputs.json
+*-cross-fuzz.json
+
+benchmark-corpus.json
+bench-*.json
+memory-*.json
+__pycache__/

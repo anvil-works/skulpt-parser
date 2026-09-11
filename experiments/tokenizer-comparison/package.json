@@ -1,0 +1,9 @@
+{
+    "name": "full-tokenizer-comparison",
+    "private": true,
+    "type": "module",
+    "devDependencies": {
+        "@rslib/core": "1.0.0",
+        "typescript": "5.9.3"
+    }
+}

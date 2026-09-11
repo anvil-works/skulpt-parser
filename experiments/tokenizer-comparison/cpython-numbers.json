@@ -1,0 +1,18 @@
+{
+    "module": "dist/cpython/index.js",
+    "cases": 1218,
+    "modes": 2436,
+    "exact": 2436,
+    "content": 1565,
+    "expectedErrors": 871,
+    "rejected": 871,
+    "exactErrors": 871,
+    "warnings": 58,
+    "groups": {
+        "numbers": {
+            "modes": 2436,
+            "exact": 2436
+        }
+    },
+    "failures": []
+}

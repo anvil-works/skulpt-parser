@@ -1,0 +1,10 @@
+{
+    "python": "3.14.3 (main, Feb  4 2026, 01:51:49) [Clang 21.1.4 ]",
+    "cases": 804,
+    "groups": {
+        "adversarial": 58,
+        "interpolation": 42,
+        "project": 556,
+        "upstream": 148
+    }
+}

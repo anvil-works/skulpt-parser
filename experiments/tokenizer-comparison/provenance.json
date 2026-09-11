@@ -1,0 +1,15 @@
+{
+    "oracle": "CPython 3.14.3",
+    "upstreamTestUrl": "https://raw.githubusercontent.com/python/cpython/v3.14.3/Lib/test/test_tokenize.py",
+    "upstreamTestSha256": "6af0b0fee4dce129c2702227cf25a02d4e147500f80835c86d143b2485ab4c44",
+    "candidates": {
+        "regex": {
+            "commit": "baa81cfa61734b30582bc2c9939c4f033658dd72",
+            "builtSha256": "d5e32f04721654ab826bc0b73f4a56b8689d11056af5b23b67941ba0dc288053"
+        },
+        "cpython": {
+            "commit": "dbcc7ed0753063fdb4748bb64ddc28511976cb1f",
+            "builtSha256": "32e1fbfe9db74da5e83e9b9a1ce2745f2c54b66720517236281f01b9c65c191d"
+        }
+    }
+}
