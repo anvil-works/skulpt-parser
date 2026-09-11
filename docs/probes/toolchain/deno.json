@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "strict": true
+    },
+    "tasks": {
+        "test": "deno test tests/deno_test.ts",
+        "build": "deno run -A npm:@rslib/core@1.0.0 build"
+    },
+    "nodeModulesDir": "manual"
+}

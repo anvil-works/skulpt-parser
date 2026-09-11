@@ -1,0 +1,6 @@
+import { defineConfig } from "@rslib/core";
+export default defineConfig({
+    source: { entry: { index: "./src/modern.ts" } },
+    lib: [{ format: "esm", dts: true }],
+    output: { target: "web", minify: true },
+});
