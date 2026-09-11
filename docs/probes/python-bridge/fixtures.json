@@ -1,0 +1,14 @@
+[
+    { "source": "x = 1 + 2\n" },
+    { "source": "π = '😀'\nanswer = π\n" },
+    { "source": "def outer(x):\n    y = 2\n    def inner():\n        return x + y\n    return inner\n" },
+    { "source": "match value:\n    case {'x': x}:\n        result = x\n" },
+    { "source": "try:\n    pass\nexcept* ValueError as e:\n    pass\n" },
+    { "source": "def identity[T = int](x: T) -> T:\n    return x\n" },
+    { "source": "type Pair[T] = tuple[T, T]\n" },
+    { "source": "result = f\"{\", \".join(['x', 'y'])}\"\n" },
+    { "source": "result = t'hello {name}'\n" },
+    { "source": "values = [x+y for x in xs for y in ys if y]\n" },
+    { "source": "result = (\n" },
+    { "source": "if ready:\npass\n" }
+]

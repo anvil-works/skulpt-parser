@@ -1,0 +1,144 @@
+[
+    {
+        "runtime_label": "node",
+        "mode": "spawn",
+        "wall_ms": 4391.811958048493,
+        "exit_code": 0,
+        "measurement": {
+            "mode": "spawn",
+            "runtime": "v26.7.0",
+            "python": "3.14.3 (main, Feb  4 2026, 01:51:49) [Clang 21.1.4 ]",
+            "requests_per_round": 65,
+            "setup_ms": 23.078208000000004,
+            "round_ms": [1402.833459, 1441.773583, 1425.435375],
+            "digest": "4b2ad20dc08b021423b7059f7c0bc12b1f13faa469374132d2ed103bc95a15d9",
+            "host_final_rss_bytes": 59817984,
+            "python_peak_rss_bytes": null,
+            "child_closed": null
+        }
+    },
+    {
+        "runtime_label": "node",
+        "mode": "persistent",
+        "wall_ms": 126.71087495982647,
+        "exit_code": 0,
+        "measurement": {
+            "mode": "persistent",
+            "runtime": "v26.7.0",
+            "python": "3.14.3 (main, Feb  4 2026, 01:51:49) [Clang 21.1.4 ]",
+            "requests_per_round": 65,
+            "setup_ms": 18.909,
+            "round_ms": [21.48675, 19.005791999999992, 16.813000000000002],
+            "digest": "4b2ad20dc08b021423b7059f7c0bc12b1f13faa469374132d2ed103bc95a15d9",
+            "host_final_rss_bytes": 57475072,
+            "python_peak_rss_bytes": 19709952,
+            "child_closed": true
+        }
+    },
+    {
+        "runtime_label": "node",
+        "mode": "batch",
+        "wall_ms": 116.62341700866818,
+        "exit_code": 0,
+        "measurement": {
+            "mode": "batch",
+            "runtime": "v26.7.0",
+            "python": "3.14.3 (main, Feb  4 2026, 01:51:49) [Clang 21.1.4 ]",
+            "requests_per_round": 65,
+            "setup_ms": 19.218541999999996,
+            "round_ms": [16.369709, 14.600083000000005, 14.888666999999998],
+            "digest": "4b2ad20dc08b021423b7059f7c0bc12b1f13faa469374132d2ed103bc95a15d9",
+            "host_final_rss_bytes": 58015744,
+            "python_peak_rss_bytes": 21086208,
+            "child_closed": true
+        }
+    },
+    {
+        "runtime_label": "deno",
+        "mode": "spawn",
+        "wall_ms": 4546.360292006284,
+        "exit_code": 0,
+        "measurement": {
+            "mode": "spawn",
+            "runtime": {
+                "deno": "2.9.6",
+                "v8": "15.0.245.2-rusty",
+                "typescript": "6.0.3"
+            },
+            "python": "3.14.3 (main, Feb  4 2026, 01:51:49) [Clang 21.1.4 ]",
+            "requests_per_round": 65,
+            "setup_ms": 25.457707999999997,
+            "round_ms": [1470.7569999999998, 1454.745375, 1430.9842920000006],
+            "digest": "4b2ad20dc08b021423b7059f7c0bc12b1f13faa469374132d2ed103bc95a15d9",
+            "host_final_rss_bytes": 52527104,
+            "python_peak_rss_bytes": null,
+            "child_closed": null
+        }
+    },
+    {
+        "runtime_label": "deno",
+        "mode": "persistent",
+        "wall_ms": 116.20933399535716,
+        "exit_code": 0,
+        "measurement": {
+            "mode": "persistent",
+            "runtime": {
+                "deno": "2.9.6",
+                "v8": "15.0.245.2-rusty",
+                "typescript": "6.0.3"
+            },
+            "python": "3.14.3 (main, Feb  4 2026, 01:51:49) [Clang 21.1.4 ]",
+            "requests_per_round": 65,
+            "setup_ms": 20.111583,
+            "round_ms": [20.010832999999998, 18.684667000000005, 17.428332999999995],
+            "digest": "4b2ad20dc08b021423b7059f7c0bc12b1f13faa469374132d2ed103bc95a15d9",
+            "host_final_rss_bytes": 44548096,
+            "python_peak_rss_bytes": 18743296,
+            "child_closed": true
+        }
+    },
+    {
+        "runtime_label": "deno",
+        "mode": "batch",
+        "wall_ms": 105.83933303132653,
+        "exit_code": 0,
+        "measurement": {
+            "mode": "batch",
+            "runtime": {
+                "deno": "2.9.6",
+                "v8": "15.0.245.2-rusty",
+                "typescript": "6.0.3"
+            },
+            "python": "3.14.3 (main, Feb  4 2026, 01:51:49) [Clang 21.1.4 ]",
+            "requests_per_round": 65,
+            "setup_ms": 19.968542000000003,
+            "round_ms": [17.590124999999993, 15.637208000000001, 14.814625000000007],
+            "digest": "4b2ad20dc08b021423b7059f7c0bc12b1f13faa469374132d2ed103bc95a15d9",
+            "host_final_rss_bytes": 46137344,
+            "python_peak_rss_bytes": 21364736,
+            "child_closed": true
+        }
+    },
+    {
+        "runtime_label": "deno",
+        "mode": "ffi",
+        "wall_ms": 112.60958295315504,
+        "exit_code": 0,
+        "measurement": {
+            "mode": "ffi",
+            "runtime": {
+                "deno": "2.9.6",
+                "v8": "15.0.245.2-rusty",
+                "typescript": "6.0.3"
+            },
+            "python": "3.14.3 (main, Feb  4 2026, 01:51:49) [Clang 21.1.4 ]",
+            "requests_per_round": 65,
+            "setup_ms": 28.795125000000002,
+            "round_ms": [16.621542000000005, 16.575542, 16.213832999999994],
+            "digest": "4b2ad20dc08b021423b7059f7c0bc12b1f13faa469374132d2ed103bc95a15d9",
+            "host_final_rss_bytes": 64667648,
+            "python_peak_rss_bytes": 64602112,
+            "child_closed": null
+        }
+    }
+]
