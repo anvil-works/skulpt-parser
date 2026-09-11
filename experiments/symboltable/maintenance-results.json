@@ -1,0 +1,92 @@
+[
+    {
+        "candidate": "switch",
+        "change": "baseline",
+        "typecheckPassed": true,
+        "diagnostics": "",
+        "behavior": {
+            "cases": 85,
+            "exact": 85,
+            "failures": []
+        }
+    },
+    {
+        "candidate": "switch",
+        "change": "missing-keyword-defaults",
+        "typecheckPassed": true,
+        "diagnostics": "",
+        "behavior": {
+            "cases": 1,
+            "exact": 0,
+            "failures": ["kw-default-regression"]
+        }
+    },
+    {
+        "candidate": "switch",
+        "change": "missing-comprehension-handler",
+        "typecheckPassed": false,
+        "diagnostics": "../../../../..<experiment>/switch.ts(185,28): error TS2345: Argument of type 'At & { _type: \"comprehension\"; } & { target: Node; iter: Node; ifs: Node[]; is_async: number; }' is not assignable to parameter of type 'never'.\n"
+    },
+    {
+        "candidate": "switch",
+        "change": "new-node",
+        "typecheckPassed": false,
+        "diagnostics": "../../../../..<experiment>/switch.ts(192,28): error TS2345: Argument of type 'At & { _type: \"NewNode\"; } & { value: Node; }' is not assignable to parameter of type 'never'.\n"
+    },
+    {
+        "candidate": "switch",
+        "change": "unguarded-second-iterable",
+        "typecheckPassed": true,
+        "diagnostics": "",
+        "behavior": {
+            "cases": 1,
+            "exact": 0,
+            "failures": ["walrus-second-iter"]
+        }
+    },
+    {
+        "candidate": "visitor",
+        "change": "baseline",
+        "typecheckPassed": true,
+        "diagnostics": "",
+        "behavior": {
+            "cases": 85,
+            "exact": 85,
+            "failures": []
+        }
+    },
+    {
+        "candidate": "visitor",
+        "change": "missing-keyword-defaults",
+        "typecheckPassed": true,
+        "diagnostics": "",
+        "behavior": {
+            "cases": 1,
+            "exact": 0,
+            "failures": ["kw-default-regression"]
+        }
+    },
+    {
+        "candidate": "visitor",
+        "change": "missing-comprehension-handler",
+        "typecheckPassed": false,
+        "diagnostics": "../../../../..<experiment>/visitor.ts(7,14): error TS2420: Class 'VisitorAnalyzer' incorrectly implements interface 'VisitorContract'.\n  Property 'visit_comprehension' is missing in type 'VisitorAnalyzer' but required in type 'VisitorContract'.\n../../../../..<experiment>/visitor.ts(11,16): error TS2345: Argument of type 'this' is not assignable to parameter of type 'VisitorContract'.\n  Property 'visit_comprehension' is missing in type 'VisitorAnalyzer' but required in type 'VisitorContract'.\n"
+    },
+    {
+        "candidate": "visitor",
+        "change": "new-node",
+        "typecheckPassed": false,
+        "diagnostics": "../../../../..<experiment>/visitor.ts(7,14): error TS2420: Class 'VisitorAnalyzer' incorrectly implements interface 'VisitorContract'.\n  Property 'visit_NewNode' is missing in type 'VisitorAnalyzer' but required in type 'VisitorContract'.\n../../../../..<experiment>/visitor.ts(11,16): error TS2345: Argument of type 'this' is not assignable to parameter of type 'VisitorContract'.\n  Property 'visit_NewNode' is missing in type 'VisitorAnalyzer' but required in type 'VisitorContract'.\n../../../../..<experiment>/visitor.ts(162,7): error TS2741: Property 'NewNode' is missing in type '{ Module: (visitor: VisitorContract, node: At & { _type: \"Module\"; } & { body: Node[]; }) => void; FunctionDef: (visitor: VisitorContract, node: At & ... 1 more ... & { ...; }) => void; ... 30 more ...; NamedExpr: (visitor: VisitorContract, node: At & ... 1 more ... & { ...; }) => void; }' but required in type '{ NewNode: (visitor: VisitorContract, node: At & { _type: \"NewNode\"; } & { value: Node; }) => void; Module: (visitor: VisitorContract, node: At & ... 1 more ... & { ...; }) => void; ... 31 more ...; NamedExpr: (visitor: VisitorContract, node: At & ... 1 more ... & { ...; }) => void; }'.\n"
+    },
+    {
+        "candidate": "visitor",
+        "change": "unguarded-second-iterable",
+        "typecheckPassed": true,
+        "diagnostics": "",
+        "behavior": {
+            "cases": 1,
+            "exact": 0,
+            "failures": ["walrus-second-iter"]
+        }
+    }
+]

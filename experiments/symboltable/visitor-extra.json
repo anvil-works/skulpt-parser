@@ -1,0 +1,7 @@
+{
+    "cases": 16,
+    "exact": 16,
+    "expectedErrors": 4,
+    "exactErrors": 4,
+    "failures": []
+}

@@ -1,0 +1,12 @@
+{
+    "oracle": "CPython 3.14.3",
+    "upstream": "https://github.com/python/cpython/blob/v3.14.3/Python/symtable.c",
+    "sha256": {
+        "types.ts": "d9b13efac62b3957854941bd2c2e2a658f0f0d4af09a033af1f497cc41aafd7d",
+        "common.ts": "0467148942844c3b455855838c010d5c8cf7e98c8a79393da7e643220c549b77",
+        "switch.ts": "7e70bd1eeb0df833055a89f1b1ab7984dfa926bfcb104a802be92dab3b548cc1",
+        "visitor.ts": "9cf1dbe47073f0c8aa2f8a368e46466e38b700387060d5f2b65138ad40254897",
+        "dist/switch/index.js": "4639b8706ca36e893ef77cca8df7084641639bba35dcce76ddcb0d30e211ce81",
+        "dist/visitor/index.js": "6e93c60dc6d179f03d6dbfce37b3f4bd9411ea878726d8b6154ea634b3801ad4"
+    }
+}
