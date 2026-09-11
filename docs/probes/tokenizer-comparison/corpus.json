@@ -1,0 +1,112 @@
+[
+    {
+        "name": "ordinary",
+        "source": "answer = 0x1234e455 + 1.25e-3",
+        "valid": true
+    },
+    {
+        "name": "simple-f",
+        "source": "f\"hello {name}\"",
+        "valid": true
+    },
+    {
+        "name": "simple-t",
+        "source": "t\"hello {name}\"",
+        "valid": true
+    },
+    {
+        "name": "quote-reuse",
+        "source": "f\"{data[\"key\"]}\"",
+        "valid": true
+    },
+    {
+        "name": "nested",
+        "source": "f\"outer {f\"inner {value}\"}\"",
+        "valid": true
+    },
+    {
+        "name": "template-nested",
+        "source": "t\"outer {f\"inner {value}\"}\"",
+        "valid": true
+    },
+    {
+        "name": "format",
+        "source": "f\"{value!r:>{width}.{precision}f}\"",
+        "valid": true
+    },
+    {
+        "name": "debug",
+        "source": "f\"{value = }\"",
+        "valid": true
+    },
+    {
+        "name": "escaped-braces",
+        "source": "f\"{{hello}} {name}\"",
+        "valid": true
+    },
+    {
+        "name": "raw",
+        "source": "rf\"path\\name {value}\"",
+        "valid": true
+    },
+    {
+        "name": "triple",
+        "source": "f\"\"\"line one\n{value}\nline three\"\"\"",
+        "valid": true
+    },
+    {
+        "name": "comment",
+        "source": "f\"\"\"{value # note\n}\"\"\"",
+        "valid": true
+    },
+    {
+        "name": "unicode",
+        "source": "π = f\"😀 {变量}\"",
+        "valid": true
+    },
+    {
+        "name": "dict",
+        "source": "f\"{ {'a': value} }\"",
+        "valid": true
+    },
+    {
+        "name": "slice",
+        "source": "f\"{items[1:3]}\"",
+        "valid": true
+    },
+    {
+        "name": "named-escape",
+        "source": "f\"\\N{SNOWMAN} {x}\"",
+        "valid": true
+    },
+    {
+        "name": "format-nested",
+        "source": "t\"{value:{width}.{precision}f}\"",
+        "valid": true
+    },
+    {
+        "name": "literal",
+        "source": "\"ordinary {braces}\"",
+        "valid": true
+    },
+    {
+        "name": "unclosed-field",
+        "source": "f\"{value\"",
+        "valid": false
+    },
+    {
+        "name": "single-close",
+        "source": "f\"oops }\"",
+        "valid": false
+    },
+    {
+        "name": "unclosed-string",
+        "source": "f\"unterminated",
+        "valid": false
+    },
+    {
+        "name": "unclosed-template",
+        "source": "t\"{value\"",
+        "valid": false
+    }
+]

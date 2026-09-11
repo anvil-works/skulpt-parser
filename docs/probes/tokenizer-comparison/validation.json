@@ -1,0 +1,102 @@
+[
+    {
+        "name": "empty-f",
+        "source": "f\"\"",
+        "valid": true
+    },
+    {
+        "name": "empty-t",
+        "source": "t\"\"",
+        "valid": true
+    },
+    {
+        "name": "all-braces",
+        "source": "f\"{{}}{{}}\"",
+        "valid": true
+    },
+    {
+        "name": "upper-prefix",
+        "source": "RF\"text {x!s}\"",
+        "valid": true
+    },
+    {
+        "name": "raw-template",
+        "source": "rt\"\\path {item!r}\"",
+        "valid": true
+    },
+    {
+        "name": "double-nesting",
+        "source": "f\"{t'{f\"{x}\"}'}\"",
+        "valid": true
+    },
+    {
+        "name": "debug-conversion",
+        "source": "t\"{ obj.attr = !r:>12}\"",
+        "valid": true
+    },
+    {
+        "name": "dict-subscript",
+        "source": "f\"{ {'x': [1, 2]}['x'][0] }\"",
+        "valid": true
+    },
+    {
+        "name": "comment-quote",
+        "source": "f\"\"\"{x # \" quote in comment\n+ y}\"\"\"",
+        "valid": true
+    },
+    {
+        "name": "escaped-quote",
+        "source": "f\"say \\\"{x}\\\"\"",
+        "valid": true
+    },
+    {
+        "name": "unicode-prefix",
+        "source": "𐐀 = t\"é😀 {变量!s}\"",
+        "valid": true
+    },
+    {
+        "name": "walrus",
+        "source": "f\"{(value := 42)}\"",
+        "valid": true
+    },
+    {
+        "name": "conditional",
+        "source": "f\"{x if x != 2 else y}\"",
+        "valid": true
+    },
+    {
+        "name": "numeric",
+        "source": "values = (0b1010, 0o755, 0x1f, 1_000, .5, 2., 3e+2, 4j)",
+        "valid": true
+    },
+    {
+        "name": "named-unicode",
+        "source": "f\"\\N{LEFT CURLY BRACKET}{x}\"",
+        "valid": true
+    },
+    {
+        "name": "nested-format",
+        "source": "f\"{x:{w}.{p}}\"",
+        "valid": true
+    },
+    {
+        "name": "mismatched-brackets",
+        "source": "f\"{items[0)}\"",
+        "valid": false
+    },
+    {
+        "name": "format-unclosed",
+        "source": "f\"{x:{w}\"",
+        "valid": false
+    },
+    {
+        "name": "raw-unclosed",
+        "source": "rf\"abc\\\"",
+        "valid": false
+    },
+    {
+        "name": "template-close",
+        "source": "t\"bad } tail\"",
+        "valid": false
+    }
+]

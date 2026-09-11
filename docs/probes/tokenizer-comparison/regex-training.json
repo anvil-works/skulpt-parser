@@ -1,0 +1,170 @@
+{
+    "summary": {
+        "total": 22,
+        "valid": 18,
+        "exact": 18,
+        "content": 18,
+        "invalid": 4,
+        "invalidRejected": 4
+    },
+    "cases": [
+        {
+            "name": "ordinary",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "simple-f",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "simple-t",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "quote-reuse",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "nested",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "template-nested",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "format",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "debug",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "escaped-braces",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "raw",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "triple",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "comment",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "unicode",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "dict",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "slice",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "named-escape",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "format-nested",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "literal",
+            "valid": true,
+            "exact": true,
+            "content": true,
+            "rejected": false
+        },
+        {
+            "name": "unclosed-field",
+            "valid": false,
+            "exact": false,
+            "content": false,
+            "rejected": true,
+            "error": "SyntaxError: unterminated string at 1,9"
+        },
+        {
+            "name": "single-close",
+            "valid": false,
+            "exact": false,
+            "content": false,
+            "rejected": true,
+            "error": "SyntaxError: single closing brace at 1,7"
+        },
+        {
+            "name": "unclosed-string",
+            "valid": false,
+            "exact": false,
+            "content": false,
+            "rejected": true,
+            "error": "SyntaxError: unterminated interpolated string at 1,14"
+        },
+        {
+            "name": "unclosed-template",
+            "valid": false,
+            "exact": false,
+            "content": false,
+            "rejected": true,
+            "error": "SyntaxError: unterminated string at 1,9"
+        }
+    ]
+}

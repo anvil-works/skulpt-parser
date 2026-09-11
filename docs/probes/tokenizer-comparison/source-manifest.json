@@ -1,0 +1,16 @@
+{
+    "regex": {
+        "sha256_before_formatting": "dccccaf0696f9240e3b03ad591112618c219128b9fa1163d06916a3245e7fa34",
+        "source_bytes_before_formatting": 6842,
+        "source_lines_before_formatting": 175,
+        "published_commit": "a0c677c",
+        "published_sha256": "dccccaf0696f9240e3b03ad591112618c219128b9fa1163d06916a3245e7fa34"
+    },
+    "cpython": {
+        "sha256_before_formatting": "74bd0347fa614307bf23f45dcd62bbebca204b4d48ab408b3d9504477c1062c5",
+        "source_bytes_before_formatting": 8926,
+        "source_lines_before_formatting": 237,
+        "published_commit": "0097e4b",
+        "published_sha256": "74bd0347fa614307bf23f45dcd62bbebca204b4d48ab408b3d9504477c1062c5"
+    }
+}
