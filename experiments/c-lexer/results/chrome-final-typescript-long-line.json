@@ -1,0 +1,17 @@
+{
+    "backend": "typescript",
+    "input": "long-line",
+    "optimization": "binary-Oz",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+    "importMs": 2.3000001907348633,
+    "firstCallMs": 14.099999904632568,
+    "tokenCount": 20005,
+    "iterations": 6,
+    "samplesMs": [
+        4.5, 4.6333333651224775, 4.433333317438762, 4.46666665871938, 4.383333325386047, 4.78333334128062, 4.75,
+        4.299999992052714, 4.3833333651224775
+    ],
+    "medianMs": 4.46666665871938,
+    "checksum": 1380345,
+    "tokenHash": "b91175c43c8cf4305416f9da26a74e8d672d1d4e25ddfc3a5f6f438244208271"
+}

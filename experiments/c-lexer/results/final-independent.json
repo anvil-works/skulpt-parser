@@ -1,0 +1,16 @@
+{
+    "scope": "tokens-and-errors; warnings not compared",
+    "warningCases": 0,
+    "cases": 561,
+    "modes": 1122,
+    "exact": 1122,
+    "failureCount": 0,
+    "imports": [
+        {
+            "module": "wasi_snapshot_preview1",
+            "name": "random_get",
+            "kind": "function"
+        }
+    ],
+    "failures": []
+}

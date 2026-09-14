@@ -1,0 +1,50 @@
+{
+    "backend": "typescript",
+    "input": "long-line",
+    "node": "v26.7.0",
+    "sourceBytes": 58895,
+    "importMs": 0.8210419999999985,
+    "firstCallMs": 11.254458,
+    "tokenCount": 20005,
+    "iterations": 5,
+    "samplesMs": [
+        4.111391600000002, 4.374958200000004, 5.321825000000001, 3.8914750000000025, 4.042658399999999,
+        4.6947084000000014, 3.9483499999999934, 4.2941915999999996, 4.968849999999998
+    ],
+    "medianMs": 4.2941915999999996,
+    "checksum": 1200300,
+    "tokenHash": "b91175c43c8cf4305416f9da26a74e8d672d1d4e25ddfc3a5f6f438244208271",
+    "profile": [],
+    "memory": {
+        "before": {
+            "rss": 189612032,
+            "heapTotal": 64831488,
+            "heapUsed": 9316552,
+            "external": 3252490,
+            "arrayBuffers": 953157
+        },
+        "withResult": {
+            "rss": 189890560,
+            "heapTotal": 67387392,
+            "heapUsed": 13595256,
+            "external": 3193635,
+            "arrayBuffers": 953157
+        },
+        "afterRelease": {
+            "rss": 189693952,
+            "heapTotal": 65617920,
+            "heapUsed": 9275024,
+            "external": 3134740,
+            "arrayBuffers": 953157
+        },
+        "afterRepeated": {
+            "rss": 220807168,
+            "heapTotal": 82657280,
+            "heapUsed": 8285512,
+            "external": 3485643,
+            "arrayBuffers": 953157
+        },
+        "retainedTokenCount": 20005,
+        "processPeakRssBytes": 222117888
+    }
+}

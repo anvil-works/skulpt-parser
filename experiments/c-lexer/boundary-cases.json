@@ -1,0 +1,226 @@
+[
+    {
+        "name": "encoding-boundary/0",
+        "source": "x=0xZZ\n\ud800=1\n",
+        "extra": {
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid hexadecimal literal",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "x=0xZZ"
+            },
+            "warnings": []
+        },
+        "strict": {
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid hexadecimal literal",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "x=0xZZ"
+            },
+            "warnings": []
+        }
+    },
+    {
+        "name": "encoding-boundary/1",
+        "source": "x=1\n\ud800=1\n",
+        "extra": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        },
+        "strict": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        }
+    },
+    {
+        "name": "encoding-boundary/2",
+        "source": "x=\"unterminated\n\ud800=1\n",
+        "extra": {
+            "error": {
+                "name": "SyntaxError",
+                "message": "unterminated string literal (detected at line 1)",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 3,
+                "text": "x=\"unterminated"
+            },
+            "warnings": []
+        },
+        "strict": {
+            "error": {
+                "name": "SyntaxError",
+                "message": "unterminated string literal (detected at line 1)",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 3,
+                "text": "x=\"unterminated"
+            },
+            "warnings": []
+        }
+    },
+    {
+        "name": "encoding-boundary/3",
+        "source": "x=(\n\ud800=1\n",
+        "extra": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        },
+        "strict": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        }
+    },
+    {
+        "name": "encoding-boundary/4",
+        "source": "\ud83e\udee9=1\n\ud800=1\n",
+        "extra": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        },
+        "strict": {
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid character '\ud83e\udee9' (U+1FAE9)",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 1,
+                "text": "\ud83e\udee9=1"
+            },
+            "warnings": []
+        }
+    },
+    {
+        "name": "encoding-boundary/5",
+        "source": "x=\"\ud800\ud801\"\n",
+        "extra": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode characters in position 3-4: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        },
+        "strict": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode characters in position 3-4: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        }
+    },
+    {
+        "name": "encoding-boundary/6",
+        "source": "x=\"\ud83d\ude00\"\ny=\"\ud800\"\n",
+        "extra": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\ud800' in position 3: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        },
+        "strict": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\ud800' in position 3: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        }
+    },
+    {
+        "name": "encoding-boundary/7",
+        "source": "x=\"\udc00\"\n",
+        "extra": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\udc00' in position 3: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        },
+        "strict": {
+            "error": {
+                "name": "UnicodeEncodeError",
+                "message": "'utf-8' codec can't encode character '\\udc00' in position 3: surrogates not allowed",
+                "lineno": null,
+                "offset": null,
+                "end_lineno": null,
+                "end_offset": null,
+                "text": null
+            },
+            "warnings": []
+        }
+    }
+]

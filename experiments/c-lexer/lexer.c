@@ -6,7 +6,6 @@
 #include "unicode_tables.h"
 #include <stdarg.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #define EOI (-1)
@@ -50,11 +49,82 @@ static void putn(const char *s, size_t n) {
     output[olen] = 0;
 }
 static void putsj(const char *s) { putn(s, strlen(s)); }
+/* The measured WASM build pulled general libc formatting into this lexer.
+ * These bounded helpers cover only its fixed diagnostic/JSON formats; unknown
+ * conversions abort so new formats cannot silently produce wrong messages.
+ * Like snprintf, truncation returns the full length and terminates the buffer.
+ */
+static void diag_char(char *out, size_t cap, size_t *used, char c) {
+    if (*used + 1 < cap)
+        out[*used] = c;
+    (*used)++;
+}
+static int diag_vsnprintf(char *out, size_t cap, const char *format, va_list args) {
+    size_t used = 0;
+    for (const char *p = format; *p; p++) {
+        if (*p != '%') {
+            diag_char(out, cap, &used, *p);
+            continue;
+        }
+        p++;
+        int width = 0;
+        if (*p == '0') {
+            p++;
+            if (*p != '2' && *p != '4')
+                abort();
+            width = *p++ - '0';
+        }
+        if (*p == 's' && !width) {
+            const char *value = va_arg(args, const char *);
+            while (*value)
+                diag_char(out, cap, &used, *value++);
+        } else if (*p == 'c' && !width) {
+            diag_char(out, cap, &used, (char)va_arg(args, int));
+        } else if (*p == 'd' || *p == 'x' || *p == 'X') {
+            unsigned value;
+            if (*p == 'd') {
+                int signed_value = va_arg(args, int);
+                if (signed_value < 0) {
+                    diag_char(out, cap, &used, '-');
+                    value = 0u - (unsigned)signed_value;
+                } else {
+                    value = (unsigned)signed_value;
+                }
+            } else {
+                value = va_arg(args, unsigned);
+            }
+            unsigned base = *p == 'd' ? 10 : 16;
+            const char *digits = *p == 'X' ? "0123456789ABCDEF" : "0123456789abcdef";
+            char reversed[16];
+            int n = 0;
+            do {
+                reversed[n++] = digits[value % base];
+                value /= base;
+            } while (value);
+            while (width-- > n)
+                diag_char(out, cap, &used, '0');
+            while (n)
+                diag_char(out, cap, &used, reversed[--n]);
+        } else {
+            abort();
+        }
+    }
+    if (cap)
+        out[used < cap ? used : cap - 1] = 0;
+    return (int)used;
+}
+static int diag_snprintf(char *out, size_t cap, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+    int n = diag_vsnprintf(out, cap, format, args);
+    va_end(args);
+    return n;
+}
 static void fmt(const char *f, ...) {
     char tmp[2048];
     va_list a;
     va_start(a, f);
-    int n = vsnprintf(tmp, sizeof(tmp), f, a);
+    int n = diag_vsnprintf(tmp, sizeof(tmp), f, a);
     va_end(a);
     if (n < 0 || n >= (int)sizeof(tmp))
         abort();
@@ -192,10 +262,10 @@ static int strictText(int a, int b) {
         return 1;
     char span[128], msg[256];
     if (end - i > 1)
-        snprintf(span, sizeof(span), "bytes in position %d-%d", i, end - 1);
+        diag_snprintf(span, sizeof(span), "bytes in position %d-%d", i, end - 1);
     else
-        snprintf(span, sizeof(span), "byte 0x%02x in position %d", v[i], i);
-    snprintf(msg, sizeof(msg), "'utf-8' codec can't decode %s: %s", span, reason);
+        diag_snprintf(span, sizeof(span), "byte 0x%02x in position %d", v[i], i);
+    diag_snprintf(msg, sizeof(msg), "'utf-8' codec can't decode %s: %s", span, reason);
     if (!failed) {
         failed = 1;
         olen = 0;
@@ -390,7 +460,7 @@ static void verifyEnd(int c, const char *kind) {
     if (c < 128 && potentialChar(c)) {
         char msg[128];
         back(c);
-        snprintf(msg, sizeof(msg), "invalid %s literal", kind);
+        diag_snprintf(msg, sizeof(msg), "invalid %s literal", kind);
         syntax(msg);
     }
 }
@@ -432,9 +502,9 @@ static void verifyIdentifier(void) {
             memcpy(ch, bytes + begin, p - begin);
             cur = p;
             if (!INR(cp, printable))
-                snprintf(msg, sizeof(msg), "invalid non-printable character U+%04X", cp);
+                diag_snprintf(msg, sizeof(msg), "invalid non-printable character U+%04X", cp);
             else
-                snprintf(msg, sizeof(msg), "invalid character '%s' (U+%04X)", ch, cp);
+                diag_snprintf(msg, sizeof(msg), "invalid character '%s' (U+%04X)", ch, cp);
             syntax(msg);
         }
     }
@@ -458,10 +528,10 @@ static const char *number(int c, int dot) {
                 if (!validbase(c, base)) {
                     char msg[128];
                     if (base != 16 && digit(c))
-                        snprintf(msg, sizeof(msg), "invalid digit '%c' in %s literal", c, kind);
+                        diag_snprintf(msg, sizeof(msg), "invalid digit '%c' in %s literal", c, kind);
                     else {
                         back(c);
-                        snprintf(msg, sizeof(msg), "invalid %s literal", kind);
+                        diag_snprintf(msg, sizeof(msg), "invalid %s literal", kind);
                     }
                     FAIL(msg);
                 }
@@ -471,7 +541,7 @@ static const char *number(int c, int dot) {
             } while (c == 95);
             if (base != 16 && digit(c)) {
                 char msg[128];
-                snprintf(msg, sizeof(msg), "invalid digit '%c' in %s literal", c, kind);
+                diag_snprintf(msg, sizeof(msg), "invalid digit '%c' in %s literal", c, kind);
                 FAIL(msg);
             }
             verifyEnd(c, kind);
@@ -573,11 +643,11 @@ static const char *string(int quote) {
             char msg[256];
             Mode *m = &modes[nmode - 1];
             if (nmode > 1 && m->quote == quote && m->size == size)
-                snprintf(msg, sizeof(msg), "%c-string: expecting '}'", m->t ? 't' : 'f');
+                diag_snprintf(msg, sizeof(msg), "%c-string: expecting '}'", m->t ? 't' : 'f');
             else
-                snprintf(msg, sizeof(msg), "unterminated %sstring literal (detected at line %d)%s",
-                         size == 3 ? "triple-quoted " : "", detected,
-                         size == 1 && escaped ? "; perhaps you escaped the end quote?" : "");
+                diag_snprintf(msg, sizeof(msg), "unterminated %sstring literal (detected at line %d)%s",
+                              size == 3 ? "triple-quoted " : "", detected,
+                              size == 1 && escaped ? "; perhaps you escaped the end quote?" : "");
             FAIL(msg);
         }
         if (c == quote)
@@ -742,7 +812,8 @@ nextline:
                         for (int j = 0; j < 7; j++)
                             if ((saw & pa[j]) && (saw & pb[j])) {
                                 char msg[128];
-                                snprintf(msg, sizeof(msg), "'%c' and '%c' prefixes are incompatible", ca[j], cb[j]);
+                                diag_snprintf(msg, sizeof(msg), "'%c' and '%c' prefixes are incompatible", ca[j],
+                                              cb[j]);
                                 syntax_at(msg, start + 1 - lineStart, cur - lineStart);
                                 return NULL;
                             }
@@ -831,11 +902,11 @@ nextline:
             } else if (c == 41 || c == 93 || c == 125) {
                 char prefix = m->t ? 't' : 'f', msg[256];
                 if (nmode > 1 && !m->curly && c == 125) {
-                    snprintf(msg, sizeof(msg), "%c-string: single '}' is not allowed", prefix);
+                    diag_snprintf(msg, sizeof(msg), "%c-string: single '}' is not allowed", prefix);
                     FAIL(msg);
                 }
                 if (!extra && !npar) {
-                    snprintf(msg, sizeof(msg), "unmatched '%c'", c);
+                    diag_snprintf(msg, sizeof(msg), "unmatched '%c'", c);
                     FAIL(msg);
                 }
                 if (npar) {
@@ -843,23 +914,25 @@ nextline:
                     if (!extra && !((opening.c == 40 && c == 41) || (opening.c == 91 && c == 93) ||
                                     (opening.c == 123 && c == 125))) {
                         if (nmode > 1 && opening.c == 123 && m->curly - 1 == m->expr) {
-                            snprintf(msg, sizeof(msg), "%c-string: unmatched '%c'", prefix, c);
+                            diag_snprintf(msg, sizeof(msg), "%c-string: unmatched '%c'", prefix, c);
                             FAIL(msg);
                         }
                         if (opening.line != lineno)
-                            snprintf(msg, sizeof(msg),
-                                     "closing parenthesis '%c' does not match opening parenthesis '%c' on line %d", c,
-                                     opening.c, opening.line);
+                            diag_snprintf(
+                                msg, sizeof(msg),
+                                "closing parenthesis '%c' does not match opening parenthesis '%c' on line %d", c,
+                                opening.c, opening.line);
                         else
-                            snprintf(msg, sizeof(msg),
-                                     "closing parenthesis '%c' does not match opening parenthesis '%c'", c, opening.c);
+                            diag_snprintf(msg, sizeof(msg),
+                                          "closing parenthesis '%c' does not match opening parenthesis '%c'", c,
+                                          opening.c);
                         FAIL(msg);
                     }
                 }
                 if (nmode > 1) {
                     m->curly--;
                     if (m->curly < 0) {
-                        snprintf(msg, sizeof(msg), "%c-string: unmatched '%c'", prefix, c);
+                        diag_snprintf(msg, sizeof(msg), "%c-string: unmatched '%c'", prefix, c);
                         FAIL(msg);
                     }
                     if (c == 125 && m->curly == m->expr) {
@@ -872,7 +945,7 @@ nextline:
             }
             if (c < 32 || c == 127) {
                 char msg[128];
-                snprintf(msg, sizeof(msg), "invalid non-printable character U+%04X", c);
+                diag_snprintf(msg, sizeof(msg), "invalid non-printable character U+%04X", c);
                 FAIL(msg);
             }
             if (c == 61 && m->curly - m->expr == 1)
@@ -899,7 +972,7 @@ static const char *literal(void) {
             m->expr++;
             if (m->expr >= 3) {
                 char msg[128];
-                snprintf(msg, sizeof(msg), "%c-string: expressions nested too deeply", m->t ? 't' : 'f');
+                diag_snprintf(msg, sizeof(msg), "%c-string: expressions nested too deeply", m->t ? 't' : 'f');
                 FAIL(msg);
             }
             m->literal = 0;
@@ -928,9 +1001,10 @@ static const char *literal(void) {
             char msg[256];
             if (format && c == 10) {
                 if (m->size == 1) {
-                    snprintf(msg, sizeof(msg),
-                             "%c-string: newlines are not allowed in format specifiers for single quoted %c-strings",
-                             prefix, prefix);
+                    diag_snprintf(
+                        msg, sizeof(msg),
+                        "%c-string: newlines are not allowed in format specifiers for single quoted %c-strings",
+                        prefix, prefix);
                     FAIL(msg);
                 }
                 back(c);
@@ -942,8 +1016,8 @@ static const char *literal(void) {
             cur = m->start + 1;
             lineStart = m->lineStart;
             lineno = m->firstLine;
-            snprintf(msg, sizeof(msg), "unterminated %s%c-string literal (detected at line %d)",
-                     m->size == 3 ? "triple-quoted " : "", prefix, detected);
+            diag_snprintf(msg, sizeof(msg), "unterminated %s%c-string literal (detected at line %d)",
+                          m->size == 3 ? "triple-quoted " : "", prefix, detected);
             FAIL(msg);
         }
         if (c == m->quote) {
@@ -959,7 +1033,7 @@ static const char *literal(void) {
                 m->expr++;
                 if (m->expr >= 3) {
                     char msg[128];
-                    snprintf(msg, sizeof(msg), "%c-string: expressions nested too deeply", prefix);
+                    diag_snprintf(msg, sizeof(msg), "%c-string: expressions nested too deeply", prefix);
                     FAIL(msg);
                 }
                 m->literal = 0;

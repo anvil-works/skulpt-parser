@@ -13,10 +13,10 @@
             "sha256": "3c19168fca49b9e00bed533a094e71a6f269e4edcad15900ca887345fe4afd62"
         },
         "dist/lexer-Oz.wasm": {
-            "bytes": 63145,
-            "gzipBytes": 23340,
-            "brotliBytes": 19070,
-            "sha256": "144b8d145e7c6a1f221d14a2b61a5fabc9f2f1e46f4c17c83e70824a2d48a2e5",
+            "bytes": 42611,
+            "gzipBytes": 15016,
+            "brotliBytes": 12029,
+            "sha256": "91525d2cee809377c6811b4d4a532359167cf38722643c536721a9a8ae853c22",
             "imports": [
                 {
                     "module": "wasi_snapshot_preview1",
@@ -64,10 +64,10 @@
             ]
         },
         "dist/lexer-O2.wasm": {
-            "bytes": 69496,
-            "gzipBytes": 24982,
-            "brotliBytes": 20156,
-            "sha256": "0644d62c5fcf5612f1a2dea85c0843b60ea6f527db610bf3ad0830b1f64077f6",
+            "bytes": 49349,
+            "gzipBytes": 16863,
+            "brotliBytes": 13315,
+            "sha256": "d900e91cd496e36c0df08bac397506ac0938d516189487d816a2a46a518f445c",
             "imports": [
                 {
                     "module": "wasi_snapshot_preview1",
@@ -115,10 +115,10 @@
             ]
         },
         "dist/lexer-binary-Oz.wasm": {
-            "bytes": 63060,
-            "gzipBytes": 23276,
-            "brotliBytes": 19033,
-            "sha256": "f8da449b1081a96c5cd58868d855fbe83ed95b433f04917a75d2a28fa8088d97",
+            "bytes": 42527,
+            "gzipBytes": 14990,
+            "brotliBytes": 11990,
+            "sha256": "c47293314045657d87e11c18b3c385bbb4347f45026f1e3f69f46cd3985f2566",
             "imports": [
                 {
                     "module": "wasi_snapshot_preview1",
@@ -162,10 +162,10 @@
             ]
         },
         "dist/lexer-binary-O2.wasm": {
-            "bytes": 69504,
-            "gzipBytes": 24935,
-            "brotliBytes": 20167,
-            "sha256": "1c0e94d0c6aa7cdbb71a98ba0c8e89a84ef6e3f4f55f4c825712b32189fb45e0",
+            "bytes": 49357,
+            "gzipBytes": 16842,
+            "brotliBytes": 13346,
+            "sha256": "ddaffb3fffe6d470228815e9ee6874b6a58862448d1013ad8f1ad3c34dd16e89",
             "imports": [
                 {
                     "module": "wasi_snapshot_preview1",
@@ -211,24 +211,24 @@
     },
     "wasmPlusLoader": {
         "dist/lexer-Oz.wasm": {
-            "bytes": 65835,
-            "gzipBytes": 24639,
-            "brotliBytes": 20237
+            "bytes": 45301,
+            "gzipBytes": 16315,
+            "brotliBytes": 13196
         },
         "dist/lexer-O2.wasm": {
-            "bytes": 72186,
-            "gzipBytes": 26281,
-            "brotliBytes": 21323
+            "bytes": 52039,
+            "gzipBytes": 18162,
+            "brotliBytes": 14482
         },
         "dist/lexer-binary-Oz.wasm": {
-            "bytes": 65750,
-            "gzipBytes": 24575,
-            "brotliBytes": 20200
+            "bytes": 45217,
+            "gzipBytes": 16289,
+            "brotliBytes": 13157
         },
         "dist/lexer-binary-O2.wasm": {
-            "bytes": 72194,
-            "gzipBytes": 26234,
-            "brotliBytes": 21334
+            "bytes": 52047,
+            "gzipBytes": 18141,
+            "brotliBytes": 14513
         }
     }
 }

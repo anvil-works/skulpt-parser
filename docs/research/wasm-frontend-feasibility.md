@@ -1,6 +1,6 @@
 # WASM frontend: language choice and experiment design
 
-Date: 2026-09-14. This records feasibility research and selects an experiment implementation language. No WASM frontend has been built or benchmarked yet. The production WASM decision remains open.
+Date: 2026-09-14. This records the initial feasibility research and experiment design. A minimal C/WASM lexer has now been built and measured with Zig 0.14.1 as the C compiler. See the [lexer experiment report](../../experiments/c-lexer/README.md) for results and limitations. Lexer-only WASM shows no compelling overall browser advantage; the source-to-AST and production WASM decisions remain open. The sections below preserve the initial design rationale.
 
 ## Choose C for the experiment
 
@@ -73,4 +73,4 @@ Maintainability evidence includes the upstream patch size and character, unsuppo
 
 C is the selected experimental language, with Clang/Emscripten as the initial toolchain route. Zig is an optional compiler alternative if a concrete toolchain issue warrants comparing it. No Zig rewrite, full interpreter shipment, production WASM backend, threading requirement or speed/size improvement is approved or claimed here.
 
-The immediate next executable work is the C dependency-cut and lexer slice, permitting a minimal port instead of preserving runtime-coupled source at any cost. The complete WASM decision stays open until the comparison reaches usable ASTs and equivalent compilation where feasible, with missing stages explicitly reported.
+The C lexer slice is now complete within the token/error scope documented in the linked report. The next prerequisite is a matching Python 3.14 TypeScript AST baseline before extending the WASM comparison to source-to-AST. The complete WASM decision stays open until the comparison reaches usable ASTs and equivalent compilation where feasible, with missing stages explicitly reported.

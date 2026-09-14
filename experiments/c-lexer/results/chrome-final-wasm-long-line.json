@@ -1,0 +1,27 @@
+{
+    "backend": "wasm-binary",
+    "input": "long-line",
+    "optimization": "binary-Oz",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/152.0.0.0 Safari/537.36",
+    "loaderImportMs": 4.8999998569488525,
+    "fetchMs": 2.200000047683716,
+    "compileMs": 0.7000000476837158,
+    "instantiateMs": 0.2999999523162842,
+    "imports": [
+        {
+            "module": "wasi_snapshot_preview1",
+            "name": "random_get",
+            "kind": "function"
+        }
+    ],
+    "firstCallMs": 12.200000047683716,
+    "tokenCount": 20005,
+    "iterations": 5,
+    "samplesMs": [
+        5.3599999904632565, 5.380000019073487, 5.519999980926514, 5.380000019073487, 6.679999971389771,
+        5.540000009536743, 5.520000028610229, 5.339999961853027, 6.2600000381469725
+    ],
+    "medianMs": 5.519999980926514,
+    "checksum": 1200300,
+    "tokenHash": "b91175c43c8cf4305416f9da26a74e8d672d1d4e25ddfc3a5f6f438244208271"
+}
