@@ -1,6 +1,6 @@
 # Shared frontend API contract
 
-Status: consolidated draft for [Choose the TypeScript AST and consumer API representation](https://github.com/anvil-works/skulpt-parser/issues/9). The behavioral choices identified below have been agreed with the maintainer. Export names, tag spelling and signature sketches are proposals for review, not an implemented API. Token editing requirements and the shared source-error format are agreed; the warning default remains open.
+Status: agreed planning contract for [Choose the TypeScript AST and consumer API representation](https://github.com/anvil-works/skulpt-parser/issues/9). The behavioral choices identified below have been agreed with the maintainer. Export names, tag spelling and signature sketches are proposals for review, not an implemented API. The behavioral decisions are settled for implementation planning. This document does not claim production implementation or compatibility validation.
 
 This document describes a frontend shared by Anvil IDE and Skulpt. The IDE must be able to parse and analyze source without loading Skulpt. The Skulpt integration converts frontend values and diagnostics at its boundary. Python 3.14 is the behavioral target; accepting syntax does not promise that Skulpt can execute it.
 
@@ -110,7 +110,7 @@ This is a representation proposal for the known syntax-error family, not approva
 
 Agreed: IDE syntax checking uses tryParse diagnostics, preserving CPython messages and available locations. Token scans expose lexical failures but are not a substitute for parsing. Successful parsing is not complete source validation: symbol analysis and subsequent compilation can produce additional source errors, which consumers must surface when those operations run. IDE consumers may retain their own source-repair/retry logic. Skulpt's adapter converts frontend errors into its runtime exceptions. Neither API introduces custom parser recovery.
 
-Agreed: expose an optional onWarning(diagnostic) callback for warnings. Successful parsing still returns an AST, and tryParse retains its AST-or-error result. The IDE can collect warnings for display; the Skulpt adapter can route them through Python warning machinery. Warnings are distinct from fatal source errors, so WarningDiagnostic must represent the upstream warning category rather than reuse the syntax-error-only kind union above. Both tokenizer experiments omitted warnings; production integration must cover their emission and source context. Exact warning fields, behavior when no callback is supplied, and adapter warning-filter semantics remain to be specified without importing an entire Python warnings subsystem into the standalone core.
+Agreed: expose an optional onWarning(diagnostic) callback for warnings. Successful parsing still returns an AST, and tryParse retains its AST-or-error result. The IDE can collect warnings for display; the Skulpt adapter can route them through Python warning machinery. Warnings are distinct from fatal source errors, so WarningDiagnostic must represent the upstream warning category rather than reuse the syntax-error-only kind union above. Both tokenizer experiments omitted warnings; production integration must cover their emission and source context. When no callback is supplied, non-fatal warnings are silent: parsing still succeeds and the core does not write to the console. IDE and Skulpt integrations install callbacks to display or handle warnings. Exact warning fields and adapter warning-filter semantics need specification during integration without importing an entire Python warnings subsystem into the standalone core.
 
 ## Tokens
 
@@ -166,7 +166,7 @@ Document units, bases and end-position meaning in generated/public types and hel
 
 The behavioral agreements above are recorded in the issue's discussion checkpoints. Proposed names and shapes consolidate them for review; they have not yet been approved as final spellings.
 
-The remaining behavioral decision is what happens to non-fatal warnings when the optional callback is absent. Exported tokenization now shares the structured frontend source-error format with parsing, as agreed.
+The API planning decision is complete. Exported tokenization shares the structured frontend source-error format with parsing. Non-fatal warnings use the optional callback and are silent when it is absent. Remaining implementation and integration work is identified below; it is not claimed complete.
 
 The editing information required from tokens is already agreed. The implementation must establish how to retain it alongside the chosen CPython lexical checks, document any adaptations, and test malformed input. Do not reopen the inspection-default proposal solely to copy Python's public wrapper. If achieving this contract requires a material maintenance or performance tradeoff, bring that evidence back before changing the agreed requirements.
 
