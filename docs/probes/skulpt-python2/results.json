@@ -1,0 +1,425 @@
+[
+    {
+        "name": "barePrint",
+        "mode": "python2",
+        "source": "print\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "barePrint",
+        "mode": "python3",
+        "source": "print\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "binaryLong",
+        "mode": "python2",
+        "source": "x = 0b101L\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "binaryLong",
+        "mode": "python3",
+        "source": "x = 0b101L\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "octalLong",
+        "mode": "python2",
+        "source": "x = 0755L\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "octalLong",
+        "mode": "python3",
+        "source": "x = 0755L\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "exceptList",
+        "mode": "python2",
+        "source": "try:\n pass\nexcept Exception, [a, b]:\n pass\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "exceptList",
+        "mode": "python3",
+        "source": "try:\n pass\nexcept Exception, [a, b]:\n pass\n",
+        "parse": "ok",
+        "error": "SyntaxError: Old-style 'except' clauses are not supported in Python 3 on line 3"
+    },
+    {
+        "name": "exceptAttribute",
+        "mode": "python2",
+        "source": "try:\n pass\nexcept Exception, obj.error:\n pass\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "exceptAttribute",
+        "mode": "python3",
+        "source": "try:\n pass\nexcept Exception, obj.error:\n pass\n",
+        "parse": "ok",
+        "error": "SyntaxError: Old-style 'except' clauses are not supported in Python 3 on line 3"
+    },
+    {
+        "name": "exceptSubscript",
+        "mode": "python2",
+        "source": "try:\n pass\nexcept Exception, errors[0]:\n pass\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "exceptSubscript",
+        "mode": "python3",
+        "source": "try:\n pass\nexcept Exception, errors[0]:\n pass\n",
+        "parse": "ok",
+        "error": "SyntaxError: Old-style 'except' clauses are not supported in Python 3 on line 3"
+    },
+    {
+        "name": "neq",
+        "mode": "python2",
+        "source": "x = 1 <> 2\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "neq",
+        "mode": "python3",
+        "source": "x = 1 <> 2\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "octal",
+        "mode": "python2",
+        "source": "x = 0755\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "octal",
+        "mode": "python3",
+        "source": "x = 0755\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "long",
+        "mode": "python2",
+        "source": "x = 123L\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "long",
+        "mode": "python3",
+        "source": "x = 123L\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "hexlong",
+        "mode": "python2",
+        "source": "x = 0xffL\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "hexlong",
+        "mode": "python3",
+        "source": "x = 0xffL\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "lowerlong",
+        "mode": "python2",
+        "source": "x = 123l\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "lowerlong",
+        "mode": "python3",
+        "source": "x = 123l\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "print",
+        "mode": "python2",
+        "source": "print 1, 2\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "print",
+        "mode": "python3",
+        "source": "print 1, 2\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "printComma",
+        "mode": "python2",
+        "source": "print 1,\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "printComma",
+        "mode": "python3",
+        "source": "print 1,\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "printRedirect",
+        "mode": "python2",
+        "source": "print >>f, 1\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "printRedirect",
+        "mode": "python3",
+        "source": "print >>f, 1\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "printRedirectComma",
+        "mode": "python2",
+        "source": "print >>f, 1,\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "printRedirectComma",
+        "mode": "python3",
+        "source": "print >>f, 1,\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "exceptComma",
+        "mode": "python2",
+        "source": "try:\n pass\nexcept Exception, e:\n pass\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "exceptComma",
+        "mode": "python3",
+        "source": "try:\n pass\nexcept Exception, e:\n pass\n",
+        "parse": "ok",
+        "error": "SyntaxError: Old-style 'except' clauses are not supported in Python 3 on line 3"
+    },
+    {
+        "name": "exceptTuple",
+        "mode": "python2",
+        "source": "try:\n pass\nexcept Exception, (a, b):\n pass\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "exceptTuple",
+        "mode": "python3",
+        "source": "try:\n pass\nexcept Exception, (a, b):\n pass\n",
+        "parse": "ok",
+        "error": "SyntaxError: Old-style 'except' clauses are not supported in Python 3 on line 3"
+    },
+    {
+        "name": "raiseTwo",
+        "mode": "python2",
+        "source": "raise ValueError, \"oops\"\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "raiseTwo",
+        "mode": "python3",
+        "source": "raise ValueError, \"oops\"\n",
+        "parse": "ok",
+        "error": "SyntaxError: Old raise syntax is not available in Python 3 on line 1"
+    },
+    {
+        "name": "raiseThree",
+        "mode": "python2",
+        "source": "raise ValueError, \"oops\", tb\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "raiseThree",
+        "mode": "python3",
+        "source": "raise ValueError, \"oops\", tb\n",
+        "parse": "ok",
+        "error": "SyntaxError: Old raise syntax is not available in Python 3 on line 1"
+    },
+    {
+        "name": "exec",
+        "mode": "python2",
+        "source": "exec code\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "exec",
+        "mode": "python3",
+        "source": "exec code\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "execIn",
+        "mode": "python2",
+        "source": "exec code in g, l\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "execIn",
+        "mode": "python3",
+        "source": "exec code in g, l\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "backticks",
+        "mode": "python2",
+        "source": "x = `value`\n",
+        "error": "SyntaxError: bad token T_OP on line 1"
+    },
+    {
+        "name": "backticks",
+        "mode": "python3",
+        "source": "x = `value`\n",
+        "error": "SyntaxError: bad token T_OP on line 1"
+    },
+    {
+        "name": "tupleParam",
+        "mode": "python2",
+        "source": "def f((a,b)):\n pass\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "tupleParam",
+        "mode": "python3",
+        "source": "def f((a,b)):\n pass\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "tupleLambda",
+        "mode": "python2",
+        "source": "f = lambda (a,b): a\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "tupleLambda",
+        "mode": "python3",
+        "source": "f = lambda (a,b): a\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "ur",
+        "mode": "python2",
+        "source": "x = ur\"abc\"\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "ur",
+        "mode": "python3",
+        "source": "x = ur\"abc\"\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "ru",
+        "mode": "python2",
+        "source": "x = ru\"abc\"\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "ru",
+        "mode": "python3",
+        "source": "x = ru\"abc\"\n",
+        "error": "SyntaxError: bad input on line 1"
+    },
+    {
+        "name": "u",
+        "mode": "python2",
+        "source": "x = u\"abc\"\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "u",
+        "mode": "python3",
+        "source": "x = u\"abc\"\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "asyncName",
+        "mode": "python2",
+        "source": "async = 1\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "asyncName",
+        "mode": "python3",
+        "source": "async = 1\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "awaitName",
+        "mode": "python2",
+        "source": "await = 1\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "awaitName",
+        "mode": "python3",
+        "source": "await = 1\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    },
+    {
+        "name": "printFuture",
+        "mode": "python2",
+        "source": "from __future__ import print_function\nprint(1, end=\"\")\n",
+        "error": "SyntaxError: bad input on line 2"
+    },
+    {
+        "name": "printFuture",
+        "mode": "python3",
+        "source": "from __future__ import print_function\nprint(1, end=\"\")\n",
+        "parse": "ok",
+        "ast": "ok",
+        "compile": "ok"
+    }
+]
