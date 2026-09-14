@@ -37,7 +37,9 @@ Strict Python 3 is the default. The explicit compatibility mode enables only the
 
 Agreed: consumers depend on typed node data, CPython node names and fields, and source positions. No required `instanceof`, prototype identity, `walkabout` or other node methods. Traversal helpers are optional and separate. Internal generated classes remain possible; this contract does not assume plain-object factories are faster or smaller.
 
-Proposed discriminant: `_type`, containing the CPython node name. Reserve `kind` for CPython's own fields; the current Constant node already has a `kind` field. A node-name string makes the public discriminated union explicit without exposing numeric enum assignments as an integration contract.
+The maintainer is comfortable with either an explicit `_type` tag or exported constructors such as ast.FunctionDef, choosing whichever produces the cleanest implementation. Exported constructors can coexist with the structural consumer contract; consumers must not be required to depend on instanceof or prototype identity. Keep constructor exports as an option, reflecting the maintainer's note that this resembles Skulpt's existing approach.
+
+`_type` remains an illustrative discriminant, not a settled export spelling or a CPython standard. CPython identifies Python AST nodes by their classes. If using an explicit tag in TypeScript, reserve `kind` for CPython's own fields; Constant already has a kind field. The concrete tag and construction API can be selected during implementation without reopening the agreed structural contract.
 
 Illustrative parser-produced node:
 
