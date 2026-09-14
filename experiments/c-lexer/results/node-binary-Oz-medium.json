@@ -1,0 +1,160 @@
+{
+    "backend": "wasm-binary",
+    "input": "medium",
+    "node": "v26.7.0",
+    "sourceBytes": 13756,
+    "compileMs": 0.29025000000000034,
+    "instantiateMs": 0.9450830000000003,
+    "imports": [
+        {
+            "module": "wasi_snapshot_preview1",
+            "name": "random_get",
+            "kind": "function"
+        }
+    ],
+    "firstCallMs": 2.794832999999997,
+    "tokenCount": 2309,
+    "iterations": 39,
+    "samplesMs": [
+        0.6296687948717948, 0.5678995641025641, 0.5467724358974357, 0.574257487179487, 0.5321848461538463,
+        0.5173728461538466, 0.5222243589743589, 0.5259391025641028, 0.5204358974358974
+    ],
+    "medianMs": 0.5321848461538463,
+    "checksum": 845094,
+    "tokenHash": "848890d7060eb4cf3a64abcffd1f0d9c78a251b14278b56af70d235e04c9e5a6",
+    "profile": [
+        {
+            "times": {
+                "encodeMs": 0.03054199999999696,
+                "inputCopyMs": 0.0058339999999930114,
+                "scanAndSerializeMs": 0.22024999999999295,
+                "decodeMs": 0,
+                "materializeMs": 0.33841699999999264
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        },
+        {
+            "times": {
+                "encodeMs": 0.006583000000006223,
+                "inputCopyMs": 0.0017919999999946867,
+                "scanAndSerializeMs": 0.20504099999999426,
+                "decodeMs": 0,
+                "materializeMs": 0.3930829999999901
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        },
+        {
+            "times": {
+                "encodeMs": 0.004208000000005541,
+                "inputCopyMs": 0.002666000000004942,
+                "scanAndSerializeMs": 0.20395899999999756,
+                "decodeMs": 0,
+                "materializeMs": 0.3272919999999999
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        },
+        {
+            "times": {
+                "encodeMs": 0.0027499999999918145,
+                "inputCopyMs": 0.0010410000000149466,
+                "scanAndSerializeMs": 0.2026249999999834,
+                "decodeMs": 0,
+                "materializeMs": 0.32429100000001654
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        },
+        {
+            "times": {
+                "encodeMs": 0.0024579999999900792,
+                "inputCopyMs": 0.0010000000000047748,
+                "scanAndSerializeMs": 0.21179100000000517,
+                "decodeMs": 0,
+                "materializeMs": 0.32279199999999264
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        },
+        {
+            "times": {
+                "encodeMs": 0.002166999999985819,
+                "inputCopyMs": 0.0007080000000030395,
+                "scanAndSerializeMs": 0.20208299999998758,
+                "decodeMs": 0,
+                "materializeMs": 0.3205409999999915
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        },
+        {
+            "times": {
+                "encodeMs": 0.002207999999995991,
+                "inputCopyMs": 0.0007500000000106866,
+                "scanAndSerializeMs": 0.20162500000000705,
+                "decodeMs": 0,
+                "materializeMs": 0.3215419999999938
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        },
+        {
+            "times": {
+                "encodeMs": 0.002207999999995991,
+                "inputCopyMs": 0.0006670000000212895,
+                "scanAndSerializeMs": 0.20154199999998923,
+                "decodeMs": 0,
+                "materializeMs": 0.3199999999999932
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        },
+        {
+            "times": {
+                "encodeMs": 0.002250000000003638,
+                "inputCopyMs": 0.0007499999999822649,
+                "scanAndSerializeMs": 0.2010829999999828,
+                "decodeMs": 0,
+                "materializeMs": 0.3191669999999931
+            },
+            "resultBytes": 92360,
+            "linearMemoryBytes": 1507328
+        }
+    ],
+    "memory": {
+        "before": {
+            "rss": 100417536,
+            "heapTotal": 40779776,
+            "heapUsed": 5791448,
+            "external": 2567174,
+            "arrayBuffers": 143615
+        },
+        "withResult": {
+            "rss": 100827136,
+            "heapTotal": 40517632,
+            "heapUsed": 6300312,
+            "external": 2360001,
+            "arrayBuffers": 143615
+        },
+        "afterRelease": {
+            "rss": 100925440,
+            "heapTotal": 40255488,
+            "heapUsed": 5788000,
+            "external": 2346245,
+            "arrayBuffers": 143615
+        },
+        "afterRepeated": {
+            "rss": 103972864,
+            "heapTotal": 40517632,
+            "heapUsed": 5821728,
+            "external": 2346245,
+            "arrayBuffers": 143615
+        },
+        "linearMemoryBefore": 1507328,
+        "linearMemoryAfter": 1507328,
+        "retainedTokenCount": 2309,
+        "processPeakRssBytes": 103972864
+    }
+}

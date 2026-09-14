@@ -1,0 +1,38 @@
+<!DOCTYPE html><meta charset="utf-8" /><title>Isolated lexer benchmark</title>
+<script type="module">
+    import { measure, oracleBytes } from "./bench-core.mjs";
+    globalThis.benchmarkReady = async function (backend, input, optimization = "Oz") {
+        const sources = await (await fetch("./benchmark-inputs.json")).json();
+        let run, init;
+        if (backend.startsWith("wasm")) {
+            const loaderStart = performance.now();
+            const { createLexer } = await import("./loader.mjs");
+            const loaderImportMs = performance.now() - loaderStart;
+            const fetchStart = performance.now();
+            const bytes = await (await fetch(`./dist/lexer-${optimization}.wasm`)).arrayBuffer();
+            const fetchMs = performance.now() - fetchStart;
+            const lexer = await createLexer(bytes, { binary: backend === "wasm-binary" });
+            run = (s) => lexer.run(s, false);
+            init = {
+                loaderImportMs,
+                fetchMs,
+                compileMs: lexer.compileMs,
+                instantiateMs: lexer.instantiateMs,
+                imports: lexer.imports,
+            };
+        } else {
+            const t = performance.now();
+            const { tokenize } = await import("./dist/reference.js");
+            init = { importMs: performance.now() - t };
+            run = (s) => ({ tokens: tokenize(s, { extraTokens: false }) });
+        }
+        const result = measure(run, sources[input]);
+        const encoded = oracleBytes(run(sources[input]).tokens);
+        const digest = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", encoded)), (x) =>
+            x.toString(16).padStart(2, "0")
+        ).join("");
+        const oracle = await (await fetch("./benchmark-oracle.json")).json();
+        if (digest !== oracle[input].strict) throw new Error("Browser benchmark parity failure");
+        return { backend, input, optimization, userAgent: navigator.userAgent, ...init, ...result, tokenHash: digest };
+    };
+</script>

@@ -1,0 +1,213 @@
+{
+    "scope": "tokens-and-errors; warnings not compared",
+    "warningCases": 0,
+    "cases": 561,
+    "modes": 1122,
+    "exact": 1118,
+    "failureCount": 4,
+    "imports": [
+        {
+            "module": "wasi_snapshot_preview1",
+            "name": "random_get",
+            "kind": "function"
+        }
+    ],
+    "failures": [
+        {
+            "name": "limits/2",
+            "mode": "extra",
+            "source": "\ud800=1",
+            "expected": {
+                "error": {
+                    "name": "UnicodeEncodeError",
+                    "message": "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not allowed",
+                    "lineno": null,
+                    "offset": null,
+                    "end_lineno": null,
+                    "end_offset": null,
+                    "text": null
+                },
+                "warnings": []
+            },
+            "actual": {
+                "tokens": [
+                    {
+                        "type": "NAME",
+                        "string": "�",
+                        "start": [1, 0],
+                        "end": [1, 1],
+                        "line": "�=1"
+                    },
+                    {
+                        "type": "OP",
+                        "string": "=",
+                        "start": [1, 1],
+                        "end": [1, 2],
+                        "line": "�=1"
+                    },
+                    {
+                        "type": "NUMBER",
+                        "string": "1",
+                        "start": [1, 2],
+                        "end": [1, 3],
+                        "line": "�=1"
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "",
+                        "start": [1, 3],
+                        "end": [1, 4],
+                        "line": "�=1"
+                    },
+                    {
+                        "type": "ENDMARKER",
+                        "string": "",
+                        "start": [2, 0],
+                        "end": [2, 0],
+                        "line": ""
+                    }
+                ]
+            }
+        },
+        {
+            "name": "limits/2",
+            "mode": "strict",
+            "source": "\ud800=1",
+            "expected": {
+                "error": {
+                    "name": "UnicodeEncodeError",
+                    "message": "'utf-8' codec can't encode character '\\ud800' in position 0: surrogates not allowed",
+                    "lineno": null,
+                    "offset": null,
+                    "end_lineno": null,
+                    "end_offset": null,
+                    "text": null
+                },
+                "warnings": []
+            },
+            "actual": {
+                "error": {
+                    "name": "SyntaxError",
+                    "message": "invalid character '�' (U+FFFD)",
+                    "lineno": 1,
+                    "offset": 1,
+                    "end_lineno": 1,
+                    "end_offset": 1,
+                    "text": "�=1"
+                }
+            }
+        },
+        {
+            "name": "limits/3",
+            "mode": "extra",
+            "source": "x=\"\ud800\"",
+            "expected": {
+                "error": {
+                    "name": "UnicodeEncodeError",
+                    "message": "'utf-8' codec can't encode character '\\ud800' in position 3: surrogates not allowed",
+                    "lineno": null,
+                    "offset": null,
+                    "end_lineno": null,
+                    "end_offset": null,
+                    "text": null
+                },
+                "warnings": []
+            },
+            "actual": {
+                "tokens": [
+                    {
+                        "type": "NAME",
+                        "string": "x",
+                        "start": [1, 0],
+                        "end": [1, 1],
+                        "line": "x=\"�\""
+                    },
+                    {
+                        "type": "OP",
+                        "string": "=",
+                        "start": [1, 1],
+                        "end": [1, 2],
+                        "line": "x=\"�\""
+                    },
+                    {
+                        "type": "STRING",
+                        "string": "\"�\"",
+                        "start": [1, 2],
+                        "end": [1, 5],
+                        "line": "x=\"�\""
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "",
+                        "start": [1, 5],
+                        "end": [1, 6],
+                        "line": "x=\"�\""
+                    },
+                    {
+                        "type": "ENDMARKER",
+                        "string": "",
+                        "start": [2, 0],
+                        "end": [2, 0],
+                        "line": ""
+                    }
+                ]
+            }
+        },
+        {
+            "name": "limits/3",
+            "mode": "strict",
+            "source": "x=\"\ud800\"",
+            "expected": {
+                "error": {
+                    "name": "UnicodeEncodeError",
+                    "message": "'utf-8' codec can't encode character '\\ud800' in position 3: surrogates not allowed",
+                    "lineno": null,
+                    "offset": null,
+                    "end_lineno": null,
+                    "end_offset": null,
+                    "text": null
+                },
+                "warnings": []
+            },
+            "actual": {
+                "tokens": [
+                    {
+                        "type": "NAME",
+                        "string": "x",
+                        "start": [1, 0],
+                        "end": [1, 1],
+                        "line": "x=\"�\""
+                    },
+                    {
+                        "type": "EQUAL",
+                        "string": "=",
+                        "start": [1, 1],
+                        "end": [1, 2],
+                        "line": "x=\"�\""
+                    },
+                    {
+                        "type": "STRING",
+                        "string": "\"�\"",
+                        "start": [1, 2],
+                        "end": [1, 5],
+                        "line": "x=\"�\""
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "",
+                        "start": [1, 5],
+                        "end": [1, 5],
+                        "line": "x=\"�\""
+                    },
+                    {
+                        "type": "ENDMARKER",
+                        "string": "",
+                        "start": [1, -1],
+                        "end": [1, -1],
+                        "line": "x=\"�\""
+                    }
+                ]
+            }
+        }
+    ]
+}

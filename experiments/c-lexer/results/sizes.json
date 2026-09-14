@@ -1,0 +1,234 @@
+{
+    "artifacts": {
+        "dist/reference.js": {
+            "bytes": 42237,
+            "gzipBytes": 11798,
+            "brotliBytes": 8632,
+            "sha256": "32e1fbfe9db74da5e83e9b9a1ce2745f2c54b66720517236281f01b9c65c191d"
+        },
+        "dist/loader/index.js": {
+            "bytes": 2690,
+            "gzipBytes": 1299,
+            "brotliBytes": 1167,
+            "sha256": "3c19168fca49b9e00bed533a094e71a6f269e4edcad15900ca887345fe4afd62"
+        },
+        "dist/lexer-Oz.wasm": {
+            "bytes": 63145,
+            "gzipBytes": 23340,
+            "brotliBytes": 19070,
+            "sha256": "144b8d145e7c6a1f221d14a2b61a5fabc9f2f1e46f4c17c83e70824a2d48a2e5",
+            "imports": [
+                {
+                    "module": "wasi_snapshot_preview1",
+                    "name": "random_get",
+                    "kind": "function"
+                }
+            ],
+            "exports": [
+                {
+                    "name": "memory",
+                    "kind": "memory"
+                },
+                {
+                    "name": "_initialize",
+                    "kind": "function"
+                },
+                {
+                    "name": "malloc",
+                    "kind": "function"
+                },
+                {
+                    "name": "free",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_reset",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_result_ptr",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_result_len",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_run",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_run_binary",
+                    "kind": "function"
+                }
+            ]
+        },
+        "dist/lexer-O2.wasm": {
+            "bytes": 69496,
+            "gzipBytes": 24982,
+            "brotliBytes": 20156,
+            "sha256": "0644d62c5fcf5612f1a2dea85c0843b60ea6f527db610bf3ad0830b1f64077f6",
+            "imports": [
+                {
+                    "module": "wasi_snapshot_preview1",
+                    "name": "random_get",
+                    "kind": "function"
+                }
+            ],
+            "exports": [
+                {
+                    "name": "memory",
+                    "kind": "memory"
+                },
+                {
+                    "name": "_initialize",
+                    "kind": "function"
+                },
+                {
+                    "name": "malloc",
+                    "kind": "function"
+                },
+                {
+                    "name": "free",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_reset",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_result_ptr",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_result_len",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_run",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_run_binary",
+                    "kind": "function"
+                }
+            ]
+        },
+        "dist/lexer-binary-Oz.wasm": {
+            "bytes": 63060,
+            "gzipBytes": 23276,
+            "brotliBytes": 19033,
+            "sha256": "f8da449b1081a96c5cd58868d855fbe83ed95b433f04917a75d2a28fa8088d97",
+            "imports": [
+                {
+                    "module": "wasi_snapshot_preview1",
+                    "name": "random_get",
+                    "kind": "function"
+                }
+            ],
+            "exports": [
+                {
+                    "name": "memory",
+                    "kind": "memory"
+                },
+                {
+                    "name": "_initialize",
+                    "kind": "function"
+                },
+                {
+                    "name": "malloc",
+                    "kind": "function"
+                },
+                {
+                    "name": "free",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_reset",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_result_ptr",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_result_len",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_run_binary",
+                    "kind": "function"
+                }
+            ]
+        },
+        "dist/lexer-binary-O2.wasm": {
+            "bytes": 69504,
+            "gzipBytes": 24935,
+            "brotliBytes": 20167,
+            "sha256": "1c0e94d0c6aa7cdbb71a98ba0c8e89a84ef6e3f4f55f4c825712b32189fb45e0",
+            "imports": [
+                {
+                    "module": "wasi_snapshot_preview1",
+                    "name": "random_get",
+                    "kind": "function"
+                }
+            ],
+            "exports": [
+                {
+                    "name": "memory",
+                    "kind": "memory"
+                },
+                {
+                    "name": "_initialize",
+                    "kind": "function"
+                },
+                {
+                    "name": "malloc",
+                    "kind": "function"
+                },
+                {
+                    "name": "free",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_reset",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_result_ptr",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_result_len",
+                    "kind": "function"
+                },
+                {
+                    "name": "lex_run_binary",
+                    "kind": "function"
+                }
+            ]
+        }
+    },
+    "wasmPlusLoader": {
+        "dist/lexer-Oz.wasm": {
+            "bytes": 65835,
+            "gzipBytes": 24639,
+            "brotliBytes": 20237
+        },
+        "dist/lexer-O2.wasm": {
+            "bytes": 72186,
+            "gzipBytes": 26281,
+            "brotliBytes": 21323
+        },
+        "dist/lexer-binary-Oz.wasm": {
+            "bytes": 65750,
+            "gzipBytes": 24575,
+            "brotliBytes": 20200
+        },
+        "dist/lexer-binary-O2.wasm": {
+            "bytes": 72194,
+            "gzipBytes": 26234,
+            "brotliBytes": 21334
+        }
+    }
+}
