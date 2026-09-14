@@ -1,6 +1,6 @@
 # Shared frontend API contract
 
-Status: consolidated draft for [Choose the TypeScript AST and consumer API representation](https://github.com/anvil-works/skulpt-parser/issues/9). The behavioral choices identified below have been agreed with the maintainer. Export names, tag spelling and signature sketches are proposals for review, not an implemented API. Token inspection policy remains an explicit open decision.
+Status: consolidated draft for [Choose the TypeScript AST and consumer API representation](https://github.com/anvil-works/skulpt-parser/issues/9). The behavioral choices identified below have been agreed with the maintainer. Export names, tag spelling and signature sketches are proposals for review, not an implemented API. Token editing requirements are agreed; the exact lexical failure contract and warning default remain open.
 
 This document describes a frontend shared by Anvil IDE and Skulpt. The IDE must be able to parse and analyze source without loading Skulpt. The Skulpt integration converts frontend values and diagnostics at its boundary. Python 3.14 is the behavioral target; accepting syntax does not promise that Skulpt can execute it.
 
@@ -130,7 +130,7 @@ interface Token {
 
 The line string supplies upstream-compatible source context; its presence does not require a separately allocated copy per token. Tokens and diagnostics use their own location conventions, not AST column units. The lexical failure contract must be specified alongside inspection policy: do not assume every iterator failure belongs to the parser syntax-error union. In particular, the public Python token API and its internal iterator can expose different exception families, such as TokenError versus SyntaxError; preservation or normalization is still open here.
 
-### Open decision: inspection versus parser-facing tokenization
+### Agreed editing requirements and remaining backend adaptation
 
 The pinned CPython backend exposes two materially different streams. Inspection mode includes COMMENT/NL and generic OP tokens. Parser-facing mode supplies exact operator kinds and performs some stricter lexical checks. This is not merely a flag to include extra comments.
 
@@ -166,7 +166,16 @@ Document units, bases and end-position meaning in generated/public types and hel
 
 The behavioral agreements above are recorded in the issue's discussion checkpoints. Proposed names and shapes consolidate them for review; they have not yet been approved as final spellings.
 
-The immediate open API decision is token inspection policy, including its lexical failure contract. Warning delivery uses the agreed optional callback; warning metadata and adapter behavior need specification during integration. Other deliberately separate work includes:
+The remaining behavioral decisions are:
+
+- Whether exported tokenization uses the same structured frontend source-error contract, preserving useful upstream diagnostic data, rather than reproducing Python tokenize's TokenError wrapper.
+- What happens to non-fatal warnings when the optional callback is absent.
+
+The editing information required from tokens is already agreed. The implementation must establish how to retain it alongside the chosen CPython lexical checks, document any adaptations, and test malformed input. Do not reopen the inspection-default proposal solely to copy Python's public wrapper. If achieving this contract requires a material maintenance or performance tradeoff, bring that evidence back before changing the agreed requirements.
+
+Export names, discriminant spelling, constructor exports, warning field spelling and coordinate-helper internals are implementation choices within the agreed behavior. They do not each require a separate planning decision. Warning filtering in the Skulpt adapter and the supported analysis-context fields need checking against real integration requirements.
+
+Other deliberately separate work includes:
 
 - the complete Python 2 compatibility syntax;
 - production symbol-table shape and compiler integration;
