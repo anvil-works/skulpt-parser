@@ -60,4 +60,12 @@ Forms already representable without losing relevant information, such as <> comp
 
 A follow-up source check confirms downstream consumers need the information: src/symtable.js visits Print destinations/values and old Raise operands, src/compile.js assigns exception targets through its normal assignment path, and its numeric-literal branch emits distinct runtime constructors for int and long. Compatibility-aware symbol analysis and adapters must therefore handle the extensions explicitly. Strict-mode consumers must not receive them unexpectedly.
 
-This is a bounded extension of the shared AST contract, not a decision to maintain two independent frontend implementations or repair existing runtime limitations. The compatibility grammar's treatment of newer non-conflicting syntax remains to be settled.
+This is a bounded extension of the shared AST contract, not a decision to maintain two independent frontend implementations or repair existing runtime limitations. The maintainer agreed that compatibility mode also accepts newer syntax wherever it does not change the meaning of existing Python 2 code. Preserve the legacy interpretation where syntax overlaps, including print statements and legacy identifier usage. This defines a modern grammar with bounded compatibility additions, not exact historical Python 2 rejection rules. Accepting newer syntax still does not promise that the existing Skulpt runtime can execute it.
+
+## Resolution and implementation evidence
+
+The compatibility planning decision is complete. The observed Skulpt frontend support defines the legacy syntax ceiling, explicit compatibility extensions preserve information required by downstream consumers, and non-conflicting modern syntax remains available. Strict Python 3 continues to follow the pinned Python 3.14 grammar and diagnostics.
+
+Implementation acceptance should cover the supported-form matrix, exact numeric values and long identity, extension fields and source locations, compatibility-aware scope analysis, and adapter behavior. Include overlapping syntax cases whose interpretation differs by mode, and ensure interleaved operations do not leak configuration through shared mutable tables. Compilation success in the baseline is not a claim of complete runtime semantics.
+
+Deciding one combined artifact versus separate strict/compatibility artifacts remains part of measured distribution and migration acceptance. Sharing implementation is allowed in either case; no size saving is claimed before measurement.

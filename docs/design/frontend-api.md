@@ -31,7 +31,7 @@ declare function tokenize(source: string, options?: TokenizeOptions): IterableIt
 
 The maintainer accepts retaining future-feature information but does not require Skulpt to reproduce CPython's full historical future-flag behavior. Skulpt may enable compatible, non-breaking behavior by default without requiring an opt-in import. Changes that affect existing program behavior need explicit compatibility consideration. Keep the shared frontend's upstream analysis requirements distinct from Skulpt's execution policy; enabling a feature in Skulpt must not silently discard information needed for correct analysis. No specific future feature is classified as non-breaking by this agreement.
 
-Strict Python 3 is the default. The explicit compatibility mode enables only the agreed bounded Python 2 forms; its complete syntax set belongs to the separate compatibility decision. The compatibility decision permits explicit legacy AST extensions while keeping strict Python 3 ASTs unchanged; see the [Skulpt compatibility baseline](../research/skulpt-python2-baseline.md). These signatures do not promise arbitrary historical Python-version selection. File loading and worker messaging belong outside the source-string core. Async initialization requirements for a potential WASM backend remain part of that separate experiment, not a promise made here.
+Strict Python 3 is the default. The explicit compatibility mode enables only the agreed bounded Python 2 forms; its supported legacy forms follow the resolved Skulpt compatibility baseline. Compatibility mode also accepts newer syntax where existing Python 2 meaning is preserved; strict mode remains Python 3.14. The compatibility decision permits explicit legacy AST extensions while keeping strict Python 3 ASTs unchanged; see the [Skulpt compatibility baseline](../research/skulpt-python2-baseline.md). These signatures do not promise arbitrary historical Python-version selection. File loading and worker messaging belong outside the source-string core. Async initialization requirements for a potential WASM backend remain part of that separate experiment, not a promise made here.
 
 ## AST nodes
 
@@ -174,7 +174,7 @@ Export names, discriminant spelling, constructor exports, warning field spelling
 
 Other deliberately separate work includes:
 
-- the complete Python 2 compatibility syntax;
+- implementation and adapter validation of the resolved Python 2 compatibility syntax;
 - production symbol-table shape and compiler integration;
 - optional visitor/folding helper details and any aggregate constants they expose;
 - worker serialization and any WASM initialization boundary;
