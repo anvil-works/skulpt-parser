@@ -15,6 +15,7 @@ interface ParseOptions {
   mode?: "exec" | "eval" | "single"; // default: exec
   filename?: string; // default: <string>
   syntax?: "python3" | "python2-compat"; // default: python3
+  onWarning?: (diagnostic: WarningDiagnostic) => void;
 }
 
 type ParseResult<T> = { ok: true; ast: T } | { ok: false; diagnostic: Diagnostic };
@@ -103,9 +104,9 @@ interface Diagnostic {
 
 This is a representation proposal for the known syntax-error family, not approval to classify every exception by a matching string name. Recognition must distinguish genuine frontend source failures from programming errors. Diagnostic kind, message and applicable source fields follow pinned CPython. Python 2 forms need separate expected diagnostics.
 
-IDE consumers may use the result API for normal invalid input while editing and retain their own source-repair/retry logic. Skulpt's adapter converts frontend errors into its runtime exceptions. Neither API introduces custom parser recovery.
+Agreed: IDE syntax checking uses tryParse diagnostics, preserving CPython messages and available locations. Token scans expose lexical failures but are not a substitute for parsing. IDE consumers may retain their own source-repair/retry logic. Skulpt's adapter converts frontend errors into its runtime exceptions. Neither API introduces custom parser recovery.
 
-Warning delivery is not settled. Both tokenizer experiments omitted warnings, and ordinary warning-producing input must not silently lose that behavior in a claimed compatible production implementation. Decide the warning channel when integrating lexical/literal diagnostics; do not pretend a SyntaxWarning is the same thing as a thrown SyntaxError.
+Agreed: expose an optional onWarning(diagnostic) callback for warnings. Successful parsing still returns an AST, and tryParse retains its AST-or-error result. The IDE can collect warnings for display; the Skulpt adapter can route them through Python warning machinery. Warnings are distinct from fatal source errors, so WarningDiagnostic must represent the upstream warning category rather than reuse the syntax-error-only kind union above. Both tokenizer experiments omitted warnings; production integration must cover their emission and source context. Exact warning fields, behavior when no callback is supplied, and adapter warning-filter semantics remain to be specified without importing an entire Python warnings subsystem into the standalone core.
 
 ## Tokens
 
@@ -161,7 +162,7 @@ Document units, bases and end-position meaning in generated/public types and hel
 
 The behavioral agreements above are recorded in the issue's discussion checkpoints. Proposed names and shapes consolidate them for review; they have not yet been approved as final spellings.
 
-The immediate open API decision is token inspection policy, including its lexical failure contract. Warning delivery also needs resolution before the diagnostic contract is complete. Other deliberately separate work includes:
+The immediate open API decision is token inspection policy, including its lexical failure contract. Warning delivery uses the agreed optional callback; warning metadata and adapter behavior need specification during integration. Other deliberately separate work includes:
 
 - the complete Python 2 compatibility syntax;
 - production symbol-table shape and compiler integration;
