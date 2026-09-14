@@ -1,6 +1,6 @@
 # Shared frontend API contract
 
-Status: consolidated draft for [Choose the TypeScript AST and consumer API representation](https://github.com/anvil-works/skulpt-parser/issues/9). The behavioral choices identified below have been agreed with the maintainer. Export names, tag spelling and signature sketches are proposals for review, not an implemented API. Token editing requirements are agreed; the exact lexical failure contract and warning default remain open.
+Status: consolidated draft for [Choose the TypeScript AST and consumer API representation](https://github.com/anvil-works/skulpt-parser/issues/9). The behavioral choices identified below have been agreed with the maintainer. Export names, tag spelling and signature sketches are proposals for review, not an implemented API. Token editing requirements and the shared source-error format are agreed; the warning default remains open.
 
 This document describes a frontend shared by Anvil IDE and Skulpt. The IDE must be able to parse and analyze source without loading Skulpt. The Skulpt integration converts frontend values and diagnostics at its boundary. Python 3.14 is the behavioral target; accepting syntax does not promise that Skulpt can execute it.
 
@@ -128,7 +128,7 @@ interface Token {
 }
 ```
 
-The line string supplies upstream-compatible source context; its presence does not require a separately allocated copy per token. Tokens and diagnostics use their own location conventions, not AST column units. The lexical failure contract must be specified alongside inspection policy: do not assume every iterator failure belongs to the parser syntax-error union. In particular, the public Python token API and its internal iterator can expose different exception families, such as TokenError versus SyntaxError; preservation or normalization is still open here.
+The line string supplies upstream-compatible source context; its presence does not require a separately allocated copy per token. Tokens and diagnostics use their own location conventions, not AST column units. Agreed: exported tokenization uses the same structured frontend source-error format as parsing, preserving useful CPython messages and available source positions. Do not reproduce the public Python tokenize wrapper's separate TokenError representation or its loss of diagnostic information. This shared format does not make lexical checking equivalent to parsing, require identical messages from both operations, or classify unexpected implementation failures as source errors. Identify recognized lexical failures explicitly and preserve their appropriate diagnostic kinds.
 
 ### Agreed editing requirements and remaining backend adaptation
 
@@ -144,7 +144,7 @@ Verified with CPython 3.14.3 and StringIO input:
 
 The maintainer rejected choosing public inspection semantics solely to reproduce Python's tokenize API. Define the exported token contract from actual IDE requirements while keeping the implementation close to the CPython backend. No public inspection default is currently selected.
 
-Agreed: retain comments, physical/non-significant line boundaries, indent/dedent, significant newlines, original source positions/text and early termination for IDE consumers. These support reindentation and locating classes, methods and decorators for edits. No consumer requirement was found for generic OP classification or permissive malformed-number splitting. Preserve the required editing information without treating the rest of Python's inspection behavior as an automatically required contract. Keep lexical error behavior close to CPython. The maintainer also requested checking whether tokenizer diagnostics give useful messages and locations for beginners. Exact stream mechanics and exception normalization remain open; this agreement does not assume that upstream trivia and strictness switches can be separated without adaptation.
+Agreed: retain comments, physical/non-significant line boundaries, indent/dedent, significant newlines, original source positions/text and early termination for IDE consumers. These support reindentation and locating classes, methods and decorators for edits. No consumer requirement was found for generic OP classification or permissive malformed-number splitting. Preserve the required editing information without treating the rest of Python's inspection behavior as an automatically required contract. Keep lexical error behavior close to CPython. The maintainer also requested checking whether tokenizer diagnostics give useful messages and locations for beginners. Exact stream mechanics remain to be established; this agreement does not assume that upstream trivia and strictness switches can be separated without adaptation.
 
 Finishing an iterator runs the lexical checks of that stream; it does not validate Python grammar. Stopping early also leaves later lexical errors undiscovered. The earlier discussion's reference to validating the whole source must be understood as completing lexical processing, not a substitute for parsing or symbol-table checks.
 
@@ -166,10 +166,7 @@ Document units, bases and end-position meaning in generated/public types and hel
 
 The behavioral agreements above are recorded in the issue's discussion checkpoints. Proposed names and shapes consolidate them for review; they have not yet been approved as final spellings.
 
-The remaining behavioral decisions are:
-
-- Whether exported tokenization uses the same structured frontend source-error contract, preserving useful upstream diagnostic data, rather than reproducing Python tokenize's TokenError wrapper.
-- What happens to non-fatal warnings when the optional callback is absent.
+The remaining behavioral decision is what happens to non-fatal warnings when the optional callback is absent. Exported tokenization now shares the structured frontend source-error format with parsing, as agreed.
 
 The editing information required from tokens is already agreed. The implementation must establish how to retain it alongside the chosen CPython lexical checks, document any adaptations, and test malformed input. Do not reopen the inspection-default proposal solely to copy Python's public wrapper. If achieving this contract requires a material maintenance or performance tradeoff, bring that evidence back before changing the agreed requirements.
 
