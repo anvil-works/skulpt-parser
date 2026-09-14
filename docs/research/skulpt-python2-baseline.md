@@ -52,6 +52,12 @@ The primary source files in the audited checkout are `src/pgen/parser/Grammar.tx
 
 Default tests use `test/run/t*.py` through the enabled run suite and `test/unit/test_*.py` through testunit. Positive existing fixtures include `test/run/t509.py` for old raise and `test/run/t167.py` for uppercase long literals. They were inspected, not rerun as part of this audit. The broad historical `test/py/test_grammar.py` is not selected by those default runners. Its legacy exec and redirected-print examples are not proof of working support. This audit's focused probe provides separate evidence for the observed matrix.
 
-## Remaining decision
+## Agreed compatibility representation
 
-Choose how the compatibility AST preserves legacy information that modern CPython AST nodes do not represent directly. Print, old raise, non-name exception targets and explicit long-literal distinctions require care. Existing compile acceptance supplies the scope baseline; it does not establish that rewriting them to ordinary Python 3 calls is semantically equivalent.
+The maintainer agreed to explicit compatibility-only AST extensions for legacy information, keeping strict Python 3 ASTs unchanged. Preserve print details, old raise operands, exception assignment targets and explicit long-literal identity for Skulpt. Existing Skulpt representations are the implementation starting point; exact names and field layout remain implementation choices under the structural contract.
+
+Forms already representable without losing relevant information, such as <> comparisons and octal integer values, can use ordinary nodes. Compatibility extensions must remain independent of Skulpt runtime objects; the adapter performs runtime conversion. Do not silently lower legacy statements to ordinary function calls and assume equivalent behavior.
+
+A follow-up source check confirms downstream consumers need the information: src/symtable.js visits Print destinations/values and old Raise operands, src/compile.js assigns exception targets through its normal assignment path, and its numeric-literal branch emits distinct runtime constructors for int and long. Compatibility-aware symbol analysis and adapters must therefore handle the extensions explicitly. Strict-mode consumers must not receive them unexpectedly.
+
+This is a bounded extension of the shared AST contract, not a decision to maintain two independent frontend implementations or repair existing runtime limitations. The compatibility grammar's treatment of newer non-conflicting syntax remains to be settled.
