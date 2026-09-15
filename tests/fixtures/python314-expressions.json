@@ -2,6 +2,123 @@
     "version": "3.14.3",
     "cases": [
         {
+            "source": "(a\r+b)",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "BinOp",
+                    "left": {
+                        "_type": "Name",
+                        "id": "a",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 1,
+                        "end_lineno": 1,
+                        "end_col_offset": 2
+                    },
+                    "op": {
+                        "_type": "Add"
+                    },
+                    "right": {
+                        "_type": "Name",
+                        "id": "b",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 2,
+                        "col_offset": 1,
+                        "end_lineno": 2,
+                        "end_col_offset": 2
+                    },
+                    "lineno": 1,
+                    "col_offset": 1,
+                    "end_lineno": 2,
+                    "end_col_offset": 2
+                }
+            },
+            "warnings": []
+        },
+        {
+            "source": "(a\r\n+b)",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "BinOp",
+                    "left": {
+                        "_type": "Name",
+                        "id": "a",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 1,
+                        "end_lineno": 1,
+                        "end_col_offset": 2
+                    },
+                    "op": {
+                        "_type": "Add"
+                    },
+                    "right": {
+                        "_type": "Name",
+                        "id": "b",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 2,
+                        "col_offset": 1,
+                        "end_lineno": 2,
+                        "end_col_offset": 2
+                    },
+                    "lineno": 1,
+                    "col_offset": 1,
+                    "end_lineno": 2,
+                    "end_col_offset": 2
+                }
+            },
+            "warnings": []
+        },
+        {
+            "source": "(r\u00e9sum\u00e9 +\r caf\u00e9)",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "BinOp",
+                    "left": {
+                        "_type": "Name",
+                        "id": "r\u00e9sum\u00e9",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 1,
+                        "end_lineno": 1,
+                        "end_col_offset": 9
+                    },
+                    "op": {
+                        "_type": "Add"
+                    },
+                    "right": {
+                        "_type": "Name",
+                        "id": "caf\u00e9",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 2,
+                        "col_offset": 1,
+                        "end_lineno": 2,
+                        "end_col_offset": 6
+                    },
+                    "lineno": 1,
+                    "col_offset": 1,
+                    "end_lineno": 2,
+                    "end_col_offset": 6
+                }
+            },
+            "warnings": []
+        },
+        {
             "source": "1and x",
             "tree": {
                 "_type": "Expression",

@@ -65,7 +65,8 @@ export class Parser {
     readonly filename: string;
     constructor(source: string, options: Omit<LexerOptions, "extraTokens"> = {}) {
         this.filename = options.filename ?? "<string>";
-        this.iterator = scan(source, { ...options, extraTokens: false });
+        // CPython parsing uses universal newlines; the standalone tokenizer does not.
+        this.iterator = scan(source.replace(/\r\n?/g, "\n"), { ...options, extraTokens: false });
     }
     cacheAt(mark: number): Map<string, Memo> {
         return this.cache[mark] ?? (this.cache[mark] = new Map());

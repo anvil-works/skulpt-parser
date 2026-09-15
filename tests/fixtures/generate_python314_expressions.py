@@ -14,6 +14,9 @@ if sys.implementation.name != "cpython" or ".".join(map(str, sys.version_info[:3
     sys.exit(f'Use CPython {lock["version"]} to refresh these fixtures')
 
 sources = [
+    "(a\r+b)",
+    "(a\r\n+b)",
+    "(résumé +\r café)",
     "1and x",
     "1in x",
     "1if x else 2",
