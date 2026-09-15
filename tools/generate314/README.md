@@ -46,3 +46,17 @@ These fixtures test schema construction, not parsing Python 3.14 with the TypeSc
 The existing parser backend expects the 3.9 pegen API, a manually patched grammar with TypeScript actions, old token categories and runtime helpers. The pinned 3.14 grammar contains C actions, newer forced parsing and soft-keyword constructs, new interpolation tokens and diagnostic paths. It cannot simply be redirected at the new source directory.
 
 The parser migration must adapt grammar traversal, actions and helper contracts together and test generated output through the real parser runtime. Do not emit raw C expressions, silently return placeholder values for missing helpers or treat successful grammar loading as parser readiness. This PR deliberately leaves the old generated parser intact while establishing the AST representation that those actions will construct.
+
+## Numeric runtime helper
+
+`src/python314/parse_number.ts` converts a validated, unsigned `NUMBER` token into an independent tagged numeric constant. It distinguishes base-prefixed integers before looking for exponent markers, preserves large integers with native `bigint`, and converts decimal floating-point and imaginary literals with JavaScript's decimal-to-double conversion. Unary signs remain grammar operations. Invalid token spelling remains the lexer's responsibility.
+
+Decimal integers use CPython's default 4,300-digit conversion limit. Underscores do not count; all-zero decimal literals and non-decimal bases follow the upstream exemptions. Conversion failure throws a `SyntaxError` carrying the CPython message. The future parser action must attach the token's source location through the frontend error interface. This helper does not implement Python's process-global `sys.set_int_max_str_digits()` setting or Python 2 syntax.
+
+The numeric tests call the helper directly and compare against constants or errors obtained from CPython 3.14.3 `ast.parse`. Integers are compared exactly and floating-point/complex components are compared by their IEEE-754 bits. Cases cover safe-integer promotion, all four integer bases, hexadecimal `e` digits, underscores, imaginary literals, rounding ties, subnormal values, overflow, underflow and conversion-limit boundaries. CI regenerates the fixtures using the pinned interpreter and fails on differences:
+
+```sh
+python3.14 tests/fixtures/generate_python314_numbers.py
+```
+
+The helper is not yet connected to a generated 3.14 parser or the package entry point. These are conversion tests, not full 3.14 parsing conformance. Shared-runtime extraction candidates for Skulpt are recorded in `docs/integration-notes.md`.

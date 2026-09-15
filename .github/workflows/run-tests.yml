@@ -37,4 +37,5 @@ jobs:
             - run: python -m tools.upstream check
             - run: python -m tools.generate314 --check
             - run: python tests/fixtures/generate_python314_ast.py
-            - run: git diff --exit-code -- tests/fixtures/python314-ast.json tests/fixtures/python314-positions.json
+            - run: python tests/fixtures/generate_python314_numbers.py
+            - run: git diff --exit-code -- tests/fixtures/python314-ast.json tests/fixtures/python314-positions.json tests/fixtures/python314-numbers.json
