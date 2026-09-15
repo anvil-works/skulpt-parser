@@ -6,11 +6,11 @@ The first slice selects upstream block/header and parameter diagnostics. It cove
 
 Generic diagnostic actions report the last token read by the scanner, while known-location/range actions use AST/token UTF-8 positions converted to character columns. The scanner supplies its consumed column for indentation/EOF tokens whose tokenize positions are absent. This does not change standalone token fields. Forced colons also retain NEWLINE error widths. Warning deduplication survives the second pass.
 
-`tests/fixtures/generate_python314_diagnostics.py` obtains 393 exact error and warning expectations from CPython 3.14.3. Tests compare name, message, line/end-line, column/end-column and source text. Cases include Unicode, CRLF, multiline headers, comment-only tails and both module/expression entry points. CI regenerates the fixture; browser smoke checks nine representative errors. All 3,635 tests and the ten-file live corpus pass.
+`tests/fixtures/generate_python314_diagnostics.py` obtains 396 exact error and warning expectations from CPython 3.14.3. Tests compare name, message, line/end-line, column/end-column and source text. Cases include Unicode, CRLF, multiline headers, comment-only tails and both module/expression entry points. CI regenerates the fixture; browser smoke checks nine representative errors. All 3,638 tests and the ten-file live corpus pass.
 
 All 62 upstream invalid rules are selected, and generation now checks diagnostic dependencies as well as ordinary syntax. This is not exhaustive diagnostic parity. Full-source tokenizer-error precedence still needs work, and tokenizer failures outside the tested cases may differ. CPython's internal last-statement metadata is not exposed. Type-comment-specific diagnostics remain unreachable under the `type_comments=False` API contract. Existing syntax/conversion errors that throw during the first pass still propagate directly.
 
-The standalone bundle adds 34,797 raw / 3,806 gzip / 2,989 Brotli bytes relative to #33. No speed or memory improvement is claimed. Diagnostic rules are guarded during ordinary parsing, and rerunning the grammar is reserved for failed input.
+The standalone bundle adds 34,805 raw / 3,811 gzip / 2,815 Brotli bytes relative to #33. No speed or memory improvement is claimed. Diagnostic rules are guarded during ordinary parsing, and rerunning the grammar is reserved for failed input.
 
 ## Target diagnostics
 
