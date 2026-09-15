@@ -17,7 +17,10 @@
         "upstream:check": "python3.14 -m tools.upstream check",
         "test:upstream": "python3 -m unittest tools.upstream.test_inputs",
         "generate:ast": "python3.14 -m tools.generate314",
-        "generate:check": "python3.14 -m tools.generate314 --check"
+        "generate:check": "python3.14 -m tools.generate314 --check",
+        "generate:parser": "python3.14 -m tools.generate314 --parser",
+        "build:expression": "rslib build --config rslib.expression.config.ts",
+        "test:expression-package": "node --experimental-vm-modules scripts/check-expression-package.mjs"
     },
     "exports": {
         ".": {
