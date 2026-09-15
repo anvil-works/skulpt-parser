@@ -98,9 +98,33 @@ export class Parser {
     }
     peek(): Token {
         if (this.mark === this.tokens.length) {
-            const next = this.iterator.next();
+            let next: IteratorResult<Token>;
+            try {
+                next = this.iterator.next();
+            } catch (error) {
+                if (
+                    error instanceof Error &&
+                    error.name === "IndentationError" &&
+                    error.message === "unindent does not match any outer indentation level"
+                ) {
+                    const line = this.scanner.lineno;
+                    const lines = this.source.split("\n");
+                    Object.assign(error, {
+                        end_lineno: line,
+                        end_offset: -1,
+                        text: (lines[line - 1] ?? "") + (this.mode === "exec" || line < lines.length ? "\n" : ""),
+                    });
+                }
+                throw error;
+            }
             if (next.done) return this.tokens[this.tokens.length - 1];
-            this.tokens.push(next.value);
+            const token = next.value;
+            // tokenize synthesizes positioned NEWLINEs. CPython's eval parser
+            // leaves the implicit final newline unpositioned instead.
+            if (this.mode === "eval" && token.type === "NEWLINE" && this.scanner.implicit) {
+                token.start[1] = token.end[1] = token.startByte = token.endByte = -1;
+            }
+            this.tokens.push(token);
         }
         return this.tokens[this.mark];
     }
@@ -121,6 +145,22 @@ export class Parser {
         if (token === null) throw this.error(`expected '${text}'`, this.peek());
         return token;
     }
+    softKeyword(): Token | null {
+        const token = this.peek();
+        if (token.type !== "NAME" || !["match", "case", "type", "_"].includes(token.string)) return null;
+        this.mark++;
+        return token;
+    }
+    tokenLevel(): number {
+        // Reconstruct only for failed-input suggestions; do not add per-token storage.
+        let level = 0;
+        for (let i = 0; i < this.mark; i++) {
+            const type = this.tokens[i].type;
+            if (["LPAR", "LSQB", "LBRACE"].includes(type)) level++;
+            else if (["RPAR", "RSQB", "RBRACE"].includes(type)) level--;
+        }
+        return level;
+    }
     name(): ast.Name | null {
         const token = this.peek();
         if (token?.type !== "NAME" || keywords.has(token.string)) return null;
@@ -139,6 +179,9 @@ export class Parser {
             throw this.error("with Barry as BDFL, use '<>' instead of '!='", token);
         }
         return this.barryAsFlufl || token.string === "!=" ? token : null;
+    }
+    interpolationPrefix(): "f" | "t" {
+        return this.scanner.mode.stringKind === "TSTRING" ? "t" : "f";
     }
     ensurePatternNumber(node: ast.Constant, imaginary: boolean): ast.Constant {
         if ((node.value.type === "complex") !== imaginary) {
@@ -218,18 +261,41 @@ export class Parser {
         return "start" in node ? node.start[0] : node.lineno!;
     }
     raiseDiagnostic(indentation: boolean, message: string, ...values: (string | number)[]): never {
+        return this.raiseToken(this.tokens[this.tokens.length - 1], indentation, message, ...values);
+    }
+    raiseOnNext(message: string, ...values: (string | number)[]): never {
+        return this.raiseToken(this.peek(), false, message, ...values);
+    }
+    private raiseToken(token: Token, indentation: boolean, message: string, ...values: (string | number)[]): never {
         let i = 0;
         message = message.replace(/%[dsU]/g, () => String(values[i++]));
-        const token = this.tokens[this.tokens.length - 1];
         const error = this.error(message, token);
         if (token?.start[1] === -1)
             Object.assign(error, {
-                offset: this.scanner.diagnosticColumn(),
+                offset: this.scanner.diagnosticColumn() - (this.mode === "eval" && this.scanner.implicit ? 1 : 0),
                 end_offset: -1,
-                text: (this.source.split("\n")[token.start[0] - 1] ?? "") + "\n",
+                text:
+                    (this.source.split("\n")[token.start[0] - 1] ?? "") +
+                    (this.mode === "exec" || !this.scanner.implicit ? "\n" : ""),
             });
         if (indentation) error.name = "IndentationError";
         throw error;
+    }
+    raiseLocation(
+        lineno: number,
+        col_offset: number,
+        end_lineno: number,
+        end_col_offset: number,
+        message: string,
+        ...values: (string | number)[]
+    ): never {
+        const span = { lineno, col_offset, end_lineno, end_col_offset };
+        return this.raiseKnown(span, span, message, ...values);
+    }
+    raiseStartingFrom(start: Located | Token, message: string, ...values: (string | number)[]): never {
+        const [endLine, endByte] = this.scanner.diagnosticPosition();
+        const [line, byte] = "start" in start ? [start.start[0], start.startByte] : [start.lineno, start.col_offset];
+        return this.raiseLocation(line, byte, endLine, endByte - 1, message, ...values);
     }
     raiseKnown(start: Located | Token, end: Located | Token, message: string, ...values: (string | number)[]): never {
         let i = 0;
@@ -241,7 +307,9 @@ export class Parser {
         // CPython converts both columns against the starting line, even for
         // multiline ranges. Preserve that behavior rather than using the end line.
         const column = (byte: number) =>
-            [...new TextDecoder().decode(new TextEncoder().encode(line).subarray(0, byte))].length + 1;
+            byte < 0
+                ? byte + 1
+                : [...new TextDecoder().decode(new TextEncoder().encode(line).subarray(0, byte))].length + 1;
         throw Object.assign(new SyntaxError(message), {
             filename: this.filename,
             lineno: a[0],
@@ -268,7 +336,8 @@ export class Parser {
             lineno: token?.start[0] ?? 1,
             offset: (token?.start[1] ?? 0) + 1,
             end_lineno: token?.end[0] ?? 1,
-            end_offset: token?.type === "NEWLINE" ? token.start[1] + 2 : (token?.end[1] ?? 0) + 1,
+            end_offset:
+                token?.type === "NEWLINE" && token.start[1] >= 0 ? token.start[1] + 2 : (token?.end[1] ?? 0) + 1,
             // File-input parser errors include the implicit final newline;
             // direct tokenizer errors preserve their separate source contract.
             text:

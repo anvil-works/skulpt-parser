@@ -112,6 +112,66 @@ for source in [
 ]:
     sources.append((source, "exec"))
 
+# Promote former exception-class-only checks to full CPython diagnostics.
+# Only source text comes from these fixtures; expectations are recomputed below.
+for family, mode in [("expressions", "eval"), ("modules", "exec")]:
+    fixture = json.loads(Path(__file__).with_name(f"python314-{family}.json").read_text())
+    sources.extend((item["source"], mode) for item in fixture["rejections"])
+for source in [
+    "f(a=1,2)",
+    "f(**kw,2)",
+    "f(**kw,*xs)",
+    "f(x for x in xs,)",
+    "f(x for x in xs,y)",
+    "f(a,x for x in xs)",
+    "f(a=)",
+    "f(True=1)",
+    "f(a+b=1)",
+    "f(**x=y)",
+    "[a,b for x in xs]",
+    "[*x for x in xs]",
+    "{**d for x in xs}",
+    "{x:*y}",
+    "{x:}",
+    "{1,2:3}",
+    "{1:2, 3}",
+    "{1:2, x}",
+    "{é:2, x}",
+    "x+not y",
+    "+not x",
+    "(a b)",
+    "'hello' name 'world'",
+    "x if y",
+    "x if y else pass",
+    "f'hello' t'world'",
+    "t'hello' 'world'",
+]:
+    sources.append((source, "eval"))
+for source in [
+    "print x",
+    "exec 'x'",
+    "import x from y",
+    "import",
+    "from x import",
+    "from x import a,",
+    "try: pass",
+    "try: pass\nexcept A,B as e: pass",
+    "try: pass\nexcept* A,B as e: pass",
+    "try: pass\nexcept*: pass",
+    "try: pass\nexcept E: pass\nexcept* F: pass",
+    "try: pass\nexcept* E: pass\nexcept F: pass",
+    "try: pass\nexcept E as f(): pass",
+    "type A[*Ts:int] = int",
+    "type A[**P:(int,str)] = int",
+    "type A[] = int",
+    "match x:\n    case Point(a=x,y): pass",
+]:
+    sources.append((source, "exec"))
+for prefix in ["f", "t"]:
+    for content in ["{=}", "{!r}", "{:x}", "{}", "{x!}", "{x!1}", "{x! rr}", "{lambda:x}", "{x x}", "{x=foo}"]:
+        sources.append((prefix + '"' + content + '"', "eval"))
+sources = list(dict.fromkeys(sources))
+
 cases = []
 for source, mode in sources:
     with warnings.catch_warnings(record=True) as caught:

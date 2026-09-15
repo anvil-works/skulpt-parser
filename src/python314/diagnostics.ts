@@ -107,3 +107,28 @@ export function invalidTarget(parser: Parser, kind: Target, node: ast.expr): nul
     }
     return null;
 }
+
+export function isLegacy(node: ast.expr): boolean {
+    return node._type === "Name" && (node.id === "print" || node.id === "exec");
+}
+export function lastComprehensionItem(node: ast.comprehension): ast.expr {
+    return node.ifs.length ? node.ifs[node.ifs.length - 1] : node.iter;
+}
+export function nonparenGenexp(parser: Parser, args: { args: ast.expr[] }, comprehensions: ast.comprehension[]): null {
+    if (args.args.length > 1) {
+        parser.raiseKnown(
+            args.args[args.args.length - 1],
+            lastComprehensionItem(comprehensions[comprehensions.length - 1]),
+            "Generator expression must be parenthesized"
+        );
+    }
+    return null;
+}
+export function argumentsError(parser: Parser, args: { keywords: ast.keyword[] }): never {
+    return parser.raiseDiagnostic(
+        false,
+        args.keywords.some((keyword) => keyword.arg === null)
+            ? "positional argument follows keyword argument unpacking"
+            : "positional argument follows keyword argument"
+    );
+}

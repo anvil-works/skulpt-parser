@@ -72,7 +72,17 @@ for (const source of selectedModules) {
     assert.deepEqual(warnings, fixture.warnings);
 }
 const diagnostics = JSON.parse(readFileSync("tests/fixtures/python314-diagnostics.json", "utf8"));
-for (const source of ["if x:\npass", "def f(a=1,b): pass", "lambda *:1", "a,(b,1) = values", "del résumé,(𝒙,f())"]) {
+for (const source of [
+    "if x:\npass",
+    "def f(a=1,b): pass",
+    "lambda *:1",
+    "a,(b,1) = values",
+    "del résumé,(𝒙,f())",
+    "f(**kw,*xs)",
+    "print x",
+    'f"{x!1}"',
+    "type A[] = int",
+]) {
     const fixture = diagnostics.cases.find((item) => item.source === source);
     assert.ok(fixture, `Missing CPython diagnostic fixture: ${source}`);
     let failure;
