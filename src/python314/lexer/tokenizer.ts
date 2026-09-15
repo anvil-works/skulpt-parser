@@ -138,6 +138,14 @@ export class Scanner {
         return decoder.decode(this.bytes.subarray(Math.max(a, 0), Math.max(b, 0)));
     }
     strictText(a: number, b: number) {
+        // Short ASCII tokens avoid a view allocation and UTF-8 decoder call.
+        // Cap concatenation work; longer or non-ASCII tokens use the strict decoder.
+        if (b - a <= 32) {
+            let ascii = "";
+            let i = a;
+            for (; i < b && this.bytes[i] < 128; i++) ascii += String.fromCharCode(this.bytes[i]);
+            if (i === b) return ascii;
+        }
         const view = this.bytes.subarray(a, b);
         try {
             return strictDecoder.decode(view);

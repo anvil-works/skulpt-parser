@@ -83,6 +83,8 @@ sources = [
     "x\ry\r",
     "(" * 201,
 ]
+# Token spelling and UTF-8 positions on both sides of the short-ASCII path.
+sources.extend("a" * size + " = 1\n" + "b" * (size - 2) + "é = '𝒙'\n" for size in [31, 32, 33])
 rng = random.Random(3143)
 seeds = sources[7:11]
 for _ in range(100):
