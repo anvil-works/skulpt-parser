@@ -486,15 +486,10 @@ export function concatenate_strings(p: Parser, tokens: TokenInfo[]): JoinedStr |
         }
     }
     if (bytesmode) {
-        const [lineno, col_offset] = tokens[0].start;
-        const [end_lineno, end_col_offset] = tokens[tokens.length - 1].end;
         return new Constant(
             new pyBytes(encoder.encode(bytestr)),
             null,
-            lineno,
-            col_offset,
-            end_lineno,
-            end_col_offset
+            ...p.tokenRange(tokens[0], tokens[tokens.length - 1])
         );
     }
 

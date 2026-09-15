@@ -48,7 +48,7 @@ The next stage has a separate, checksum-pinned source preparation path. Run `pnp
 
 ## Known gaps and retained legacy files
 
-- `tests/parse.test.ts` retains the existing skip for `t542.py`: JavaScript string positions differ from CPython UTF-8 byte offsets. The 3.14 migration must implement the agreed position contract.
+- AST columns use UTF-8 byte offsets, including Unicode strings and nested f-string expressions. Tokenizer positions remain JavaScript UTF-16 offsets; parser diagnostics use one-based character offsets. The previously skipped `t542.py` fixture is enabled.
 - The Python-driven `tests/test_peg_parser.py` harness is not part of the recovered Rstest suite. It still invokes Deno and depends on CPython's private `_peg_parser` and `test.support`. The installed standalone CPython 3.9.25 lacks `test.support`. Port its useful cases when establishing the 3.14 conformance suite; the passing TypeScript suite does not imply that harness passes.
 - Parser/ASDL regeneration is not recovered in this step. `tools/`, `scripts.yml` and the old Deno scripts remain historical references. The old generator checks out and patches a sibling CPython tree and invokes Velociraptor. Do not run it against a working sibling checkout. The new isolated input commands above are ready; the structural AST generator consumes them now. Adapting the parser backend and its semantic helpers is the next stage.
 - CI now runs the recovered build, source checks, TypeScript suites and package smoke check. It does not claim to replace the legacy generator or Python PEG checks; those remain explicit gaps above.

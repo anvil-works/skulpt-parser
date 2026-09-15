@@ -27,3 +27,13 @@ Focused YAML, whitespace, Flake8, Prettier and license checks pass. The old Blac
 ## Next stage
 
 Introduce isolated pinned Python 3.14 generation inputs and establish strict source-to-AST behavior under the agreed contract. Bring in the selected CPython-shaped tokenizer with its outstanding warnings/interpolation requirements. Preserve this baseline as a comparison point, carry useful legacy PEG cases into the conformance suite, and defer selective cache optimization until profiling identifies worthwhile rules.
+
+## Unicode position follow-up
+
+The runtime now converts JavaScript UTF-16 token columns to UTF-8 AST columns. This enables `t542.py` and covers Unicode identifiers, BMP and astral string content, multiline strings, adjacent strings, bytes after Unicode, and f-string expressions. Token positions retain their existing UTF-16 convention. Parser errors convert AST byte columns to one-based character offsets. Multiline f-string expression positions follow the source and CPython 3.14.3; CPython 3.9 has a known location bug there, so that regression uses explicit expected coordinates.
+
+Validation on Node 26.7.0: 1,755 tests pass with no skips; type checks, package build and isolated package smoke checks pass. The web bundle is 181,027 bytes raw, 34,144 gzip and 26,625 Brotli, an increase of 733, 296 and 256 bytes respectively from the AST generation branch on the same Node version.
+
+A small local timing check parsed 100 repeated lines 100 times per sample, alternating before/after order over nine rounds and discarding the first two. Median time per parse changed from 0.977 to 1.015 ms for ASCII and from 1.141 to 1.396 ms for Unicode on macOS arm64. This is a correctness fix with measurable conversion overhead, not a performance improvement. The mapping stores boundaries only for non-ASCII characters and is owned by each tokenizer; nested f-string parsers share the outer mapping. Peak memory has not been measured. The planned CPython-shaped tokenizer already tracks UTF-8 positions internally, so its integration should use those directly rather than retaining this legacy conversion step.
+
+The generated parser still implements the old grammar. Python 3.14 grammar actions, runtime helpers and tokenizer integration remain outstanding; this change does not establish Python 3.14 parsing compatibility.
