@@ -16,7 +16,7 @@ const FLOAT_RE = new RegExp(Floatnumber);
  * */
 export function parsenumber(s: string): pyLong | pyFloat | pyComplex | pyInt {
     /**@todo invalid decimal literals with bad underscores should be thrown in the tokenizer - this is thrown in cpython's tokenizer */
-    s = s.replaceAll("_", ""); // we already know that we have a valid underscore number from the tokenizer
+    s = s.replace(/_/g, ""); // we already know that we have a valid underscore number from the tokenizer
 
     const end = s[s.length - 1];
     // we know it's just a single floating point imaginary complex number

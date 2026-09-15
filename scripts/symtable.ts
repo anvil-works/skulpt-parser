@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { parse } from "../deps.ts";
-import { symtableFromFile } from "../src/symtable/mod.ts";
+import { symtableFromFile } from "../src/node.ts";
 import { getPySymTableDump } from "../support/py_symtable_dump.ts";
 import { dump } from "../support/symtable_dump.ts";
 import { doCompare, getFileNameOrRunTest } from "./helpers.ts";

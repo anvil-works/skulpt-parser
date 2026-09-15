@@ -4,3 +4,6 @@ dist/*
 .idea/
 *tmp.*
 tmp/
+
+node_modules/
+.rstest/

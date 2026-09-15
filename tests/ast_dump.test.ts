@@ -54,22 +54,23 @@ async function _convertFileToTs(fileName: string) {
 }
 
 async function doTest(source: string) {
-    astnodes;
-    pyFloat;
-    pyInt;
-    pyStr;
-    pyTrue;
-    pyFalse;
-    pyNone;
-
     const converted = await convertToTs(source);
-    const jsAST = eval(converted) as astnodes.mod;
-    const indent = [0, 2, 4, null][Math.floor(Math.random() * 4)];
+    const jsAST = new Function(
+        "astnodes",
+        "pyFloat",
+        "pyInt",
+        "pyStr",
+        "pyTrue",
+        "pyFalse",
+        "pyNone",
+        `return (${converted});`
+    )(astnodes, pyFloat, pyInt, pyStr, pyTrue, pyFalse, pyNone) as astnodes.mod;
+    const indent = [0, 2, 4, null][source.length % 4];
     const pyDump = await getPyAstDump(source, { indent, include_attributes: true });
     const jsDump = dump(jsAST, { indent, include_attributes: true });
     assertEqualsString(jsDump, pyDump);
 }
 
-const files: string[] = JSON.parse(Deno.env.get("_TESTFILES") || "[]");
+const files: string[] = JSON.parse(process.env._TESTFILES || "[]");
 
-await runTests(doTest, { files, skip: new Set(), failFast: false });
+await runTests(doTest, { files, skip: new Set() });

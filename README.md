@@ -1,52 +1,53 @@
-## Experiments with python 3.9 pegen parser for Skulpt
+# Skulpt parser migration baseline
 
-### Requirements
+This branch restores a buildable, testable Python 3.9 frontend before the planned Python 3.14 migration. It starts at upstream `master` revision `ae256889f0956d6dc102edd39f1a9555e97e850b`. It is a private development package, not a new parser release.
 
-- [Deno](https://deno.land/manual/getting_started/installation)
-- [Velociraptor](https://velociraptor.run/docs/installation/)
-- [Pre-commit](https://pre-commit.com/#install) - `pre-commit install` must be executed for this plugin to have an effect
+The [agreed migration route](https://github.com/anvil-works/skulpt-parser/issues/8#issuecomment-5673603629) is minimal baseline recovery, strict Python 3.14 source-to-AST, bounded Python 2 compatibility, then independent IDE and Skulpt adoption gates. WASM work is stopped. Cache tuning is deferred.
 
-### Scripts
+## Build and test
 
-- `vr build`
-  - _bundles the typescript files into a javascript bundle)_
-- `vr bundle`
-  - _an alternative to build - uses deno bundle - no minified version_
-- `vr format`
-  - _runs the precommit hooks for all files_
-- `vr gen_parser [-v --verbose --verbosity]=1|2`
-  - _generates the javascript parser. Use `--verbose|-v|--verbosity` to generate a verbose parser._
-- `vr gen_asdl`
-  - _generates the javascript astnodes_
-- `vr gen_ast`
-  - _regenerates the ast for the run-test files from python and dumps the ast in .ast files_
-- `vr gen_gramar_patch`
-  - _run this after you manually changed the gramar file to store your changes_
-- `vr apply_gramar_patch`
-  - _run this patch the gramar with the changes stored in the patch_
-- `vr parse <filename|number> [--nc --no_comapre] [--mode=exec]`
-  - _parses a python file and logs the generated ast vs the python ast_
-- `vr parse_str <code string> [--nc --no_comapre] [--mode=exec]`
-  - _parses a python file and logs the generated ast vs the python ast_
-- `vr symtable <filename|number>`
-  - _parses the file and created a symbol table for that ast and prints it_
-- `vr test <shortname> [-f --fail-fast] [-v]`
-  - _run a test - shortnames: `pypeg`, `parse`, `dump`, `symtable`_
-
-### Debugging/Pofiling
-
-See Deno docs on [the subject](https://deno.land/manual/getting_started/debugging_your_code).
+Use Node 22 or later, pnpm 10.10.0 and CPython **3.9.25**. The checked-in generated parser still derives from CPython **3.9.5**; the test oracle patch version is pinned separately. The oracle rejects a different interpreter/version rather than silently comparing against a different AST schema.
 
 ```sh
-# example script execution for inspection use the [--inspect-brk] flag
-deno run -A --inspect-brk scripts/parse.ts tmp.txt
+pnpm install --frozen-lockfile
+pnpm check
+pnpm build
+PYTHON=/path/to/python3.9 pnpm test
+pnpm test:package
 ```
 
-Open `chrome://inspect` and click `Inspect` below `Target`:
+`PYTHON` defaults to `python3.9`. For example, with uv available, `uv python install 3.9.25` installs the required reference interpreter. Set `PYTHON` to its executable if your default Python 3.9 differs.
 
-<img width="240" alt="inspect" src="https://deno.land/x/deno@v1.11.3/docs/images/debugger1.jpg">
+`pnpm test` runs the existing TypeScript AST dump, parsing, symbol-table and optimizer suites under Rstest, plus a persistent-oracle regression test. Each test worker lazily starts one Python process, sends requests over JSON lines and closes it after its suite. The original Python dump helpers remain the reference implementation. No Python process is included in the shipped frontend.
 
-- This will open chrome devtools.
-- The execution of the script will be paused.
-- Run the profiler or add break points to the source and resume the execution
-  _(Click `pretty-print` in source files to display times from profiling)_
+Run one suite with `pnpm test tests/parse.test.ts`. To select fixture files, retain the existing `_TESTFILES` convention:
+
+```sh
+_TESTFILES='["t001.py"]' PYTHON=/path/to/python3.9 pnpm test tests/parse.test.ts
+```
+
+`pnpm check` checks the source TypeScript. `pnpm test:package` checks package exports, Node file parsing, declaration-file presence and execution of the web bundle in an isolated JS context without Node/Deno globals or external imports. This is a host-dependency smoke test, not a real-browser compatibility suite. It also reports raw, gzip and Brotli sizes.
+
+## Build outputs
+
+Rslib emits an ES2020 ESM web entry at `dist/index.js` and declarations rooted at `dist/mod.d.ts`. The `skulpt-parser` entry exposes the existing string tokenizer, parser and symbol-table operations. Node filesystem helpers are exported through `skulpt-parser/node`, with `dist/node.js` and `dist/node.d.ts`. The web entry does not import Node filesystem APIs.
+
+```js
+import { runParserFromString } from "skulpt-parser";
+import { runParserFromFile } from "skulpt-parser/node";
+
+const ast = runParserFromString("x = 42\n");
+const fileAst = runParserFromFile("example.py");
+```
+
+These are recovered baseline APIs, not the final agreed Python 3.14 API. Native BigInt is required for the initial target; this work does not add a pre-2020 browser fallback. Legacy decorators remain enabled for the existing generated parser. Moving generator output to modern decorators belongs with the later generation migration.
+
+## Known gaps and retained legacy files
+
+- `tests/parse.test.ts` retains the existing skip for `t542.py`: JavaScript string positions differ from CPython UTF-8 byte offsets. The 3.14 migration must implement the agreed position contract.
+- The Python-driven `tests/test_peg_parser.py` harness is not part of the recovered Rstest suite. It still invokes Deno and depends on CPython's private `_peg_parser` and `test.support`. The installed standalone CPython 3.9.25 lacks `test.support`. Port its useful cases when establishing the 3.14 conformance suite; the passing TypeScript suite does not imply that harness passes.
+- Parser/ASDL regeneration is not recovered in this step. `tools/`, `scripts.yml` and the old Deno scripts remain historical references. The old generator checks out and patches a sibling CPython tree and invokes Velociraptor. Do not run it against a working sibling checkout. Replace it with isolated, pinned generation inputs in the next stage.
+- CI now runs the recovered build, source checks, TypeScript suites and package smoke check. It does not claim to replace the legacy generator or Python PEG checks; those remain explicit gaps above.
+- Grammar, generated AST/parser, diagnostics, scalar representation and memoization policy are unchanged. Some parser rules benefit from caching and others regress. Future tuning must measure individual rules and preserve the distinct left-recursion algorithm requirements.
+
+See [baseline evidence](docs/baseline-recovery.md) for measured results and scope.

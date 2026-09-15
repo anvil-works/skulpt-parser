@@ -1,0 +1,36 @@
+{
+    "name": "skulpt-parser",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "packageManager": "pnpm@10.10.0",
+    "engines": {
+        "node": ">=22"
+    },
+    "scripts": {
+        "build": "rslib build",
+        "test": "rstest run",
+        "test:watch": "rstest",
+        "check": "tsc --noEmit",
+        "test:package": "node --experimental-vm-modules scripts/check-package.mjs"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/mod.d.ts",
+            "import": "./dist/index.js"
+        },
+        "./node": {
+            "types": "./dist/node.d.ts",
+            "import": "./dist/node.js"
+        }
+    },
+    "dependencies": {
+        "picocolors": "1.1.1"
+    },
+    "devDependencies": {
+        "@rslib/core": "1.0.0",
+        "@rstest/core": "0.11.12",
+        "typescript": "5.9.3",
+        "@types/node": "22.15.3"
+    }
+}

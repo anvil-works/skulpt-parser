@@ -350,7 +350,7 @@ function doFloatNumber(self: pyConstant, other: pyConstant, fn: (v: number, w: n
         return null;
     }
     const res = fn(v, w);
-    return res === null ? res : new pyFloat(res);
+    return res === null ? null : new pyFloat(res);
 }
 
 export class pyFloat extends pyConstant<number> {
