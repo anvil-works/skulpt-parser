@@ -3,7 +3,8 @@
 `parseModule` and `parseExpression` now accept the experimental option
 `{ python2Compat: true }`. It defaults to false. This implements the numeric and statement
 slices of the agreed Skulpt compatibility mode, not complete Python 2 support.
-Do not switch Anvil's Python 2 route away from Skulpt yet.
+Anvil's IDE integration now has focused parity coverage for this mode.
+Application execution still uses Skulpt.
 
 Implemented forms:
 
@@ -68,10 +69,10 @@ constructs. Regenerate with:
 node scripts/generate-legacy-async-fixtures.mjs /path/to/skulpt.min.js
 ```
 
-Anvil's client parser should select legacy-name mode even for Python 3 apps.
-Its server parser should keep the selected server language policy. Client-only
-warnings for unsupported async constructs remain IDE integration work; valid
-legacy calls must not be misidentified as await expressions. Skulpt runtime async
+Anvil's client parser selects legacy-name mode even for Python 3 apps.
+Python 3 server parsing keeps strict keywords. The IDE warns about recognized
+unsupported async constructs only on the client, without reinterpreting valid
+legacy calls as await expressions. Skulpt runtime async
 support is a separate project, and reserving these names later requires an
 explicit runtime-version migration.
 
@@ -108,13 +109,20 @@ The optional Unicode-name database remains separate. These measurements do not
 decide whether the complete compatibility implementation should use a separate
 bundle.
 
-## Remaining scope
+## Integration checkpoint
 
 The agreed ceiling is the Skulpt support audited in the issue
 [Define the bounded Python 2 compatibility syntax](https://github.com/anvil-works/skulpt-parser/issues/10).
-Still required before routing Anvil Python 2 applications to this parser:
+Anvil's IDE now consumes the compatibility nodes for Python 2 client and server
+modules. Twelve completion scenarios compare native output with the real Skulpt
+parser through the production correction and walking paths. They cover print
+values/destinations, raise operands, exception assignment targets, explicit long
+keys/defaults and legacy comparisons. Navigation and four rejection/diagnostic
+cases also match. The broader focused IDE suite passes 103 tests.
 
-- Consumer support for the compatibility extensions, and end-to-end parity tests.
+Skulpt remains responsible for application execution and for the IDE's remaining
+Python value/type operations. This checkpoint does not establish compatibility
+with every existing app or implement Python 2 runtime semantics.
 
 Backticks, exec statements, tuple parameters, `ur`/`ru` prefixes and lowercase
 long suffixes are not required by the audited Skulpt ceiling. Runtime fixes for
