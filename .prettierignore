@@ -1,0 +1,3 @@
+# Generated deterministically by tools/generate314. Format the generator, not its output.
+src/python314/ast.ts
+tests/fixtures/python314-ast.json
