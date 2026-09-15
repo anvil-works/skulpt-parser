@@ -38,6 +38,9 @@ for (const source of selected) {
 }
 const moduleFixtures = JSON.parse(readFileSync("tests/fixtures/python314-modules.json", "utf8"));
 const selectedModules = [
+    "def f[T: int = int, *Ts = *tuple[()], **P = ...](x:T) -> tuple[T,*Ts]: return x",
+    "async def f[T](a:T,/,b=1,*,c,**kw)->T:\n    async for x in xs:\n        await use(x)\n    return a",
+    "@outer\n@inner(1)\nclass Café:\n    def méthode(self, 𝒙): return 𝒙",
     "if x: pass\nelif y: return 1\nelif z: return 2\nelse: return 3",
     "while x:\n    x -= 1\n    if x: continue\n    break\nelse:\n    done()\nafter()",
     "for a,(b,[c,*rest]) in values:\n    pass",
