@@ -222,6 +222,7 @@ export class Parser {
     name(): ast.Name | null {
         const token = this.peek();
         if (token?.type !== "NAME" || keywords.has(token.string)) return null;
+        if (this.python2Compat && token.string === "print") return null;
         this.mark++;
         return ast.Name(
             token.string.normalize("NFKC"),

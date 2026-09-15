@@ -7,6 +7,7 @@ import * as ast from "./ast.ts";
 import type { Token } from "./lexer/tokenizer.ts";
 import { checkedImport, finishModule } from "./imports.ts";
 import * as strings from "./strings.ts";
+import * as python2 from "./python2_statements.ts";
 import * as diagnostics from "./diagnostics.ts";
 import { makeArguments } from "./parameters.ts";
 import { Parser, memoize, memoizeLeftRec } from "./parser.ts";
@@ -93,6 +94,7 @@ return null;
 }
 @memoize
 simple_stmt(): any {
+if (this.python2Compat) { const legacy = python2.printStatement(this); if (legacy !== null) return legacy; }
 // simple_stmt: assignment | &"type" type_alias | star_expressions | &'return' return_stmt | &('import' | 'from') import_stmt | &'raise' raise_stmt | &'pass' pass_stmt | &'del' del_stmt | &'yield' yield_stmt | &'assert' assert_stmt | &'break' break_stmt | &'continue' continue_stmt | &'global' global_stmt | &'nonlocal' nonlocal_stmt
 const mark = this.mark;
 {
@@ -437,6 +439,7 @@ this.mark = mark;
 return null;
 }
 raise_stmt(): any {
+if (this.python2Compat) { const legacy = python2.raiseStatement(this); if (legacy !== null) return legacy; }
 // raise_stmt: 'raise' expression ['from' expression] | 'raise'
 const mark = this.mark;
 {
@@ -1558,6 +1561,7 @@ this.mark = mark;
 return null;
 }
 except_block(): any {
+if (this.python2Compat) { const legacy = python2.exceptBlock(this); if (legacy !== null) return legacy; }
 // except_block: invalid_except_stmt_indent | 'except' expression ':' block | 'except' expression 'as' NAME ':' block | 'except' expressions ':' block | 'except' ':' block | invalid_except_stmt
 const mark = this.mark;
 {

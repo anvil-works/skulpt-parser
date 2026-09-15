@@ -1,8 +1,8 @@
 # Bounded Python 2 compatibility
 
 `parseModule` and `parseExpression` now accept the experimental option
-`{ python2Compat: true }`. It defaults to false. This is the first implementation
-slice of the agreed Skulpt compatibility mode, not complete Python 2 support.
+`{ python2Compat: true }`. It defaults to false. This implements the numeric and statement
+slices of the agreed Skulpt compatibility mode, not complete Python 2 support.
 Do not switch Anvil's Python 2 route away from Skulpt yet.
 
 Implemented forms:
@@ -16,6 +16,26 @@ Implemented forms:
 - Floating-point and imaginary literals beginning with zero retain decimal
   interpretation. Lowercase `l` and suffixes on floats/imaginary values remain
   rejected, matching the tested Skulpt frontend.
+
+- Print statements produce `Print` nodes with `dest`, `values`, and `nl` fields,
+  preserving redirected output and trailing commas.
+- Two/three-operand raise produces `LegacyRaise` with `exc`, `inst`, and `tback`.
+  Bare and single-operand raise retain the ordinary CPython node.
+- Comma exception binding and non-name `as` targets produce
+  `LegacyExceptHandler` with an expression-valued `target` in Store context.
+  Ordinary `as name` retains the CPython handler representation.
+
+`parseModule` returns `CompatibilityModule` when this option is true. Its types
+include the extension nodes inside nested suites. Default calls still return the
+strict generated CPython `Module` type. A runtime boolean option requires callers
+to handle either result.
+
+In compatibility mode, `print(1, 2)` is a print statement containing a tuple.
+The tested Skulpt parse-and-AST path does not switch this behavior for a source
+`from __future__ import print_function`; this parser matches that frontend quirk.
+Strict Python 3 continues to parse it as a function call. Likewise, Python 3.14's
+`except A, B:` means a tuple of exception types in strict mode, but binds `B` in
+compatibility mode.
 
 The lexer exposes the same option for consumers that need compatible tokenization.
 There is no source rewriting, so token spellings and source ranges are preserved.
@@ -36,11 +56,25 @@ Regenerate with a local copy of that bundle:
 node scripts/generate-python2-numeric-fixtures.mjs /path/to/skulpt.min.js
 ```
 
-Tests exercise the reference cases, strict-mode rejection, and isolation between
-parser instances. The existing CPython lexer, number, expression, module and
-diagnostic suites also pass. The production lean core grows from 36,318 to 36,522
-bytes gzip for this slice, an increase of 204 bytes. This does not decide whether
-the complete compatibility implementation should use a separate bundle.
+`tests/fixtures/python2-statements-skulpt.json` adds 34 accepted/rejected cases
+from the same runtime, including nested statements, redirected print, malformed
+operands, and non-name exception targets. Regenerate it with:
+
+```sh
+node scripts/generate-python2-statement-fixtures.mjs /path/to/skulpt.min.js
+```
+
+Tests compare semantic AST fields against that oracle, allowing the documented
+CPython/Skulpt representation differences. They also check strict-mode rejection,
+ambiguous syntax interpretations, and isolation between parser instances.
+Type checks prevent compatibility trees from being passed as strict modules. The existing CPython lexer, number, expression, module and
+diagnostic suites also pass, 1,974 tests in the focused run. The lean package check
+also passes. The production lean core grows from 36,318 to 36,522 bytes gzip for
+the numeric slice, then to 37,047 bytes for statements. The cumulative increase is
+729 bytes. Current raw size is 230,602 bytes and Brotli size is 28,319 bytes.
+The optional Unicode-name database remains separate. These measurements do not
+decide whether the complete compatibility implementation should use a separate
+bundle.
 
 ## Remaining scope
 
@@ -48,10 +82,6 @@ The agreed ceiling is the Skulpt support audited in the issue
 [Define the bounded Python 2 compatibility syntax](https://github.com/anvil-works/skulpt-parser/issues/10).
 Still required before routing Anvil Python 2 applications to this parser:
 
-- Print statements, including trailing commas and redirected forms, preserving
-  their details in compatibility-only AST nodes rather than lowering to calls.
-- Comma exception binding, including the assignment targets Skulpt accepts.
-- Two/three-operand raise, preserving operands in compatibility-only AST nodes.
 - `async` and `await` as legacy identifiers.
 - Consumer support for the compatibility extensions, and end-to-end parity tests.
 
