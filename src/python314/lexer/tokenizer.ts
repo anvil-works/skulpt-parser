@@ -89,6 +89,7 @@ export class Scanner {
     col = -1;
     startCol = -1;
     done = false;
+    failureKind: "EOF" | "DEDENT" | "TABSPACE" | "TOODEEP" | "LINECONT" | null = null;
     implicit = false;
     atbol = true;
     pendin = 0;
@@ -266,6 +267,7 @@ export class Scanner {
         throw e;
     }
     error(code: "EOF" | "DEDENT" | "TABSPACE" | "TOODEEP" | "LINECONT"): never {
+        this.failureKind = code;
         const msgs = {
             EOF: "unexpected EOF in multi-line statement",
             DEDENT: "unindent does not match any outer indentation level",

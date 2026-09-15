@@ -70,6 +70,7 @@ export class Parser {
     private cache: Map<string, Memo>[] = [];
     private iterator: Generator<Token>;
     private scanner: Scanner;
+    private lexicalFailure = false;
     readonly filename: string;
     readonly source: string;
     readonly onWarning: LexerOptions["onWarning"];
@@ -83,15 +84,74 @@ export class Parser {
         this.iterator = this.scanner.scan();
     }
     parse<T>(rule: () => T | null): T {
-        const result = rule();
+        let result: T | null;
+        try {
+            result = rule();
+        } catch (error) {
+            return this.fail(error);
+        }
         if (result !== null) return result;
         // Match pegen.c: retain tokens/flags, discard first-pass memo results.
         const firstFailure = this.tokens[this.tokens.length - 1];
         this.mark = 0;
         this.cache = [];
         this.callInvalidRules = true;
-        rule();
-        throw this.error("invalid syntax", firstFailure);
+        try {
+            rule();
+        } catch (error) {
+            return this.fail(error);
+        }
+        return this.fail(this.error("invalid syntax", firstFailure));
+    }
+    private fail(error: unknown): never {
+        if (
+            !this.lexicalFailure &&
+            !this.scanner.done &&
+            error instanceof Error &&
+            ["SyntaxError", "IndentationError", "TabError"].includes(error.name)
+        ) {
+            const errorLine = this.tokens[this.tokens.length - 1]?.start[0] ?? 0;
+            try {
+                // CPython scans the remainder directly, without filling parser tokens.
+                while (!this.iterator.next().done) {}
+            } catch (lexicalError) {
+                const kind = this.scanner.failureKind;
+                const opening = this.scanner.parens[this.scanner.parens.length - 1];
+                // Status-only tokenizer failures do not replace a parser error,
+                // except an unclosed delimiter from an earlier line. Raised lexer
+                // exceptions do, unless still inside an interpolated string.
+                if (
+                    this.scanner.modes.length === 1 &&
+                    (kind === null || (kind === "EOF" && opening && opening.line < errorLine))
+                ) {
+                    this.raiseLexerError(lexicalError);
+                }
+            }
+        }
+        throw error;
+    }
+    private raiseLexerError(error: unknown): never {
+        if (this.scanner.failureKind === "EOF") {
+            const opening = this.scanner.parens[this.scanner.parens.length - 1];
+            if (opening)
+                this.raiseLocation(
+                    opening.line,
+                    opening.col,
+                    opening.line,
+                    -1,
+                    `\'${String.fromCharCode(opening.c)}\' was never closed`
+                );
+        }
+        if (this.scanner.failureKind === "DEDENT" && error instanceof Error) {
+            const line = this.scanner.lineno;
+            const lines = this.source.split("\n");
+            Object.assign(error, {
+                end_lineno: line,
+                end_offset: -1,
+                text: (lines[line - 1] ?? "") + (this.mode === "exec" || line < lines.length ? "\n" : ""),
+            });
+        }
+        throw error;
     }
     cacheAt(mark: number): Map<string, Memo> {
         return this.cache[mark] ?? (this.cache[mark] = new Map());
@@ -102,20 +162,8 @@ export class Parser {
             try {
                 next = this.iterator.next();
             } catch (error) {
-                if (
-                    error instanceof Error &&
-                    error.name === "IndentationError" &&
-                    error.message === "unindent does not match any outer indentation level"
-                ) {
-                    const line = this.scanner.lineno;
-                    const lines = this.source.split("\n");
-                    Object.assign(error, {
-                        end_lineno: line,
-                        end_offset: -1,
-                        text: (lines[line - 1] ?? "") + (this.mode === "exec" || line < lines.length ? "\n" : ""),
-                    });
-                }
-                throw error;
+                this.lexicalFailure = true;
+                this.raiseLexerError(error);
             }
             if (next.done) return this.tokens[this.tokens.length - 1];
             const token = next.value;

@@ -170,6 +170,29 @@ for source in [
 for prefix in ["f", "t"]:
     for content in ["{=}", "{!r}", "{:x}", "{}", "{x!}", "{x!1}", "{x! rr}", "{lambda:x}", "{x x}", "{x=foo}"]:
         sources.append((prefix + '"' + content + '"', "eval"))
+for source in [
+    "(a b",
+    "(\na b",
+    "x y\n(",
+    "x y\n]",
+    "f(a=1,2",
+    "if x\n(",
+    'if x\n"bad',
+    "a = (\n x y\n",
+    "x y\n  a\n b",
+    "x y\n0b2",
+    "x y\n\\x",
+    "x y\nf'{a}'",
+    "x y\nf'{a b}'",
+    "(\nif x\n)",
+    "résumé = (\n x y\n",
+    "if x\n# comment\n]",
+]:
+    sources.append((source, "exec"))
+for prefix in ["f", "t"]:
+    for content in ["{x y}", "{x y", "{(x y)}", "{(x y", "{x!1}", "{x if}"]:
+        sources.append((prefix + '"' + content + '"', "eval"))
+
 sources = list(dict.fromkeys(sources))
 
 cases = []
