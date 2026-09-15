@@ -36,6 +36,8 @@
         "Objects/bytesobject.c": "def2c6a9b37e113310912e3acdca094bd6a1e651d4a13039bd0f299e84409612",
         "Modules/unicodedata.c": "3dbf4a506592e26c1f4457ce0a2d32cefe29abefd669742e65fe3cc73afd7506",
         "Parser/pegen.c": "57f6eed2aabd6ab7afd002da67feb16791cb2a3a876e857d8c72791c5c38c679",
-        "Parser/pegen_errors.c": "3fae62f9121a92fc895bdabed32cc9d5120c15557eb66bcfcbbfbd467762bf5e"
+        "Parser/pegen_errors.c": "3fae62f9121a92fc895bdabed32cc9d5120c15557eb66bcfcbbfbd467762bf5e",
+        "Python/future.c": "5c2fc11f7e628c6c6f462f6a5c31991b37218c8588df6a3d45bd27226e026712",
+        "Parser/pegen.h": "7b78e06f1d8b4d890319d07054511d6b4113df04cbc63ef3f2826d8b55d8e7c9"
     }
 }

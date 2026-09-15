@@ -61,6 +61,7 @@ export function memoizeLeftRec(_target: Parser, name: string, descriptor: Proper
 /** Runtime for the generated grammar subset, not the public frontend API. */
 export class Parser {
     mark = 0;
+    barryAsFlufl = false;
     private tokens: Token[] = [];
     private cache: Map<string, Memo>[] = [];
     private iterator: Generator<Token>;
@@ -110,6 +111,12 @@ export class Parser {
             token.end[0],
             token.endByte
         );
+    }
+    checkNotEqual(token: Token): Token | null {
+        if (this.barryAsFlufl && token.string !== "<>") {
+            throw this.error("with Barry as BDFL, use '<>' instead of '!='", token);
+        }
+        return this.barryAsFlufl || token.string === "!=" ? token : null;
     }
     typeComment(token: Token | null): null {
         // The internal API currently matches ast.parse(type_comments=False).

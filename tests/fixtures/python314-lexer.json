@@ -32522,6 +32522,432 @@
                 ],
                 "warnings": []
             }
+        },
+        {
+            "source": "x <> y",
+            "extra": true,
+            "expected": {
+                "tokens": [
+                    {
+                        "type": "NAME",
+                        "string": "x",
+                        "start": [
+                            1,
+                            0
+                        ],
+                        "end": [
+                            1,
+                            1
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "OP",
+                        "string": "<>",
+                        "start": [
+                            1,
+                            2
+                        ],
+                        "end": [
+                            1,
+                            4
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "y",
+                        "start": [
+                            1,
+                            5
+                        ],
+                        "end": [
+                            1,
+                            6
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "",
+                        "start": [
+                            1,
+                            6
+                        ],
+                        "end": [
+                            1,
+                            7
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "ENDMARKER",
+                        "string": "",
+                        "start": [
+                            2,
+                            0
+                        ],
+                        "end": [
+                            2,
+                            0
+                        ],
+                        "line": ""
+                    }
+                ],
+                "warnings": []
+            }
+        },
+        {
+            "source": "x <> y",
+            "extra": false,
+            "expected": {
+                "tokens": [
+                    {
+                        "type": "NAME",
+                        "string": "x",
+                        "start": [
+                            1,
+                            0
+                        ],
+                        "end": [
+                            1,
+                            1
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NOTEQUAL",
+                        "string": "<>",
+                        "start": [
+                            1,
+                            2
+                        ],
+                        "end": [
+                            1,
+                            4
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "y",
+                        "start": [
+                            1,
+                            5
+                        ],
+                        "end": [
+                            1,
+                            6
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "",
+                        "start": [
+                            1,
+                            6
+                        ],
+                        "end": [
+                            1,
+                            6
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "ENDMARKER",
+                        "string": "",
+                        "start": [
+                            1,
+                            -1
+                        ],
+                        "end": [
+                            1,
+                            -1
+                        ],
+                        "line": "x <> y"
+                    }
+                ],
+                "warnings": []
+            }
+        },
+        {
+            "source": "from __future__ import barry_as_FLUFL\nx <> y",
+            "extra": true,
+            "expected": {
+                "tokens": [
+                    {
+                        "type": "NAME",
+                        "string": "from",
+                        "start": [
+                            1,
+                            0
+                        ],
+                        "end": [
+                            1,
+                            4
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "__future__",
+                        "start": [
+                            1,
+                            5
+                        ],
+                        "end": [
+                            1,
+                            15
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "import",
+                        "start": [
+                            1,
+                            16
+                        ],
+                        "end": [
+                            1,
+                            22
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "barry_as_FLUFL",
+                        "start": [
+                            1,
+                            23
+                        ],
+                        "end": [
+                            1,
+                            37
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "\n",
+                        "start": [
+                            1,
+                            37
+                        ],
+                        "end": [
+                            1,
+                            38
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "x",
+                        "start": [
+                            2,
+                            0
+                        ],
+                        "end": [
+                            2,
+                            1
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "OP",
+                        "string": "<>",
+                        "start": [
+                            2,
+                            2
+                        ],
+                        "end": [
+                            2,
+                            4
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "y",
+                        "start": [
+                            2,
+                            5
+                        ],
+                        "end": [
+                            2,
+                            6
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "",
+                        "start": [
+                            2,
+                            6
+                        ],
+                        "end": [
+                            2,
+                            7
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "ENDMARKER",
+                        "string": "",
+                        "start": [
+                            3,
+                            0
+                        ],
+                        "end": [
+                            3,
+                            0
+                        ],
+                        "line": ""
+                    }
+                ],
+                "warnings": []
+            }
+        },
+        {
+            "source": "from __future__ import barry_as_FLUFL\nx <> y",
+            "extra": false,
+            "expected": {
+                "tokens": [
+                    {
+                        "type": "NAME",
+                        "string": "from",
+                        "start": [
+                            1,
+                            0
+                        ],
+                        "end": [
+                            1,
+                            4
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "__future__",
+                        "start": [
+                            1,
+                            5
+                        ],
+                        "end": [
+                            1,
+                            15
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "import",
+                        "start": [
+                            1,
+                            16
+                        ],
+                        "end": [
+                            1,
+                            22
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "barry_as_FLUFL",
+                        "start": [
+                            1,
+                            23
+                        ],
+                        "end": [
+                            1,
+                            37
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "",
+                        "start": [
+                            1,
+                            37
+                        ],
+                        "end": [
+                            1,
+                            37
+                        ],
+                        "line": "from __future__ import barry_as_FLUFL\n"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "x",
+                        "start": [
+                            2,
+                            0
+                        ],
+                        "end": [
+                            2,
+                            1
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NOTEQUAL",
+                        "string": "<>",
+                        "start": [
+                            2,
+                            2
+                        ],
+                        "end": [
+                            2,
+                            4
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NAME",
+                        "string": "y",
+                        "start": [
+                            2,
+                            5
+                        ],
+                        "end": [
+                            2,
+                            6
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "NEWLINE",
+                        "string": "",
+                        "start": [
+                            2,
+                            6
+                        ],
+                        "end": [
+                            2,
+                            6
+                        ],
+                        "line": "x <> y"
+                    },
+                    {
+                        "type": "ENDMARKER",
+                        "string": "",
+                        "start": [
+                            2,
+                            -1
+                        ],
+                        "end": [
+                            2,
+                            -1
+                        ],
+                        "line": "x <> y"
+                    }
+                ],
+                "warnings": []
+            }
         }
     ]
 }

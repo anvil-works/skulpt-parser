@@ -19,6 +19,10 @@ file statements statement simple_stmts simple_stmt assignment augassign
 single_target single_subscript_attribute_target del_targets del_target del_t_atom
 return_stmt raise_stmt pass_stmt break_stmt continue_stmt global_stmt nonlocal_stmt
 del_stmt yield_stmt assert_stmt
+import_stmt import_name import_from import_from_targets import_from_as_names
+import_from_as_name dotted_as_names dotted_as_name dotted_name
+type_alias type_params type_param_seq type_param type_param_bound
+type_param_default type_param_starred_default
 eval expressions expression disjunction conjunction inversion comparison
 compare_op_bitwise_or_pair eq_bitwise_or noteq_bitwise_or lte_bitwise_or lt_bitwise_or
 gte_bitwise_or gt_bitwise_or notin_bitwise_or in_bitwise_or isnot_bitwise_or is_bitwise_or
@@ -79,8 +83,7 @@ def arguments(text):
 def action(text):
     text = re.sub(r"\(\s*(?:asdl_\w+\s*\*|expr_ty)\s*\)", "", text).strip()
     if text == "_PyPegen_check_barry_as_flufl ( p , tok ) ? NULL : tok":
-        # This internal expression entry point does not enable future flags.
-        return "tok"
+        return "this.checkNotEqual(tok)"
     empty_lambda = re.fullmatch(
         r"\(\s*(\w+)\s*\)\s*\?\s*\1\s*:\s*CHECK\s*\(\s*arguments_ty\s*,\s*_PyPegen_empty_arguments\s*\(\s*p\s*\)\s*\)",
         text,
@@ -94,6 +97,9 @@ def action(text):
     if call_fields:
         variable, field = call_fields.groups()
         return f"({variable}?.{field} ?? [])"
+    alias_name = re.fullmatch(r"\(\s*(\w+)\s*\)\s*\?\s*\(\s*\1\s*\)\s*->\s*v\s*\.\s*Name\s*\.\s*id\s*:\s*NULL", text)
+    if alias_name:
+        return f"({alias_name[1]}?.id ?? null)"
     call = re.fullmatch(r"(\w+)\s*\((.*)\)", text, re.S)
     if call:
         name, raw = call.groups()
@@ -110,6 +116,8 @@ def action(text):
                 # consumed fields; no fabricated node or locations reach the AST.
                 return f"{{args: {action(args[1])}, keywords: {action(args[2])}}}"
             args = [action(arg) for arg in args if arg != "p -> arena"]
+            if name == "TypeAlias":
+                args[1] = f"({args[1]} ?? [])"
             if name == "Call":
                 args[1:3] = ["[]" if arg == "null" else arg for arg in args[1:3]]
             return f"ast.{name}({', '.join(args)})"
@@ -135,7 +143,11 @@ def action(text):
                 raise ValueError("Parameter type comments are not implemented")
             return f"{{arg: {action(args[1])}, value: {action(args[2])}}}"
         helper = {
-            "_PyPegen_make_module": lambda a: f"ast.Module({a[1]} ?? [], [])",
+            "_PyPegen_make_module": lambda a: f"finishModule(this, {a[1]} ?? [])",
+            "_PyPegen_checked_future_import": lambda a: f"checkedImport(this, {', '.join(a[1:])})",
+            "_PyPegen_seq_count_dots": lambda a: f"{a[0]}.reduce((sum: number, token: Token) => sum + token.string.length, 0)",
+            "_PyPegen_alias_for_star": lambda a: 'ast.alias("*", null, ' + ", ".join(a[1:]) + ")",
+            "_PyPegen_join_names_with_dot": lambda a: f"ast.Name({a[1]}.id + '.' + {a[2]}.id, ast.Load(), {a[1]}.lineno, {a[1]}.col_offset, {a[2]}.end_lineno, {a[2]}.end_col_offset)",
             "_PyPegen_seq_flatten": lambda a: f"{a[1]}.flat()",
             "_PyPegen_augoperator": lambda a: f"{{kind: {a[1]}}}",
             "_PyPegen_map_names_to_ids": lambda a: f"{a[1]}.map((name: ast.Name) => name.id)",
@@ -200,6 +212,8 @@ class Calls(GrammarVisitor):
 
     def visit_StringLeaf(self, node):
         value = ast.literal_eval(node.value)
+        if value == "!=":
+            return "literal", 'this.expect("NOTEQUAL")'
         return "literal", f"this.literal({json.dumps(value)})"
 
     def visit_NamedItem(self, node):
@@ -261,6 +275,8 @@ class Generator(ParserGenerator):
         self.print("// Upstream grammar/actions retain their PSF license; see licenses/CPython.txt.")
         self.print("// Grammar subset selected by tools/generate314/parser.py. Do not edit.")
         self.print('import * as ast from "./ast.ts";')
+        self.print('import type { Token } from "./lexer/tokenizer.ts";')
+        self.print('import { checkedImport, finishModule } from "./imports.ts";')
         self.print('import * as strings from "./strings.ts";')
         self.print('import { makeArguments } from "./parameters.ts";')
         self.print('import { Parser, memoize, memoizeLeftRec } from "./parser.ts";')
@@ -344,9 +360,9 @@ class References(GrammarVisitor):
             self.visit(child)
 
 
-def check_expression_selection(grammar):
-    """Do not silently prune valid eval syntax when updating the pinned grammar."""
-    pending, visited = ["eval"], set()
+def check_complete_rules(grammar):
+    """Do not silently prune complete expression/simple-statement entry rules."""
+    pending, visited = ["eval", "simple_stmt"], set()
     while pending:
         name = pending.pop()
         if name in visited or name.startswith("invalid_") or name not in grammar.rules:
@@ -357,11 +373,11 @@ def check_expression_selection(grammar):
         pending.extend(refs.names)
     missing = visited - RULES
     if missing:
-        raise ValueError(f"Unselected expression rules: {sorted(missing)}")
+        raise ValueError(f"Unselected expression/simple-statement rules: {sorted(missing)}")
 
 
 def generate(grammar, tokens):
-    check_expression_selection(grammar)
+    check_complete_rules(grammar)
     grammar.rules = {name: rule for name, rule in grammar.rules.items() if name in RULES}
     selector = Select()
     for rule in grammar.rules.values():
