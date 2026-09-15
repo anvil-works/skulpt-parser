@@ -9,3 +9,5 @@ node_modules/
 .rstest/
 
 .cache/cpython/
+
+dist-expression/

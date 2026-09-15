@@ -55,3 +55,5 @@ The next stage has a separate, checksum-pinned source preparation path. Run `pnp
 - Grammar, generated AST/parser, diagnostics, scalar representation and memoization policy are unchanged. Some parser rules benefit from caching and others regress. Future tuning must measure individual rules and preserve the distinct left-recursion algorithm requirements.
 
 See [baseline evidence](docs/baseline-recovery.md) for measured results and scope.
+
+The [Python 3.14 expression migration](docs/python314-expression.md) now has an internal source-to-AST path and a standalone browser build. It remains a grammar subset and is not the package’s public parser.
