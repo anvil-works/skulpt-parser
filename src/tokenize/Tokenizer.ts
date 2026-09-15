@@ -1,6 +1,7 @@
 // Copyright (c) 2021 the Skulpt Project
 // SPDX-License-Identifier: MIT
 
+import type { SourcePositions } from "./source_positions.ts";
 import { isSpace } from "../util/str_helpers.ts";
 import { COMMENT, ERRORTOKEN, NL } from "./token.ts";
 import type { TokenInfo } from "./tokenize.ts";
@@ -11,7 +12,7 @@ export class Tokenizer {
     _fmode = false;
     _lineno = 0;
     _offset = 0;
-    constructor(tokengen: Iterator<TokenInfo, TokenInfo>) {
+    constructor(tokengen: Iterator<TokenInfo, TokenInfo>, public positions: SourcePositions) {
         this._gen = tokengen;
     }
     _adjust_offset(tok: TokenInfo) {

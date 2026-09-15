@@ -131,7 +131,6 @@ function decodeEscape(p: Parser, s: string) {
 const NEWLINE = /\n/g;
 /* Fix locations for the given node and its children. */
 function fstring_find_expr_location(parent: TokenInfo, fstr: string, expr_start: number): [number, number] {
-    /** note cpython is currently broken https://bugs.python.org/issue35212 */
     let line = parent.start[0];
     let offset = parent.start[1];
 
@@ -145,7 +144,7 @@ function fstring_find_expr_location(parent: TokenInfo, fstr: string, expr_start:
         offset += expr_start;
     } else {
         // we're not on the first line so get the relative offset
-        offset = expr_start - (new_lines[num_lines - 1].index as number);
+        offset = expr_start - (new_lines[num_lines - 1].index as number) - 1;
         line += num_lines;
     }
     return [line, offset];
@@ -181,6 +180,8 @@ function fstring_compile_expr(p: Parser, str: string, expr_start: number, expr_e
     s = "(" + s + ")";
 
     const tokenizer = tokenizerFromString(s, p.filename);
+    // Nested expressions have coordinates in the original source.
+    tokenizer.positions = p._tok.positions;
     tokenizer.starting_lineno = lines - 1;
     tokenizer.starting_col_offset = cols - 1;
     const p2 = new GeneratedParser(tokenizer, StartRule.FSTRING_INPUT);
@@ -479,10 +480,7 @@ export class FstringParser {
     kind: "u" | null;
     constructor(readonly parser: Parser, readonly first: TokenInfo, readonly last: TokenInfo) {
         // attrs aka lineno, col_offset, end_lineno, end_col_offset
-        this.a0 = first.start[0];
-        this.a1 = first.start[1];
-        this.a2 = last.end[0];
-        this.a3 = last.end[1];
+        [this.a0, this.a1, this.a2, this.a3] = parser.tokenRange(first, last);
         // all concatenated string nodes get the same 'kind' as the initial token string
         // this only seems useful for unparsing AST
         this.kind = first.string[0] === "u" ? "u" : null;
