@@ -38,7 +38,7 @@ The CPython-generated module fixture contains 451 complete AST/warning cases, 26
 
 The full suite passes 3,670 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
 
-The standalone migration bundle is 866,555 bytes raw / 248,641 gzip / 185,523 Brotli on Node 26.7.0, changed by +112 / +42 / -157 from #35. Totals include Unicode-name data. Public exports remain unchanged. Measured speed changes and memory limitations are documented in `python314-performance.md`. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
+The full migration bundle is 867,000 bytes raw / 249,508 gzip / 185,615 Brotli on Node 26.7.0. A separate core entry point excludes the optional Unicode-name database and is 36,244 bytes gzip; see `python314-unicode-size.md` for loading behavior and both artifact sizes. Public exports remain unchanged. Earlier timing measurements and their limitations are documented in `python314-performance.md`. The existing `build:expression` and `test:expression-package` commands exercise the full frontend; `build:core` and `test:core-package` check the optional split.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check

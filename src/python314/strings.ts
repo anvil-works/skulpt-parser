@@ -5,7 +5,7 @@
 import * as ast from "./ast.ts";
 import type { Token } from "./lexer/tokenizer.ts";
 import type { Parser } from "./parser.ts";
-import { unicodeName } from "./string_names.ts";
+import { UnicodeNameDatabaseRequired } from "./parse_options.ts";
 
 type Span = [number, number, number, number];
 type Metadata<T> = { result: T; token: Token };
@@ -114,7 +114,10 @@ function decode(
                     start,
                     body[i + 1] !== "{" ? i + 1 : end < 0 ? body.length : i + 2
                 );
-            const cp = unicodeName(body.slice(i + 2, end));
+            const name = body.slice(i + 2, end);
+            if (!p.unicodeName)
+                throw new UnicodeNameDatabaseRequired(name, p.filename, token.start[0], token.start[1] + 1);
+            const cp = p.unicodeName(name);
             if (cp === undefined) decodeError("unknown Unicode character name", start, end + 1);
             result += String.fromCodePoint(cp);
             i = end;
