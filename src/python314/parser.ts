@@ -120,11 +120,16 @@ export class Parser {
                 // Status-only tokenizer failures do not replace a parser error,
                 // except an unclosed delimiter from an earlier line. Raised lexer
                 // exceptions do, unless still inside an interpolated string.
-                if (
-                    this.scanner.modes.length === 1 &&
-                    (kind === null || (kind === "EOF" && opening && opening.line < errorLine))
-                ) {
-                    this.raiseLexerError(lexicalError);
+                if (this.scanner.modes.length === 1) {
+                    if (kind === null) this.raiseLexerError(lexicalError);
+                    if (opening && opening.line < errorLine)
+                        this.raiseLocation(
+                            opening.line,
+                            opening.col,
+                            opening.line,
+                            -1,
+                            `'${String.fromCharCode(opening.c)}' was never closed`
+                        );
                 }
             }
         }
@@ -139,7 +144,7 @@ export class Parser {
                     opening.col,
                     opening.line,
                     -1,
-                    `\'${String.fromCharCode(opening.c)}\' was never closed`
+                    `'${String.fromCharCode(opening.c)}' was never closed`
                 );
         }
         if (this.scanner.failureKind === "DEDENT" && error instanceof Error) {
