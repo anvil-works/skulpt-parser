@@ -4,6 +4,7 @@
 // Upstream grammar/actions retain their PSF license; see licenses/CPython.txt.
 // Expression subset selected by tools/generate314/parser.py. Do not edit.
 import * as ast from "./ast.ts";
+import * as strings from "./strings.ts";
 import { Parser, memoize, memoizeLeftRec } from "./parser.ts";
 export class ExpressionParser extends Parser {
 eval(): any {
@@ -15,6 +16,18 @@ let _loop0_1: any;
 let endmarker: any;
 if ((a = this.expressions()) !== null && (_loop0_1 = this._loop0_1()) !== null && (endmarker = this.expect("ENDMARKER")) !== null) {
 return ast.Expression(a);
+}
+this.mark = mark;
+}
+return null;
+}
+annotated_rhs(): any {
+// annotated_rhs: star_expressions
+const mark = this.mark;
+{
+let star_expressions: any;
+if ((star_expressions = this.star_expressions()) !== null) {
+return star_expressions;
 }
 this.mark = mark;
 }
@@ -839,7 +852,7 @@ this.mark = mark;
 return null;
 }
 atom(): any {
-// atom: NAME | 'True' | 'False' | 'None' | NUMBER | &'(' (tuple | group | genexp) | &'[' (list | listcomp) | &'{' (dict | set | dictcomp | setcomp) | '...'
+// atom: NAME | 'True' | 'False' | 'None' | &(STRING | FSTRING_START | TSTRING_START) strings | NUMBER | &'(' (tuple | group | genexp) | &'[' (list | listcomp) | &'{' (dict | set | dictcomp | setcomp) | '...'
 const mark = this.mark;
 {
 let name: any;
@@ -870,6 +883,13 @@ return ast.Constant({type: "none"}, null, ...this.span(mark));
 this.mark = mark;
 }
 {
+let strings: any;
+if (this.lookahead(() => this._tmp_20(), true) && (strings = this.strings()) !== null) {
+return strings;
+}
+this.mark = mark;
+}
+{
 let number: any;
 if ((number = this.number()) !== null) {
 return number;
@@ -877,23 +897,23 @@ return number;
 this.mark = mark;
 }
 {
-let _tmp_20: any;
-if (this.lookahead(() => this.literal("("), true) && (_tmp_20 = this._tmp_20()) !== null) {
-return _tmp_20;
-}
-this.mark = mark;
-}
-{
 let _tmp_21: any;
-if (this.lookahead(() => this.literal("["), true) && (_tmp_21 = this._tmp_21()) !== null) {
+if (this.lookahead(() => this.literal("("), true) && (_tmp_21 = this._tmp_21()) !== null) {
 return _tmp_21;
 }
 this.mark = mark;
 }
 {
 let _tmp_22: any;
-if (this.lookahead(() => this.literal("{"), true) && (_tmp_22 = this._tmp_22()) !== null) {
+if (this.lookahead(() => this.literal("["), true) && (_tmp_22 = this._tmp_22()) !== null) {
 return _tmp_22;
+}
+this.mark = mark;
+}
+{
+let _tmp_23: any;
+if (this.lookahead(() => this.literal("{"), true) && (_tmp_23 = this._tmp_23()) !== null) {
+return _tmp_23;
 }
 this.mark = mark;
 }
@@ -913,8 +933,235 @@ const mark = this.mark;
 let literal: any;
 let a: any;
 let literal_1: any;
-if ((literal = this.literal("(")) !== null && (a = this._tmp_23()) !== null && (literal_1 = this.literal(")")) !== null) {
+if ((literal = this.literal("(")) !== null && (a = this._tmp_24()) !== null && (literal_1 = this.literal(")")) !== null) {
 return a;
+}
+this.mark = mark;
+}
+return null;
+}
+fstring_middle(): any {
+// fstring_middle: fstring_replacement_field | FSTRING_MIDDLE
+const mark = this.mark;
+{
+let fstring_replacement_field: any;
+if ((fstring_replacement_field = this.fstring_replacement_field()) !== null) {
+return fstring_replacement_field;
+}
+this.mark = mark;
+}
+{
+let t: any;
+if ((t = this.expect("FSTRING_MIDDLE")) !== null) {
+return strings.constant(this, t);
+}
+this.mark = mark;
+}
+return null;
+}
+fstring_replacement_field(): any {
+// fstring_replacement_field: '{' annotated_rhs '='? fstring_conversion? fstring_full_format_spec? '}'
+const mark = this.mark;
+{
+let literal: any;
+let a: any;
+let debug_expr: any;
+let conversion: any;
+let format: any;
+let rbrace: any;
+if ((literal = this.literal("{")) !== null && (a = this.annotated_rhs()) !== null && ((debug_expr = this.literal("=")), true) && ((conversion = this._tmp_25()), true) && ((format = this._tmp_26()), true) && (rbrace = this.literal("}")) !== null) {
+return strings.formatted(this, a, debug_expr, conversion, format, rbrace, ...this.span(mark));
+}
+this.mark = mark;
+}
+return null;
+}
+fstring_conversion(): any {
+// fstring_conversion: "!" NAME
+const mark = this.mark;
+{
+let conv_token: any;
+let conv: any;
+if ((conv_token = this.literal("!")) !== null && (conv = this.name()) !== null) {
+return strings.conversion(this, conv_token, conv);
+}
+this.mark = mark;
+}
+return null;
+}
+fstring_full_format_spec(): any {
+// fstring_full_format_spec: ':' fstring_format_spec*
+const mark = this.mark;
+{
+let colon: any;
+let spec: any;
+if ((colon = this.literal(":")) !== null && (spec = this._loop0_27()) !== null) {
+return strings.formatSpec(this, colon, spec, ...this.span(mark));
+}
+this.mark = mark;
+}
+return null;
+}
+fstring_format_spec(): any {
+// fstring_format_spec: FSTRING_MIDDLE | fstring_replacement_field
+const mark = this.mark;
+{
+let t: any;
+if ((t = this.expect("FSTRING_MIDDLE")) !== null) {
+return strings.decodedConstant(this, t);
+}
+this.mark = mark;
+}
+{
+let fstring_replacement_field: any;
+if ((fstring_replacement_field = this.fstring_replacement_field()) !== null) {
+return fstring_replacement_field;
+}
+this.mark = mark;
+}
+return null;
+}
+fstring(): any {
+// fstring: FSTRING_START fstring_middle* FSTRING_END
+const mark = this.mark;
+{
+let a: any;
+let b: any;
+let c: any;
+if ((a = this.expect("FSTRING_START")) !== null && (b = this._loop0_28()) !== null && (c = this.expect("FSTRING_END")) !== null) {
+return strings.joined(this, a, b, c);
+}
+this.mark = mark;
+}
+return null;
+}
+tstring_format_spec_replacement_field(): any {
+// tstring_format_spec_replacement_field: '{' annotated_rhs '='? fstring_conversion? tstring_full_format_spec? '}'
+const mark = this.mark;
+{
+let literal: any;
+let a: any;
+let debug_expr: any;
+let conversion: any;
+let format: any;
+let rbrace: any;
+if ((literal = this.literal("{")) !== null && (a = this.annotated_rhs()) !== null && ((debug_expr = this.literal("=")), true) && ((conversion = this._tmp_29()), true) && ((format = this._tmp_30()), true) && (rbrace = this.literal("}")) !== null) {
+return strings.formatted(this, a, debug_expr, conversion, format, rbrace, ...this.span(mark));
+}
+this.mark = mark;
+}
+return null;
+}
+tstring_format_spec(): any {
+// tstring_format_spec: TSTRING_MIDDLE | tstring_format_spec_replacement_field
+const mark = this.mark;
+{
+let t: any;
+if ((t = this.expect("TSTRING_MIDDLE")) !== null) {
+return strings.decodedConstant(this, t);
+}
+this.mark = mark;
+}
+{
+let tstring_format_spec_replacement_field: any;
+if ((tstring_format_spec_replacement_field = this.tstring_format_spec_replacement_field()) !== null) {
+return tstring_format_spec_replacement_field;
+}
+this.mark = mark;
+}
+return null;
+}
+tstring_full_format_spec(): any {
+// tstring_full_format_spec: ':' tstring_format_spec*
+const mark = this.mark;
+{
+let colon: any;
+let spec: any;
+if ((colon = this.literal(":")) !== null && (spec = this._loop0_31()) !== null) {
+return strings.formatSpec(this, colon, spec, ...this.span(mark));
+}
+this.mark = mark;
+}
+return null;
+}
+tstring_replacement_field(): any {
+// tstring_replacement_field: '{' annotated_rhs '='? fstring_conversion? tstring_full_format_spec? '}'
+const mark = this.mark;
+{
+let literal: any;
+let a: any;
+let debug_expr: any;
+let conversion: any;
+let format: any;
+let rbrace: any;
+if ((literal = this.literal("{")) !== null && (a = this.annotated_rhs()) !== null && ((debug_expr = this.literal("=")), true) && ((conversion = this._tmp_32()), true) && ((format = this._tmp_33()), true) && (rbrace = this.literal("}")) !== null) {
+return strings.interpolation(this, a, debug_expr, conversion, format, rbrace, ...this.span(mark));
+}
+this.mark = mark;
+}
+return null;
+}
+tstring_middle(): any {
+// tstring_middle: tstring_replacement_field | TSTRING_MIDDLE
+const mark = this.mark;
+{
+let tstring_replacement_field: any;
+if ((tstring_replacement_field = this.tstring_replacement_field()) !== null) {
+return tstring_replacement_field;
+}
+this.mark = mark;
+}
+{
+let t: any;
+if ((t = this.expect("TSTRING_MIDDLE")) !== null) {
+return strings.constant(this, t);
+}
+this.mark = mark;
+}
+return null;
+}
+@memoize
+tstring(): any {
+// tstring: TSTRING_START tstring_middle* TSTRING_END
+const mark = this.mark;
+{
+let a: any;
+let b: any;
+let c: any;
+if ((a = this.expect("TSTRING_START")) !== null && (b = this._loop0_34()) !== null && (c = this.expect("TSTRING_END")) !== null) {
+return strings.template(this, a, b, c);
+}
+this.mark = mark;
+}
+return null;
+}
+string(): any {
+// string: STRING
+const mark = this.mark;
+{
+let s: any;
+if ((s = this.expect("STRING")) !== null) {
+return strings.literal(this, s);
+}
+this.mark = mark;
+}
+return null;
+}
+@memoize
+strings(): any {
+// strings: ((fstring | string))+ | tstring+
+const mark = this.mark;
+{
+let a: any;
+if ((a = this._loop1_35()) !== null) {
+return strings.concatenate(this, a, ...this.span(mark));
+}
+this.mark = mark;
+}
+{
+let a: any;
+if ((a = this._loop1_36()) !== null) {
+return strings.concatenateTemplates(this, a, ...this.span(mark));
 }
 this.mark = mark;
 }
@@ -927,7 +1174,7 @@ const mark = this.mark;
 let literal: any;
 let a: any;
 let literal_1: any;
-if ((literal = this.literal("[")) !== null && ((a = this._tmp_24()), true) && (literal_1 = this.literal("]")) !== null) {
+if ((literal = this.literal("[")) !== null && ((a = this._tmp_37()), true) && (literal_1 = this.literal("]")) !== null) {
 return ast.List((a ?? []), ast.Load(), ...this.span(mark));
 }
 this.mark = mark;
@@ -941,7 +1188,7 @@ const mark = this.mark;
 let literal: any;
 let a: any;
 let literal_1: any;
-if ((literal = this.literal("(")) !== null && ((a = this._tmp_25()), true) && (literal_1 = this.literal(")")) !== null) {
+if ((literal = this.literal("(")) !== null && ((a = this._tmp_38()), true) && (literal_1 = this.literal(")")) !== null) {
 return ast.Tuple((a ?? []), ast.Load(), ...this.span(mark));
 }
 this.mark = mark;
@@ -969,7 +1216,7 @@ const mark = this.mark;
 let literal: any;
 let a: any;
 let literal_1: any;
-if ((literal = this.literal("{")) !== null && ((a = this._tmp_26()), true) && (literal_1 = this.literal("}")) !== null) {
+if ((literal = this.literal("{")) !== null && ((a = this._tmp_39()), true) && (literal_1 = this.literal("}")) !== null) {
 return ast.Dict((a ?? []).map((pair: any) => pair.key), (a ?? []).map((pair: any) => pair.value), ...this.span(mark));
 }
 this.mark = mark;
@@ -981,8 +1228,8 @@ double_starred_kvpairs(): any {
 const mark = this.mark;
 {
 let a: any;
-let _tmp_29: any;
-if ((a = this._gather_28()) !== null && ((_tmp_29 = this._tmp_29()), true)) {
+let _tmp_42: any;
+if ((a = this._gather_41()) !== null && ((_tmp_42 = this._tmp_42()), true)) {
 return a;
 }
 this.mark = mark;
@@ -1028,7 +1275,7 @@ for_if_clauses(): any {
 const mark = this.mark;
 {
 let a: any;
-if ((a = this._loop1_30()) !== null) {
+if ((a = this._loop1_43()) !== null) {
 return a;
 }
 this.mark = mark;
@@ -1046,7 +1293,7 @@ let literal_2: any;
 let cut: any;
 let b: any;
 let c: any;
-if ((literal = this.literal("async")) !== null && (literal_1 = this.literal("for")) !== null && (a = this.star_targets()) !== null && (literal_2 = this.literal("in")) !== null && (cut = true) && (b = this.disjunction()) !== null && (c = this._loop0_31()) !== null) {
+if ((literal = this.literal("async")) !== null && (literal_1 = this.literal("for")) !== null && (a = this.star_targets()) !== null && (literal_2 = this.literal("in")) !== null && (cut = true) && (b = this.disjunction()) !== null && (c = this._loop0_44()) !== null) {
 return ast.comprehension(a, b, c, 1);
 }
 this.mark = mark;
@@ -1059,7 +1306,7 @@ let literal_1: any;
 let cut: any;
 let b: any;
 let c: any;
-if ((literal = this.literal("for")) !== null && (a = this.star_targets()) !== null && (literal_1 = this.literal("in")) !== null && (cut = true) && (b = this.disjunction()) !== null && (c = this._loop0_32()) !== null) {
+if ((literal = this.literal("for")) !== null && (a = this.star_targets()) !== null && (literal_1 = this.literal("in")) !== null && (cut = true) && (b = this.disjunction()) !== null && (c = this._loop0_45()) !== null) {
 return ast.comprehension(a, b, c, 0);
 }
 this.mark = mark;
@@ -1105,7 +1352,7 @@ let literal: any;
 let a: any;
 let b: any;
 let literal_1: any;
-if ((literal = this.literal("(")) !== null && (a = this._tmp_33()) !== null && (b = this.for_if_clauses()) !== null && (literal_1 = this.literal(")")) !== null) {
+if ((literal = this.literal("(")) !== null && (a = this._tmp_46()) !== null && (b = this.for_if_clauses()) !== null && (literal_1 = this.literal(")")) !== null) {
 return ast.GeneratorExp(a, b, ...this.span(mark));
 }
 this.mark = mark;
@@ -1133,8 +1380,8 @@ arguments(): any {
 const mark = this.mark;
 {
 let a: any;
-let _tmp_34: any;
-if ((a = this.args()) !== null && ((_tmp_34 = this._tmp_34()), true) && this.lookahead(() => this.literal(")"), true)) {
+let _tmp_47: any;
+if ((a = this.args()) !== null && ((_tmp_47 = this._tmp_47()), true) && this.lookahead(() => this.literal(")"), true)) {
 return a;
 }
 this.mark = mark;
@@ -1147,7 +1394,7 @@ const mark = this.mark;
 {
 let a: any;
 let b: any;
-if ((a = this._gather_36()) !== null && ((b = this._tmp_37()), true)) {
+if ((a = this._gather_49()) !== null && ((b = this._tmp_50()), true)) {
 return this.collectCallArgs(a, b);
 }
 this.mark = mark;
@@ -1168,22 +1415,22 @@ const mark = this.mark;
 let a: any;
 let literal: any;
 let b: any;
-if ((a = this._gather_39()) !== null && (literal = this.literal(",")) !== null && (b = this._gather_41()) !== null) {
+if ((a = this._gather_52()) !== null && (literal = this.literal(",")) !== null && (b = this._gather_54()) !== null) {
 return [...a, ...b];
 }
 this.mark = mark;
 }
 {
-let _gather_43: any;
-if ((_gather_43 = this._gather_43()) !== null) {
-return _gather_43;
+let _gather_56: any;
+if ((_gather_56 = this._gather_56()) !== null) {
+return _gather_56;
 }
 this.mark = mark;
 }
 {
-let _gather_45: any;
-if ((_gather_45 = this._gather_45()) !== null) {
-return _gather_45;
+let _gather_58: any;
+if ((_gather_58 = this._gather_58()) !== null) {
+return _gather_58;
 }
 this.mark = mark;
 }
@@ -1258,8 +1505,8 @@ this.mark = mark;
 {
 let a: any;
 let b: any;
-let _tmp_47: any;
-if ((a = this.star_target()) !== null && (b = this._loop0_46()) !== null && ((_tmp_47 = this._tmp_47()), true)) {
+let _tmp_60: any;
+if ((a = this.star_target()) !== null && (b = this._loop0_59()) !== null && ((_tmp_60 = this._tmp_60()), true)) {
 return ast.Tuple([a, ...(b ?? [])], ast.Store(), ...this.span(mark));
 }
 this.mark = mark;
@@ -1271,8 +1518,8 @@ star_targets_list_seq(): any {
 const mark = this.mark;
 {
 let a: any;
-let _tmp_50: any;
-if ((a = this._gather_49()) !== null && ((_tmp_50 = this._tmp_50()), true)) {
+let _tmp_63: any;
+if ((a = this._gather_62()) !== null && ((_tmp_63 = this._tmp_63()), true)) {
 return a;
 }
 this.mark = mark;
@@ -1285,8 +1532,8 @@ const mark = this.mark;
 {
 let a: any;
 let b: any;
-let _tmp_52: any;
-if ((a = this.star_target()) !== null && (b = this._loop1_51()) !== null && ((_tmp_52 = this._tmp_52()), true)) {
+let _tmp_65: any;
+if ((a = this.star_target()) !== null && (b = this._loop1_64()) !== null && ((_tmp_65 = this._tmp_65()), true)) {
 return [a, ...(b ?? [])];
 }
 this.mark = mark;
@@ -1308,7 +1555,7 @@ const mark = this.mark;
 {
 let literal: any;
 let a: any;
-if ((literal = this.literal("*")) !== null && (a = this._tmp_53()) !== null) {
+if ((literal = this.literal("*")) !== null && (a = this._tmp_66()) !== null) {
 return ast.Starred(this.setContext(a, ast.Store()), ast.Store(), ...this.span(mark));
 }
 this.mark = mark;
@@ -1377,7 +1624,7 @@ this.mark = mark;
 let literal: any;
 let a: any;
 let literal_1: any;
-if ((literal = this.literal("(")) !== null && ((a = this._tmp_54()), true) && (literal_1 = this.literal(")")) !== null) {
+if ((literal = this.literal("(")) !== null && ((a = this._tmp_67()), true) && (literal_1 = this.literal(")")) !== null) {
 return ast.Tuple((a ?? []), ast.Store(), ...this.span(mark));
 }
 this.mark = mark;
@@ -1386,7 +1633,7 @@ this.mark = mark;
 let literal: any;
 let a: any;
 let literal_1: any;
-if ((literal = this.literal("[")) !== null && ((a = this._tmp_55()), true) && (literal_1 = this.literal("]")) !== null) {
+if ((literal = this.literal("[")) !== null && ((a = this._tmp_68()), true) && (literal_1 = this.literal("]")) !== null) {
 return ast.List((a ?? []), ast.Store(), ...this.span(mark));
 }
 this.mark = mark;
@@ -1429,7 +1676,7 @@ let a: any;
 let literal: any;
 let b: any;
 let literal_1: any;
-if ((a = this.t_primary()) !== null && (literal = this.literal("(")) !== null && ((b = this._tmp_56()), true) && (literal_1 = this.literal(")")) !== null && this.lookahead(() => this.t_lookahead(), true)) {
+if ((a = this.t_primary()) !== null && (literal = this.literal("(")) !== null && ((b = this._tmp_69()), true) && (literal_1 = this.literal(")")) !== null && this.lookahead(() => this.t_lookahead(), true)) {
 return ast.Call(a, (b?.args ?? []), (b?.keywords ?? []), ...this.span(mark));
 }
 this.mark = mark;
@@ -1487,9 +1734,9 @@ _loop1_2(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_57: any;
-while ((_tmp_57 = this._tmp_57()) !== null) {
-children.push(_tmp_57); mark = this.mark;
+let _tmp_70: any;
+while ((_tmp_70 = this._tmp_70()) !== null) {
+children.push(_tmp_70); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -1512,9 +1759,9 @@ _loop1_4(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_58: any;
-while ((_tmp_58 = this._tmp_58()) !== null) {
-children.push(_tmp_58); mark = this.mark;
+let _tmp_71: any;
+while ((_tmp_71 = this._tmp_71()) !== null) {
+children.push(_tmp_71); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -1576,9 +1823,9 @@ _loop1_9(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_59: any;
-while ((_tmp_59 = this._tmp_59()) !== null) {
-children.push(_tmp_59); mark = this.mark;
+let _tmp_72: any;
+while ((_tmp_72 = this._tmp_72()) !== null) {
+children.push(_tmp_72); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -1589,9 +1836,9 @@ _loop1_10(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_60: any;
-while ((_tmp_60 = this._tmp_60()) !== null) {
-children.push(_tmp_60); mark = this.mark;
+let _tmp_73: any;
+while ((_tmp_73 = this._tmp_73()) !== null) {
+children.push(_tmp_73); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -1641,7 +1888,7 @@ const children: any[] = [];
 {
 let literal: any;
 let elem: any;
-while ((literal = this.literal(",")) !== null && (elem = this._tmp_61()) !== null) {
+while ((literal = this.literal(",")) !== null && (elem = this._tmp_74()) !== null) {
 children.push(elem); mark = this.mark;
 }
 this.mark = mark;
@@ -1654,7 +1901,7 @@ const mark = this.mark;
 {
 let elem: any;
 let seq: any;
-if ((elem = this._tmp_61()) !== null && (seq = this._loop0_14()) !== null) {
+if ((elem = this._tmp_74()) !== null && (seq = this._loop0_14()) !== null) {
 return [elem, ...seq];
 }
 this.mark = mark;
@@ -1703,7 +1950,7 @@ const mark = this.mark;
 {
 let literal: any;
 let d: any;
-if ((literal = this.literal(":")) !== null && ((d = this._tmp_62()), true)) {
+if ((literal = this.literal(":")) !== null && ((d = this._tmp_75()), true)) {
 return d;
 }
 this.mark = mark;
@@ -1711,7 +1958,33 @@ this.mark = mark;
 return null;
 }
 _tmp_20(): any {
-// _tmp_20: tuple | group | genexp
+// _tmp_20: STRING | FSTRING_START | TSTRING_START
+const mark = this.mark;
+{
+let string: any;
+if ((string = this.expect("STRING")) !== null) {
+return string;
+}
+this.mark = mark;
+}
+{
+let fstring_start: any;
+if ((fstring_start = this.expect("FSTRING_START")) !== null) {
+return fstring_start;
+}
+this.mark = mark;
+}
+{
+let tstring_start: any;
+if ((tstring_start = this.expect("TSTRING_START")) !== null) {
+return tstring_start;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_21(): any {
+// _tmp_21: tuple | group | genexp
 const mark = this.mark;
 {
 let tuple: any;
@@ -1736,8 +2009,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_21(): any {
-// _tmp_21: list | listcomp
+_tmp_22(): any {
+// _tmp_22: list | listcomp
 const mark = this.mark;
 {
 let list: any;
@@ -1755,8 +2028,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_22(): any {
-// _tmp_22: dict | set | dictcomp | setcomp
+_tmp_23(): any {
+// _tmp_23: dict | set | dictcomp | setcomp
 const mark = this.mark;
 {
 let dict: any;
@@ -1788,8 +2061,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_23(): any {
-// _tmp_23: named_expression
+_tmp_24(): any {
+// _tmp_24: named_expression
 const mark = this.mark;
 {
 let named_expression: any;
@@ -1800,8 +2073,158 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_24(): any {
-// _tmp_24: star_named_expressions
+_tmp_25(): any {
+// _tmp_25: fstring_conversion
+const mark = this.mark;
+{
+let fstring_conversion: any;
+if ((fstring_conversion = this.fstring_conversion()) !== null) {
+return fstring_conversion;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_26(): any {
+// _tmp_26: fstring_full_format_spec
+const mark = this.mark;
+{
+let fstring_full_format_spec: any;
+if ((fstring_full_format_spec = this.fstring_full_format_spec()) !== null) {
+return fstring_full_format_spec;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_27(): any {
+// _loop0_27: fstring_format_spec
+let mark = this.mark;
+const children: any[] = [];
+{
+let fstring_format_spec: any;
+while ((fstring_format_spec = this.fstring_format_spec()) !== null) {
+children.push(fstring_format_spec); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop0_28(): any {
+// _loop0_28: fstring_middle
+let mark = this.mark;
+const children: any[] = [];
+{
+let fstring_middle: any;
+while ((fstring_middle = this.fstring_middle()) !== null) {
+children.push(fstring_middle); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_tmp_29(): any {
+// _tmp_29: fstring_conversion
+const mark = this.mark;
+{
+let fstring_conversion: any;
+if ((fstring_conversion = this.fstring_conversion()) !== null) {
+return fstring_conversion;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_30(): any {
+// _tmp_30: tstring_full_format_spec
+const mark = this.mark;
+{
+let tstring_full_format_spec: any;
+if ((tstring_full_format_spec = this.tstring_full_format_spec()) !== null) {
+return tstring_full_format_spec;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_31(): any {
+// _loop0_31: tstring_format_spec
+let mark = this.mark;
+const children: any[] = [];
+{
+let tstring_format_spec: any;
+while ((tstring_format_spec = this.tstring_format_spec()) !== null) {
+children.push(tstring_format_spec); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_tmp_32(): any {
+// _tmp_32: fstring_conversion
+const mark = this.mark;
+{
+let fstring_conversion: any;
+if ((fstring_conversion = this.fstring_conversion()) !== null) {
+return fstring_conversion;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_33(): any {
+// _tmp_33: tstring_full_format_spec
+const mark = this.mark;
+{
+let tstring_full_format_spec: any;
+if ((tstring_full_format_spec = this.tstring_full_format_spec()) !== null) {
+return tstring_full_format_spec;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_34(): any {
+// _loop0_34: tstring_middle
+let mark = this.mark;
+const children: any[] = [];
+{
+let tstring_middle: any;
+while ((tstring_middle = this.tstring_middle()) !== null) {
+children.push(tstring_middle); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop1_35(): any {
+// _loop1_35: (fstring | string)
+let mark = this.mark;
+const children: any[] = [];
+{
+let _tmp_76: any;
+while ((_tmp_76 = this._tmp_76()) !== null) {
+children.push(_tmp_76); mark = this.mark;
+}
+this.mark = mark;
+}
+return children.length ? children : null;
+}
+_loop1_36(): any {
+// _loop1_36: tstring
+let mark = this.mark;
+const children: any[] = [];
+{
+let tstring: any;
+while ((tstring = this.tstring()) !== null) {
+children.push(tstring); mark = this.mark;
+}
+this.mark = mark;
+}
+return children.length ? children : null;
+}
+_tmp_37(): any {
+// _tmp_37: star_named_expressions
 const mark = this.mark;
 {
 let star_named_expressions: any;
@@ -1812,22 +2235,22 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_25(): any {
-// _tmp_25: star_named_expression ',' star_named_expressions?
+_tmp_38(): any {
+// _tmp_38: star_named_expression ',' star_named_expressions?
 const mark = this.mark;
 {
 let y: any;
 let literal: any;
 let z: any;
-if ((y = this.star_named_expression()) !== null && (literal = this.literal(",")) !== null && ((z = this._tmp_63()), true)) {
+if ((y = this.star_named_expression()) !== null && (literal = this.literal(",")) !== null && ((z = this._tmp_77()), true)) {
 return [y, ...(z ?? [])];
 }
 this.mark = mark;
 }
 return null;
 }
-_tmp_26(): any {
-// _tmp_26: double_starred_kvpairs
+_tmp_39(): any {
+// _tmp_39: double_starred_kvpairs
 const mark = this.mark;
 {
 let double_starred_kvpairs: any;
@@ -1838,8 +2261,8 @@ this.mark = mark;
 }
 return null;
 }
-_loop0_27(): any {
-// _loop0_27: ',' double_starred_kvpair
+_loop0_40(): any {
+// _loop0_40: ',' double_starred_kvpair
 let mark = this.mark;
 const children: any[] = [];
 {
@@ -1852,21 +2275,21 @@ this.mark = mark;
 }
 return children;
 }
-_gather_28(): any {
-// _gather_28: double_starred_kvpair _loop0_27
+_gather_41(): any {
+// _gather_41: double_starred_kvpair _loop0_40
 const mark = this.mark;
 {
 let elem: any;
 let seq: any;
-if ((elem = this.double_starred_kvpair()) !== null && (seq = this._loop0_27()) !== null) {
+if ((elem = this.double_starred_kvpair()) !== null && (seq = this._loop0_40()) !== null) {
 return [elem, ...seq];
 }
 this.mark = mark;
 }
 return null;
 }
-_tmp_29(): any {
-// _tmp_29: ','
+_tmp_42(): any {
+// _tmp_42: ','
 const mark = this.mark;
 {
 let literal: any;
@@ -1877,8 +2300,8 @@ this.mark = mark;
 }
 return null;
 }
-_loop1_30(): any {
-// _loop1_30: for_if_clause
+_loop1_43(): any {
+// _loop1_43: for_if_clause
 let mark = this.mark;
 const children: any[] = [];
 {
@@ -1890,34 +2313,34 @@ this.mark = mark;
 }
 return children.length ? children : null;
 }
-_loop0_31(): any {
-// _loop0_31: ('if' disjunction)
+_loop0_44(): any {
+// _loop0_44: ('if' disjunction)
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_64: any;
-while ((_tmp_64 = this._tmp_64()) !== null) {
-children.push(_tmp_64); mark = this.mark;
+let _tmp_78: any;
+while ((_tmp_78 = this._tmp_78()) !== null) {
+children.push(_tmp_78); mark = this.mark;
 }
 this.mark = mark;
 }
 return children;
 }
-_loop0_32(): any {
-// _loop0_32: ('if' disjunction)
+_loop0_45(): any {
+// _loop0_45: ('if' disjunction)
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_65: any;
-while ((_tmp_65 = this._tmp_65()) !== null) {
-children.push(_tmp_65); mark = this.mark;
+let _tmp_79: any;
+while ((_tmp_79 = this._tmp_79()) !== null) {
+children.push(_tmp_79); mark = this.mark;
 }
 this.mark = mark;
 }
 return children;
 }
-_tmp_33(): any {
-// _tmp_33: assignment_expression | expression !':='
+_tmp_46(): any {
+// _tmp_46: assignment_expression | expression !':='
 const mark = this.mark;
 {
 let assignment_expression: any;
@@ -1935,179 +2358,6 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_34(): any {
-// _tmp_34: ','
-const mark = this.mark;
-{
-let literal: any;
-if ((literal = this.literal(",")) !== null) {
-return literal;
-}
-this.mark = mark;
-}
-return null;
-}
-_loop0_35(): any {
-// _loop0_35: ',' (starred_expression | (assignment_expression | expression !':=') !'=')
-let mark = this.mark;
-const children: any[] = [];
-{
-let literal: any;
-let elem: any;
-while ((literal = this.literal(",")) !== null && (elem = this._tmp_66()) !== null) {
-children.push(elem); mark = this.mark;
-}
-this.mark = mark;
-}
-return children;
-}
-_gather_36(): any {
-// _gather_36: (starred_expression | (assignment_expression | expression !':=') !'=') _loop0_35
-const mark = this.mark;
-{
-let elem: any;
-let seq: any;
-if ((elem = this._tmp_66()) !== null && (seq = this._loop0_35()) !== null) {
-return [elem, ...seq];
-}
-this.mark = mark;
-}
-return null;
-}
-_tmp_37(): any {
-// _tmp_37: ',' kwargs
-const mark = this.mark;
-{
-let literal: any;
-let k: any;
-if ((literal = this.literal(",")) !== null && (k = this.kwargs()) !== null) {
-return k;
-}
-this.mark = mark;
-}
-return null;
-}
-_loop0_38(): any {
-// _loop0_38: ',' kwarg_or_starred
-let mark = this.mark;
-const children: any[] = [];
-{
-let literal: any;
-let elem: any;
-while ((literal = this.literal(",")) !== null && (elem = this.kwarg_or_starred()) !== null) {
-children.push(elem); mark = this.mark;
-}
-this.mark = mark;
-}
-return children;
-}
-_gather_39(): any {
-// _gather_39: kwarg_or_starred _loop0_38
-const mark = this.mark;
-{
-let elem: any;
-let seq: any;
-if ((elem = this.kwarg_or_starred()) !== null && (seq = this._loop0_38()) !== null) {
-return [elem, ...seq];
-}
-this.mark = mark;
-}
-return null;
-}
-_loop0_40(): any {
-// _loop0_40: ',' kwarg_or_double_starred
-let mark = this.mark;
-const children: any[] = [];
-{
-let literal: any;
-let elem: any;
-while ((literal = this.literal(",")) !== null && (elem = this.kwarg_or_double_starred()) !== null) {
-children.push(elem); mark = this.mark;
-}
-this.mark = mark;
-}
-return children;
-}
-_gather_41(): any {
-// _gather_41: kwarg_or_double_starred _loop0_40
-const mark = this.mark;
-{
-let elem: any;
-let seq: any;
-if ((elem = this.kwarg_or_double_starred()) !== null && (seq = this._loop0_40()) !== null) {
-return [elem, ...seq];
-}
-this.mark = mark;
-}
-return null;
-}
-_loop0_42(): any {
-// _loop0_42: ',' kwarg_or_starred
-let mark = this.mark;
-const children: any[] = [];
-{
-let literal: any;
-let elem: any;
-while ((literal = this.literal(",")) !== null && (elem = this.kwarg_or_starred()) !== null) {
-children.push(elem); mark = this.mark;
-}
-this.mark = mark;
-}
-return children;
-}
-_gather_43(): any {
-// _gather_43: kwarg_or_starred _loop0_42
-const mark = this.mark;
-{
-let elem: any;
-let seq: any;
-if ((elem = this.kwarg_or_starred()) !== null && (seq = this._loop0_42()) !== null) {
-return [elem, ...seq];
-}
-this.mark = mark;
-}
-return null;
-}
-_loop0_44(): any {
-// _loop0_44: ',' kwarg_or_double_starred
-let mark = this.mark;
-const children: any[] = [];
-{
-let literal: any;
-let elem: any;
-while ((literal = this.literal(",")) !== null && (elem = this.kwarg_or_double_starred()) !== null) {
-children.push(elem); mark = this.mark;
-}
-this.mark = mark;
-}
-return children;
-}
-_gather_45(): any {
-// _gather_45: kwarg_or_double_starred _loop0_44
-const mark = this.mark;
-{
-let elem: any;
-let seq: any;
-if ((elem = this.kwarg_or_double_starred()) !== null && (seq = this._loop0_44()) !== null) {
-return [elem, ...seq];
-}
-this.mark = mark;
-}
-return null;
-}
-_loop0_46(): any {
-// _loop0_46: (',' star_target)
-let mark = this.mark;
-const children: any[] = [];
-{
-let _tmp_67: any;
-while ((_tmp_67 = this._tmp_67()) !== null) {
-children.push(_tmp_67); mark = this.mark;
-}
-this.mark = mark;
-}
-return children;
-}
 _tmp_47(): any {
 // _tmp_47: ','
 const mark = this.mark;
@@ -2121,7 +2371,180 @@ this.mark = mark;
 return null;
 }
 _loop0_48(): any {
-// _loop0_48: ',' star_target
+// _loop0_48: ',' (starred_expression | (assignment_expression | expression !':=') !'=')
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this._tmp_80()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_49(): any {
+// _gather_49: (starred_expression | (assignment_expression | expression !':=') !'=') _loop0_48
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this._tmp_80()) !== null && (seq = this._loop0_48()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_50(): any {
+// _tmp_50: ',' kwargs
+const mark = this.mark;
+{
+let literal: any;
+let k: any;
+if ((literal = this.literal(",")) !== null && (k = this.kwargs()) !== null) {
+return k;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_51(): any {
+// _loop0_51: ',' kwarg_or_starred
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this.kwarg_or_starred()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_52(): any {
+// _gather_52: kwarg_or_starred _loop0_51
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this.kwarg_or_starred()) !== null && (seq = this._loop0_51()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_53(): any {
+// _loop0_53: ',' kwarg_or_double_starred
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this.kwarg_or_double_starred()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_54(): any {
+// _gather_54: kwarg_or_double_starred _loop0_53
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this.kwarg_or_double_starred()) !== null && (seq = this._loop0_53()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_55(): any {
+// _loop0_55: ',' kwarg_or_starred
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this.kwarg_or_starred()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_56(): any {
+// _gather_56: kwarg_or_starred _loop0_55
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this.kwarg_or_starred()) !== null && (seq = this._loop0_55()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_57(): any {
+// _loop0_57: ',' kwarg_or_double_starred
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this.kwarg_or_double_starred()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_58(): any {
+// _gather_58: kwarg_or_double_starred _loop0_57
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this.kwarg_or_double_starred()) !== null && (seq = this._loop0_57()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_59(): any {
+// _loop0_59: (',' star_target)
+let mark = this.mark;
+const children: any[] = [];
+{
+let _tmp_81: any;
+while ((_tmp_81 = this._tmp_81()) !== null) {
+children.push(_tmp_81); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_tmp_60(): any {
+// _tmp_60: ','
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal(",")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_61(): any {
+// _loop0_61: ',' star_target
 let mark = this.mark;
 const children: any[] = [];
 {
@@ -2134,21 +2557,21 @@ this.mark = mark;
 }
 return children;
 }
-_gather_49(): any {
-// _gather_49: star_target _loop0_48
+_gather_62(): any {
+// _gather_62: star_target _loop0_61
 const mark = this.mark;
 {
 let elem: any;
 let seq: any;
-if ((elem = this.star_target()) !== null && (seq = this._loop0_48()) !== null) {
+if ((elem = this.star_target()) !== null && (seq = this._loop0_61()) !== null) {
 return [elem, ...seq];
 }
 this.mark = mark;
 }
 return null;
 }
-_tmp_50(): any {
-// _tmp_50: ','
+_tmp_63(): any {
+// _tmp_63: ','
 const mark = this.mark;
 {
 let literal: any;
@@ -2159,21 +2582,21 @@ this.mark = mark;
 }
 return null;
 }
-_loop1_51(): any {
-// _loop1_51: (',' star_target)
+_loop1_64(): any {
+// _loop1_64: (',' star_target)
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_68: any;
-while ((_tmp_68 = this._tmp_68()) !== null) {
-children.push(_tmp_68); mark = this.mark;
+let _tmp_82: any;
+while ((_tmp_82 = this._tmp_82()) !== null) {
+children.push(_tmp_82); mark = this.mark;
 }
 this.mark = mark;
 }
 return children.length ? children : null;
 }
-_tmp_52(): any {
-// _tmp_52: ','
+_tmp_65(): any {
+// _tmp_65: ','
 const mark = this.mark;
 {
 let literal: any;
@@ -2184,8 +2607,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_53(): any {
-// _tmp_53: !'*' star_target
+_tmp_66(): any {
+// _tmp_66: !'*' star_target
 const mark = this.mark;
 {
 let star_target: any;
@@ -2196,8 +2619,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_54(): any {
-// _tmp_54: star_targets_tuple_seq
+_tmp_67(): any {
+// _tmp_67: star_targets_tuple_seq
 const mark = this.mark;
 {
 let star_targets_tuple_seq: any;
@@ -2208,8 +2631,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_55(): any {
-// _tmp_55: star_targets_list_seq
+_tmp_68(): any {
+// _tmp_68: star_targets_list_seq
 const mark = this.mark;
 {
 let star_targets_list_seq: any;
@@ -2220,8 +2643,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_56(): any {
-// _tmp_56: arguments
+_tmp_69(): any {
+// _tmp_69: arguments
 const mark = this.mark;
 {
 let arguments_: any;
@@ -2232,8 +2655,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_57(): any {
-// _tmp_57: ',' expression
+_tmp_70(): any {
+// _tmp_70: ',' expression
 const mark = this.mark;
 {
 let literal: any;
@@ -2245,8 +2668,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_58(): any {
-// _tmp_58: ',' star_expression
+_tmp_71(): any {
+// _tmp_71: ',' star_expression
 const mark = this.mark;
 {
 let literal: any;
@@ -2258,8 +2681,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_59(): any {
-// _tmp_59: 'or' conjunction
+_tmp_72(): any {
+// _tmp_72: 'or' conjunction
 const mark = this.mark;
 {
 let literal: any;
@@ -2271,8 +2694,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_60(): any {
-// _tmp_60: 'and' inversion
+_tmp_73(): any {
+// _tmp_73: 'and' inversion
 const mark = this.mark;
 {
 let literal: any;
@@ -2284,8 +2707,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_61(): any {
-// _tmp_61: slice | starred_expression
+_tmp_74(): any {
+// _tmp_74: slice | starred_expression
 const mark = this.mark;
 {
 let slice: any;
@@ -2303,8 +2726,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_62(): any {
-// _tmp_62: expression
+_tmp_75(): any {
+// _tmp_75: expression
 const mark = this.mark;
 {
 let expression: any;
@@ -2315,8 +2738,27 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_63(): any {
-// _tmp_63: star_named_expressions
+_tmp_76(): any {
+// _tmp_76: fstring | string
+const mark = this.mark;
+{
+let fstring: any;
+if ((fstring = this.fstring()) !== null) {
+return fstring;
+}
+this.mark = mark;
+}
+{
+let string: any;
+if ((string = this.string()) !== null) {
+return string;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_77(): any {
+// _tmp_77: star_named_expressions
 const mark = this.mark;
 {
 let star_named_expressions: any;
@@ -2327,8 +2769,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_64(): any {
-// _tmp_64: 'if' disjunction
+_tmp_78(): any {
+// _tmp_78: 'if' disjunction
 const mark = this.mark;
 {
 let literal: any;
@@ -2340,8 +2782,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_65(): any {
-// _tmp_65: 'if' disjunction
+_tmp_79(): any {
+// _tmp_79: 'if' disjunction
 const mark = this.mark;
 {
 let literal: any;
@@ -2353,8 +2795,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_66(): any {
-// _tmp_66: starred_expression | (assignment_expression | expression !':=') !'='
+_tmp_80(): any {
+// _tmp_80: starred_expression | (assignment_expression | expression !':=') !'='
 const mark = this.mark;
 {
 let starred_expression: any;
@@ -2364,16 +2806,16 @@ return starred_expression;
 this.mark = mark;
 }
 {
-let _tmp_69: any;
-if ((_tmp_69 = this._tmp_69()) !== null && this.lookahead(() => this.literal("="), false)) {
-return _tmp_69;
+let _tmp_83: any;
+if ((_tmp_83 = this._tmp_83()) !== null && this.lookahead(() => this.literal("="), false)) {
+return _tmp_83;
 }
 this.mark = mark;
 }
 return null;
 }
-_tmp_67(): any {
-// _tmp_67: ',' star_target
+_tmp_81(): any {
+// _tmp_81: ',' star_target
 const mark = this.mark;
 {
 let literal: any;
@@ -2385,8 +2827,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_68(): any {
-// _tmp_68: ',' star_target
+_tmp_82(): any {
+// _tmp_82: ',' star_target
 const mark = this.mark;
 {
 let literal: any;
@@ -2398,8 +2840,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_69(): any {
-// _tmp_69: assignment_expression | expression !':='
+_tmp_83(): any {
+// _tmp_83: assignment_expression | expression !':='
 const mark = this.mark;
 {
 let assignment_expression: any;

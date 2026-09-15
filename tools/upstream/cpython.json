@@ -30,6 +30,10 @@
         "Parser/tokenizer/readline_tokenizer.c": "ceec9fee99b6d9f20184fdce56480b401ceff8d93e59f203fc554a7a09396834",
         "Parser/tokenizer/helpers.c": "e4758befadbccd319b5f187146bb0026ba650b9ad141cacfe5a2d61ded7aeb34",
         "Python/Python-tokenize.c": "fcb2f74a7f531ed038dd62be3d595d0276cfb3bf9e5d02ff2c88bedcd11b4e14",
-        "Parser/action_helpers.c": "8525fb18908d8aeca6ba3c0cd80ad1069c6866805fe756dbb70f21fbd1ae15f6"
+        "Parser/action_helpers.c": "8525fb18908d8aeca6ba3c0cd80ad1069c6866805fe756dbb70f21fbd1ae15f6",
+        "Parser/string_parser.c": "912934ce5595b05d9efef5eae7384168d93ca72d207b71b42b2fbd264229bcdc",
+        "Objects/unicodeobject.c": "9027ddd17d79a04afb4de072daee738723cd8ca8447b73c5cbaf4eff2bb8a1c7",
+        "Objects/bytesobject.c": "def2c6a9b37e113310912e3acdca094bd6a1e651d4a13039bd0f299e84409612",
+        "Modules/unicodedata.c": "3dbf4a506592e26c1f4457ce0a2d32cefe29abefd669742e65fe3cc73afd7506"
     }
 }

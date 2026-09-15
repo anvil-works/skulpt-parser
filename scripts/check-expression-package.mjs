@@ -12,6 +12,9 @@ await module.link((specifier) => {
 await module.evaluate();
 const fixtures = JSON.parse(readFileSync("tests/fixtures/python314-expressions.json", "utf8"));
 const selected = [
+    't"a{x}" t"b{y}"',
+    'f"{x!r:{y!s}}"',
+    "'\\N{SNOWMAN}'",
     "f(a, *xs, b, key=value, **kw)",
     "[a for (a, [b, *rest]) in rows]",
     "(a\r+b)",
