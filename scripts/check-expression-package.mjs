@@ -38,6 +38,9 @@ for (const source of selected) {
 }
 const moduleFixtures = JSON.parse(readFileSync("tests/fixtures/python314-modules.json", "utf8"));
 const selectedModules = [
+    "match subject:\n    case 0: zero()\n    case [x,*xs] if xs: use(x)\n    case _: fallback()\nafter()",
+    "match subject:\n    case {None: x, True: y, 1+2j: z, module.KEY: rest}:\n        pass",
+    "match subject:\n    case Point(first,y=second,):\n        pass",
     "async def f():\n    async with a as x:\n        await use(x)",
     "try: pass\nexcept* E1: one()\nexcept* E2: two()\nelse: success()\nfinally: cleanup()",
     "try: pass\nexcept A,B: pass",
