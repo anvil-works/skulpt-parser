@@ -1,4 +1,4 @@
-"""Emit expression rules from the pinned CPython grammar.
+"""Emit selected Python rules from the pinned CPython grammar.
 
 Selection is explicit. Generation rejects unknown semantic calls rather than emitting
 fallback helpers. CHECK allocation guards disappear because JavaScript allocations
@@ -15,6 +15,10 @@ from pegen.parser_generator import ParserGenerator
 
 RULES = set(
     """
+file statements statement simple_stmts simple_stmt assignment augassign
+single_target single_subscript_attribute_target del_targets del_target del_t_atom
+return_stmt raise_stmt pass_stmt break_stmt continue_stmt global_stmt nonlocal_stmt
+del_stmt yield_stmt assert_stmt
 eval expressions expression disjunction conjunction inversion comparison
 compare_op_bitwise_or_pair eq_bitwise_or noteq_bitwise_or lte_bitwise_or lt_bitwise_or
 gte_bitwise_or gt_bitwise_or notin_bitwise_or in_bitwise_or isnot_bitwise_or is_bitwise_or
@@ -131,6 +135,11 @@ def action(text):
                 raise ValueError("Parameter type comments are not implemented")
             return f"{{arg: {action(args[1])}, value: {action(args[2])}}}"
         helper = {
+            "_PyPegen_make_module": lambda a: f"ast.Module({a[1]} ?? [], [])",
+            "_PyPegen_seq_flatten": lambda a: f"{a[1]}.flat()",
+            "_PyPegen_augoperator": lambda a: f"{{kind: {a[1]}}}",
+            "_PyPegen_map_names_to_ids": lambda a: f"{a[1]}.map((name: ast.Name) => name.id)",
+            "NEW_TYPE_COMMENT": lambda a: f"this.typeComment({a[1]})",
             "_PyPegen_make_arguments": lambda a: f"makeArguments({', '.join(a[1:])})",
             "_PyPegen_slash_with_default": lambda a: f"{{plainNames: {a[1]}, namesWithDefaults: {a[2]}}}",
             "_PyPegen_star_etc": lambda a: f"{{vararg: {a[1]}, kwonlyargs: {a[2]}, kwarg: {a[3]}}}",
@@ -170,7 +179,7 @@ def action(text):
     ):
         return f"ast.{text}()"
     text = re.sub(r"\s*->\s*v\s*\.\s*Name\s*\.\s*id", ".id", text)
-    text = re.sub(r"\s*->\s*(key|value)\b", r".\1", text)
+    text = re.sub(r"\s*->\s*(key|value|kind)\b", r".\1", text)
     if not re.fullmatch(r"\w+(?:\.\w+)?", text):
         raise ValueError(f"Unsupported action expression: {text}")
     return text
@@ -250,12 +259,12 @@ class Generator(ParserGenerator):
         self.print("// SPDX-License-Identifier: Python-2.0 AND MIT")
         self.print("// Generated from CPython 3.14.3, commit 323c59a5e348347be2ce2b7ea55fcb30bf68b2d3.")
         self.print("// Upstream grammar/actions retain their PSF license; see licenses/CPython.txt.")
-        self.print("// Expression subset selected by tools/generate314/parser.py. Do not edit.")
+        self.print("// Grammar subset selected by tools/generate314/parser.py. Do not edit.")
         self.print('import * as ast from "./ast.ts";')
         self.print('import * as strings from "./strings.ts";')
         self.print('import { makeArguments } from "./parameters.ts";')
         self.print('import { Parser, memoize, memoizeLeftRec } from "./parser.ts";')
-        self.print("export class ExpressionParser extends Parser {")
+        self.print("export class GeneratedParser extends Parser {")
         for rule in self.all_rules.values():
             self.rule(rule)
         self.print("}")

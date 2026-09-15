@@ -34,6 +34,8 @@
         "Parser/string_parser.c": "912934ce5595b05d9efef5eae7384168d93ca72d207b71b42b2fbd264229bcdc",
         "Objects/unicodeobject.c": "9027ddd17d79a04afb4de072daee738723cd8ca8447b73c5cbaf4eff2bb8a1c7",
         "Objects/bytesobject.c": "def2c6a9b37e113310912e3acdca094bd6a1e651d4a13039bd0f299e84409612",
-        "Modules/unicodedata.c": "3dbf4a506592e26c1f4457ce0a2d32cefe29abefd669742e65fe3cc73afd7506"
+        "Modules/unicodedata.c": "3dbf4a506592e26c1f4457ce0a2d32cefe29abefd669742e65fe3cc73afd7506",
+        "Parser/pegen.c": "57f6eed2aabd6ab7afd002da67feb16791cb2a3a876e857d8c72791c5c38c679",
+        "Parser/pegen_errors.c": "3fae62f9121a92fc895bdabed32cc9d5120c15557eb66bcfcbbfbd467762bf5e"
     }
 }

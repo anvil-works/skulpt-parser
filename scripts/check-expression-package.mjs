@@ -36,11 +36,31 @@ for (const source of selected) {
     assert.deepEqual(JSON.parse(JSON.stringify(tree)), fixture.tree);
     assert.deepEqual(warnings, fixture.warnings);
 }
+const moduleFixtures = JSON.parse(readFileSync("tests/fixtures/python314-modules.json", "utf8"));
+const selectedModules = [
+    "",
+    "a,(b,[c,*rest]) = values",
+    "x = 1; y = x + 1;",
+    "(x): int",
+    "obj[start:end:step] = value",
+    "del a,(b,[c,d])",
+];
+for (const source of selectedModules) {
+    const fixture = moduleFixtures.cases.find((item) => item.source === source);
+    assert.ok(fixture, `Missing CPython module fixture: ${source}`);
+    const warnings = [];
+    const tree = module.namespace.parseModule(source, {
+        onWarning: ({ name, message, lineno }) => warnings.push({ name, message, lineno }),
+    });
+    assert.deepEqual(JSON.parse(JSON.stringify(tree)), fixture.tree);
+    assert.deepEqual(warnings, fixture.warnings);
+}
 console.log(
     JSON.stringify(
         {
             expressionPackageSmoke: "passed",
             cases: selected.length,
+            moduleCases: selectedModules.length,
             sizes: {
                 bytes: source.length,
                 gzip: gzipSync(source).length,

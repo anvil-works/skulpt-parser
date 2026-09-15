@@ -58,7 +58,7 @@ export function memoizeLeftRec(_target: Parser, name: string, descriptor: Proper
     };
 }
 
-/** Runtime for the generated expression subset, not the public frontend API. */
+/** Runtime for the generated grammar subset, not the public frontend API. */
 export class Parser {
     mark = 0;
     private tokens: Token[] = [];
@@ -68,7 +68,7 @@ export class Parser {
     readonly source: string;
     readonly onWarning: LexerOptions["onWarning"];
     readonly stringWarnings = new Set<string>();
-    constructor(source: string, options: Omit<LexerOptions, "extraTokens"> = {}) {
+    constructor(source: string, options: Omit<LexerOptions, "extraTokens">, readonly mode: "eval" | "exec") {
         this.source = source.replace(/\r\n?/g, "\n");
         this.onWarning = options.onWarning;
         this.filename = options.filename ?? "<string>";
@@ -110,6 +110,11 @@ export class Parser {
             token.end[0],
             token.endByte
         );
+    }
+    typeComment(token: Token | null): null {
+        // The internal API currently matches ast.parse(type_comments=False).
+        if (token !== null) throw this.error("type comment parsing is not enabled", token);
+        return null;
     }
     number(): ast.Constant | null {
         const token = this.expect("NUMBER");
@@ -172,13 +177,29 @@ export class Parser {
         return { args, keywords };
     }
     error(message: string, token = this.tokens[this.tokens.length - 1]): SyntaxError {
+        // pegen_errors.c classifies an unexpected INDENT before its generic
+        // syntax-error fallback. Non-extra tokenize positions omit that span.
+        if (message === "invalid syntax" && token?.type === "INDENT") {
+            const line = this.source.split("\n")[token.start[0] - 1];
+            return Object.assign(this.error("unexpected indent", token), {
+                name: "IndentationError",
+                offset: /^[ \t\f]*/.exec(line)![0].length,
+                end_offset: -1,
+                text: line + "\n",
+            });
+        }
         return Object.assign(new SyntaxError(message), {
             filename: this.filename,
             lineno: token?.start[0] ?? 1,
             offset: (token?.start[1] ?? 0) + 1,
             end_lineno: token?.end[0] ?? 1,
             end_offset: (token?.end[1] ?? 0) + 1,
-            text: token?.line ?? "",
+            // File-input parser errors include the implicit final newline;
+            // direct tokenizer errors preserve their separate source contract.
+            text:
+                this.mode === "exec" && token?.line && !token.line.endsWith("\n")
+                    ? token.line + "\n"
+                    : token?.line ?? "",
         });
     }
 }
