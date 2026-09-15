@@ -1,11 +1,12 @@
 // Copyright (c) 2021 the Skulpt Project
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: Python-2.0 AND MIT
+// Diagnostic pass and error ranges follow pinned Parser/pegen{,_errors}.c.
 import * as ast from "./ast.ts";
 import type { Token, LexerOptions } from "./lexer/tokenizer.ts";
-import { scan } from "./lexer/tokenizer.ts";
+import { Scanner } from "./lexer/tokenizer.ts";
 import { parseNumber } from "./parse_number.ts";
 
-// All hard keywords, including statements outside the current expression subset.
+// All hard keywords; contextual soft keywords remain grammar decisions.
 const keywords = new Set(
     "False None True and as assert async await break class continue def del elif else except finally for from global if import in is lambda nonlocal not or pass raise return try while with yield".split(
         " "
@@ -14,6 +15,8 @@ const keywords = new Set(
 
 type KeywordOrStarred = { isKeyword: true; element: ast.keyword } | { isKeyword: false; element: ast.Starred };
 type CallArguments = { args: ast.expr[]; keywords: ast.keyword[] };
+
+type Located = { lineno: number; col_offset: number; end_lineno: number | null; end_col_offset: number | null };
 
 type Memo = { value: any; end: number };
 type Rule = (this: Parser) => any;
@@ -58,13 +61,15 @@ export function memoizeLeftRec(_target: Parser, name: string, descriptor: Proper
     };
 }
 
-/** Runtime for the generated grammar subset, not the public frontend API. */
+/** Runtime for the internal generated Python 3.14 grammar. */
 export class Parser {
     mark = 0;
     barryAsFlufl = false;
+    callInvalidRules = false;
     private tokens: Token[] = [];
     private cache: Map<string, Memo>[] = [];
     private iterator: Generator<Token>;
+    private scanner: Scanner;
     readonly filename: string;
     readonly source: string;
     readonly onWarning: LexerOptions["onWarning"];
@@ -74,7 +79,19 @@ export class Parser {
         this.onWarning = options.onWarning;
         this.filename = options.filename ?? "<string>";
         // CPython parsing uses universal newlines; the standalone tokenizer does not.
-        this.iterator = scan(this.source, { ...options, extraTokens: false });
+        this.scanner = new Scanner(this.source, { ...options, extraTokens: false });
+        this.iterator = this.scanner.scan();
+    }
+    parse<T>(rule: () => T | null): T {
+        const result = rule();
+        if (result !== null) return result;
+        // Match pegen.c: retain tokens/flags, discard first-pass memo results.
+        const firstFailure = this.tokens[this.tokens.length - 1];
+        this.mark = 0;
+        this.cache = [];
+        this.callInvalidRules = true;
+        rule();
+        throw this.error("invalid syntax", firstFailure);
     }
     cacheAt(mark: number): Map<string, Memo> {
         return this.cache[mark] ?? (this.cache[mark] = new Map());
@@ -197,6 +214,40 @@ export class Parser {
         }
         return { args, keywords };
     }
+    diagnosticLine(node: Token | Located): number {
+        return "start" in node ? node.start[0] : node.lineno!;
+    }
+    raiseDiagnostic(indentation: boolean, message: string, ...values: (string | number)[]): never {
+        let i = 0;
+        message = message.replace(/%[dsU]/g, () => String(values[i++]));
+        const token = this.tokens[this.tokens.length - 1];
+        const error = this.error(message, token);
+        if (token?.start[1] === -1)
+            Object.assign(error, {
+                offset: this.scanner.diagnosticColumn(),
+                end_offset: -1,
+                text: (this.source.split("\n")[token.start[0] - 1] ?? "") + "\n",
+            });
+        if (indentation) error.name = "IndentationError";
+        throw error;
+    }
+    raiseKnown(start: Located | Token, end: Located | Token, message: string, ...values: (string | number)[]): never {
+        let i = 0;
+        message = message.replace(/%[dsU]/g, () => String(values[i++]));
+        const a = "start" in start ? [start.start[0], start.startByte] : [start.lineno!, start.col_offset!];
+        const b = "end" in end ? [end.end[0], end.endByte] : [end.end_lineno!, end.end_col_offset!];
+        const line = this.source.split("\n")[a[0] - 1] ?? "";
+        const column = (byte: number) =>
+            [...new TextDecoder().decode(new TextEncoder().encode(line).subarray(0, byte))].length + 1;
+        throw Object.assign(new SyntaxError(message), {
+            filename: this.filename,
+            lineno: a[0],
+            offset: column(a[1]),
+            end_lineno: b[0],
+            end_offset: column(b[1]),
+            text: line + (this.mode === "exec" ? "\n" : ""),
+        });
+    }
     error(message: string, token = this.tokens[this.tokens.length - 1]): SyntaxError {
         // pegen_errors.c classifies an unexpected INDENT before its generic
         // syntax-error fallback. Non-extra tokenize positions omit that span.
@@ -214,7 +265,7 @@ export class Parser {
             lineno: token?.start[0] ?? 1,
             offset: (token?.start[1] ?? 0) + 1,
             end_lineno: token?.end[0] ?? 1,
-            end_offset: (token?.end[1] ?? 0) + 1,
+            end_offset: token?.type === "NEWLINE" ? token.start[1] + 2 : (token?.end[1] ?? 0) + 1,
             // File-input parser errors include the implicit final newline;
             // direct tokenizer errors preserve their separate source contract.
             text:
