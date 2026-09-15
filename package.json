@@ -12,7 +12,10 @@
         "test": "rstest run",
         "test:watch": "rstest",
         "check": "tsc --noEmit",
-        "test:package": "node --experimental-vm-modules scripts/check-package.mjs"
+        "test:package": "node --experimental-vm-modules scripts/check-package.mjs",
+        "upstream:prepare": "python3 -m tools.upstream prepare",
+        "upstream:check": "python3.14 -m tools.upstream check",
+        "test:upstream": "python3 -m unittest tools.upstream.test_inputs"
     },
     "exports": {
         ".": {

@@ -25,3 +25,13 @@ jobs:
               env:
                   PYTHON: python
             - run: pnpm test:package
+    upstream-inputs:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.14.3"
+            - run: python -m unittest tools.upstream.test_inputs
+            - run: python -m tools.upstream prepare
+            - run: python -m tools.upstream check
