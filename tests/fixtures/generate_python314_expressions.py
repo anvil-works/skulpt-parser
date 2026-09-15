@@ -101,6 +101,57 @@ for op in [
     "or",
 ]:
     sources.extend([f"a {op} b", f"(a {op} b) {op} c", f"a {op} (b {op} c)"])
+sources.extend(
+    [
+        "f()",
+        "f(a)",
+        "f(a, b,)",
+        "f(*args)",
+        "f(**kwargs)",
+        "f(a=1)",
+        "f(a, *xs, b, key=value, **kw)",
+        "f(key=value, *xs)",
+        "f(*xs, *ys, k=1, **one, j=2, **two)",
+        "f(k=1, k=2)",
+        "f(value := 1)",
+        "f((value := 1), other)",
+        "f(a if b else c)",
+        "factory()(x).method(y)[index]",
+        "f(𝒙, résumé=café)",
+        "f(\n a, # comment\n *xs, key=value, **kw\n)",
+        "f(\r a,\r b\r)",
+        "[f(x) for x in xs]",
+        "{f(x) for x in xs}",
+        "{x: f(x) for x in xs}",
+        "(f(x) for x in xs)",
+        "f(x for x in xs)",
+        "f((x for x in xs), y)",
+        "[x for x in xs if x > 1 if ready(x)]",
+        "[(x,y) for x in xs for y in ys if x != y]",
+        "[x for x in (xs if cond else ys)]",
+        "[x async for x in xs]",
+        "[x async for x in xs if ok(x) for y in ys]",
+        "{x: y async for x, y in pairs}",
+        "(await f(x) async for x in xs)",
+        "[a for a, b in pairs]",
+        "[a for (a, [b, *rest]) in rows]",
+        "[a for *a, b in rows]",
+        "[a for [a] in rows]",
+        "[x for () in rows]",
+        "[x for obj.attr in rows]",
+        "[x for obj[index] in rows]",
+        "[x for factory().attr in rows]",
+        "[x for factory()[index] in rows]",
+        "[x for factory(y for y in ys).attr in rows]",
+        "[[y for y in x] for x in xs]",
+        "[f(x, k=y) for x, y in rows]",
+        "[(y := f(x)) for x in xs if y]",
+        "[x for x in (seq := data)]",
+        "[résumé for résumé in données if café]",
+        "[x\r for x in xs\r if x]",
+        "{x: y for x, y in pairs if y}",
+    ]
+)
 cases = []
 for source in sources:
     with warnings.catch_warnings(record=True) as caught:
@@ -133,7 +184,34 @@ for source in ["0b2", "0o9", "0x_", "1__0", "0123", "1e+", "1abc", "a + $", "(a]
         )
     else:
         raise AssertionError(f"Expected syntax error: {source}")
-fixtures = {"version": lock["version"], "cases": cases, "errors": errors}
+# Second-pass diagnostic actions remain outside this slice. These cases establish
+# rejection parity only; expected exception classes still come from CPython.
+rejections = []
+for source in [
+    "f(a=1, 2)",
+    "f(**kw, *args)",
+    "f(a,,b)",
+    "f(*, a)",
+    "f(**)",
+    "f(x for x in xs, y)",
+    "f(x for x in xs,)",
+    "[x for 1 in xs]",
+    "[x for a+b in xs]",
+    "[x for f() in xs]",
+    "[x for x xs]",
+    "[x for x in]",
+    "[x for x in xs if]",
+    "[*x for x in xs]",
+    "{**x for x in xs}",
+    "[x,y for x in xs]",
+]:
+    try:
+        ast.parse(source, mode="eval")
+    except SyntaxError as error:
+        rejections.append({"source": source, "errorName": type(error).__name__})
+    else:
+        raise AssertionError(f"Expected syntax rejection: {source}")
+fixtures = {"version": lock["version"], "cases": cases, "errors": errors, "rejections": rejections}
 Path(__file__).with_name("python314-expressions.json").write_text(
     json.dumps(fixtures, indent=4, ensure_ascii=True) + "\n"
 )
