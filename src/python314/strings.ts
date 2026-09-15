@@ -192,9 +192,17 @@ export function template(p: Parser, start: Token, values: ast.expr[], end: Token
 }
 export function conversion(p: Parser, token: Token, name: ast.Name): Metadata<ast.Name> {
     if (token.end[0] !== name.lineno || token.endByte !== name.col_offset)
-        throw p.error("conversion type must come right after the exclamation mark", token);
+        p.raiseKnown(
+            token,
+            name,
+            `${p.interpolationPrefix()}-string: conversion type must come right after the exclamation mark`
+        );
     if (!["s", "r", "a"].includes(name.id))
-        throw p.error("invalid conversion character: expected 's', 'r', or 'a'", token);
+        p.raiseKnown(
+            name,
+            name,
+            `${p.interpolationPrefix()}-string: invalid conversion character '${name.id}': expected 's', 'r', or 'a'`
+        );
     return { result: name, token };
 }
 export function formatSpec(p: Parser, token: Token, values: ast.expr[], ...span: Span): Metadata<ast.expr> {
@@ -340,7 +348,7 @@ export function concatenate(p: Parser, values: ast.expr[], ...span: Span): ast.e
     const hasBytes = values.some((value) => value._type === "Constant" && value.value.type === "bytes");
     if (hasBytes) {
         if (values.some((value) => value._type !== "Constant" || value.value.type !== "bytes"))
-            throw p.error("cannot mix bytes and nonbytes literals");
+            p.raiseDiagnostic(false, "cannot mix bytes and nonbytes literals");
         if (values.length === 1) return values[0];
         const arrays = values.map(
             (value) => ((value as ast.Constant).value as { type: "bytes"; value: Uint8Array }).value

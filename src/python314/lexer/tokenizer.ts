@@ -929,15 +929,20 @@ export class Scanner {
         for (let j = 0; j < mode.size; j++) this.back(mode.quote);
         return this.make(mode.stringKind + "_MIDDLE", this.start, this.cur);
     }
-    diagnosticColumn(): number {
+    diagnosticPosition(): [number, number] {
         // next() advances lineStart while detecting EOF; retain the final line's
         // consumed newline, as CPython's source-string tokenizer does.
+        let start = this.lineStart;
         if (this.done) {
-            let start = this.bytes.length - 2;
+            start = this.bytes.length - 2;
             while (start >= 0 && this.bytes[start] !== 10) start--;
-            return this.count(start + 1, this.bytes.length);
+            start++;
         }
-        return this.count(this.lineStart, this.cur);
+        return [this.lineno, this.cur - start];
+    }
+    diagnosticColumn(): number {
+        const [, bytes] = this.diagnosticPosition();
+        return this.count(this.cur - bytes, this.cur);
     }
     *scan(): Generator<Token> {
         while (true) {

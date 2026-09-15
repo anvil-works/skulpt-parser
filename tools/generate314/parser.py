@@ -15,14 +15,23 @@ from pegen.parser_generator import ParserGenerator
 
 RULES = set(
     """
-invalid_named_expression invalid_assignment invalid_ann_assign_target invalid_del_stmt
-invalid_with_item invalid_for_target invalid_as_pattern invalid_dotted_as_name invalid_import_from_as_name
-invalid_block invalid_if_stmt invalid_elif_stmt invalid_else_stmt invalid_while_stmt
-invalid_for_stmt invalid_def_raw invalid_class_def_raw invalid_with_stmt invalid_with_stmt_indent
-invalid_finally_stmt invalid_except_stmt_indent invalid_except_star_stmt_indent
-invalid_match_stmt invalid_case_block
-invalid_parameters invalid_parameters_helper invalid_default invalid_star_etc invalid_kwds
-invalid_lambda_parameters invalid_lambda_parameters_helper invalid_lambda_star_etc invalid_lambda_kwds
+invalid_arguments invalid_kwarg invalid_legacy_expression invalid_type_param
+invalid_expression invalid_named_expression invalid_assignment invalid_ann_assign_target
+invalid_del_stmt invalid_block invalid_comprehension invalid_dict_comprehension
+invalid_parameters invalid_default invalid_star_etc invalid_kwds
+invalid_parameters_helper invalid_lambda_parameters invalid_lambda_parameters_helper invalid_lambda_star_etc
+invalid_lambda_kwds invalid_double_type_comments invalid_with_item invalid_for_if_clause
+invalid_for_target invalid_group invalid_import invalid_dotted_as_name
+invalid_import_from_as_name invalid_import_from_targets invalid_with_stmt invalid_with_stmt_indent
+invalid_try_stmt invalid_except_stmt invalid_except_star_stmt invalid_finally_stmt
+invalid_except_stmt_indent invalid_except_star_stmt_indent invalid_match_stmt invalid_case_block
+invalid_as_pattern invalid_class_pattern invalid_class_argument_pattern invalid_if_stmt
+invalid_elif_stmt invalid_else_stmt invalid_while_stmt invalid_for_stmt
+invalid_def_raw invalid_class_def_raw invalid_double_starred_kvpairs invalid_kvpair
+invalid_starred_expression_unpacking invalid_starred_expression invalid_fstring_replacement_field invalid_fstring_conversion_character
+invalid_tstring_replacement_field invalid_tstring_conversion_character invalid_string_tstring_concat invalid_arithmetic
+invalid_factor invalid_type_params
+expression_without_invalid
 file statements statement simple_stmts simple_stmt assignment augassign
 compound_stmt block if_stmt elif_stmt else_block while_stmt for_stmt
 with_stmt with_item try_stmt except_block except_star_block finally_block
@@ -101,6 +110,37 @@ def arguments(text):
     return result + [text[start:].strip()]
 
 
+def conditional(text):
+    """Split only a top-level C conditional, preserving quoted punctuation."""
+    depth, quote, escape, question, nested = 0, None, False, None, 0
+    for i, char in enumerate(text):
+        if quote:
+            if escape:
+                escape = False
+            elif char == "\\":
+                escape = True
+            elif char == quote:
+                quote = None
+        elif char in "\"'":
+            quote = char
+        elif char == "(":
+            depth += 1
+        elif char == ")":
+            depth -= 1
+        elif depth == 0:
+            if char == "?":
+                if question is None:
+                    question = i
+                else:
+                    nested += 1
+            elif char == ":" and question is not None:
+                if nested:
+                    nested -= 1
+                else:
+                    return text[:question].strip(), text[question + 1 : i].strip(), text[i + 1 :].strip()
+    return None
+
+
 def action(text):
     text = re.sub(r"\(\s*(?:asdl_\w+\s*\*|expr_ty)\s*\)", "", text).strip()
     if text == "_PyPegen_check_barry_as_flufl ( p , tok ) ? NULL : tok":
@@ -123,6 +163,17 @@ def action(text):
         return f"({alias_name[1]}?.id ?? null)"
     if text == "asdl_seq_LEN ( patterns ) == 1 ? asdl_seq_GET ( patterns , 0 ) : _PyAST_MatchOr ( patterns , EXTRA )":
         return "patterns.length === 1 ? patterns[0] : ast.MatchOr(patterns, ...this.span(mark))"
+    choice = conditional(text)
+    if choice:
+        test, yes, no = choice
+        tests = {
+            "PyErr_Occurred()": "false",
+            "p->tokens[p->mark-1]->level==0": "this.tokenLevel() === 0",
+            "e->kind==Tuple_kind": 'e._type === "Tuple"',
+        }
+        key = re.sub(r"\s+", "", test)
+        condition = tests[key] if key in tests else action(test)
+        return f"({condition} ? {action(yes)} : {action(no)})"
     call = re.fullmatch(r"(\w+)\s*\((.*)\)", text, re.S)
     if call:
         name, raw = call.groups()
@@ -132,6 +183,16 @@ def action(text):
         if name == "CHECK_VERSION":
             assert int(args[1]) <= 14
             return action(args[3])
+        if name == "RAISE_SYNTAX_ERROR_STARTING_FROM":
+            return f"this.raiseStartingFrom({', '.join(action(arg) for arg in args)})"
+        if name == "RAISE_SYNTAX_ERROR_ON_NEXT_TOKEN":
+            return f"this.raiseOnNext({', '.join(action(arg) for arg in args)})"
+        if name == "RAISE_ERROR_KNOWN_LOCATION":
+            if args[:2] != ["p", "PyExc_SyntaxError"]:
+                raise ValueError(f"Unsupported diagnostic kind: {args[:2]}")
+            return f"this.raiseLocation({', '.join(action(arg) for arg in args[2:])})"
+        if name == "PyBytes_AS_STRING":
+            return re.sub(r"\s*->\s*bytes", ".string", args[0])
         if name == "RAISE_SYNTAX_ERROR_INVALID_TARGET":
             return f"diagnostics.invalidTarget(this, {json.dumps(args[0])}, {action(args[1])})"
         if name in {"RAISE_SYNTAX_ERROR", "RAISE_INDENTATION_ERROR"}:
@@ -201,6 +262,12 @@ def action(text):
             "_PyPegen_ensure_real": lambda a: f"this.ensurePatternNumber({a[1]}, false)",
             "_PyPegen_ensure_imaginary": lambda a: f"this.ensurePatternNumber({a[1]}, true)",
             "_PyPegen_get_expr_name": lambda a: f"diagnostics.expressionName({a[0]})",
+            "PyPegen_first_item": lambda a: f"{a[0]}[0]",
+            "PyPegen_last_item": lambda a: f"{a[0]}[{a[0]}.length - 1]",
+            "_PyPegen_get_last_comprehension_item": lambda a: f"diagnostics.lastComprehensionItem({a[0]})",
+            "_PyPegen_nonparen_genexp_in_call": lambda a: f"diagnostics.nonparenGenexp(this, {a[1]}, {a[2]})",
+            "_PyPegen_arguments_parsing_error": lambda a: f"diagnostics.argumentsError(this, {a[1]})",
+            "_PyPegen_check_legacy_stmt": lambda a: f"diagnostics.isLegacy({a[1]})",
             "_PyPegen_make_module": lambda a: f"finishModule(this, {a[1]} ?? [])",
             "_PyPegen_checked_future_import": lambda a: f"checkedImport(this, {', '.join(a[1:])})",
             "_PyPegen_seq_count_dots": lambda a: f"{a[0]}.reduce((sum: number, token: Token) => sum + token.string.length, 0)",
@@ -237,6 +304,8 @@ def action(text):
         return "...this.span(mark)"
     if text.startswith('"'):
         return json.dumps(ast.literal_eval(text))
+    if re.fullmatch(r"-?\s*\d+", text):
+        return re.sub(r"\s+", "", text)
     if text == "NULL":
         return "null"
     constants = {
@@ -257,8 +326,9 @@ def action(text):
     line_number = re.fullmatch(r"(\w+)\s*->\s*lineno", text)
     if line_number:
         return f"this.diagnosticLine({line_number[1]})"
+    text = re.sub(r"\s*->\s*(lineno|col_offset|end_lineno|end_col_offset)\b", r".\1", text)
     text = re.sub(r"\s*->\s*(key|value|kind)\b", r".\1", text)
-    if not re.fullmatch(r"\w+(?:\.\w+)?", text):
+    if not re.fullmatch(r"-?\w+(?:\.\w+)?(?: \- \d+)?", text):
         raise ValueError(f"Unsupported action expression: {text}")
     return text
 
@@ -270,6 +340,8 @@ class Calls(GrammarVisitor):
 
     def visit_NameLeaf(self, node):
         name = node.value
+        if name == "SOFT_KEYWORD":
+            return "soft_keyword", "this.softKeyword()"
         if name in {"NAME", "NUMBER"}:
             return name.lower(), f"this.{name.lower()}()"
         if name.isupper():
@@ -381,12 +453,17 @@ class Generator(ParserGenerator):
         elif rule.memo:
             self.print("@memoize")
         self.print(f"{rule.name}(): any {{")
+        if rule.name.endswith("without_invalid"):
+            self.print("const previous = this.callInvalidRules; this.callInvalidRules = false; try {")
         self.print(f"// {rule.name}: {rule.rhs}")
         loop = rule.is_loop()
         self.print(f"{'let' if loop else 'const'} mark = this.mark;")
         if loop:
             self.print("const children: any[] = [];")
         for alt in rule.rhs.alts:
+            refs = References()
+            refs.visit(alt)
+            diagnostic_alt = any(name.startswith("invalid_") for name in refs.names)
             self.print("{")
             names, conditions, cut = [], [], False
             for item in alt.items:
@@ -415,7 +492,7 @@ class Generator(ParserGenerator):
                 result = f"[{names[0]}, ...{names[1]}]"
             elif len(names) == 1:
                 result = names[0]
-            elif rule.name in self.lookahead_groups or self.diagnostic_context:
+            elif rule.name in self.lookahead_groups or self.diagnostic_context or diagnostic_alt:
                 # Like CPython dummy actions, these diagnostic groups and
                 # lookaheads need success/failure rather than an AST value.
                 result = "true"
@@ -438,6 +515,8 @@ class Generator(ParserGenerator):
             if rule.name.startswith("_loop0")
             else "return children.length ? children : null;" if loop else "return null;"
         )
+        if rule.name.endswith("without_invalid"):
+            self.print("} finally { this.callInvalidRules = previous; }")
         self.print("}")
 
 
@@ -454,11 +533,11 @@ class References(GrammarVisitor):
 
 
 def check_complete_rules(grammar):
-    """Do not silently prune non-diagnostic rules reachable from either entry point."""
+    """Do not silently prune rules reachable from either entry point, including diagnostics."""
     pending, visited = ["eval", "file"], set()
     while pending:
         name = pending.pop()
-        if name in visited or name.startswith("invalid_") or name not in grammar.rules:
+        if name in visited or name not in grammar.rules:
             continue
         visited.add(name)
         refs = References()

@@ -2092,6 +2092,3422 @@
                 "text": "del r\u00e9sum\u00e9,(\ud835\udc99,f())\n"
             },
             "warnings": []
+        },
+        {
+            "source": "lambda",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 0,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "lambda"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda:",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 0,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "lambda:"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a=1,b: b",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "parameter without a default follows parameter with a default",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "lambda a=1,b: b"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a=1,/,b: b",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "parameter without a default follows parameter with a default",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "lambda a=1,/,b: b"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda /: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "lambda /: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a,/,b,/: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "/ may appear only once",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "lambda a,/,b,/: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda *: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "named arguments must follow bare *",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "lambda *: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda *, : 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "named arguments must follow bare *",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "lambda *, : 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda *,**kw: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "named arguments must follow bare *",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "lambda *,**kw: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda **kw,a: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "arguments cannot follow var-keyword argument",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "lambda **kw,a: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda *args=1: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "var-positional argument cannot have default value",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "lambda *args=1: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda **kw=1: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "var-keyword argument cannot have default value",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "lambda **kw=1: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda (a,b): a",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Lambda expression parameters cannot be parenthesized",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "lambda (a,b): a"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a:int: a",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "lambda a:int: a"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a= : a",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "lambda a= : a"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a,,b: a",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "lambda a,,b: a"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a: yield a",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "lambda a: yield a"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a: a := 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "lambda a: a := 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda True: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "lambda True: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a,*b,*c: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "* argument may appear only once",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "lambda a,*b,*c: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "yield",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "yield"
+            },
+            "warnings": []
+        },
+        {
+            "source": "yield x",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "yield x"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(yield from)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "(yield from)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(yield from x,y)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "(yield from x,y)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(yield from *xs)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "(yield from *xs)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(yield x)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "f(yield x)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[yield x]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "[yield x]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(yield from x for x in xs)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "(yield from x for x in xs)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "'\\N{CJK UNIFIED IDEOGRAPH-004E00}'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "(unicode error) 'unicodeescape' codec can't decode bytes in position 0-31: unknown Unicode character name",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 35,
+                "text": "'\\N{CJK UNIFIED IDEOGRAPH-004E00}'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "'\\N{cjk unified ideograph-4e00}'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "(unicode error) 'unicodeescape' codec can't decode bytes in position 0-29: unknown Unicode character name",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 33,
+                "text": "'\\N{cjk unified ideograph-4e00}'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "'\\N{hangul syllable ga}'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "(unicode error) 'unicodeescape' codec can't decode bytes in position 0-21: unknown Unicode character name",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 25,
+                "text": "'\\N{hangul syllable ga}'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "'\\N{CJK COMPATIBILITY IDEOGRAPH-0F900}'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "(unicode error) 'unicodeescape' codec can't decode bytes in position 0-36: unknown Unicode character name",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 40,
+                "text": "'\\N{CJK COMPATIBILITY IDEOGRAPH-0F900}'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x!q}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: invalid conversion character 'q': expected 's', 'r', or 'a'",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "f\"{x!q}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x! r}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: conversion type must come right after the exclamation mark",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "t\"{x! r}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "'a' b'b'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot mix bytes and nonbytes literals",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "'a' b'b'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"a\" \"b\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot mix t-string literals with string or bytes literals",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "t\"a\" \"b\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"a\" t\"b\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot mix t-string literals with string or bytes literals",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "f\"a\" t\"b\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x!s=}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: expecting ':' or '}'",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "f\"{x!s=}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x!s=}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: expecting ':' or '}'",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "t\"{x!s=}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "'\\N{KEYCAP DIGIT ONE}'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "(unicode error) 'unicodeescape' codec can't decode bytes in position 0-19: unknown Unicode character name",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 23,
+                "text": "'\\N{KEYCAP DIGIT ONE}'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(a=1, 2)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "positional argument follows keyword argument",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "f(a=1, 2)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(**kw, *args)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "iterable argument unpacking follows keyword argument unpacking",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "f(**kw, *args)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(a,,b)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "f(a,,b)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(*, a)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Invalid star expression",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "f(*, a)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(**)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "f(**)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(x for x in xs, y)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Generator expression must be parenthesized",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "f(x for x in xs, y)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(x for x in xs,)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Generator expression must be parenthesized",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "f(x for x in xs,)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x for 1 in xs]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "[x for 1 in xs]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x for a+b in xs]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to expression",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "[x for a+b in xs]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x for f() in xs]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to function call",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "[x for f() in xs]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x for x xs]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'in' expected after for-loop variables",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "[x for x xs]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x for x in]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "[x for x in]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x for x in xs if]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 19,
+                "text": "[x for x in xs if]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[*x for x in xs]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "iterable unpacking cannot be used in comprehension",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "[*x for x in xs]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{**x for x in xs}",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "dict unpacking cannot be used in dict comprehension",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "{**x for x in xs}"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x,y for x in xs]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "did you forget parentheses around the comprehension target?",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "[x,y for x in xs]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x: case _: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "match x: case _: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x\n    case _: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "match x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 9,
+                "end_lineno": 2,
+                "end_offset": 10,
+                "text": "    case: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case _ pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 12,
+                "end_lineno": 2,
+                "end_offset": 16,
+                "text": "    case _ pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case *rest: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 15,
+                "end_lineno": 2,
+                "end_offset": 16,
+                "text": "    case *rest: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case 1+2: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "imaginary number required in complex literal",
+                "lineno": 2,
+                "offset": 12,
+                "end_lineno": 2,
+                "end_offset": 13,
+                "text": "    case 1+2: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case +1: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 10,
+                "end_lineno": 2,
+                "end_offset": 11,
+                "text": "    case +1: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case x+y: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 11,
+                "end_lineno": 2,
+                "end_offset": 12,
+                "text": "    case x+y: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case [a,,b]: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 13,
+                "end_lineno": 2,
+                "end_offset": 14,
+                "text": "    case [a,,b]: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case {**_}: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 13,
+                "end_lineno": 2,
+                "end_offset": 14,
+                "text": "    case {**_}: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case {key: value}: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 14,
+                "end_lineno": 2,
+                "end_offset": 15,
+                "text": "    case {key: value}: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case {**rest, 'key': x}: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 19,
+                "end_lineno": 2,
+                "end_offset": 24,
+                "text": "    case {**rest, 'key': x}: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case Point(x=a,b): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "positional patterns follow keyword patterns",
+                "lineno": 2,
+                "offset": 20,
+                "end_lineno": 2,
+                "end_offset": 21,
+                "text": "    case Point(x=a,b): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case Point(*xs): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 16,
+                "end_lineno": 2,
+                "end_offset": 17,
+                "text": "    case Point(*xs): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case Point(**kw): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 16,
+                "end_lineno": 2,
+                "end_offset": 18,
+                "text": "    case Point(**kw): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case a[0]: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 11,
+                "end_lineno": 2,
+                "end_offset": 12,
+                "text": "    case a[0]: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case a |: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 13,
+                "end_lineno": 2,
+                "end_offset": 14,
+                "text": "    case a |: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case x if: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 14,
+                "end_lineno": 2,
+                "end_offset": 15,
+                "text": "    case x if: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "\uff4d\uff41\uff54\uff43\uff48 x:\n    case _: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "\uff4d\uff41\uff54\uff43\uff48 x:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    \uff43\uff41\uff53\uff45 _: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 5,
+                "end_lineno": 2,
+                "end_offset": 9,
+                "text": "    \uff43\uff41\uff53\uff45 _: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "with: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "with x pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x as: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "with x as: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x as 1: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "with x as 1: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x as f(): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to function call",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "with x as f(): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x as a+b: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to expression",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "with x as a+b: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x,: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "with x,: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with (x as a: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "with (x as a: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async with x pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "async with x pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected 'except' or 'finally' block",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "try: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nelse: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected 'except' or 'finally' block",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "else: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept E as: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 12,
+                "end_lineno": 2,
+                "end_offset": 13,
+                "text": "except E as: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept A,B as e: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "multiple exception types must be parenthesized when using 'as'",
+                "lineno": 2,
+                "offset": 8,
+                "end_lineno": 2,
+                "end_offset": 16,
+                "text": "except A,B as e: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept* A,B as e: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "multiple exception types must be parenthesized when using 'as'",
+                "lineno": 2,
+                "offset": 9,
+                "end_lineno": 2,
+                "end_offset": 17,
+                "text": "except* A,B as e: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept*: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected one or more exception types",
+                "lineno": 2,
+                "offset": 8,
+                "end_lineno": 2,
+                "end_offset": 9,
+                "text": "except*: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept E: pass\nexcept* F: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot have both 'except' and 'except*' on the same 'try'",
+                "lineno": 3,
+                "offset": 1,
+                "end_lineno": 3,
+                "end_offset": 8,
+                "text": "except* F: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept* E: pass\nexcept F: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot have both 'except' and 'except*' on the same 'try'",
+                "lineno": 3,
+                "offset": 1,
+                "end_lineno": 3,
+                "end_offset": 7,
+                "text": "except F: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nfinally: pass\nexcept E: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 3,
+                "offset": 1,
+                "end_lineno": 3,
+                "end_offset": 7,
+                "text": "except E: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "except E: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "except E: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "finally: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "finally: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "def f(: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f() pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "def f() pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f() -> : pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "def f() -> : pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(*,): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "named arguments must follow bare *",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "def f(*,): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(/): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "def f(/): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(**kwargs=1): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "var-keyword argument cannot have default value",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "def f(**kwargs=1): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(a:): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "def f(a:): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f[T](x) ->: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "def f[T](x) ->: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async def f() pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": 19,
+                "text": "async def f() pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async class C: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "async class C: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class : pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "class : pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class C pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "class C pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class C(x=1,Base): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "positional argument follows keyword argument",
+                "lineno": 1,
+                "offset": 17,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "class C(x=1,Base): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "@decorate\npass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "@decorate def f(): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "@decorate def f(): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "@\ndef f(): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 3,
+                "text": "@\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n    pass\n  pass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "unindent does not match any outer indentation level",
+                "lineno": 3,
+                "offset": 7,
+                "end_lineno": 3,
+                "end_offset": -1,
+                "text": "  pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "if x pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if : pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "if : pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass; if y: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "if x: pass; if y: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelif: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 5,
+                "end_lineno": 2,
+                "end_offset": 6,
+                "text": "elif: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelse x: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 2,
+                "offset": 6,
+                "end_lineno": 2,
+                "end_offset": 7,
+                "text": "else x: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "else: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "else: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "elif x: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "elif x: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "while: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "while: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "while x pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "while x pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "while x: pass\nelif y: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "elif y: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "for in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "for x xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "for x in: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in xs pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "for x in xs pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in xs: pass\nelse x: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 2,
+                "offset": 6,
+                "end_lineno": 2,
+                "end_offset": 7,
+                "text": "else x: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async for x in xs pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 19,
+                "end_lineno": 1,
+                "end_offset": 23,
+                "text": "async for x in xs pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async while x: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "async while x: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async if x: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "async if x: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Expected one or more names after 'import'",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "import\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import os,",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "import os,\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import a as",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "import a as\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import .a",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "import .a\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import (os)",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "import (os)\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a import",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Expected one or more names after 'import'",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "from a import\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a import b,",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "trailing comma not allowed without surrounding parentheses",
+                "lineno": 1,
+                "offset": 17,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "from a import b,\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a import ()",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 16,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "from a import ()\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a import (*)",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 16,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "from a import (*)\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a import * as b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 17,
+                "end_lineno": 1,
+                "end_offset": 19,
+                "text": "from a import * as b\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a import b.c",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 16,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "from a import b.c\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a import b as",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 19,
+                "end_lineno": 1,
+                "end_offset": 20,
+                "text": "from a import b as\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from import a",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "from import a\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from . import",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Expected one or more names after 'import'",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "from . import\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a. import b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "from a. import b\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import a..b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "import a..b\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import if",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "import if\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from a import True",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": 19,
+                "text": "from a import True\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias =",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "type Alias =\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias[] = int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Type parameter list cannot be empty",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "type Alias[] = int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias[T,,U] = T",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "type Alias[T,,U] = T\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias[1] = int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "type Alias[1] = int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias[T:] = T",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "type Alias[T:] = T\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias[*Ts: int] = Ts",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use bound with TypeVarTuple",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": 20,
+                "text": "type Alias[*Ts: int] = Ts\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias[**P: int] = P",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use bound with ParamSpec",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": 20,
+                "text": "type Alias[**P: int] = P\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias[T=] = T",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "type Alias[T=] = T\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias[**P=] = P",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 16,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "type Alias[**P=] = P\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type Alias = *Ts",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "type Alias = *Ts\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type A.B = int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "type A.B = int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "\uff54\uff59\uff50\uff45 Alias = int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "\uff54\uff59\uff50\uff45 Alias = int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x <> y",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "x <> y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from .__future__ import barry_as_FLUFL\nx <> y",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 3,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "x <> y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x =",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "x =\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = y =",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "x = y =\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x +=",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "x +=\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "1 = x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 2,
+                "text": "1 = x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "True = x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to True",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "True = x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f() = x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to function call here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "f() = x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "a+b = x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to expression here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "a+b = x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x for x in xs] = values",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to list comprehension here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "[x for x in xs] = values\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[a] += values",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'list' is an illegal expression for augmented assignment",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "[a] += values\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x:",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "x:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x: int =",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "x: int =\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = y += 1",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "x = y += 1\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = 1;; y = 2",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "x = 1;; y = 2\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": ";pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 2,
+                "text": ";pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "pass pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "pass pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = 1 y = 2",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "x = 1 y = 2\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = 1\n@",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 2,
+                "end_lineno": 2,
+                "end_offset": 3,
+                "text": "@\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "pass\n  x = 1",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "unexpected indent",
+                "lineno": 2,
+                "offset": 2,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "  x = 1\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "del\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "global",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "global\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "global a,",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "global a,\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "nonlocal",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "nonlocal\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "nonlocal a.b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "nonlocal a.b\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "assert",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "assert\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "raise from cause",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "raise from cause\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "return from x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "return from x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "yield from",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "yield from\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "break 1",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "break 1\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "continue 1",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "continue 1\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(a=1,2)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "positional argument follows keyword argument",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "f(a=1,2)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(**kw,2)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "positional argument follows keyword argument unpacking",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "f(**kw,2)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(**kw,*xs)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "iterable argument unpacking follows keyword argument unpacking",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "f(**kw,*xs)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(x for x in xs,y)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Generator expression must be parenthesized",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "f(x for x in xs,y)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(a,x for x in xs)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Generator expression must be parenthesized",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "f(a,x for x in xs)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(a=)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected argument value expression",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "f(a=)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(True=1)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to True",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "f(True=1)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(a+b=1)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expression cannot contain assignment, perhaps you meant \"==\"?",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "f(a+b=1)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(**x=y)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to keyword argument unpacking",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "f(**x=y)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[a,b for x in xs]",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "did you forget parentheses around the comprehension target?",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "[a,b for x in xs]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{**d for x in xs}",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "dict unpacking cannot be used in dict comprehension",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "{**d for x in xs}"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{x:*y}",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use a starred expression in a dictionary value",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "{x:*y}"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{x:}",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expression expected after dictionary key and ':'",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "{x:}"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{1,2:3}",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "{1,2:3}"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x+not y",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'not' after an operator must be parenthesized",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "x+not y"
+            },
+            "warnings": []
+        },
+        {
+            "source": "+not x",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'not' after an operator must be parenthesized",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "+not x"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(a b)",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Perhaps you forgot a comma?",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "(a b)"
+            },
+            "warnings": []
+        },
+        {
+            "source": "'hello' name 'world'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Is this intended to be part of the string?",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "'hello' name 'world'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x if y",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected 'else' after 'if' expression",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "x if y"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x if y else pass",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected expression after 'else', but statement is given",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "x if y else pass"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f'hello' t'world'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot mix t-string literals with string or bytes literals",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "f'hello' t'world'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "t'hello' 'world'",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot mix t-string literals with string or bytes literals",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "t'hello' 'world'"
+            },
+            "warnings": []
+        },
+        {
+            "source": "print x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Missing parentheses in call to 'print'. Did you mean print(...)?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "print x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "exec 'x'",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Missing parentheses in call to 'exec'. Did you mean exec(...)?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "exec 'x'\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import x from y",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Did you mean to use 'from ... import ...' instead?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "import x from y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from x import",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Expected one or more names after 'import'",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "from x import\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from x import a,",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "trailing comma not allowed without surrounding parentheses",
+                "lineno": 1,
+                "offset": 17,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "from x import a,\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept E as f(): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use except statement with function call",
+                "lineno": 2,
+                "offset": 13,
+                "end_lineno": 2,
+                "end_offset": 16,
+                "text": "except E as f(): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type A[*Ts:int] = int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use bound with TypeVarTuple",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "type A[*Ts:int] = int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type A[**P:(int,str)] = int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use constraints with ParamSpec",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 21,
+                "text": "type A[**P:(int,str)] = int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "type A[] = int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Type parameter list cannot be empty",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "type A[] = int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case Point(a=x,y): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "positional patterns follow keyword patterns",
+                "lineno": 2,
+                "offset": 20,
+                "end_lineno": 2,
+                "end_offset": 21,
+                "text": "    case Point(a=x,y): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{=}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: valid expression required before '='",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "f\"{=}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{!r}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: valid expression required before '!'",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "f\"{!r}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{:x}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: valid expression required before ':'",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "f\"{:x}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: valid expression required before '}'",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "f\"{}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x!}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: missing conversion character",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "f\"{x!}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x!1}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: invalid conversion character",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "f\"{x!1}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x! rr}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: conversion type must come right after the exclamation mark",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "f\"{x! rr}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{lambda:x}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: lambda expressions are not allowed without parentheses",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "f\"{lambda:x}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x x}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Perhaps you forgot a comma?",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "f\"{x x}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x=foo}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: expecting '!', or ':', or '}'",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "f\"{x=foo}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{=}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: valid expression required before '='",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "t\"{=}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{!r}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: valid expression required before '!'",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "t\"{!r}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{:x}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: valid expression required before ':'",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "t\"{:x}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: valid expression required before '}'",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "t\"{}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x!}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: missing conversion character",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "t\"{x!}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x!1}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: invalid conversion character",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "t\"{x!1}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x! rr}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: conversion type must come right after the exclamation mark",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "t\"{x! rr}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{lambda:x}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: lambda expressions are not allowed without parentheses",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "t\"{lambda:x}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x x}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Perhaps you forgot a comma?",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "t\"{x x}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x=foo}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: expecting '!', or ':', or '}'",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "t\"{x=foo}\""
+            },
+            "warnings": []
         }
     ]
 }

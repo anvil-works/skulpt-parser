@@ -22,18 +22,6 @@ for (const { source, tree, warnings } of reference.cases) {
         expect(actualWarnings).toEqual(warnings);
     });
 }
-for (const { source, errorName } of reference.rejections) {
-    test(`CPython rejects module: ${JSON.stringify(source)}`, () => {
-        let failure: any;
-        try {
-            parseModule(source);
-        } catch (error) {
-            failure = error;
-        }
-        expect(failure).toBeDefined();
-        expect(failure.name).toBe(errorName);
-    });
-}
 
 for (const { source, error: expected } of reference.errors) {
     test(`CPython module error: ${JSON.stringify(source)}`, () => {

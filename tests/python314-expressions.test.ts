@@ -42,18 +42,6 @@ for (const { source, error: expected } of reference.errors) {
 }
 
 // Rejection parity only: second-pass diagnostic wording is not implemented yet.
-for (const { source, errorName } of reference.rejections) {
-    test(`CPython rejects expression: ${source}`, () => {
-        let failure: unknown;
-        try {
-            parseExpression(source);
-        } catch (error) {
-            failure = error;
-        }
-        expect(failure).toBeInstanceOf(SyntaxError);
-        expect((failure as Error).name).toBe(errorName);
-    });
-}
 
 // Deliberate frontend normalization of CPython's leaked codec exception.
 for (const { source, upstreamName, message } of reference.normalizedErrors) {
