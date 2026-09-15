@@ -99,6 +99,11 @@ export class Parser {
         this.mark++;
         return token;
     }
+    forcedLiteral(text: string): Token {
+        const token = this.literal(text);
+        if (token === null) throw this.error(`expected '${text}'`, this.peek());
+        return token;
+    }
     name(): ast.Name | null {
         const token = this.peek();
         if (token?.type !== "NAME" || keywords.has(token.string)) return null;
