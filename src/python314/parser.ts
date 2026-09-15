@@ -307,7 +307,9 @@ export class Parser {
         // CPython converts both columns against the starting line, even for
         // multiline ranges. Preserve that behavior rather than using the end line.
         const column = (byte: number) =>
-            [...new TextDecoder().decode(new TextEncoder().encode(line).subarray(0, byte))].length + 1;
+            byte < 0
+                ? byte + 1
+                : [...new TextDecoder().decode(new TextEncoder().encode(line).subarray(0, byte))].length + 1;
         throw Object.assign(new SyntaxError(message), {
             filename: this.filename,
             lineno: a[0],

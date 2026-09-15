@@ -41,8 +41,6 @@ for (const { source, error: expected } of reference.errors) {
     });
 }
 
-// Rejection parity only: second-pass diagnostic wording is not implemented yet.
-
 // Deliberate frontend normalization of CPython's leaked codec exception.
 for (const { source, upstreamName, message } of reference.normalizedErrors) {
     test(`Normalize ${upstreamName} from format specification: ${source}`, () => {

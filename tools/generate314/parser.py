@@ -167,6 +167,7 @@ def action(text):
     if choice:
         test, yes, no = choice
         tests = {
+            # JavaScript errors throw instead of leaving a pending error flag.
             "PyErr_Occurred()": "false",
             "p->tokens[p->mark-1]->level==0": "this.tokenLevel() === 0",
             "e->kind==Tuple_kind": 'e._type === "Tuple"',

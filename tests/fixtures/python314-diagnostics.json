@@ -4978,6 +4978,48 @@
             "warnings": []
         },
         {
+            "source": "{1:2, 3}",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "':' expected after dictionary key",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "{1:2, 3}"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{1:2, x}",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "':' expected after dictionary key",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "{1:2, x}"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{\u00e9:2, x}",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "':' expected after dictionary key",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "{\u00e9:2, x}"
+            },
+            "warnings": []
+        },
+        {
             "source": "x+not y",
             "mode": "eval",
             "error": {
