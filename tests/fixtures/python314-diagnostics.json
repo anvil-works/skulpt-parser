@@ -1,0 +1,1215 @@
+{
+    "version": "3.14.3",
+    "cases": [
+        {
+            "source": "if x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "if x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'if' statement on line 1",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "if x:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'if' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if caf\u00e9",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "if caf\u00e9\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if caf\u00e9:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'if' statement on line 1",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "if caf\u00e9:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if caf\u00e9:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'if' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "while x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "while x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "while x:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'while' statement on line 1",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "while x:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "while x:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'while' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in xs",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "for x in xs\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in xs:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'for' statement on line 1",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "for x in xs:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in xs:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'for' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async for x in xs",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 19,
+                "text": "async for x in xs\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async for x in xs:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'for' statement on line 1",
+                "lineno": 1,
+                "offset": 19,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "async for x in xs:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async for x in xs:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'for' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f()",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "def f()\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f():\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after function definition on line 1",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "def f():\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f():\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after function definition on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async def f()",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "async def f()\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async def f():\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after function definition on line 1",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "async def f():\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async def f():\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after function definition on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class C",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "class C\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class C:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after class definition on line 1",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "class C:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class C:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after class definition on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class C(Base)",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "class C(Base)\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class C(Base):\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after class definition on line 1",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "class C(Base):\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "class C(Base):\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after class definition on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "with x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'with' statement on line 1",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "with x:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with x:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'with' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async with x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "async with x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async with x:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'with' statement on line 1",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "async with x:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "async with x:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'with' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with (a as x,b as y)",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 21,
+                "end_lineno": 1,
+                "end_offset": 22,
+                "text": "with (a as x,b as y)\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with (a as x,b as y):\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'with' statement on line 1",
+                "lineno": 1,
+                "offset": 22,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "with (a as x,b as y):\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with (a as x,b as y):\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'with' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelif y",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 2,
+                "offset": 7,
+                "end_lineno": 2,
+                "end_offset": 8,
+                "text": "elif y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelif y:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'elif' statement on line 2",
+                "lineno": 2,
+                "offset": 8,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "elif y:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelif y:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'elif' statement on line 2",
+                "lineno": 3,
+                "offset": 1,
+                "end_lineno": 3,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "match x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'match' statement on line 1",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": -1,
+                "text": "match x:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'match' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case _",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 2,
+                "offset": 11,
+                "end_lineno": 2,
+                "end_offset": 12,
+                "text": "    case _\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case _:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'case' statement on line 2",
+                "lineno": 2,
+                "offset": 12,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "    case _:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case _:\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'case' statement on line 2",
+                "lineno": 3,
+                "offset": 0,
+                "end_lineno": 3,
+                "end_offset": -1,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelse:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'else' statement on line 2",
+                "lineno": 2,
+                "offset": 6,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "else:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nfinally:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'finally' statement on line 2",
+                "lineno": 2,
+                "offset": 9,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "finally:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept E:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'except' statement on line 2",
+                "lineno": 2,
+                "offset": 10,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "except E:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'except' statement on line 2",
+                "lineno": 2,
+                "offset": 8,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "except:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "try: pass\nexcept* E:\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'except*' statement on line 2",
+                "lineno": 2,
+                "offset": 11,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "except* E:\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n# comment\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'if' statement on line 1",
+                "lineno": 2,
+                "offset": 10,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "# comment\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if (\n x\n):\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'if' statement on line 1",
+                "lineno": 4,
+                "offset": 1,
+                "end_lineno": 4,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n\n",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'if' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": -1,
+                "text": "\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelse: pass\nelif y: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'elif' block follows an 'else' block",
+                "lineno": 3,
+                "offset": 1,
+                "end_lineno": 3,
+                "end_offset": 5,
+                "text": "elif y: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected '('",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "def f: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(a=1,b): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "parameter without a default follows parameter with a default",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "def f(a=1,b): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(/,): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "at least one argument must precede /",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "def f(/,): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(a,/,/): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "/ may appear only once",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "def f(a,/,/): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f((a,b)): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Function parameters cannot be parenthesized",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "def f((a,b)): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(*args,a,/): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "/ must be ahead of *",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "def f(*args,a,/): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(a,/*args): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected comma between / and *",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "def f(a,/*args): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(a=): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected default value expression",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "def f(a=): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(*): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "named arguments must follow bare *",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "def f(*): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(*args=1): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "var-positional argument cannot have default value",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "def f(*args=1): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(*a,*b): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "* argument may appear only once",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "def f(*a,*b): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(**kw=1): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "var-keyword argument cannot have default value",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "def f(**kw=1): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(**kw,x): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "arguments cannot follow var-keyword argument",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "def f(**kw,x): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(**kw,**other): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "arguments cannot follow var-keyword argument",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "def f(**kw,**other): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f(r\u00e9sum\u00e9=1,\ud835\udc99): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "parameter without a default follows parameter with a default",
+                "lineno": 1,
+                "offset": 16,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "def f(r\u00e9sum\u00e9=1,\ud835\udc99): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = '\\q'\nif x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 2,
+                "offset": 5,
+                "end_lineno": 2,
+                "end_offset": 6,
+                "text": "if x\n"
+            },
+            "warnings": [
+                {
+                    "name": "SyntaxWarning",
+                    "message": "\"\\q\" is an invalid escape sequence. Such sequences will not work in the future. Did you mean \"\\\\q\"? A raw string is also an option.",
+                    "lineno": 1
+                }
+            ]
+        },
+        {
+            "source": "if x\r\n",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "if x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if caf\u00e9:\r\npass",
+            "mode": "exec",
+            "error": {
+                "name": "IndentationError",
+                "message": "expected an indented block after 'if' statement on line 1",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 5,
+                "text": "pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda /,: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "at least one argument must precede /",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "lambda /,: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a,/,/: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "/ may appear only once",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "lambda a,/,/: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a=1,b: 1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "parameter without a default follows parameter with a default",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "lambda a=1,b: 1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda (a,b):1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Lambda expression parameters cannot be parenthesized",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "lambda (a,b):1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda *args,a,/:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "/ must be ahead of *",
+                "lineno": 1,
+                "offset": 16,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "lambda *args,a,/:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a,/*args:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected comma between / and *",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "lambda a,/*args:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda a=:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "lambda a=:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda *:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "named arguments must follow bare *",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 10,
+                "text": "lambda *:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda *a=1:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "var-positional argument cannot have default value",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "lambda *a=1:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda *a,*b:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "* argument may appear only once",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "lambda *a,*b:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda **kw=1:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "var-keyword argument cannot have default value",
+                "lineno": 1,
+                "offset": 12,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "lambda **kw=1:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda **kw,x:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "arguments cannot follow var-keyword argument",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "lambda **kw,x:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda **kw,**other:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "arguments cannot follow var-keyword argument",
+                "lineno": 1,
+                "offset": 13,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "lambda **kw,**other:1"
+            },
+            "warnings": []
+        },
+        {
+            "source": "lambda r\u00e9sum\u00e9=1,\ud835\udc99:1",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "parameter without a default follows parameter with a default",
+                "lineno": 1,
+                "offset": 17,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "lambda r\u00e9sum\u00e9=1,\ud835\udc99:1"
+            },
+            "warnings": []
+        }
+    ]
+}

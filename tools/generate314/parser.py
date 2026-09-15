@@ -15,6 +15,12 @@ from pegen.parser_generator import ParserGenerator
 
 RULES = set(
     """
+invalid_block invalid_if_stmt invalid_elif_stmt invalid_else_stmt invalid_while_stmt
+invalid_for_stmt invalid_def_raw invalid_class_def_raw invalid_with_stmt invalid_with_stmt_indent
+invalid_finally_stmt invalid_except_stmt_indent invalid_except_star_stmt_indent
+invalid_match_stmt invalid_case_block
+invalid_parameters invalid_parameters_helper invalid_default invalid_star_etc invalid_kwds
+invalid_lambda_parameters invalid_lambda_parameters_helper invalid_lambda_star_etc invalid_lambda_kwds
 file statements statement simple_stmts simple_stmt assignment augassign
 compound_stmt block if_stmt elif_stmt else_block while_stmt for_stmt
 with_stmt with_item try_stmt except_block except_star_block finally_block
@@ -124,6 +130,12 @@ def action(text):
         if name == "CHECK_VERSION":
             assert int(args[1]) <= 14
             return action(args[3])
+        if name in {"RAISE_SYNTAX_ERROR", "RAISE_INDENTATION_ERROR"}:
+            return f"this.raiseDiagnostic({str(name == 'RAISE_INDENTATION_ERROR').lower()}, {', '.join(action(arg) for arg in args)})"
+        if name in {"RAISE_SYNTAX_ERROR_KNOWN_LOCATION", "RAISE_SYNTAX_ERROR_KNOWN_RANGE"}:
+            bounds = args[:1] * 2 if name.endswith("LOCATION") else args[:2]
+            message_args = args[1:] if name.endswith("LOCATION") else args[2:]
+            return f"this.raiseKnown({', '.join(action(arg) for arg in bounds + message_args)})"
         if name.startswith("_PyAST_"):
             name = name.removeprefix("_PyAST_")
             if name == "Call" and re.fullmatch(r"_PyPegen_dummy_name\s*\(\s*p\s*\)", args[0]):
@@ -189,7 +201,7 @@ def action(text):
             "_PyPegen_seq_count_dots": lambda a: f"{a[0]}.reduce((sum: number, token: Token) => sum + token.string.length, 0)",
             "_PyPegen_alias_for_star": lambda a: 'ast.alias("*", null, ' + ", ".join(a[1:]) + ")",
             "_PyPegen_join_names_with_dot": lambda a: f"ast.Name({a[1]}.id + '.' + {a[2]}.id, ast.Load(), {a[1]}.lineno, {a[1]}.col_offset, {a[2]}.end_lineno, {a[2]}.end_col_offset)",
-            # Registration only records locations during CPython's invalid-rule pass.
+            # CPython's internal last-statement error metadata is not exposed here.
             "_PyPegen_register_stmts": lambda a: a[1],
             "_PyPegen_seq_flatten": lambda a: f"{a[1]}.flat()",
             "_PyPegen_augoperator": lambda a: f"{{kind: {a[1]}}}",
@@ -218,6 +230,8 @@ def action(text):
         raise ValueError(f"Unsupported action call: {name}")
     if text == "EXTRA":
         return "...this.span(mark)"
+    if text.startswith('"'):
+        return json.dumps(ast.literal_eval(text))
     if text == "NULL":
         return "null"
     constants = {
@@ -235,6 +249,9 @@ def action(text):
         return f"ast.{text}()"
     text = re.sub(r"\(\s*(\w+)\s*\)(?=\s*->)", r"\1", text)
     text = re.sub(r"\s*->\s*v\s*\.\s*Name\s*\.\s*id", ".id", text)
+    line_number = re.fullmatch(r"(\w+)\s*->\s*lineno", text)
+    if line_number:
+        return f"this.diagnosticLine({line_number[1]})"
     text = re.sub(r"\s*->\s*(key|value|kind)\b", r".\1", text)
     if not re.fullmatch(r"\w+(?:\.\w+)?", text):
         raise ValueError(f"Unsupported action expression: {text}")
@@ -252,6 +269,8 @@ class Calls(GrammarVisitor):
             return name.lower(), f"this.{name.lower()}()"
         if name.isupper():
             return name.lower(), f"this.expect({json.dumps(name)})"
+        if name.startswith("invalid_"):
+            return name, f"(this.callInvalidRules ? this.{name}() : null)"
         return name, f"this.{name}()"
 
     def visit_StringLeaf(self, node):
@@ -267,6 +286,8 @@ class Calls(GrammarVisitor):
         if node not in self.cache:
             self.cache[node] = self.gen.artificial_rule_from_rhs(node)
         name = self.cache[node]
+        if self.gen.diagnostic_context:
+            self.gen.diagnostic_groups.add(name)
         return name, f"this.{name}()"
 
     def visit_Group(self, node):
@@ -286,12 +307,16 @@ class Calls(GrammarVisitor):
         if node not in self.cache:
             self.cache[node] = self.gen.artificial_rule_from_repeat(node.node, one)
         name = self.cache[node]
+        if self.gen.diagnostic_context:
+            self.gen.diagnostic_groups.add(name)
         return name, f"this.{name}()"
 
     def visit_Gather(self, node):
         if node not in self.cache:
             self.cache[node] = self.gen.artificial_rule_from_gather(node)
         name = self.cache[node]
+        if self.gen.diagnostic_context:
+            self.gen.diagnostic_groups.add(name)
         return name, f"this.{name}()"
 
     def lookahead(self, node, positive):
@@ -321,6 +346,8 @@ class Generator(ParserGenerator):
         super().__init__(grammar, tokens, file)
         self.callmakervisitor = Calls(self)
         self.lookahead_groups = set()
+        self.diagnostic_groups = set()
+        self.diagnostic_context = False
 
     def generate(self, filename):
         self.collect_rules()
@@ -341,6 +368,7 @@ class Generator(ParserGenerator):
         self.print("}")
 
     def rule(self, rule):
+        self.diagnostic_context = rule.name.startswith("invalid_") or rule.name in self.diagnostic_groups
         if rule.left_recursive:
             if rule.leader:
                 self.print("@memoizeLeftRec")
@@ -381,8 +409,9 @@ class Generator(ParserGenerator):
                 result = f"[{names[0]}, ...{names[1]}]"
             elif len(names) == 1:
                 result = names[0]
-            elif rule.name in self.lookahead_groups:
-                # Lookahead only consumes success/failure, never a semantic value.
+            elif rule.name in self.lookahead_groups or self.diagnostic_context:
+                # Like CPython dummy actions, these diagnostic groups and
+                # lookaheads need success/failure rather than an AST value.
                 result = "true"
             else:
                 raise ValueError(f"Ambiguous default action: {rule.name}: {names}")

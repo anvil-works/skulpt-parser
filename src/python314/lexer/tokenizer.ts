@@ -72,7 +72,7 @@ const blankMode = (): Mode => ({
     debug: false,
     stringKind: "FSTRING",
 });
-class Scanner {
+export class Scanner {
     bytes: Uint8Array;
     originalLength: number;
     extra: boolean;
@@ -928,6 +928,16 @@ class Scanner {
         }
         for (let j = 0; j < mode.size; j++) this.back(mode.quote);
         return this.make(mode.stringKind + "_MIDDLE", this.start, this.cur);
+    }
+    diagnosticColumn(): number {
+        // next() advances lineStart while detecting EOF; retain the final line's
+        // consumed newline, as CPython's source-string tokenizer does.
+        if (this.done) {
+            let start = this.bytes.length - 2;
+            while (start >= 0 && this.bytes[start] !== 10) start--;
+            return this.count(start + 1, this.bytes.length);
+        }
+        return this.count(this.lineStart, this.cur);
     }
     *scan(): Generator<Token> {
         while (true) {

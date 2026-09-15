@@ -711,7 +711,7 @@ return null;
 }
 @memoize
 block(): any {
-// block: NEWLINE INDENT statements DEDENT | simple_stmts
+// block: NEWLINE INDENT statements DEDENT | simple_stmts | invalid_block
 const mark = this.mark;
 {
 let newline: any;
@@ -727,6 +727,13 @@ this.mark = mark;
 let simple_stmts: any;
 if ((simple_stmts = this.simple_stmts()) !== null) {
 return simple_stmts;
+}
+this.mark = mark;
+}
+{
+let invalid_block: any;
+if ((invalid_block = (this.callInvalidRules ? this.invalid_block() : null)) !== null) {
+return invalid_block;
 }
 this.mark = mark;
 }
@@ -765,8 +772,15 @@ this.mark = mark;
 return null;
 }
 class_def_raw(): any {
-// class_def_raw: 'class' NAME type_params? ['(' arguments? ')'] ':' block
+// class_def_raw: invalid_class_def_raw | 'class' NAME type_params? ['(' arguments? ')'] ':' block
 const mark = this.mark;
+{
+let invalid_class_def_raw: any;
+if ((invalid_class_def_raw = (this.callInvalidRules ? this.invalid_class_def_raw() : null)) !== null) {
+return invalid_class_def_raw;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let a: any;
@@ -802,8 +816,15 @@ this.mark = mark;
 return null;
 }
 function_def_raw(): any {
-// function_def_raw: 'def' NAME type_params? '(' params? ')' ['->' expression] ':' func_type_comment? block | 'async' 'def' NAME type_params? '(' params? ')' ['->' expression] ':' func_type_comment? block
+// function_def_raw: invalid_def_raw | 'def' NAME type_params? '(' params? ')' ['->' expression] ':' func_type_comment? block | 'async' 'def' NAME type_params? '(' params? ')' ['->' expression] ':' func_type_comment? block
 const mark = this.mark;
+{
+let invalid_def_raw: any;
+if ((invalid_def_raw = (this.callInvalidRules ? this.invalid_def_raw() : null)) !== null) {
+return invalid_def_raw;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let n: any;
@@ -840,8 +861,15 @@ this.mark = mark;
 return null;
 }
 params(): any {
-// params: parameters
+// params: invalid_parameters | parameters
 const mark = this.mark;
+{
+let invalid_parameters: any;
+if ((invalid_parameters = (this.callInvalidRules ? this.invalid_parameters() : null)) !== null) {
+return invalid_parameters;
+}
+this.mark = mark;
+}
 {
 let parameters: any;
 if ((parameters = this.parameters()) !== null) {
@@ -946,8 +974,15 @@ this.mark = mark;
 return null;
 }
 star_etc(): any {
-// star_etc: '*' param_no_default param_maybe_default* kwds? | '*' param_no_default_star_annotation param_maybe_default* kwds? | '*' ',' param_maybe_default+ kwds? | kwds
+// star_etc: invalid_star_etc | '*' param_no_default param_maybe_default* kwds? | '*' param_no_default_star_annotation param_maybe_default* kwds? | '*' ',' param_maybe_default+ kwds? | kwds
 const mark = this.mark;
+{
+let invalid_star_etc: any;
+if ((invalid_star_etc = (this.callInvalidRules ? this.invalid_star_etc() : null)) !== null) {
+return invalid_star_etc;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let a: any;
@@ -988,8 +1023,15 @@ this.mark = mark;
 return null;
 }
 kwds(): any {
-// kwds: '**' param_no_default
+// kwds: invalid_kwds | '**' param_no_default
 const mark = this.mark;
+{
+let invalid_kwds: any;
+if ((invalid_kwds = (this.callInvalidRules ? this.invalid_kwds() : null)) !== null) {
+return invalid_kwds;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let a: any;
@@ -1145,7 +1187,7 @@ this.mark = mark;
 return null;
 }
 default(): any {
-// default: '=' expression
+// default: '=' expression | invalid_default
 const mark = this.mark;
 {
 let literal: any;
@@ -1155,11 +1197,25 @@ return a;
 }
 this.mark = mark;
 }
+{
+let invalid_default: any;
+if ((invalid_default = (this.callInvalidRules ? this.invalid_default() : null)) !== null) {
+return invalid_default;
+}
+this.mark = mark;
+}
 return null;
 }
 if_stmt(): any {
-// if_stmt: 'if' named_expression ':' block elif_stmt | 'if' named_expression ':' block else_block?
+// if_stmt: invalid_if_stmt | 'if' named_expression ':' block elif_stmt | 'if' named_expression ':' block else_block?
 const mark = this.mark;
+{
+let invalid_if_stmt: any;
+if ((invalid_if_stmt = (this.callInvalidRules ? this.invalid_if_stmt() : null)) !== null) {
+return invalid_if_stmt;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let a: any;
@@ -1185,8 +1241,15 @@ this.mark = mark;
 return null;
 }
 elif_stmt(): any {
-// elif_stmt: 'elif' named_expression ':' block elif_stmt | 'elif' named_expression ':' block else_block?
+// elif_stmt: invalid_elif_stmt | 'elif' named_expression ':' block elif_stmt | 'elif' named_expression ':' block else_block?
 const mark = this.mark;
+{
+let invalid_elif_stmt: any;
+if ((invalid_elif_stmt = (this.callInvalidRules ? this.invalid_elif_stmt() : null)) !== null) {
+return invalid_elif_stmt;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let a: any;
@@ -1212,8 +1275,15 @@ this.mark = mark;
 return null;
 }
 else_block(): any {
-// else_block: 'else' &&':' block
+// else_block: invalid_else_stmt | 'else' &&':' block
 const mark = this.mark;
+{
+let invalid_else_stmt: any;
+if ((invalid_else_stmt = (this.callInvalidRules ? this.invalid_else_stmt() : null)) !== null) {
+return invalid_else_stmt;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let literal_1: any;
@@ -1226,8 +1296,15 @@ this.mark = mark;
 return null;
 }
 while_stmt(): any {
-// while_stmt: 'while' named_expression ':' block else_block?
+// while_stmt: invalid_while_stmt | 'while' named_expression ':' block else_block?
 const mark = this.mark;
+{
+let invalid_while_stmt: any;
+if ((invalid_while_stmt = (this.callInvalidRules ? this.invalid_while_stmt() : null)) !== null) {
+return invalid_while_stmt;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let a: any;
@@ -1242,8 +1319,15 @@ this.mark = mark;
 return null;
 }
 for_stmt(): any {
-// for_stmt: 'for' star_targets 'in' ~ star_expressions ':' TYPE_COMMENT? block else_block? | 'async' 'for' star_targets 'in' ~ star_expressions ':' TYPE_COMMENT? block else_block?
+// for_stmt: invalid_for_stmt | 'for' star_targets 'in' ~ star_expressions ':' TYPE_COMMENT? block else_block? | 'async' 'for' star_targets 'in' ~ star_expressions ':' TYPE_COMMENT? block else_block?
 const mark = this.mark;
+{
+let invalid_for_stmt: any;
+if ((invalid_for_stmt = (this.callInvalidRules ? this.invalid_for_stmt() : null)) !== null) {
+return invalid_for_stmt;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let t: any;
@@ -1280,8 +1364,15 @@ if (cut) return null;
 return null;
 }
 with_stmt(): any {
-// with_stmt: 'with' '(' ','.with_item+ ','? ')' ':' TYPE_COMMENT? block | 'with' ','.with_item+ ':' TYPE_COMMENT? block | 'async' 'with' '(' ','.with_item+ ','? ')' ':' block | 'async' 'with' ','.with_item+ ':' TYPE_COMMENT? block
+// with_stmt: invalid_with_stmt_indent | 'with' '(' ','.with_item+ ','? ')' ':' TYPE_COMMENT? block | 'with' ','.with_item+ ':' TYPE_COMMENT? block | 'async' 'with' '(' ','.with_item+ ','? ')' ':' block | 'async' 'with' ','.with_item+ ':' TYPE_COMMENT? block | invalid_with_stmt
 const mark = this.mark;
+{
+let invalid_with_stmt_indent: any;
+if ((invalid_with_stmt_indent = (this.callInvalidRules ? this.invalid_with_stmt_indent() : null)) !== null) {
+return invalid_with_stmt_indent;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let literal_1: any;
@@ -1330,6 +1421,13 @@ let tc: any;
 let b: any;
 if ((literal = this.literal("async")) !== null && (literal_1 = this.literal("with")) !== null && (a = this._gather_83()) !== null && (literal_2 = this.literal(":")) !== null && ((tc = this._tmp_84()), true) && (b = this.block()) !== null) {
 return ast.AsyncWith(a, b, this.typeComment(tc), ...this.span(mark));
+}
+this.mark = mark;
+}
+{
+let invalid_with_stmt: any;
+if ((invalid_with_stmt = (this.callInvalidRules ? this.invalid_with_stmt() : null)) !== null) {
+return invalid_with_stmt;
 }
 this.mark = mark;
 }
@@ -1396,8 +1494,15 @@ this.mark = mark;
 return null;
 }
 except_block(): any {
-// except_block: 'except' expression ':' block | 'except' expression 'as' NAME ':' block | 'except' expressions ':' block | 'except' ':' block
+// except_block: invalid_except_stmt_indent | 'except' expression ':' block | 'except' expression 'as' NAME ':' block | 'except' expressions ':' block | 'except' ':' block
 const mark = this.mark;
+{
+let invalid_except_stmt_indent: any;
+if ((invalid_except_stmt_indent = (this.callInvalidRules ? this.invalid_except_stmt_indent() : null)) !== null) {
+return invalid_except_stmt_indent;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let e: any;
@@ -1442,8 +1547,15 @@ this.mark = mark;
 return null;
 }
 except_star_block(): any {
-// except_star_block: 'except' '*' expression ':' block | 'except' '*' expression 'as' NAME ':' block | 'except' '*' expressions ':' block
+// except_star_block: invalid_except_star_stmt_indent | 'except' '*' expression ':' block | 'except' '*' expression 'as' NAME ':' block | 'except' '*' expressions ':' block
 const mark = this.mark;
+{
+let invalid_except_star_stmt_indent: any;
+if ((invalid_except_star_stmt_indent = (this.callInvalidRules ? this.invalid_except_star_stmt_indent() : null)) !== null) {
+return invalid_except_star_stmt_indent;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let literal_1: any;
@@ -1482,8 +1594,15 @@ this.mark = mark;
 return null;
 }
 finally_block(): any {
-// finally_block: 'finally' &&':' block
+// finally_block: invalid_finally_stmt | 'finally' &&':' block
 const mark = this.mark;
+{
+let invalid_finally_stmt: any;
+if ((invalid_finally_stmt = (this.callInvalidRules ? this.invalid_finally_stmt() : null)) !== null) {
+return invalid_finally_stmt;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let literal_1: any;
@@ -1496,7 +1615,7 @@ this.mark = mark;
 return null;
 }
 match_stmt(): any {
-// match_stmt: "match" subject_expr ':' NEWLINE INDENT case_block+ DEDENT
+// match_stmt: "match" subject_expr ':' NEWLINE INDENT case_block+ DEDENT | invalid_match_stmt
 const mark = this.mark;
 {
 let literal: any;
@@ -1508,6 +1627,13 @@ let cases: any;
 let dedent: any;
 if ((literal = this.literal("match")) !== null && (subject = this.subject_expr()) !== null && (literal_1 = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && (indent = this.expect("INDENT")) !== null && (cases = this._loop1_92()) !== null && (dedent = this.expect("DEDENT")) !== null) {
 return ast.Match(subject, cases, ...this.span(mark));
+}
+this.mark = mark;
+}
+{
+let invalid_match_stmt: any;
+if ((invalid_match_stmt = (this.callInvalidRules ? this.invalid_match_stmt() : null)) !== null) {
+return invalid_match_stmt;
 }
 this.mark = mark;
 }
@@ -1535,8 +1661,15 @@ this.mark = mark;
 return null;
 }
 case_block(): any {
-// case_block: "case" patterns guard? ':' block
+// case_block: invalid_case_block | "case" patterns guard? ':' block
 const mark = this.mark;
+{
+let invalid_case_block: any;
+if ((invalid_case_block = (this.callInvalidRules ? this.invalid_case_block() : null)) !== null) {
+return invalid_case_block;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let pattern: any;
@@ -3295,8 +3428,15 @@ this.mark = mark;
 return null;
 }
 lambda_params(): any {
-// lambda_params: lambda_parameters
+// lambda_params: invalid_lambda_parameters | lambda_parameters
 const mark = this.mark;
+{
+let invalid_lambda_parameters: any;
+if ((invalid_lambda_parameters = (this.callInvalidRules ? this.invalid_lambda_parameters() : null)) !== null) {
+return invalid_lambda_parameters;
+}
+this.mark = mark;
+}
 {
 let lambda_parameters: any;
 if ((lambda_parameters = this.lambda_parameters()) !== null) {
@@ -3401,8 +3541,15 @@ this.mark = mark;
 return null;
 }
 lambda_star_etc(): any {
-// lambda_star_etc: '*' lambda_param_no_default lambda_param_maybe_default* lambda_kwds? | '*' ',' lambda_param_maybe_default+ lambda_kwds? | lambda_kwds
+// lambda_star_etc: invalid_lambda_star_etc | '*' lambda_param_no_default lambda_param_maybe_default* lambda_kwds? | '*' ',' lambda_param_maybe_default+ lambda_kwds? | lambda_kwds
 const mark = this.mark;
+{
+let invalid_lambda_star_etc: any;
+if ((invalid_lambda_star_etc = (this.callInvalidRules ? this.invalid_lambda_star_etc() : null)) !== null) {
+return invalid_lambda_star_etc;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let a: any;
@@ -3433,8 +3580,15 @@ this.mark = mark;
 return null;
 }
 lambda_kwds(): any {
-// lambda_kwds: '**' lambda_param_no_default
+// lambda_kwds: invalid_lambda_kwds | '**' lambda_param_no_default
 const mark = this.mark;
+{
+let invalid_lambda_kwds: any;
+if ((invalid_lambda_kwds = (this.callInvalidRules ? this.invalid_lambda_kwds() : null)) !== null) {
+return invalid_lambda_kwds;
+}
+this.mark = mark;
+}
 {
 let literal: any;
 let a: any;
@@ -4453,6 +4607,695 @@ this.mark = mark;
 }
 return null;
 }
+invalid_block(): any {
+// invalid_block: NEWLINE !INDENT
+const mark = this.mark;
+{
+let newline: any;
+if ((newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_parameters(): any {
+// invalid_parameters: "/" ',' | (slash_no_default | slash_with_default) param_maybe_default* '/' | slash_no_default? param_no_default* invalid_parameters_helper param_no_default | param_no_default* '(' param_no_default+ ','? ')' | [(slash_no_default | slash_with_default)] param_maybe_default* '*' (',' | param_no_default) param_maybe_default* '/' | param_maybe_default+ '/' '*'
+const mark = this.mark;
+{
+let a: any;
+let literal: any;
+if ((a = this.literal("/")) !== null && (literal = this.literal(",")) !== null) {
+return this.raiseKnown(a, a, "at least one argument must precede /");
+}
+this.mark = mark;
+}
+{
+let _tmp_213: any;
+let _loop0_214: any;
+let a: any;
+if ((_tmp_213 = this._tmp_213()) !== null && (_loop0_214 = this._loop0_214()) !== null && (a = this.literal("/")) !== null) {
+return this.raiseKnown(a, a, "/ may appear only once");
+}
+this.mark = mark;
+}
+{
+let slash_no_default: any;
+let _loop0_215: any;
+let invalid_parameters_helper: any;
+let a: any;
+if (((slash_no_default = this.slash_no_default()), true) && (_loop0_215 = this._loop0_215()) !== null && (invalid_parameters_helper = (this.callInvalidRules ? this.invalid_parameters_helper() : null)) !== null && (a = this.param_no_default()) !== null) {
+return this.raiseKnown(a, a, "parameter without a default follows parameter with a default");
+}
+this.mark = mark;
+}
+{
+let _loop0_216: any;
+let a: any;
+let _loop1_217: any;
+let literal: any;
+let b: any;
+if ((_loop0_216 = this._loop0_216()) !== null && (a = this.literal("(")) !== null && (_loop1_217 = this._loop1_217()) !== null && ((literal = this.literal(",")), true) && (b = this.literal(")")) !== null) {
+return this.raiseKnown(a, b, "Function parameters cannot be parenthesized");
+}
+this.mark = mark;
+}
+{
+let _tmp_218: any;
+let _loop0_219: any;
+let literal: any;
+let _tmp_220: any;
+let _loop0_221: any;
+let a: any;
+if (((_tmp_218 = this._tmp_218()), true) && (_loop0_219 = this._loop0_219()) !== null && (literal = this.literal("*")) !== null && (_tmp_220 = this._tmp_220()) !== null && (_loop0_221 = this._loop0_221()) !== null && (a = this.literal("/")) !== null) {
+return this.raiseKnown(a, a, "/ must be ahead of *");
+}
+this.mark = mark;
+}
+{
+let _loop1_222: any;
+let literal: any;
+let a: any;
+if ((_loop1_222 = this._loop1_222()) !== null && (literal = this.literal("/")) !== null && (a = this.literal("*")) !== null) {
+return this.raiseKnown(a, a, "expected comma between / and *");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_default(): any {
+// invalid_default: '=' &(')' | ',')
+const mark = this.mark;
+{
+let a: any;
+if ((a = this.literal("=")) !== null && this.lookahead(() => this._tmp_223(), true)) {
+return this.raiseKnown(a, a, "expected default value expression");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_star_etc(): any {
+// invalid_star_etc: '*' (')' | ',' (')' | '**')) | '*' ',' TYPE_COMMENT | '*' param '=' | '*' (param_no_default | ',') param_maybe_default* '*' (param_no_default | ',')
+const mark = this.mark;
+{
+let a: any;
+let _tmp_224: any;
+if ((a = this.literal("*")) !== null && (_tmp_224 = this._tmp_224()) !== null) {
+return this.raiseKnown(a, a, "named arguments must follow bare *");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let literal_1: any;
+let type_comment: any;
+if ((literal = this.literal("*")) !== null && (literal_1 = this.literal(",")) !== null && (type_comment = this.expect("TYPE_COMMENT")) !== null) {
+return this.raiseDiagnostic(false, "bare * has associated type comment");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let param: any;
+let a: any;
+if ((literal = this.literal("*")) !== null && (param = this.param()) !== null && (a = this.literal("=")) !== null) {
+return this.raiseKnown(a, a, "var-positional argument cannot have default value");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let _tmp_225: any;
+let _loop0_226: any;
+let a: any;
+let _tmp_227: any;
+if ((literal = this.literal("*")) !== null && (_tmp_225 = this._tmp_225()) !== null && (_loop0_226 = this._loop0_226()) !== null && (a = this.literal("*")) !== null && (_tmp_227 = this._tmp_227()) !== null) {
+return this.raiseKnown(a, a, "* argument may appear only once");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_kwds(): any {
+// invalid_kwds: '**' param '=' | '**' param ',' param | '**' param ',' ('*' | '**' | '/')
+const mark = this.mark;
+{
+let literal: any;
+let param: any;
+let a: any;
+if ((literal = this.literal("**")) !== null && (param = this.param()) !== null && (a = this.literal("=")) !== null) {
+return this.raiseKnown(a, a, "var-keyword argument cannot have default value");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let param: any;
+let literal_1: any;
+let a: any;
+if ((literal = this.literal("**")) !== null && (param = this.param()) !== null && (literal_1 = this.literal(",")) !== null && (a = this.param()) !== null) {
+return this.raiseKnown(a, a, "arguments cannot follow var-keyword argument");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let param: any;
+let literal_1: any;
+let a: any;
+if ((literal = this.literal("**")) !== null && (param = this.param()) !== null && (literal_1 = this.literal(",")) !== null && (a = this._tmp_228()) !== null) {
+return this.raiseKnown(a, a, "arguments cannot follow var-keyword argument");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_parameters_helper(): any {
+// invalid_parameters_helper: slash_with_default | param_with_default+
+const mark = this.mark;
+{
+let a: any;
+if ((a = this.slash_with_default()) !== null) {
+return [a];
+}
+this.mark = mark;
+}
+{
+let _loop1_229: any;
+if ((_loop1_229 = this._loop1_229()) !== null) {
+return _loop1_229;
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_lambda_parameters(): any {
+// invalid_lambda_parameters: "/" ',' | (lambda_slash_no_default | lambda_slash_with_default) lambda_param_maybe_default* '/' | lambda_slash_no_default? lambda_param_no_default* invalid_lambda_parameters_helper lambda_param_no_default | lambda_param_no_default* '(' ','.lambda_param+ ','? ')' | [(lambda_slash_no_default | lambda_slash_with_default)] lambda_param_maybe_default* '*' (',' | lambda_param_no_default) lambda_param_maybe_default* '/' | lambda_param_maybe_default+ '/' '*'
+const mark = this.mark;
+{
+let a: any;
+let literal: any;
+if ((a = this.literal("/")) !== null && (literal = this.literal(",")) !== null) {
+return this.raiseKnown(a, a, "at least one argument must precede /");
+}
+this.mark = mark;
+}
+{
+let _tmp_230: any;
+let _loop0_231: any;
+let a: any;
+if ((_tmp_230 = this._tmp_230()) !== null && (_loop0_231 = this._loop0_231()) !== null && (a = this.literal("/")) !== null) {
+return this.raiseKnown(a, a, "/ may appear only once");
+}
+this.mark = mark;
+}
+{
+let lambda_slash_no_default: any;
+let _loop0_232: any;
+let invalid_lambda_parameters_helper: any;
+let a: any;
+if (((lambda_slash_no_default = this.lambda_slash_no_default()), true) && (_loop0_232 = this._loop0_232()) !== null && (invalid_lambda_parameters_helper = (this.callInvalidRules ? this.invalid_lambda_parameters_helper() : null)) !== null && (a = this.lambda_param_no_default()) !== null) {
+return this.raiseKnown(a, a, "parameter without a default follows parameter with a default");
+}
+this.mark = mark;
+}
+{
+let _loop0_233: any;
+let a: any;
+let _gather_235: any;
+let literal: any;
+let b: any;
+if ((_loop0_233 = this._loop0_233()) !== null && (a = this.literal("(")) !== null && (_gather_235 = this._gather_235()) !== null && ((literal = this.literal(",")), true) && (b = this.literal(")")) !== null) {
+return this.raiseKnown(a, b, "Lambda expression parameters cannot be parenthesized");
+}
+this.mark = mark;
+}
+{
+let _tmp_236: any;
+let _loop0_237: any;
+let literal: any;
+let _tmp_238: any;
+let _loop0_239: any;
+let a: any;
+if (((_tmp_236 = this._tmp_236()), true) && (_loop0_237 = this._loop0_237()) !== null && (literal = this.literal("*")) !== null && (_tmp_238 = this._tmp_238()) !== null && (_loop0_239 = this._loop0_239()) !== null && (a = this.literal("/")) !== null) {
+return this.raiseKnown(a, a, "/ must be ahead of *");
+}
+this.mark = mark;
+}
+{
+let _loop1_240: any;
+let literal: any;
+let a: any;
+if ((_loop1_240 = this._loop1_240()) !== null && (literal = this.literal("/")) !== null && (a = this.literal("*")) !== null) {
+return this.raiseKnown(a, a, "expected comma between / and *");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_lambda_parameters_helper(): any {
+// invalid_lambda_parameters_helper: lambda_slash_with_default | lambda_param_with_default+
+const mark = this.mark;
+{
+let a: any;
+if ((a = this.lambda_slash_with_default()) !== null) {
+return [a];
+}
+this.mark = mark;
+}
+{
+let _loop1_241: any;
+if ((_loop1_241 = this._loop1_241()) !== null) {
+return _loop1_241;
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_lambda_star_etc(): any {
+// invalid_lambda_star_etc: '*' (':' | ',' (':' | '**')) | '*' lambda_param '=' | '*' (lambda_param_no_default | ',') lambda_param_maybe_default* '*' (lambda_param_no_default | ',')
+const mark = this.mark;
+{
+let literal: any;
+let _tmp_242: any;
+if ((literal = this.literal("*")) !== null && (_tmp_242 = this._tmp_242()) !== null) {
+return this.raiseDiagnostic(false, "named arguments must follow bare *");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let lambda_param: any;
+let a: any;
+if ((literal = this.literal("*")) !== null && (lambda_param = this.lambda_param()) !== null && (a = this.literal("=")) !== null) {
+return this.raiseKnown(a, a, "var-positional argument cannot have default value");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let _tmp_243: any;
+let _loop0_244: any;
+let a: any;
+let _tmp_245: any;
+if ((literal = this.literal("*")) !== null && (_tmp_243 = this._tmp_243()) !== null && (_loop0_244 = this._loop0_244()) !== null && (a = this.literal("*")) !== null && (_tmp_245 = this._tmp_245()) !== null) {
+return this.raiseKnown(a, a, "* argument may appear only once");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_lambda_kwds(): any {
+// invalid_lambda_kwds: '**' lambda_param '=' | '**' lambda_param ',' lambda_param | '**' lambda_param ',' ('*' | '**' | '/')
+const mark = this.mark;
+{
+let literal: any;
+let lambda_param: any;
+let a: any;
+if ((literal = this.literal("**")) !== null && (lambda_param = this.lambda_param()) !== null && (a = this.literal("=")) !== null) {
+return this.raiseKnown(a, a, "var-keyword argument cannot have default value");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let lambda_param: any;
+let literal_1: any;
+let a: any;
+if ((literal = this.literal("**")) !== null && (lambda_param = this.lambda_param()) !== null && (literal_1 = this.literal(",")) !== null && (a = this.lambda_param()) !== null) {
+return this.raiseKnown(a, a, "arguments cannot follow var-keyword argument");
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let lambda_param: any;
+let literal_1: any;
+let a: any;
+if ((literal = this.literal("**")) !== null && (lambda_param = this.lambda_param()) !== null && (literal_1 = this.literal(",")) !== null && (a = this._tmp_246()) !== null) {
+return this.raiseKnown(a, a, "arguments cannot follow var-keyword argument");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_with_stmt(): any {
+// invalid_with_stmt: 'async'? 'with' ','.(expression ['as' star_target])+ NEWLINE | 'async'? 'with' '(' ','.(expressions ['as' star_target])+ ','? ')' NEWLINE
+const mark = this.mark;
+{
+let _tmp_247: any;
+let literal: any;
+let _gather_249: any;
+let newline: any;
+if (((_tmp_247 = this._tmp_247()), true) && (literal = this.literal("with")) !== null && (_gather_249 = this._gather_249()) !== null && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+{
+let _tmp_250: any;
+let literal: any;
+let literal_1: any;
+let _gather_252: any;
+let literal_2: any;
+let literal_3: any;
+let newline: any;
+if (((_tmp_250 = this._tmp_250()), true) && (literal = this.literal("with")) !== null && (literal_1 = this.literal("(")) !== null && (_gather_252 = this._gather_252()) !== null && ((literal_2 = this.literal(",")), true) && (literal_3 = this.literal(")")) !== null && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_with_stmt_indent(): any {
+// invalid_with_stmt_indent: 'async'? 'with' ','.(expression ['as' star_target])+ ':' NEWLINE !INDENT | 'async'? 'with' '(' ','.(expressions ['as' star_target])+ ','? ')' ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let _tmp_253: any;
+let a: any;
+let _gather_255: any;
+let literal: any;
+let newline: any;
+if (((_tmp_253 = this._tmp_253()), true) && (a = this.literal("with")) !== null && (_gather_255 = this._gather_255()) !== null && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'with' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+{
+let _tmp_256: any;
+let a: any;
+let literal: any;
+let _gather_258: any;
+let literal_1: any;
+let literal_2: any;
+let literal_3: any;
+let newline: any;
+if (((_tmp_256 = this._tmp_256()), true) && (a = this.literal("with")) !== null && (literal = this.literal("(")) !== null && (_gather_258 = this._gather_258()) !== null && ((literal_1 = this.literal(",")), true) && (literal_2 = this.literal(")")) !== null && (literal_3 = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'with' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_finally_stmt(): any {
+// invalid_finally_stmt: 'finally' ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let a: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("finally")) !== null && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'finally' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_except_stmt_indent(): any {
+// invalid_except_stmt_indent: 'except' expression ['as' NAME] ':' NEWLINE !INDENT | 'except' ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let a: any;
+let expression: any;
+let _tmp_259: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("except")) !== null && (expression = this.expression()) !== null && ((_tmp_259 = this._tmp_259()), true) && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'except' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+{
+let a: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("except")) !== null && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'except' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_except_star_stmt_indent(): any {
+// invalid_except_star_stmt_indent: 'except' '*' expression ['as' NAME] ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let a: any;
+let literal: any;
+let expression: any;
+let _tmp_260: any;
+let literal_1: any;
+let newline: any;
+if ((a = this.literal("except")) !== null && (literal = this.literal("*")) !== null && (expression = this.expression()) !== null && ((_tmp_260 = this._tmp_260()), true) && (literal_1 = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'except*' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_match_stmt(): any {
+// invalid_match_stmt: "match" subject_expr NEWLINE | "match" subject_expr ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let literal: any;
+let subject_expr: any;
+let newline: any;
+if ((literal = this.literal("match")) !== null && (subject_expr = this.subject_expr()) !== null && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+{
+let a: any;
+let subject: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("match")) !== null && (subject = this.subject_expr()) !== null && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'match' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_case_block(): any {
+// invalid_case_block: "case" patterns guard? NEWLINE | "case" patterns guard? ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let literal: any;
+let patterns: any;
+let guard: any;
+let newline: any;
+if ((literal = this.literal("case")) !== null && (patterns = this.patterns()) !== null && ((guard = this.guard()), true) && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+{
+let a: any;
+let patterns: any;
+let guard: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("case")) !== null && (patterns = this.patterns()) !== null && ((guard = this.guard()), true) && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'case' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_if_stmt(): any {
+// invalid_if_stmt: 'if' named_expression NEWLINE | 'if' named_expression ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let literal: any;
+let named_expression: any;
+let newline: any;
+if ((literal = this.literal("if")) !== null && (named_expression = this.named_expression()) !== null && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+{
+let a: any;
+let a_1: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("if")) !== null && (a_1 = this.named_expression()) !== null && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'if' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_elif_stmt(): any {
+// invalid_elif_stmt: 'elif' named_expression NEWLINE | 'elif' named_expression ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let literal: any;
+let named_expression: any;
+let newline: any;
+if ((literal = this.literal("elif")) !== null && (named_expression = this.named_expression()) !== null && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+{
+let a: any;
+let named_expression: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("elif")) !== null && (named_expression = this.named_expression()) !== null && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'elif' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_else_stmt(): any {
+// invalid_else_stmt: 'else' ':' NEWLINE !INDENT | 'else' ':' block 'elif'
+const mark = this.mark;
+{
+let a: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("else")) !== null && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'else' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let literal_1: any;
+let block: any;
+let literal_2: any;
+if ((literal = this.literal("else")) !== null && (literal_1 = this.literal(":")) !== null && (block = this.block()) !== null && (literal_2 = this.literal("elif")) !== null) {
+return this.raiseDiagnostic(false, "'elif' block follows an 'else' block");
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_while_stmt(): any {
+// invalid_while_stmt: 'while' named_expression NEWLINE | 'while' named_expression ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let literal: any;
+let named_expression: any;
+let newline: any;
+if ((literal = this.literal("while")) !== null && (named_expression = this.named_expression()) !== null && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+{
+let a: any;
+let named_expression: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("while")) !== null && (named_expression = this.named_expression()) !== null && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'while' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_for_stmt(): any {
+// invalid_for_stmt: 'async'? 'for' star_targets 'in' star_expressions NEWLINE | 'async'? 'for' star_targets 'in' star_expressions ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let _tmp_261: any;
+let literal: any;
+let star_targets: any;
+let literal_1: any;
+let star_expressions: any;
+let newline: any;
+if (((_tmp_261 = this._tmp_261()), true) && (literal = this.literal("for")) !== null && (star_targets = this.star_targets()) !== null && (literal_1 = this.literal("in")) !== null && (star_expressions = this.star_expressions()) !== null && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+{
+let _tmp_262: any;
+let a: any;
+let star_targets: any;
+let literal: any;
+let star_expressions: any;
+let literal_1: any;
+let newline: any;
+if (((_tmp_262 = this._tmp_262()), true) && (a = this.literal("for")) !== null && (star_targets = this.star_targets()) !== null && (literal = this.literal("in")) !== null && (star_expressions = this.star_expressions()) !== null && (literal_1 = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after 'for' statement on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_def_raw(): any {
+// invalid_def_raw: 'async'? 'def' NAME type_params? '(' params? ')' ['->' expression] ':' NEWLINE !INDENT | 'async'? 'def' NAME type_params? &&'(' params? ')' ['->' expression] &&':' func_type_comment? block
+const mark = this.mark;
+{
+let _tmp_263: any;
+let a: any;
+let name: any;
+let _tmp_264: any;
+let literal: any;
+let _tmp_265: any;
+let literal_1: any;
+let _tmp_266: any;
+let literal_2: any;
+let newline: any;
+if (((_tmp_263 = this._tmp_263()), true) && (a = this.literal("def")) !== null && (name = this.name()) !== null && ((_tmp_264 = this._tmp_264()), true) && (literal = this.literal("(")) !== null && ((_tmp_265 = this._tmp_265()), true) && (literal_1 = this.literal(")")) !== null && ((_tmp_266 = this._tmp_266()), true) && (literal_2 = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after function definition on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+{
+let _tmp_267: any;
+let literal: any;
+let name: any;
+let _tmp_268: any;
+let literal_1: any;
+let _tmp_269: any;
+let literal_2: any;
+let _tmp_270: any;
+let literal_3: any;
+let _tmp_271: any;
+let block: any;
+if (((_tmp_267 = this._tmp_267()), true) && (literal = this.literal("def")) !== null && (name = this.name()) !== null && ((_tmp_268 = this._tmp_268()), true) && (literal_1 = this.forcedLiteral("(")) !== null && ((_tmp_269 = this._tmp_269()), true) && (literal_2 = this.literal(")")) !== null && ((_tmp_270 = this._tmp_270()), true) && (literal_3 = this.forcedLiteral(":")) !== null && ((_tmp_271 = this._tmp_271()), true) && (block = this.block()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+invalid_class_def_raw(): any {
+// invalid_class_def_raw: 'class' NAME type_params? ['(' arguments? ')'] NEWLINE | 'class' NAME type_params? ['(' arguments? ')'] ':' NEWLINE !INDENT
+const mark = this.mark;
+{
+let literal: any;
+let name: any;
+let _tmp_272: any;
+let _tmp_273: any;
+let newline: any;
+if ((literal = this.literal("class")) !== null && (name = this.name()) !== null && ((_tmp_272 = this._tmp_272()), true) && ((_tmp_273 = this._tmp_273()), true) && (newline = this.expect("NEWLINE")) !== null) {
+return this.raiseDiagnostic(false, "expected ':'");
+}
+this.mark = mark;
+}
+{
+let a: any;
+let name: any;
+let _tmp_274: any;
+let _tmp_275: any;
+let literal: any;
+let newline: any;
+if ((a = this.literal("class")) !== null && (name = this.name()) !== null && ((_tmp_274 = this._tmp_274()), true) && ((_tmp_275 = this._tmp_275()), true) && (literal = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && this.lookahead(() => this.expect("INDENT"), false)) {
+return this.raiseDiagnostic(true, "expected an indented block after class definition on line %d", this.diagnosticLine(a));
+}
+this.mark = mark;
+}
+return null;
+}
 _tmp_1(): any {
 // _tmp_1: statements
 const mark = this.mark;
@@ -4684,9 +5527,9 @@ _loop1_15(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_213: any;
-while ((_tmp_213 = this._tmp_213()) !== null) {
-children.push(_tmp_213); mark = this.mark;
+let _tmp_276: any;
+while ((_tmp_276 = this._tmp_276()) !== null) {
+children.push(_tmp_276); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -4820,9 +5663,9 @@ _loop0_25(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_214: any;
-while ((_tmp_214 = this._tmp_214()) !== null) {
-children.push(_tmp_214); mark = this.mark;
+let _tmp_277: any;
+while ((_tmp_277 = this._tmp_277()) !== null) {
+children.push(_tmp_277); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -4833,9 +5676,9 @@ _loop1_26(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_215: any;
-while ((_tmp_215 = this._tmp_215()) !== null) {
-children.push(_tmp_215); mark = this.mark;
+let _tmp_278: any;
+while ((_tmp_278 = this._tmp_278()) !== null) {
+children.push(_tmp_278); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -4938,9 +5781,9 @@ _loop1_34(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_216: any;
-while ((_tmp_216 = this._tmp_216()) !== null) {
-children.push(_tmp_216); mark = this.mark;
+let _tmp_279: any;
+while ((_tmp_279 = this._tmp_279()) !== null) {
+children.push(_tmp_279); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -4965,7 +5808,7 @@ const mark = this.mark;
 let literal: any;
 let z: any;
 let literal_1: any;
-if ((literal = this.literal("(")) !== null && ((z = this._tmp_217()), true) && (literal_1 = this.literal(")")) !== null) {
+if ((literal = this.literal("(")) !== null && ((z = this._tmp_280()), true) && (literal_1 = this.literal(")")) !== null) {
 return z;
 }
 this.mark = mark;
@@ -6064,9 +6907,9 @@ _loop1_117(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_218: any;
-while ((_tmp_218 = this._tmp_218()) !== null) {
-children.push(_tmp_218); mark = this.mark;
+let _tmp_281: any;
+while ((_tmp_281 = this._tmp_281()) !== null) {
+children.push(_tmp_281); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -6101,9 +6944,9 @@ _loop1_120(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_219: any;
-while ((_tmp_219 = this._tmp_219()) !== null) {
-children.push(_tmp_219); mark = this.mark;
+let _tmp_282: any;
+while ((_tmp_282 = this._tmp_282()) !== null) {
+children.push(_tmp_282); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -6165,9 +7008,9 @@ _loop1_125(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_220: any;
-while ((_tmp_220 = this._tmp_220()) !== null) {
-children.push(_tmp_220); mark = this.mark;
+let _tmp_283: any;
+while ((_tmp_283 = this._tmp_283()) !== null) {
+children.push(_tmp_283); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -6178,9 +7021,9 @@ _loop1_126(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_221: any;
-while ((_tmp_221 = this._tmp_221()) !== null) {
-children.push(_tmp_221); mark = this.mark;
+let _tmp_284: any;
+while ((_tmp_284 = this._tmp_284()) !== null) {
+children.push(_tmp_284); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -6230,7 +7073,7 @@ const children: any[] = [];
 {
 let literal: any;
 let elem: any;
-while ((literal = this.literal(",")) !== null && (elem = this._tmp_222()) !== null) {
+while ((literal = this.literal(",")) !== null && (elem = this._tmp_285()) !== null) {
 children.push(elem); mark = this.mark;
 }
 this.mark = mark;
@@ -6243,7 +7086,7 @@ const mark = this.mark;
 {
 let elem: any;
 let seq: any;
-if ((elem = this._tmp_222()) !== null && (seq = this._loop0_130()) !== null) {
+if ((elem = this._tmp_285()) !== null && (seq = this._loop0_130()) !== null) {
 return [elem, ...seq];
 }
 this.mark = mark;
@@ -6292,7 +7135,7 @@ const mark = this.mark;
 {
 let literal: any;
 let d: any;
-if ((literal = this.literal(":")) !== null && ((d = this._tmp_223()), true)) {
+if ((literal = this.literal(":")) !== null && ((d = this._tmp_286()), true)) {
 return d;
 }
 this.mark = mark;
@@ -6817,9 +7660,9 @@ _loop1_172(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_224: any;
-while ((_tmp_224 = this._tmp_224()) !== null) {
-children.push(_tmp_224); mark = this.mark;
+let _tmp_287: any;
+while ((_tmp_287 = this._tmp_287()) !== null) {
+children.push(_tmp_287); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -6857,7 +7700,7 @@ const mark = this.mark;
 let y: any;
 let literal: any;
 let z: any;
-if ((y = this.star_named_expression()) !== null && (literal = this.literal(",")) !== null && ((z = this._tmp_225()), true)) {
+if ((y = this.star_named_expression()) !== null && (literal = this.literal(",")) !== null && ((z = this._tmp_288()), true)) {
 return [y, ...(z ?? [])];
 }
 this.mark = mark;
@@ -6933,9 +7776,9 @@ _loop0_181(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_226: any;
-while ((_tmp_226 = this._tmp_226()) !== null) {
-children.push(_tmp_226); mark = this.mark;
+let _tmp_289: any;
+while ((_tmp_289 = this._tmp_289()) !== null) {
+children.push(_tmp_289); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -6946,9 +7789,9 @@ _loop0_182(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_227: any;
-while ((_tmp_227 = this._tmp_227()) !== null) {
-children.push(_tmp_227); mark = this.mark;
+let _tmp_290: any;
+while ((_tmp_290 = this._tmp_290()) !== null) {
+children.push(_tmp_290); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -6992,7 +7835,7 @@ const children: any[] = [];
 {
 let literal: any;
 let elem: any;
-while ((literal = this.literal(",")) !== null && (elem = this._tmp_228()) !== null) {
+while ((literal = this.literal(",")) !== null && (elem = this._tmp_291()) !== null) {
 children.push(elem); mark = this.mark;
 }
 this.mark = mark;
@@ -7005,7 +7848,7 @@ const mark = this.mark;
 {
 let elem: any;
 let seq: any;
-if ((elem = this._tmp_228()) !== null && (seq = this._loop0_185()) !== null) {
+if ((elem = this._tmp_291()) !== null && (seq = this._loop0_185()) !== null) {
 return [elem, ...seq];
 }
 this.mark = mark;
@@ -7138,9 +7981,9 @@ _loop0_196(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_229: any;
-while ((_tmp_229 = this._tmp_229()) !== null) {
-children.push(_tmp_229); mark = this.mark;
+let _tmp_292: any;
+while ((_tmp_292 = this._tmp_292()) !== null) {
+children.push(_tmp_292); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -7202,9 +8045,9 @@ _loop1_201(): any {
 let mark = this.mark;
 const children: any[] = [];
 {
-let _tmp_230: any;
-while ((_tmp_230 = this._tmp_230()) !== null) {
-children.push(_tmp_230); mark = this.mark;
+let _tmp_293: any;
+while ((_tmp_293 = this._tmp_293()) !== null) {
+children.push(_tmp_293); mark = this.mark;
 }
 this.mark = mark;
 }
@@ -7347,7 +8190,924 @@ this.mark = mark;
 return null;
 }
 _tmp_213(): any {
-// _tmp_213: star_targets '='
+// _tmp_213: slash_no_default | slash_with_default
+const mark = this.mark;
+{
+let slash_no_default: any;
+if ((slash_no_default = this.slash_no_default()) !== null) {
+return slash_no_default;
+}
+this.mark = mark;
+}
+{
+let slash_with_default: any;
+if ((slash_with_default = this.slash_with_default()) !== null) {
+return slash_with_default;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_214(): any {
+// _loop0_214: param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_maybe_default: any;
+while ((param_maybe_default = this.param_maybe_default()) !== null) {
+children.push(param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop0_215(): any {
+// _loop0_215: param_no_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_no_default: any;
+while ((param_no_default = this.param_no_default()) !== null) {
+children.push(param_no_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop0_216(): any {
+// _loop0_216: param_no_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_no_default: any;
+while ((param_no_default = this.param_no_default()) !== null) {
+children.push(param_no_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop1_217(): any {
+// _loop1_217: param_no_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_no_default: any;
+while ((param_no_default = this.param_no_default()) !== null) {
+children.push(param_no_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children.length ? children : null;
+}
+_tmp_218(): any {
+// _tmp_218: slash_no_default | slash_with_default
+const mark = this.mark;
+{
+let slash_no_default: any;
+if ((slash_no_default = this.slash_no_default()) !== null) {
+return slash_no_default;
+}
+this.mark = mark;
+}
+{
+let slash_with_default: any;
+if ((slash_with_default = this.slash_with_default()) !== null) {
+return slash_with_default;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_219(): any {
+// _loop0_219: param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_maybe_default: any;
+while ((param_maybe_default = this.param_maybe_default()) !== null) {
+children.push(param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_tmp_220(): any {
+// _tmp_220: ',' | param_no_default
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal(",")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let param_no_default: any;
+if ((param_no_default = this.param_no_default()) !== null) {
+return param_no_default;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_221(): any {
+// _loop0_221: param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_maybe_default: any;
+while ((param_maybe_default = this.param_maybe_default()) !== null) {
+children.push(param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop1_222(): any {
+// _loop1_222: param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_maybe_default: any;
+while ((param_maybe_default = this.param_maybe_default()) !== null) {
+children.push(param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children.length ? children : null;
+}
+_tmp_223(): any {
+// _tmp_223: ')' | ','
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal(")")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal(",")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_224(): any {
+// _tmp_224: ')' | ',' (')' | '**')
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal(")")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let _tmp_294: any;
+if ((literal = this.literal(",")) !== null && (_tmp_294 = this._tmp_294()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_225(): any {
+// _tmp_225: param_no_default | ','
+const mark = this.mark;
+{
+let param_no_default: any;
+if ((param_no_default = this.param_no_default()) !== null) {
+return param_no_default;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal(",")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_226(): any {
+// _loop0_226: param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_maybe_default: any;
+while ((param_maybe_default = this.param_maybe_default()) !== null) {
+children.push(param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_tmp_227(): any {
+// _tmp_227: param_no_default | ','
+const mark = this.mark;
+{
+let param_no_default: any;
+if ((param_no_default = this.param_no_default()) !== null) {
+return param_no_default;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal(",")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_228(): any {
+// _tmp_228: '*' | '**' | '/'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("*")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal("**")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal("/")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop1_229(): any {
+// _loop1_229: param_with_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let param_with_default: any;
+while ((param_with_default = this.param_with_default()) !== null) {
+children.push(param_with_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children.length ? children : null;
+}
+_tmp_230(): any {
+// _tmp_230: lambda_slash_no_default | lambda_slash_with_default
+const mark = this.mark;
+{
+let lambda_slash_no_default: any;
+if ((lambda_slash_no_default = this.lambda_slash_no_default()) !== null) {
+return lambda_slash_no_default;
+}
+this.mark = mark;
+}
+{
+let lambda_slash_with_default: any;
+if ((lambda_slash_with_default = this.lambda_slash_with_default()) !== null) {
+return lambda_slash_with_default;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_231(): any {
+// _loop0_231: lambda_param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let lambda_param_maybe_default: any;
+while ((lambda_param_maybe_default = this.lambda_param_maybe_default()) !== null) {
+children.push(lambda_param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop0_232(): any {
+// _loop0_232: lambda_param_no_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let lambda_param_no_default: any;
+while ((lambda_param_no_default = this.lambda_param_no_default()) !== null) {
+children.push(lambda_param_no_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop0_233(): any {
+// _loop0_233: lambda_param_no_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let lambda_param_no_default: any;
+while ((lambda_param_no_default = this.lambda_param_no_default()) !== null) {
+children.push(lambda_param_no_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop0_234(): any {
+// _loop0_234: ',' lambda_param
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this.lambda_param()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_235(): any {
+// _gather_235: lambda_param _loop0_234
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this.lambda_param()) !== null && (seq = this._loop0_234()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_236(): any {
+// _tmp_236: lambda_slash_no_default | lambda_slash_with_default
+const mark = this.mark;
+{
+let lambda_slash_no_default: any;
+if ((lambda_slash_no_default = this.lambda_slash_no_default()) !== null) {
+return lambda_slash_no_default;
+}
+this.mark = mark;
+}
+{
+let lambda_slash_with_default: any;
+if ((lambda_slash_with_default = this.lambda_slash_with_default()) !== null) {
+return lambda_slash_with_default;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_237(): any {
+// _loop0_237: lambda_param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let lambda_param_maybe_default: any;
+while ((lambda_param_maybe_default = this.lambda_param_maybe_default()) !== null) {
+children.push(lambda_param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_tmp_238(): any {
+// _tmp_238: ',' | lambda_param_no_default
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal(",")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let lambda_param_no_default: any;
+if ((lambda_param_no_default = this.lambda_param_no_default()) !== null) {
+return lambda_param_no_default;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_239(): any {
+// _loop0_239: lambda_param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let lambda_param_maybe_default: any;
+while ((lambda_param_maybe_default = this.lambda_param_maybe_default()) !== null) {
+children.push(lambda_param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_loop1_240(): any {
+// _loop1_240: lambda_param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let lambda_param_maybe_default: any;
+while ((lambda_param_maybe_default = this.lambda_param_maybe_default()) !== null) {
+children.push(lambda_param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children.length ? children : null;
+}
+_loop1_241(): any {
+// _loop1_241: lambda_param_with_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let lambda_param_with_default: any;
+while ((lambda_param_with_default = this.lambda_param_with_default()) !== null) {
+children.push(lambda_param_with_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children.length ? children : null;
+}
+_tmp_242(): any {
+// _tmp_242: ':' | ',' (':' | '**')
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal(":")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+let _tmp_295: any;
+if ((literal = this.literal(",")) !== null && (_tmp_295 = this._tmp_295()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_243(): any {
+// _tmp_243: lambda_param_no_default | ','
+const mark = this.mark;
+{
+let lambda_param_no_default: any;
+if ((lambda_param_no_default = this.lambda_param_no_default()) !== null) {
+return lambda_param_no_default;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal(",")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_244(): any {
+// _loop0_244: lambda_param_maybe_default
+let mark = this.mark;
+const children: any[] = [];
+{
+let lambda_param_maybe_default: any;
+while ((lambda_param_maybe_default = this.lambda_param_maybe_default()) !== null) {
+children.push(lambda_param_maybe_default); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_tmp_245(): any {
+// _tmp_245: lambda_param_no_default | ','
+const mark = this.mark;
+{
+let lambda_param_no_default: any;
+if ((lambda_param_no_default = this.lambda_param_no_default()) !== null) {
+return lambda_param_no_default;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal(",")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_246(): any {
+// _tmp_246: '*' | '**' | '/'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("*")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal("**")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal("/")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_247(): any {
+// _tmp_247: 'async'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("async")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_248(): any {
+// _loop0_248: ',' (expression ['as' star_target])
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this._tmp_296()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_249(): any {
+// _gather_249: (expression ['as' star_target]) _loop0_248
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this._tmp_296()) !== null && (seq = this._loop0_248()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_250(): any {
+// _tmp_250: 'async'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("async")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_251(): any {
+// _loop0_251: ',' (expressions ['as' star_target])
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this._tmp_297()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_252(): any {
+// _gather_252: (expressions ['as' star_target]) _loop0_251
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this._tmp_297()) !== null && (seq = this._loop0_251()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_253(): any {
+// _tmp_253: 'async'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("async")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_254(): any {
+// _loop0_254: ',' (expression ['as' star_target])
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this._tmp_298()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_255(): any {
+// _gather_255: (expression ['as' star_target]) _loop0_254
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this._tmp_298()) !== null && (seq = this._loop0_254()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_256(): any {
+// _tmp_256: 'async'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("async")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_loop0_257(): any {
+// _loop0_257: ',' (expressions ['as' star_target])
+let mark = this.mark;
+const children: any[] = [];
+{
+let literal: any;
+let elem: any;
+while ((literal = this.literal(",")) !== null && (elem = this._tmp_299()) !== null) {
+children.push(elem); mark = this.mark;
+}
+this.mark = mark;
+}
+return children;
+}
+_gather_258(): any {
+// _gather_258: (expressions ['as' star_target]) _loop0_257
+const mark = this.mark;
+{
+let elem: any;
+let seq: any;
+if ((elem = this._tmp_299()) !== null && (seq = this._loop0_257()) !== null) {
+return [elem, ...seq];
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_259(): any {
+// _tmp_259: 'as' NAME
+const mark = this.mark;
+{
+let literal: any;
+let name: any;
+if ((literal = this.literal("as")) !== null && (name = this.name()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_260(): any {
+// _tmp_260: 'as' NAME
+const mark = this.mark;
+{
+let literal: any;
+let name: any;
+if ((literal = this.literal("as")) !== null && (name = this.name()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_261(): any {
+// _tmp_261: 'async'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("async")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_262(): any {
+// _tmp_262: 'async'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("async")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_263(): any {
+// _tmp_263: 'async'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("async")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_264(): any {
+// _tmp_264: type_params
+const mark = this.mark;
+{
+let type_params: any;
+if ((type_params = this.type_params()) !== null) {
+return type_params;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_265(): any {
+// _tmp_265: params
+const mark = this.mark;
+{
+let params: any;
+if ((params = this.params()) !== null) {
+return params;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_266(): any {
+// _tmp_266: '->' expression
+const mark = this.mark;
+{
+let literal: any;
+let expression: any;
+if ((literal = this.literal("->")) !== null && (expression = this.expression()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_267(): any {
+// _tmp_267: 'async'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal("async")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_268(): any {
+// _tmp_268: type_params
+const mark = this.mark;
+{
+let type_params: any;
+if ((type_params = this.type_params()) !== null) {
+return type_params;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_269(): any {
+// _tmp_269: params
+const mark = this.mark;
+{
+let params: any;
+if ((params = this.params()) !== null) {
+return params;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_270(): any {
+// _tmp_270: '->' expression
+const mark = this.mark;
+{
+let literal: any;
+let expression: any;
+if ((literal = this.literal("->")) !== null && (expression = this.expression()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_271(): any {
+// _tmp_271: func_type_comment
+const mark = this.mark;
+{
+let func_type_comment: any;
+if ((func_type_comment = this.func_type_comment()) !== null) {
+return func_type_comment;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_272(): any {
+// _tmp_272: type_params
+const mark = this.mark;
+{
+let type_params: any;
+if ((type_params = this.type_params()) !== null) {
+return type_params;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_273(): any {
+// _tmp_273: '(' arguments? ')'
+const mark = this.mark;
+{
+let literal: any;
+let _tmp_300: any;
+let literal_1: any;
+if ((literal = this.literal("(")) !== null && ((_tmp_300 = this._tmp_300()), true) && (literal_1 = this.literal(")")) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_274(): any {
+// _tmp_274: type_params
+const mark = this.mark;
+{
+let type_params: any;
+if ((type_params = this.type_params()) !== null) {
+return type_params;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_275(): any {
+// _tmp_275: '(' arguments? ')'
+const mark = this.mark;
+{
+let literal: any;
+let _tmp_301: any;
+let literal_1: any;
+if ((literal = this.literal("(")) !== null && ((_tmp_301 = this._tmp_301()), true) && (literal_1 = this.literal(")")) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_276(): any {
+// _tmp_276: star_targets '='
 const mark = this.mark;
 {
 let z: any;
@@ -7359,8 +9119,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_214(): any {
-// _tmp_214: '.' | '...'
+_tmp_277(): any {
+// _tmp_277: '.' | '...'
 const mark = this.mark;
 {
 let literal: any;
@@ -7378,8 +9138,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_215(): any {
-// _tmp_215: '.' | '...'
+_tmp_278(): any {
+// _tmp_278: '.' | '...'
 const mark = this.mark;
 {
 let literal: any;
@@ -7397,8 +9157,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_216(): any {
-// _tmp_216: '@' named_expression NEWLINE
+_tmp_279(): any {
+// _tmp_279: '@' named_expression NEWLINE
 const mark = this.mark;
 {
 let literal: any;
@@ -7411,8 +9171,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_217(): any {
-// _tmp_217: arguments
+_tmp_280(): any {
+// _tmp_280: arguments
 const mark = this.mark;
 {
 let arguments_: any;
@@ -7423,8 +9183,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_218(): any {
-// _tmp_218: ',' expression
+_tmp_281(): any {
+// _tmp_281: ',' expression
 const mark = this.mark;
 {
 let literal: any;
@@ -7436,8 +9196,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_219(): any {
-// _tmp_219: ',' star_expression
+_tmp_282(): any {
+// _tmp_282: ',' star_expression
 const mark = this.mark;
 {
 let literal: any;
@@ -7449,8 +9209,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_220(): any {
-// _tmp_220: 'or' conjunction
+_tmp_283(): any {
+// _tmp_283: 'or' conjunction
 const mark = this.mark;
 {
 let literal: any;
@@ -7462,8 +9222,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_221(): any {
-// _tmp_221: 'and' inversion
+_tmp_284(): any {
+// _tmp_284: 'and' inversion
 const mark = this.mark;
 {
 let literal: any;
@@ -7475,8 +9235,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_222(): any {
-// _tmp_222: slice | starred_expression
+_tmp_285(): any {
+// _tmp_285: slice | starred_expression
 const mark = this.mark;
 {
 let slice: any;
@@ -7494,8 +9254,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_223(): any {
-// _tmp_223: expression
+_tmp_286(): any {
+// _tmp_286: expression
 const mark = this.mark;
 {
 let expression: any;
@@ -7506,8 +9266,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_224(): any {
-// _tmp_224: fstring | string
+_tmp_287(): any {
+// _tmp_287: fstring | string
 const mark = this.mark;
 {
 let fstring: any;
@@ -7525,8 +9285,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_225(): any {
-// _tmp_225: star_named_expressions
+_tmp_288(): any {
+// _tmp_288: star_named_expressions
 const mark = this.mark;
 {
 let star_named_expressions: any;
@@ -7537,8 +9297,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_226(): any {
-// _tmp_226: 'if' disjunction
+_tmp_289(): any {
+// _tmp_289: 'if' disjunction
 const mark = this.mark;
 {
 let literal: any;
@@ -7550,8 +9310,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_227(): any {
-// _tmp_227: 'if' disjunction
+_tmp_290(): any {
+// _tmp_290: 'if' disjunction
 const mark = this.mark;
 {
 let literal: any;
@@ -7563,8 +9323,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_228(): any {
-// _tmp_228: starred_expression | (assignment_expression | expression !':=') !'='
+_tmp_291(): any {
+// _tmp_291: starred_expression | (assignment_expression | expression !':=') !'='
 const mark = this.mark;
 {
 let starred_expression: any;
@@ -7574,16 +9334,16 @@ return starred_expression;
 this.mark = mark;
 }
 {
-let _tmp_231: any;
-if ((_tmp_231 = this._tmp_231()) !== null && this.lookahead(() => this.literal("="), false)) {
-return _tmp_231;
+let _tmp_302: any;
+if ((_tmp_302 = this._tmp_302()) !== null && this.lookahead(() => this.literal("="), false)) {
+return _tmp_302;
 }
 this.mark = mark;
 }
 return null;
 }
-_tmp_229(): any {
-// _tmp_229: ',' star_target
+_tmp_292(): any {
+// _tmp_292: ',' star_target
 const mark = this.mark;
 {
 let literal: any;
@@ -7595,8 +9355,8 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_230(): any {
-// _tmp_230: ',' star_target
+_tmp_293(): any {
+// _tmp_293: ',' star_target
 const mark = this.mark;
 {
 let literal: any;
@@ -7608,8 +9368,122 @@ this.mark = mark;
 }
 return null;
 }
-_tmp_231(): any {
-// _tmp_231: assignment_expression | expression !':='
+_tmp_294(): any {
+// _tmp_294: ')' | '**'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal(")")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal("**")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_295(): any {
+// _tmp_295: ':' | '**'
+const mark = this.mark;
+{
+let literal: any;
+if ((literal = this.literal(":")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+{
+let literal: any;
+if ((literal = this.literal("**")) !== null) {
+return literal;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_296(): any {
+// _tmp_296: expression ['as' star_target]
+const mark = this.mark;
+{
+let expression: any;
+let _tmp_303: any;
+if ((expression = this.expression()) !== null && ((_tmp_303 = this._tmp_303()), true)) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_297(): any {
+// _tmp_297: expressions ['as' star_target]
+const mark = this.mark;
+{
+let expressions: any;
+let _tmp_304: any;
+if ((expressions = this.expressions()) !== null && ((_tmp_304 = this._tmp_304()), true)) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_298(): any {
+// _tmp_298: expression ['as' star_target]
+const mark = this.mark;
+{
+let expression: any;
+let _tmp_305: any;
+if ((expression = this.expression()) !== null && ((_tmp_305 = this._tmp_305()), true)) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_299(): any {
+// _tmp_299: expressions ['as' star_target]
+const mark = this.mark;
+{
+let expressions: any;
+let _tmp_306: any;
+if ((expressions = this.expressions()) !== null && ((_tmp_306 = this._tmp_306()), true)) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_300(): any {
+// _tmp_300: arguments
+const mark = this.mark;
+{
+let arguments_: any;
+if ((arguments_ = this.arguments()) !== null) {
+return arguments_;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_301(): any {
+// _tmp_301: arguments
+const mark = this.mark;
+{
+let arguments_: any;
+if ((arguments_ = this.arguments()) !== null) {
+return arguments_;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_302(): any {
+// _tmp_302: assignment_expression | expression !':='
 const mark = this.mark;
 {
 let assignment_expression: any;
@@ -7622,6 +9496,58 @@ this.mark = mark;
 let expression: any;
 if ((expression = this.expression()) !== null && this.lookahead(() => this.literal(":="), false)) {
 return expression;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_303(): any {
+// _tmp_303: 'as' star_target
+const mark = this.mark;
+{
+let literal: any;
+let star_target: any;
+if ((literal = this.literal("as")) !== null && (star_target = this.star_target()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_304(): any {
+// _tmp_304: 'as' star_target
+const mark = this.mark;
+{
+let literal: any;
+let star_target: any;
+if ((literal = this.literal("as")) !== null && (star_target = this.star_target()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_305(): any {
+// _tmp_305: 'as' star_target
+const mark = this.mark;
+{
+let literal: any;
+let star_target: any;
+if ((literal = this.literal("as")) !== null && (star_target = this.star_target()) !== null) {
+return true;
+}
+this.mark = mark;
+}
+return null;
+}
+_tmp_306(): any {
+// _tmp_306: 'as' star_target
+const mark = this.mark;
+{
+let literal: any;
+let star_target: any;
+if ((literal = this.literal("as")) !== null && (star_target = this.star_target()) !== null) {
+return true;
 }
 this.mark = mark;
 }
