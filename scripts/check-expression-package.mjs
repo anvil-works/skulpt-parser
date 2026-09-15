@@ -11,7 +11,15 @@ await module.link((specifier) => {
 });
 await module.evaluate();
 const fixtures = JSON.parse(readFileSync("tests/fixtures/python314-expressions.json", "utf8"));
-const selected = ["(a\r+b)", "a - b - c", "résumé + café * 2", "(value := 42)", "1and x"];
+const selected = [
+    "f(a, *xs, b, key=value, **kw)",
+    "[a for (a, [b, *rest]) in rows]",
+    "(a\r+b)",
+    "a - b - c",
+    "résumé + café * 2",
+    "(value := 42)",
+    "1and x",
+];
 for (const source of selected) {
     const fixture = fixtures.cases.find((item) => item.source === source);
     assert.ok(fixture, `Missing CPython fixture: ${source}`);

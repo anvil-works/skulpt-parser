@@ -35,3 +35,17 @@ for (const { source, error: expected } of reference.errors) {
         expect(actual).toEqual(expected);
     });
 }
+
+// Rejection parity only: second-pass diagnostic wording is not implemented yet.
+for (const { source, errorName } of reference.rejections) {
+    test(`CPython rejects expression: ${source}`, () => {
+        let failure: unknown;
+        try {
+            parseExpression(source);
+        } catch (error) {
+            failure = error;
+        }
+        expect(failure).toBeInstanceOf(SyntaxError);
+        expect((failure as Error).name).toBe(errorName);
+    });
+}
