@@ -16,6 +16,7 @@ from pegen.parser_generator import ParserGenerator
 RULES = set(
     """
 file statements statement simple_stmts simple_stmt assignment augassign
+compound_stmt block if_stmt elif_stmt else_block while_stmt for_stmt
 single_target single_subscript_attribute_target del_targets del_target del_t_atom
 return_stmt raise_stmt pass_stmt break_stmt continue_stmt global_stmt nonlocal_stmt
 del_stmt yield_stmt assert_stmt
@@ -116,6 +117,10 @@ def action(text):
                 # consumed fields; no fabricated node or locations reach the AST.
                 return f"{{args: {action(args[1])}, keywords: {action(args[2])}}}"
             args = [action(arg) for arg in args if arg != "p -> arena"]
+            if name in {"If", "While"} and not args[2].startswith("["):
+                args[2] = f"({args[2]} ?? [])"
+            if name in {"For", "AsyncFor"}:
+                args[3] = f"({args[3]} ?? [])"
             if name == "TypeAlias":
                 args[1] = f"({args[1]} ?? [])"
             if name == "Call":
@@ -148,6 +153,8 @@ def action(text):
             "_PyPegen_seq_count_dots": lambda a: f"{a[0]}.reduce((sum: number, token: Token) => sum + token.string.length, 0)",
             "_PyPegen_alias_for_star": lambda a: 'ast.alias("*", null, ' + ", ".join(a[1:]) + ")",
             "_PyPegen_join_names_with_dot": lambda a: f"ast.Name({a[1]}.id + '.' + {a[2]}.id, ast.Load(), {a[1]}.lineno, {a[1]}.col_offset, {a[2]}.end_lineno, {a[2]}.end_col_offset)",
+            # Registration only records locations during CPython's invalid-rule pass.
+            "_PyPegen_register_stmts": lambda a: a[1],
             "_PyPegen_seq_flatten": lambda a: f"{a[1]}.flat()",
             "_PyPegen_augoperator": lambda a: f"{{kind: {a[1]}}}",
             "_PyPegen_map_names_to_ids": lambda a: f"{a[1]}.map((name: ast.Name) => name.id)",
@@ -257,6 +264,12 @@ class Calls(GrammarVisitor):
     def visit_NegativeLookahead(self, node):
         _, call = self.visit(node.node)
         return None, f"this.lookahead(() => {call}, false)"
+
+    def visit_Forced(self, node):
+        if node.node.__class__.__name__ != "StringLeaf":
+            raise ValueError(f"Unsupported forced grammar expression: {node}")
+        value = ast.literal_eval(node.node.value)
+        return "literal", f"this.forcedLiteral({json.dumps(value)})"
 
     def visit_Cut(self, node):
         return "cut", "true"

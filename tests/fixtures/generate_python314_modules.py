@@ -219,6 +219,48 @@ sources.extend(
     ]
 )
 
+# Exercise block boundaries, target contexts and optional branches through ast.parse.
+sources.extend(
+    [
+        "x = 1\nif x:\n    pass",
+        "if x: pass",
+        "if x: a=1; b=2;",
+        "if x:\n    a=1\n    b=2\nc=3",
+        "if x: pass\nelse: pass",
+        "if x: pass\nelif y: return 1\nelif z: return 2\nelse: return 3",
+        "if x:\n    if y: pass\n    else: break\nelse:\n    continue",
+        "if (résumé := café):\n    𝒙 = résumé\nelif other:\n    pass",
+        "if x:\n    # comment\n\n    pass\n# between\nelse:\n    pass\n",
+        "if x:\n\tpass\nelse:\n\tpass",
+        "if (\n    x and y\n):\n    pass",
+        "if x:\r\n    pass\r\nelse:\r\n    pass\r\n",
+        "if x:\r    pass\relse:\r    pass",
+        "while x: pass",
+        "while (item := next(it)): process(item)\nelse: done()",
+        "while x:\n    x -= 1\n    if x: continue\n    break\nelse:\n    done()\nafter()",
+        "for x in xs: pass",
+        "for x in a,b: pass\nelse: done()",
+        "for x in *xs, *ys: pass",
+        "for a,(b,[c,*rest]) in values:\n    pass",
+        "for obj.attr, obj[index] in values: pass",
+        "for factory().attr in values: pass",
+        "for factory()[index] in values: pass",
+        "for () in values: pass",
+        "for [] in values: pass",
+        "for résumé, 𝒙 in café:\n    use(résumé, 𝒙)",
+        "for x in xs: # type: int\n    pass # type: ignore\nelse: pass",
+        "for x in xs:\n    for y in ys:\n        use(x,y)\n    else:\n        inner()\nelse:\n    outer()\nafter()",
+        "async for x in xs: pass",
+        "async for x,*rest in await source():\n    await use(x)\nelse:\n    done()",
+        "async for x in xs: # type: int\n    pass",
+        "if x:\n    import os\n    type Alias[T] = list[T]",
+        "if x:\n    from __future__ import unknown",
+        "if x:\n    from __future__ import barry_as_FLUFL\nx <> y",
+        "if x: value = '\\q'\nelif y: pass",
+        "if x:\n    while y:\n        for z in zs:\n            pass\nafter()",
+    ]
+)
+
 cases = []
 for source in sources:
     with warnings.catch_warnings(record=True) as caught:
@@ -234,6 +276,29 @@ for source in sources:
 # Rejection parity only until invalid-rule diagnostic actions are ported.
 rejections = []
 for source in [
+    "if x:\n    pass\n  pass",
+    "if x pass",
+    "if : pass",
+    "if x: pass; if y: pass",
+    "if x: pass\nelif: pass",
+    "if x: pass\nelse x: pass",
+    "if x: pass\nelse: pass\nelif y: pass",
+    "else: pass",
+    "elif x: pass",
+    "while: pass",
+    "while x pass",
+    "while x: pass\nelif y: pass",
+    "for in xs: pass",
+    "for x xs: pass",
+    "for x in: pass",
+    "for x in xs pass",
+    "for 1 in xs: pass",
+    "for a+b in xs: pass",
+    "for f() in xs: pass",
+    "for x in xs: pass\nelse x: pass",
+    "async for x in xs pass",
+    "async while x: pass",
+    "async if x: pass",
     "import",
     "import os,",
     "import a as",
@@ -314,6 +379,9 @@ for source in [
         raise AssertionError(f"Expected syntax rejection: {source}")
 errors = []
 for source in [
+    "if x: pass\nelse pass",
+    "while x: pass\nelse pass",
+    "for x in xs: pass\nelse pass",
     "from __future__ import unknown",
     "from __future__ import braces",
     "from __future__ import *",
@@ -352,7 +420,11 @@ for source in [
         raise AssertionError(f"Expected syntax error: {source}")
 # Valid CPython modules outside this migration slice must not be returned as
 # successfully parsed prefixes. These are project boundary tests, not parity.
-unsupported = ["x = 1\nif x:\n    pass", "x = 1\ndef f():\n    pass"]
+unsupported = [
+    "x = 1\ndef f():\n    pass",
+    "if x:\n    pass\n    def f(): pass",
+    "for x in xs:\n    with resource: pass",
+]
 for source in unsupported:
     ast.parse(source, mode="exec")
 fixtures = {

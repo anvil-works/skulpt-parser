@@ -1,9 +1,46 @@
 {
     "unsupported": [
-        "x = 1\nif x:\n    pass",
-        "x = 1\ndef f():\n    pass"
+        "x = 1\ndef f():\n    pass",
+        "if x:\n    pass\n    def f(): pass",
+        "for x in xs:\n    with resource: pass"
     ],
     "errors": [
+        {
+            "source": "if x: pass\nelse pass",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 2,
+                "offset": 6,
+                "end_lineno": 2,
+                "end_offset": 10,
+                "text": "else pass\n"
+            }
+        },
+        {
+            "source": "while x: pass\nelse pass",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 2,
+                "offset": 6,
+                "end_lineno": 2,
+                "end_offset": 10,
+                "text": "else pass\n"
+            }
+        },
+        {
+            "source": "for x in xs: pass\nelse pass",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 2,
+                "offset": 6,
+                "end_lineno": 2,
+                "end_offset": 10,
+                "text": "else pass\n"
+            }
+        },
         {
             "source": "from __future__ import unknown",
             "error": {
@@ -13582,9 +13619,3233 @@
                 "type_ignores": []
             },
             "warnings": []
+        },
+        {
+            "source": "x = 1\nif x:\n    pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 0,
+                                "end_lineno": 1,
+                                "end_col_offset": 1
+                            }
+                        ],
+                        "value": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "int",
+                                "value": 1
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 5
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 5
+                    },
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 2,
+                            "col_offset": 3,
+                            "end_lineno": 2,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 3,
+                                "col_offset": 4,
+                                "end_lineno": 3,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 2,
+                        "col_offset": 0,
+                        "end_lineno": 3,
+                        "end_col_offset": 8
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 6,
+                                "end_lineno": 1,
+                                "end_col_offset": 10
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 10
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: a=1; b=2;",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Assign",
+                                "targets": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "a",
+                                        "ctx": {
+                                            "_type": "Store"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 6,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 7
+                                    }
+                                ],
+                                "value": {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": 1
+                                    },
+                                    "kind": null,
+                                    "lineno": 1,
+                                    "col_offset": 8,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 9
+                                },
+                                "type_comment": null,
+                                "lineno": 1,
+                                "col_offset": 6,
+                                "end_lineno": 1,
+                                "end_col_offset": 9
+                            },
+                            {
+                                "_type": "Assign",
+                                "targets": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "b",
+                                        "ctx": {
+                                            "_type": "Store"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 11,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 12
+                                    }
+                                ],
+                                "value": {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": 2
+                                    },
+                                    "kind": null,
+                                    "lineno": 1,
+                                    "col_offset": 13,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 14
+                                },
+                                "type_comment": null,
+                                "lineno": 1,
+                                "col_offset": 11,
+                                "end_lineno": 1,
+                                "end_col_offset": 14
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 15
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n    a=1\n    b=2\nc=3",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Assign",
+                                "targets": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "a",
+                                        "ctx": {
+                                            "_type": "Store"
+                                        },
+                                        "lineno": 2,
+                                        "col_offset": 4,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 5
+                                    }
+                                ],
+                                "value": {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": 1
+                                    },
+                                    "kind": null,
+                                    "lineno": 2,
+                                    "col_offset": 6,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 7
+                                },
+                                "type_comment": null,
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 7
+                            },
+                            {
+                                "_type": "Assign",
+                                "targets": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "b",
+                                        "ctx": {
+                                            "_type": "Store"
+                                        },
+                                        "lineno": 3,
+                                        "col_offset": 4,
+                                        "end_lineno": 3,
+                                        "end_col_offset": 5
+                                    }
+                                ],
+                                "value": {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": 2
+                                    },
+                                    "kind": null,
+                                    "lineno": 3,
+                                    "col_offset": 6,
+                                    "end_lineno": 3,
+                                    "end_col_offset": 7
+                                },
+                                "type_comment": null,
+                                "lineno": 3,
+                                "col_offset": 4,
+                                "end_lineno": 3,
+                                "end_col_offset": 7
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 3,
+                        "end_col_offset": 7
+                    },
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "c",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 4,
+                                "col_offset": 0,
+                                "end_lineno": 4,
+                                "end_col_offset": 1
+                            }
+                        ],
+                        "value": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "int",
+                                "value": 3
+                            },
+                            "kind": null,
+                            "lineno": 4,
+                            "col_offset": 2,
+                            "end_lineno": 4,
+                            "end_col_offset": 3
+                        },
+                        "type_comment": null,
+                        "lineno": 4,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 3
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelse: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 6,
+                                "end_lineno": 1,
+                                "end_col_offset": 10
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 2,
+                                "col_offset": 6,
+                                "end_lineno": 2,
+                                "end_col_offset": 10
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 10
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: pass\nelif y: return 1\nelif z: return 2\nelse: return 3",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 6,
+                                "end_lineno": 1,
+                                "end_col_offset": 10
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "If",
+                                "test": {
+                                    "_type": "Name",
+                                    "id": "y",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 5,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 6
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Return",
+                                        "value": {
+                                            "_type": "Constant",
+                                            "value": {
+                                                "type": "int",
+                                                "value": 1
+                                            },
+                                            "kind": null,
+                                            "lineno": 2,
+                                            "col_offset": 15,
+                                            "end_lineno": 2,
+                                            "end_col_offset": 16
+                                        },
+                                        "lineno": 2,
+                                        "col_offset": 8,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 16
+                                    }
+                                ],
+                                "orelse": [
+                                    {
+                                        "_type": "If",
+                                        "test": {
+                                            "_type": "Name",
+                                            "id": "z",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            },
+                                            "lineno": 3,
+                                            "col_offset": 5,
+                                            "end_lineno": 3,
+                                            "end_col_offset": 6
+                                        },
+                                        "body": [
+                                            {
+                                                "_type": "Return",
+                                                "value": {
+                                                    "_type": "Constant",
+                                                    "value": {
+                                                        "type": "int",
+                                                        "value": 2
+                                                    },
+                                                    "kind": null,
+                                                    "lineno": 3,
+                                                    "col_offset": 15,
+                                                    "end_lineno": 3,
+                                                    "end_col_offset": 16
+                                                },
+                                                "lineno": 3,
+                                                "col_offset": 8,
+                                                "end_lineno": 3,
+                                                "end_col_offset": 16
+                                            }
+                                        ],
+                                        "orelse": [
+                                            {
+                                                "_type": "Return",
+                                                "value": {
+                                                    "_type": "Constant",
+                                                    "value": {
+                                                        "type": "int",
+                                                        "value": 3
+                                                    },
+                                                    "kind": null,
+                                                    "lineno": 4,
+                                                    "col_offset": 13,
+                                                    "end_lineno": 4,
+                                                    "end_col_offset": 14
+                                                },
+                                                "lineno": 4,
+                                                "col_offset": 6,
+                                                "end_lineno": 4,
+                                                "end_col_offset": 14
+                                            }
+                                        ],
+                                        "lineno": 3,
+                                        "col_offset": 0,
+                                        "end_lineno": 4,
+                                        "end_col_offset": 14
+                                    }
+                                ],
+                                "lineno": 2,
+                                "col_offset": 0,
+                                "end_lineno": 4,
+                                "end_col_offset": 14
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 14
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n    if y: pass\n    else: break\nelse:\n    continue",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "If",
+                                "test": {
+                                    "_type": "Name",
+                                    "id": "y",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 7,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 8
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass",
+                                        "lineno": 2,
+                                        "col_offset": 10,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 14
+                                    }
+                                ],
+                                "orelse": [
+                                    {
+                                        "_type": "Break",
+                                        "lineno": 3,
+                                        "col_offset": 10,
+                                        "end_lineno": 3,
+                                        "end_col_offset": 15
+                                    }
+                                ],
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 3,
+                                "end_col_offset": 15
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Continue",
+                                "lineno": 5,
+                                "col_offset": 4,
+                                "end_lineno": 5,
+                                "end_col_offset": 12
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 5,
+                        "end_col_offset": 12
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if (r\u00e9sum\u00e9 := caf\u00e9):\n    \ud835\udc99 = r\u00e9sum\u00e9\nelif other:\n    pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "NamedExpr",
+                            "target": {
+                                "_type": "Name",
+                                "id": "r\u00e9sum\u00e9",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 12
+                            },
+                            "value": {
+                                "_type": "Name",
+                                "id": "caf\u00e9",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 16,
+                                "end_lineno": 1,
+                                "end_col_offset": 21
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 21
+                        },
+                        "body": [
+                            {
+                                "_type": "Assign",
+                                "targets": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "x",
+                                        "ctx": {
+                                            "_type": "Store"
+                                        },
+                                        "lineno": 2,
+                                        "col_offset": 4,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 8
+                                    }
+                                ],
+                                "value": {
+                                    "_type": "Name",
+                                    "id": "r\u00e9sum\u00e9",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 11,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 19
+                                },
+                                "type_comment": null,
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 19
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "If",
+                                "test": {
+                                    "_type": "Name",
+                                    "id": "other",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 3,
+                                    "col_offset": 5,
+                                    "end_lineno": 3,
+                                    "end_col_offset": 10
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass",
+                                        "lineno": 4,
+                                        "col_offset": 4,
+                                        "end_lineno": 4,
+                                        "end_col_offset": 8
+                                    }
+                                ],
+                                "orelse": [],
+                                "lineno": 3,
+                                "col_offset": 0,
+                                "end_lineno": 4,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 8
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n    # comment\n\n    pass\n# between\nelse:\n    pass\n",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 4,
+                                "col_offset": 4,
+                                "end_lineno": 4,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 7,
+                                "col_offset": 4,
+                                "end_lineno": 7,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 7,
+                        "end_col_offset": 8
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n\tpass\nelse:\n\tpass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 2,
+                                "col_offset": 1,
+                                "end_lineno": 2,
+                                "end_col_offset": 5
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 4,
+                                "col_offset": 1,
+                                "end_lineno": 4,
+                                "end_col_offset": 5
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 5
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if (\n    x and y\n):\n    pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "BoolOp",
+                            "op": {
+                                "_type": "And"
+                            },
+                            "values": [
+                                {
+                                    "_type": "Name",
+                                    "id": "x",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 4,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 5
+                                },
+                                {
+                                    "_type": "Name",
+                                    "id": "y",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 10,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 11
+                                }
+                            ],
+                            "lineno": 2,
+                            "col_offset": 4,
+                            "end_lineno": 2,
+                            "end_col_offset": 11
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 4,
+                                "col_offset": 4,
+                                "end_lineno": 4,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 8
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\r\n    pass\r\nelse:\r\n    pass\r\n",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 4,
+                                "col_offset": 4,
+                                "end_lineno": 4,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 8
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\r    pass\relse:\r    pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 4,
+                                "col_offset": 4,
+                                "end_lineno": 4,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 8
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "while x: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "While",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 6,
+                            "end_lineno": 1,
+                            "end_col_offset": 7
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 9,
+                                "end_lineno": 1,
+                                "end_col_offset": 13
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 13
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "while (item := next(it)): process(item)\nelse: done()",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "While",
+                        "test": {
+                            "_type": "NamedExpr",
+                            "target": {
+                                "_type": "Name",
+                                "id": "item",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 7,
+                                "end_lineno": 1,
+                                "end_col_offset": 11
+                            },
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "next",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 15,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 19
+                                },
+                                "args": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "it",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 20,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 22
+                                    }
+                                ],
+                                "keywords": [],
+                                "lineno": 1,
+                                "col_offset": 15,
+                                "end_lineno": 1,
+                                "end_col_offset": 23
+                            },
+                            "lineno": 1,
+                            "col_offset": 7,
+                            "end_lineno": 1,
+                            "end_col_offset": 23
+                        },
+                        "body": [
+                            {
+                                "_type": "Expr",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Name",
+                                        "id": "process",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 26,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 33
+                                    },
+                                    "args": [
+                                        {
+                                            "_type": "Name",
+                                            "id": "item",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            },
+                                            "lineno": 1,
+                                            "col_offset": 34,
+                                            "end_lineno": 1,
+                                            "end_col_offset": 38
+                                        }
+                                    ],
+                                    "keywords": [],
+                                    "lineno": 1,
+                                    "col_offset": 26,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 39
+                                },
+                                "lineno": 1,
+                                "col_offset": 26,
+                                "end_lineno": 1,
+                                "end_col_offset": 39
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Expr",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Name",
+                                        "id": "done",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 2,
+                                        "col_offset": 6,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 10
+                                    },
+                                    "args": [],
+                                    "keywords": [],
+                                    "lineno": 2,
+                                    "col_offset": 6,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 12
+                                },
+                                "lineno": 2,
+                                "col_offset": 6,
+                                "end_lineno": 2,
+                                "end_col_offset": 12
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 12
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "while x:\n    x -= 1\n    if x: continue\n    break\nelse:\n    done()\nafter()",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "While",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 6,
+                            "end_lineno": 1,
+                            "end_col_offset": 7
+                        },
+                        "body": [
+                            {
+                                "_type": "AugAssign",
+                                "target": {
+                                    "_type": "Name",
+                                    "id": "x",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 4,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 5
+                                },
+                                "op": {
+                                    "_type": "Sub"
+                                },
+                                "value": {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": 1
+                                    },
+                                    "kind": null,
+                                    "lineno": 2,
+                                    "col_offset": 9,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 10
+                                },
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 10
+                            },
+                            {
+                                "_type": "If",
+                                "test": {
+                                    "_type": "Name",
+                                    "id": "x",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 3,
+                                    "col_offset": 7,
+                                    "end_lineno": 3,
+                                    "end_col_offset": 8
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Continue",
+                                        "lineno": 3,
+                                        "col_offset": 10,
+                                        "end_lineno": 3,
+                                        "end_col_offset": 18
+                                    }
+                                ],
+                                "orelse": [],
+                                "lineno": 3,
+                                "col_offset": 4,
+                                "end_lineno": 3,
+                                "end_col_offset": 18
+                            },
+                            {
+                                "_type": "Break",
+                                "lineno": 4,
+                                "col_offset": 4,
+                                "end_lineno": 4,
+                                "end_col_offset": 9
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Expr",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Name",
+                                        "id": "done",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 6,
+                                        "col_offset": 4,
+                                        "end_lineno": 6,
+                                        "end_col_offset": 8
+                                    },
+                                    "args": [],
+                                    "keywords": [],
+                                    "lineno": 6,
+                                    "col_offset": 4,
+                                    "end_lineno": 6,
+                                    "end_col_offset": 10
+                                },
+                                "lineno": 6,
+                                "col_offset": 4,
+                                "end_lineno": 6,
+                                "end_col_offset": 10
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 6,
+                        "end_col_offset": 10
+                    },
+                    {
+                        "_type": "Expr",
+                        "value": {
+                            "_type": "Call",
+                            "func": {
+                                "_type": "Name",
+                                "id": "after",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 7,
+                                "col_offset": 0,
+                                "end_lineno": 7,
+                                "end_col_offset": 5
+                            },
+                            "args": [],
+                            "keywords": [],
+                            "lineno": 7,
+                            "col_offset": 0,
+                            "end_lineno": 7,
+                            "end_col_offset": 7
+                        },
+                        "lineno": 7,
+                        "col_offset": 0,
+                        "end_lineno": 7,
+                        "end_col_offset": 7
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in xs: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 5
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "xs",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 11
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 13,
+                                "end_lineno": 1,
+                                "end_col_offset": 17
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 17
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in a,b: pass\nelse: done()",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 5
+                        },
+                        "iter": {
+                            "_type": "Tuple",
+                            "elts": [
+                                {
+                                    "_type": "Name",
+                                    "id": "a",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 9,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 10
+                                },
+                                {
+                                    "_type": "Name",
+                                    "id": "b",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 11,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 12
+                                }
+                            ],
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 12
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 14,
+                                "end_lineno": 1,
+                                "end_col_offset": 18
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Expr",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Name",
+                                        "id": "done",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 2,
+                                        "col_offset": 6,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 10
+                                    },
+                                    "args": [],
+                                    "keywords": [],
+                                    "lineno": 2,
+                                    "col_offset": 6,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 12
+                                },
+                                "lineno": 2,
+                                "col_offset": 6,
+                                "end_lineno": 2,
+                                "end_col_offset": 12
+                            }
+                        ],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 12
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in *xs, *ys: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 5
+                        },
+                        "iter": {
+                            "_type": "Tuple",
+                            "elts": [
+                                {
+                                    "_type": "Starred",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "xs",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 10,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 12
+                                    },
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 9,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 12
+                                },
+                                {
+                                    "_type": "Starred",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "ys",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 15,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 17
+                                    },
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 14,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 17
+                                }
+                            ],
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 17
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 19,
+                                "end_lineno": 1,
+                                "end_col_offset": 23
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 23
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for a,(b,[c,*rest]) in values:\n    pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Tuple",
+                            "elts": [
+                                {
+                                    "_type": "Name",
+                                    "id": "a",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 4,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 5
+                                },
+                                {
+                                    "_type": "Tuple",
+                                    "elts": [
+                                        {
+                                            "_type": "Name",
+                                            "id": "b",
+                                            "ctx": {
+                                                "_type": "Store"
+                                            },
+                                            "lineno": 1,
+                                            "col_offset": 7,
+                                            "end_lineno": 1,
+                                            "end_col_offset": 8
+                                        },
+                                        {
+                                            "_type": "List",
+                                            "elts": [
+                                                {
+                                                    "_type": "Name",
+                                                    "id": "c",
+                                                    "ctx": {
+                                                        "_type": "Store"
+                                                    },
+                                                    "lineno": 1,
+                                                    "col_offset": 10,
+                                                    "end_lineno": 1,
+                                                    "end_col_offset": 11
+                                                },
+                                                {
+                                                    "_type": "Starred",
+                                                    "value": {
+                                                        "_type": "Name",
+                                                        "id": "rest",
+                                                        "ctx": {
+                                                            "_type": "Store"
+                                                        },
+                                                        "lineno": 1,
+                                                        "col_offset": 13,
+                                                        "end_lineno": 1,
+                                                        "end_col_offset": 17
+                                                    },
+                                                    "ctx": {
+                                                        "_type": "Store"
+                                                    },
+                                                    "lineno": 1,
+                                                    "col_offset": 12,
+                                                    "end_lineno": 1,
+                                                    "end_col_offset": 17
+                                                }
+                                            ],
+                                            "ctx": {
+                                                "_type": "Store"
+                                            },
+                                            "lineno": 1,
+                                            "col_offset": 9,
+                                            "end_lineno": 1,
+                                            "end_col_offset": 18
+                                        }
+                                    ],
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 6,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 19
+                                }
+                            ],
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 19
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "values",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 23,
+                            "end_lineno": 1,
+                            "end_col_offset": 29
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 8
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for obj.attr, obj[index] in values: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Tuple",
+                            "elts": [
+                                {
+                                    "_type": "Attribute",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "obj",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 4,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 7
+                                    },
+                                    "attr": "attr",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 4,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 12
+                                },
+                                {
+                                    "_type": "Subscript",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "obj",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 14,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 17
+                                    },
+                                    "slice": {
+                                        "_type": "Name",
+                                        "id": "index",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 18,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 23
+                                    },
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 14,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 24
+                                }
+                            ],
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 24
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "values",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 28,
+                            "end_lineno": 1,
+                            "end_col_offset": 34
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 36,
+                                "end_lineno": 1,
+                                "end_col_offset": 40
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 40
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for factory().attr in values: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Attribute",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "factory",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 4,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 11
+                                },
+                                "args": [],
+                                "keywords": [],
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 13
+                            },
+                            "attr": "attr",
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 18
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "values",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 22,
+                            "end_lineno": 1,
+                            "end_col_offset": 28
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 30,
+                                "end_lineno": 1,
+                                "end_col_offset": 34
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 34
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for factory()[index] in values: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Subscript",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "factory",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 4,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 11
+                                },
+                                "args": [],
+                                "keywords": [],
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 13
+                            },
+                            "slice": {
+                                "_type": "Name",
+                                "id": "index",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 14,
+                                "end_lineno": 1,
+                                "end_col_offset": 19
+                            },
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 20
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "values",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 24,
+                            "end_lineno": 1,
+                            "end_col_offset": 30
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 32,
+                                "end_lineno": 1,
+                                "end_col_offset": 36
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 36
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for () in values: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Tuple",
+                            "elts": [],
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 6
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "values",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 10,
+                            "end_lineno": 1,
+                            "end_col_offset": 16
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 18,
+                                "end_lineno": 1,
+                                "end_col_offset": 22
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 22
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for [] in values: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "List",
+                            "elts": [],
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 6
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "values",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 10,
+                            "end_lineno": 1,
+                            "end_col_offset": 16
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 18,
+                                "end_lineno": 1,
+                                "end_col_offset": 22
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 22
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for r\u00e9sum\u00e9, \ud835\udc99 in caf\u00e9:\n    use(r\u00e9sum\u00e9, \ud835\udc99)",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Tuple",
+                            "elts": [
+                                {
+                                    "_type": "Name",
+                                    "id": "r\u00e9sum\u00e9",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 4,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 12
+                                },
+                                {
+                                    "_type": "Name",
+                                    "id": "x",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 14,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 18
+                                }
+                            ],
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 18
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "caf\u00e9",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 22,
+                            "end_lineno": 1,
+                            "end_col_offset": 27
+                        },
+                        "body": [
+                            {
+                                "_type": "Expr",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Name",
+                                        "id": "use",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 2,
+                                        "col_offset": 4,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 7
+                                    },
+                                    "args": [
+                                        {
+                                            "_type": "Name",
+                                            "id": "r\u00e9sum\u00e9",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            },
+                                            "lineno": 2,
+                                            "col_offset": 8,
+                                            "end_lineno": 2,
+                                            "end_col_offset": 16
+                                        },
+                                        {
+                                            "_type": "Name",
+                                            "id": "x",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            },
+                                            "lineno": 2,
+                                            "col_offset": 18,
+                                            "end_lineno": 2,
+                                            "end_col_offset": 22
+                                        }
+                                    ],
+                                    "keywords": [],
+                                    "lineno": 2,
+                                    "col_offset": 4,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 23
+                                },
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 23
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 23
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in xs: # type: int\n    pass # type: ignore\nelse: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 5
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "xs",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 11
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 3,
+                                "col_offset": 6,
+                                "end_lineno": 3,
+                                "end_col_offset": 10
+                            }
+                        ],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 3,
+                        "end_col_offset": 10
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "for x in xs:\n    for y in ys:\n        use(x,y)\n    else:\n        inner()\nelse:\n    outer()\nafter()",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "For",
+                        "target": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 5
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "xs",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 11
+                        },
+                        "body": [
+                            {
+                                "_type": "For",
+                                "target": {
+                                    "_type": "Name",
+                                    "id": "y",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 8,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 9
+                                },
+                                "iter": {
+                                    "_type": "Name",
+                                    "id": "ys",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 13,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 15
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Expr",
+                                        "value": {
+                                            "_type": "Call",
+                                            "func": {
+                                                "_type": "Name",
+                                                "id": "use",
+                                                "ctx": {
+                                                    "_type": "Load"
+                                                },
+                                                "lineno": 3,
+                                                "col_offset": 8,
+                                                "end_lineno": 3,
+                                                "end_col_offset": 11
+                                            },
+                                            "args": [
+                                                {
+                                                    "_type": "Name",
+                                                    "id": "x",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    },
+                                                    "lineno": 3,
+                                                    "col_offset": 12,
+                                                    "end_lineno": 3,
+                                                    "end_col_offset": 13
+                                                },
+                                                {
+                                                    "_type": "Name",
+                                                    "id": "y",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    },
+                                                    "lineno": 3,
+                                                    "col_offset": 14,
+                                                    "end_lineno": 3,
+                                                    "end_col_offset": 15
+                                                }
+                                            ],
+                                            "keywords": [],
+                                            "lineno": 3,
+                                            "col_offset": 8,
+                                            "end_lineno": 3,
+                                            "end_col_offset": 16
+                                        },
+                                        "lineno": 3,
+                                        "col_offset": 8,
+                                        "end_lineno": 3,
+                                        "end_col_offset": 16
+                                    }
+                                ],
+                                "orelse": [
+                                    {
+                                        "_type": "Expr",
+                                        "value": {
+                                            "_type": "Call",
+                                            "func": {
+                                                "_type": "Name",
+                                                "id": "inner",
+                                                "ctx": {
+                                                    "_type": "Load"
+                                                },
+                                                "lineno": 5,
+                                                "col_offset": 8,
+                                                "end_lineno": 5,
+                                                "end_col_offset": 13
+                                            },
+                                            "args": [],
+                                            "keywords": [],
+                                            "lineno": 5,
+                                            "col_offset": 8,
+                                            "end_lineno": 5,
+                                            "end_col_offset": 15
+                                        },
+                                        "lineno": 5,
+                                        "col_offset": 8,
+                                        "end_lineno": 5,
+                                        "end_col_offset": 15
+                                    }
+                                ],
+                                "type_comment": null,
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 5,
+                                "end_col_offset": 15
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Expr",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Name",
+                                        "id": "outer",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 7,
+                                        "col_offset": 4,
+                                        "end_lineno": 7,
+                                        "end_col_offset": 9
+                                    },
+                                    "args": [],
+                                    "keywords": [],
+                                    "lineno": 7,
+                                    "col_offset": 4,
+                                    "end_lineno": 7,
+                                    "end_col_offset": 11
+                                },
+                                "lineno": 7,
+                                "col_offset": 4,
+                                "end_lineno": 7,
+                                "end_col_offset": 11
+                            }
+                        ],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 7,
+                        "end_col_offset": 11
+                    },
+                    {
+                        "_type": "Expr",
+                        "value": {
+                            "_type": "Call",
+                            "func": {
+                                "_type": "Name",
+                                "id": "after",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 8,
+                                "col_offset": 0,
+                                "end_lineno": 8,
+                                "end_col_offset": 5
+                            },
+                            "args": [],
+                            "keywords": [],
+                            "lineno": 8,
+                            "col_offset": 0,
+                            "end_lineno": 8,
+                            "end_col_offset": 7
+                        },
+                        "lineno": 8,
+                        "col_offset": 0,
+                        "end_lineno": 8,
+                        "end_col_offset": 7
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "async for x in xs: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "AsyncFor",
+                        "target": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 10,
+                            "end_lineno": 1,
+                            "end_col_offset": 11
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "xs",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 15,
+                            "end_lineno": 1,
+                            "end_col_offset": 17
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 19,
+                                "end_lineno": 1,
+                                "end_col_offset": 23
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 23
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "async for x,*rest in await source():\n    await use(x)\nelse:\n    done()",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "AsyncFor",
+                        "target": {
+                            "_type": "Tuple",
+                            "elts": [
+                                {
+                                    "_type": "Name",
+                                    "id": "x",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 10,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 11
+                                },
+                                {
+                                    "_type": "Starred",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "rest",
+                                        "ctx": {
+                                            "_type": "Store"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 13,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 17
+                                    },
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 12,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 17
+                                }
+                            ],
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 10,
+                            "end_lineno": 1,
+                            "end_col_offset": 17
+                        },
+                        "iter": {
+                            "_type": "Await",
+                            "value": {
+                                "_type": "Call",
+                                "func": {
+                                    "_type": "Name",
+                                    "id": "source",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 27,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 33
+                                },
+                                "args": [],
+                                "keywords": [],
+                                "lineno": 1,
+                                "col_offset": 27,
+                                "end_lineno": 1,
+                                "end_col_offset": 35
+                            },
+                            "lineno": 1,
+                            "col_offset": 21,
+                            "end_lineno": 1,
+                            "end_col_offset": 35
+                        },
+                        "body": [
+                            {
+                                "_type": "Expr",
+                                "value": {
+                                    "_type": "Await",
+                                    "value": {
+                                        "_type": "Call",
+                                        "func": {
+                                            "_type": "Name",
+                                            "id": "use",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            },
+                                            "lineno": 2,
+                                            "col_offset": 10,
+                                            "end_lineno": 2,
+                                            "end_col_offset": 13
+                                        },
+                                        "args": [
+                                            {
+                                                "_type": "Name",
+                                                "id": "x",
+                                                "ctx": {
+                                                    "_type": "Load"
+                                                },
+                                                "lineno": 2,
+                                                "col_offset": 14,
+                                                "end_lineno": 2,
+                                                "end_col_offset": 15
+                                            }
+                                        ],
+                                        "keywords": [],
+                                        "lineno": 2,
+                                        "col_offset": 10,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 16
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 4,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 16
+                                },
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 16
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "Expr",
+                                "value": {
+                                    "_type": "Call",
+                                    "func": {
+                                        "_type": "Name",
+                                        "id": "done",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 4,
+                                        "col_offset": 4,
+                                        "end_lineno": 4,
+                                        "end_col_offset": 8
+                                    },
+                                    "args": [],
+                                    "keywords": [],
+                                    "lineno": 4,
+                                    "col_offset": 4,
+                                    "end_lineno": 4,
+                                    "end_col_offset": 10
+                                },
+                                "lineno": 4,
+                                "col_offset": 4,
+                                "end_lineno": 4,
+                                "end_col_offset": 10
+                            }
+                        ],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 10
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "async for x in xs: # type: int\n    pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "AsyncFor",
+                        "target": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Store"
+                            },
+                            "lineno": 1,
+                            "col_offset": 10,
+                            "end_lineno": 1,
+                            "end_col_offset": 11
+                        },
+                        "iter": {
+                            "_type": "Name",
+                            "id": "xs",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 15,
+                            "end_lineno": 1,
+                            "end_col_offset": 17
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "orelse": [],
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 8
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n    import os\n    type Alias[T] = list[T]",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Import",
+                                "names": [
+                                    {
+                                        "_type": "alias",
+                                        "name": "os",
+                                        "asname": null,
+                                        "lineno": 2,
+                                        "col_offset": 11,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 13
+                                    }
+                                ],
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 13
+                            },
+                            {
+                                "_type": "TypeAlias",
+                                "name": {
+                                    "_type": "Name",
+                                    "id": "Alias",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    },
+                                    "lineno": 3,
+                                    "col_offset": 9,
+                                    "end_lineno": 3,
+                                    "end_col_offset": 14
+                                },
+                                "type_params": [
+                                    {
+                                        "_type": "TypeVar",
+                                        "name": "T",
+                                        "bound": null,
+                                        "default_value": null,
+                                        "lineno": 3,
+                                        "col_offset": 15,
+                                        "end_lineno": 3,
+                                        "end_col_offset": 16
+                                    }
+                                ],
+                                "value": {
+                                    "_type": "Subscript",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "list",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 3,
+                                        "col_offset": 20,
+                                        "end_lineno": 3,
+                                        "end_col_offset": 24
+                                    },
+                                    "slice": {
+                                        "_type": "Name",
+                                        "id": "T",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 3,
+                                        "col_offset": 25,
+                                        "end_lineno": 3,
+                                        "end_col_offset": 26
+                                    },
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 3,
+                                    "col_offset": 20,
+                                    "end_lineno": 3,
+                                    "end_col_offset": 27
+                                },
+                                "lineno": 3,
+                                "col_offset": 4,
+                                "end_lineno": 3,
+                                "end_col_offset": 27
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 3,
+                        "end_col_offset": 27
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n    from __future__ import unknown",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "ImportFrom",
+                                "module": "__future__",
+                                "names": [
+                                    {
+                                        "_type": "alias",
+                                        "name": "unknown",
+                                        "asname": null,
+                                        "lineno": 2,
+                                        "col_offset": 27,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 34
+                                    }
+                                ],
+                                "level": 0,
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 34
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 34
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n    from __future__ import barry_as_FLUFL\nx <> y",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "ImportFrom",
+                                "module": "__future__",
+                                "names": [
+                                    {
+                                        "_type": "alias",
+                                        "name": "barry_as_FLUFL",
+                                        "asname": null,
+                                        "lineno": 2,
+                                        "col_offset": 27,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 41
+                                    }
+                                ],
+                                "level": 0,
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 2,
+                                "end_col_offset": 41
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 41
+                    },
+                    {
+                        "_type": "Expr",
+                        "value": {
+                            "_type": "Compare",
+                            "left": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 3,
+                                "col_offset": 0,
+                                "end_lineno": 3,
+                                "end_col_offset": 1
+                            },
+                            "ops": [
+                                {
+                                    "_type": "NotEq"
+                                }
+                            ],
+                            "comparators": [
+                                {
+                                    "_type": "Name",
+                                    "id": "y",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 3,
+                                    "col_offset": 5,
+                                    "end_lineno": 3,
+                                    "end_col_offset": 6
+                                }
+                            ],
+                            "lineno": 3,
+                            "col_offset": 0,
+                            "end_lineno": 3,
+                            "end_col_offset": 6
+                        },
+                        "lineno": 3,
+                        "col_offset": 0,
+                        "end_lineno": 3,
+                        "end_col_offset": 6
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x: value = '\\q'\nelif y: pass",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "Assign",
+                                "targets": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "value",
+                                        "ctx": {
+                                            "_type": "Store"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 6,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 11
+                                    }
+                                ],
+                                "value": {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "str",
+                                        "value": "\\q"
+                                    },
+                                    "kind": null,
+                                    "lineno": 1,
+                                    "col_offset": 14,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 18
+                                },
+                                "type_comment": null,
+                                "lineno": 1,
+                                "col_offset": 6,
+                                "end_lineno": 1,
+                                "end_col_offset": 18
+                            }
+                        ],
+                        "orelse": [
+                            {
+                                "_type": "If",
+                                "test": {
+                                    "_type": "Name",
+                                    "id": "y",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 5,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 6
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass",
+                                        "lineno": 2,
+                                        "col_offset": 8,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 12
+                                    }
+                                ],
+                                "orelse": [],
+                                "lineno": 2,
+                                "col_offset": 0,
+                                "end_lineno": 2,
+                                "end_col_offset": 12
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 12
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": [
+                {
+                    "name": "SyntaxWarning",
+                    "message": "\"\\q\" is an invalid escape sequence. Such sequences will not work in the future. Did you mean \"\\\\q\"? A raw string is also an option.",
+                    "lineno": 1
+                }
+            ]
+        },
+        {
+            "source": "if x:\n    while y:\n        for z in zs:\n            pass\nafter()",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Name",
+                            "id": "x",
+                            "ctx": {
+                                "_type": "Load"
+                            },
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 4
+                        },
+                        "body": [
+                            {
+                                "_type": "While",
+                                "test": {
+                                    "_type": "Name",
+                                    "id": "y",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 2,
+                                    "col_offset": 10,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 11
+                                },
+                                "body": [
+                                    {
+                                        "_type": "For",
+                                        "target": {
+                                            "_type": "Name",
+                                            "id": "z",
+                                            "ctx": {
+                                                "_type": "Store"
+                                            },
+                                            "lineno": 3,
+                                            "col_offset": 12,
+                                            "end_lineno": 3,
+                                            "end_col_offset": 13
+                                        },
+                                        "iter": {
+                                            "_type": "Name",
+                                            "id": "zs",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            },
+                                            "lineno": 3,
+                                            "col_offset": 17,
+                                            "end_lineno": 3,
+                                            "end_col_offset": 19
+                                        },
+                                        "body": [
+                                            {
+                                                "_type": "Pass",
+                                                "lineno": 4,
+                                                "col_offset": 12,
+                                                "end_lineno": 4,
+                                                "end_col_offset": 16
+                                            }
+                                        ],
+                                        "orelse": [],
+                                        "type_comment": null,
+                                        "lineno": 3,
+                                        "col_offset": 8,
+                                        "end_lineno": 4,
+                                        "end_col_offset": 16
+                                    }
+                                ],
+                                "orelse": [],
+                                "lineno": 2,
+                                "col_offset": 4,
+                                "end_lineno": 4,
+                                "end_col_offset": 16
+                            }
+                        ],
+                        "orelse": [],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 4,
+                        "end_col_offset": 16
+                    },
+                    {
+                        "_type": "Expr",
+                        "value": {
+                            "_type": "Call",
+                            "func": {
+                                "_type": "Name",
+                                "id": "after",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 5,
+                                "col_offset": 0,
+                                "end_lineno": 5,
+                                "end_col_offset": 5
+                            },
+                            "args": [],
+                            "keywords": [],
+                            "lineno": 5,
+                            "col_offset": 0,
+                            "end_lineno": 5,
+                            "end_col_offset": 7
+                        },
+                        "lineno": 5,
+                        "col_offset": 0,
+                        "end_lineno": 5,
+                        "end_col_offset": 7
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
         }
     ],
     "rejections": [
+        {
+            "source": "if x:\n    pass\n  pass",
+            "errorName": "IndentationError"
+        },
+        {
+            "source": "if x pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "if : pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "if x: pass; if y: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "if x: pass\nelif: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "if x: pass\nelse x: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "if x: pass\nelse: pass\nelif y: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "else: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "elif x: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "while: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "while x pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "while x: pass\nelif y: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "for in xs: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "for x xs: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "for x in: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "for x in xs pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "for 1 in xs: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "for a+b in xs: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "for f() in xs: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "for x in xs: pass\nelse x: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "async for x in xs pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "async while x: pass",
+            "errorName": "SyntaxError"
+        },
+        {
+            "source": "async if x: pass",
+            "errorName": "SyntaxError"
+        },
         {
             "source": "import",
             "errorName": "SyntaxError"
