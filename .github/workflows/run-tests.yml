@@ -2,7 +2,7 @@ name: baseline-tests
 on:
     pull_request:
     push:
-        branches: [master]
+        branches: [master, next]
 permissions:
     contents: read
 jobs:

@@ -1,6 +1,6 @@
 # Skulpt parser migration baseline
 
-This branch restores a buildable, testable Python 3.9 frontend before the planned Python 3.14 migration. It starts at upstream `master` revision `ae256889f0956d6dc102edd39f1a9555e97e850b`. It is a private development package, not a new parser release.
+This branch restores a buildable, testable Python 3.9 frontend before the planned Python 3.14 migration. It starts at upstream `master` revision `ae256889f0956d6dc102edd39f1a9555e97e850b`. Migration work integrates through the `next` branch; implementation PRs target `next` rather than `master`. It is a private development package, not a new parser release.
 
 The [agreed migration route](https://github.com/anvil-works/skulpt-parser/issues/8#issuecomment-5673603629) is minimal baseline recovery, strict Python 3.14 source-to-AST, bounded Python 2 compatibility, then independent IDE and Skulpt adoption gates. WASM work is stopped. Cache tuning is deferred.
 
