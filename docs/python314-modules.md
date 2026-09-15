@@ -24,7 +24,7 @@ The scanner's parser stream now includes an EOF token for empty input, which per
 
 The full suite passes 3,149 tests with zero skips. The standalone browser smoke check covers nine module sources as well as the existing 13 expression sources. Public package checks remain separate.
 
-The standalone migration bundle is 749,755 bytes raw / 235,394 gzip / 175,533 Brotli on Node 26.7.0. Relative to #25, the increase is 12,685 / 1,437 / 1,230 bytes. These totals include Unicode-name data. No parsing-speed or memory improvement is claimed. The existing command names `build:expression` and `test:expression-package` now exercise the shared internal frontend, preserving the previous measurement path.
+The standalone migration bundle is 758,280 bytes raw / 236,757 gzip / 176,544 Brotli on Node 26.7.0. Relative to #26, the increase is 8,525 / 1,363 / 1,011 bytes. These totals include Unicode-name data. No parsing-speed or memory improvement is claimed. The existing command names `build:expression` and `test:expression-package` now exercise the shared internal frontend, preserving the previous measurement path.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check
@@ -47,4 +47,4 @@ The checked future-import action enables `barry_as_FLUFL` for subsequent compari
 
 Before returning a module, the future-feature check follows `Python/future.c`: validate the leading block of absolute future imports, optionally preceded by a docstring. It reports unknown features and the `braces` error with CPython-derived details. CPython’s AST-only path does not reject misplaced future imports after another statement; this parser keeps that boundary. Other compilation/semantic checks remain deferred. The checks live in `src/python314/imports.ts`; upstream sources are checksum-pinned.
 
-This slice adds 80 complete AST/warning cases, nine exact errors and 32 rejection cases. The two earlier unsupported-import/type-alias checks become ordinary success cases; compound-statement boundary checks remain. Four new standalone lexer cases check `<>` in both token modes. The new standalone bundle is 758,280 raw / 236,757 gzip / 176,544 Brotli bytes, up 8,525 / 1,363 / 1,011 from #26. These totals include Unicode names; the public bundle remains unchanged.
+This slice adds 80 complete AST/warning cases, nine exact errors and 32 rejection cases. The two earlier unsupported-import/type-alias checks become ordinary success cases; compound-statement boundary checks remain. Four new standalone lexer cases check `<>` in both token modes. The public bundle remains unchanged.
