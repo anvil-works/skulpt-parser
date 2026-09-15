@@ -5,6 +5,7 @@ import * as ast from "./ast.ts";
 import type { Token, LexerOptions } from "./lexer/tokenizer.ts";
 import { Scanner } from "./lexer/tokenizer.ts";
 import { parseNumber } from "./parse_number.ts";
+import type { ParseOptions } from "./parse_options.ts";
 
 // All hard keywords; contextual soft keywords remain grammar decisions.
 const keywords = new Set(
@@ -73,11 +74,13 @@ export class Parser {
     private lexicalFailure = false;
     readonly filename: string;
     readonly source: string;
+    readonly unicodeName: ParseOptions["unicodeName"];
     readonly onWarning: LexerOptions["onWarning"];
     readonly stringWarnings = new Set<string>();
-    constructor(source: string, options: Omit<LexerOptions, "extraTokens">, readonly mode: "eval" | "exec") {
+    constructor(source: string, options: ParseOptions, readonly mode: "eval" | "exec") {
         this.source = source.replace(/\r\n?/g, "\n");
         this.onWarning = options.onWarning;
+        this.unicodeName = options.unicodeName;
         this.filename = options.filename ?? "<string>";
         // CPython parsing uses universal newlines; the standalone tokenizer does not.
         this.scanner = new Scanner(this.source, { ...options, extraTokens: false });

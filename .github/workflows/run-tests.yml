@@ -27,6 +27,8 @@ jobs:
             - run: pnpm test:package
             - run: pnpm build:expression
             - run: pnpm test:expression-package
+            - run: pnpm build:core
+            - run: pnpm test:core-package
             - uses: actions/setup-python@v5
               with:
                   python-version: "3.14.3"
