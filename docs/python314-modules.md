@@ -36,9 +36,9 @@ Grouped lookahead returns success/failure without fabricating an AST value. Othe
 
 The CPython-generated module fixture contains 451 complete AST/warning cases, 26 exact errors and 157 rejection cases. The final pattern slice adds 68 AST/warning cases, four exact numeric-pattern errors and 21 rejection cases. Earlier unsupported-pattern cases now succeed, so no deliberate statement-family rejection fixtures remain. Non-finite scalar values use JSON markers, preventing invalid JSON for overflow literals.
 
-The full suite passes 3,635 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
+The full suite passes 3,664 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
 
-The standalone migration bundle is 865,594 bytes raw / 248,367 gzip / 185,344 Brotli on Node 26.7.0, up 34,797 / 3,806 / 2,989 from #33. Totals include Unicode-name data. Public exports remain unchanged. No speed or memory improvement is claimed. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
+The standalone migration bundle is 866,443 bytes raw / 248,599 gzip / 185,680 Brotli on Node 26.7.0, up 841 / 227 / 510 from #34. Totals include Unicode-name data. Public exports remain unchanged. No speed or memory improvement is claimed. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check
@@ -50,4 +50,4 @@ pnpm test:expression-package
 pnpm test:python314-corpus
 ```
 
-The legacy suite requires `PYTHON` to select CPython 3.9.25. Module fixtures and the live corpus check require CPython 3.14.3. Diagnostics, semantic validation, performance measurements and consumer integration are the next checkpoint decisions.
+The legacy suite requires `PYTHON` to select CPython 3.9.25. Module fixtures and the live corpus check require CPython 3.14.3. Broader conformance, semantic validation, performance measurements and consumer integration remain future work.
