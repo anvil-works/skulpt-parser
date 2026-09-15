@@ -686,7 +686,8 @@ class Scanner {
                 }
                 const c2 = this.next();
                 const pair = String.fromCharCode(c, c2);
-                let op = (operators as Record<string, string>)[pair];
+                // CPython recognizes this spelling as NOTEQUAL even though token.EXACT_TOKEN_TYPES omits it.
+                let op = pair === "<>" ? "NOTEQUAL" : (operators as Record<string, string>)[pair];
                 if (op) {
                     const c3 = this.next();
                     const triple = (operators as Record<string, string>)[pair + String.fromCharCode(c3)];
