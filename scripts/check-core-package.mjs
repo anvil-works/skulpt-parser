@@ -81,3 +81,18 @@ assert.throws(() => core.parseExpression("'\\N{SNOWMAN}'"), core.UnicodeNameData
 console.log(
     JSON.stringify({ corePackage: "passed", namedCases: namedCases.length, coreGzip: gzipSync(coreBytes).length })
 );
+
+// Exercise the package subpath consumed by the IDE, not just a direct bundle path.
+const linkedCore = await import("skulpt-parser/core");
+const lexerFixtures = JSON.parse(readFileSync("tests/fixtures/python314-lexer.json", "utf8"));
+for (const source of ["# comment", "é = 𝒙 + 1\n", 'def f(x):\n    return f"value {x!r:>10}"\n']) {
+    const fixture = lexerFixtures.cases.find((item) => item.source === source && item.extra);
+    assert.ok(fixture);
+    for (const tokens of [linkedCore.tokenize(source), Array.from(linkedCore.scan(source))]) {
+        assert.deepEqual(
+            tokens.map(({ type, string, start, end, line }) => ({ type, string, start, end, line })),
+            fixture.expected.tokens,
+            source
+        );
+    }
+}

@@ -5,10 +5,10 @@ export default defineConfig({
     source: {
         decorators: { version: "legacy" },
         entry: {
-            index: "./src/python314/frontend_core.ts",
+            index: "./src/python314/core.ts",
             "unicode-names": "./src/python314/string_names.ts",
         },
     },
-    lib: [{ format: "esm", syntax: "es2020", dts: false }],
+    lib: [{ format: "esm", syntax: "es2020", dts: true }],
     output: { target: "web", minify: true, distPath: { root: "dist-core" } },
 });
