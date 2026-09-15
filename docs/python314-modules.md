@@ -36,9 +36,9 @@ Grouped lookahead returns success/failure without fabricating an AST value. Othe
 
 The CPython-generated module fixture contains 451 complete AST/warning cases, 26 exact errors and 157 rejection cases. The final pattern slice adds 68 AST/warning cases, four exact numeric-pattern errors and 21 rejection cases. Earlier unsupported-pattern cases now succeed, so no deliberate statement-family rejection fixtures remain. Non-finite scalar values use JSON markers, preventing invalid JSON for overflow literals.
 
-The full suite passes 3,664 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
+The full suite passes 3,670 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
 
-The standalone migration bundle is 866,443 bytes raw / 248,599 gzip / 185,680 Brotli on Node 26.7.0, up 841 / 227 / 510 from #34. Totals include Unicode-name data. Public exports remain unchanged. No speed or memory improvement is claimed. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
+The standalone migration bundle is 866,555 bytes raw / 248,641 gzip / 185,523 Brotli on Node 26.7.0, changed by +112 / +42 / -157 from #35. Totals include Unicode-name data. Public exports remain unchanged. Measured speed changes and memory limitations are documented in `python314-performance.md`. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check
