@@ -4,3 +4,8 @@ tests/fixtures/python314-ast.json
 
 tests/fixtures/python314-positions.json
 tests/fixtures/python314-numbers.json
+src/python314/generated_parser.ts
+src/python314/lexer/unicode.json
+src/python314/lexer/operators.json
+tests/fixtures/python314-expressions.json
+tests/fixtures/python314-lexer.json
