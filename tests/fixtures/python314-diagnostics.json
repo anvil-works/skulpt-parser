@@ -1210,6 +1210,888 @@
                 "text": "lambda r\u00e9sum\u00e9=1,\ud835\udc99:1"
             },
             "warnings": []
+        },
+        {
+            "source": "1 = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 2,
+                "text": "1 = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del 1",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete literal",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "del 1\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for 1 in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "for 1 in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as 1: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 19,
+                "text": "with resource as 1: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "True = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to True",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "True = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del True",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete True",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "del True\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for True in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to True",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "for True in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as True: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to True",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 22,
+                "text": "with resource as True: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f() = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to function call here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "f() = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del f()",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete function call",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "del f()\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for f() in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to function call",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "for f() in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as f(): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to function call",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 21,
+                "text": "with resource as f(): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "a+b = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to expression here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "a+b = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del a+b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete expression",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "del a+b\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for a+b in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to expression",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "for a+b in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as a+b: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to expression",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 21,
+                "text": "with resource as a+b: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(x for x in xs) = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to generator expression",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "(x for x in xs) = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del (x for x in xs)",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete generator expression",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 20,
+                "text": "del (x for x in xs)\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for (x for x in xs) in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to generator expression",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 20,
+                "text": "for (x for x in xs) in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as (x for x in xs): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to generator expression",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 33,
+                "text": "with resource as (x for x in xs): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[x for x in xs] = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to list comprehension here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "[x for x in xs] = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del [x for x in xs]",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete list comprehension",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 20,
+                "text": "del [x for x in xs]\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for [x for x in xs] in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to list comprehension",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 20,
+                "text": "for [x for x in xs] in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as [x for x in xs]: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to list comprehension",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 33,
+                "text": "with resource as [x for x in xs]: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{'a':x} = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to dict literal here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "{'a':x} = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del {'a':x}",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete dict literal",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "del {'a':x}\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for {'a':x} in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to dict literal",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "for {'a':x} in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as {'a':x}: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to dict literal",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 25,
+                "text": "with resource as {'a':x}: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "{x} = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to set display here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "{x} = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del {x}",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete set display",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "del {x}\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for {x} in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to set display",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "for {x} in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as {x}: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to set display",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 21,
+                "text": "with resource as {x}: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f'{x}' = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to f-string expression here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "f'{x}' = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del f'{x}'",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete f-string expression",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "del f'{x}'\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for f'{x}' in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to f-string expression",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "for f'{x}' in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as f'{x}': pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to f-string expression",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 24,
+                "text": "with resource as f'{x}': pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "t'{x}' = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to t-string expression here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "t'{x}' = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del t'{x}'",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete t-string expression",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "del t'{x}'\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for t'{x}' in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to t-string expression",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "for t'{x}' in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as t'{x}': pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to t-string expression",
+                "lineno": 1,
+                "offset": 18,
+                "end_lineno": 1,
+                "end_offset": 24,
+                "text": "with resource as t'{x}': pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "a,(b,1) = values",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "a,(b,1) = values\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del [a,(b,f())]",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete function call",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 14,
+                "text": "del [a,(b,f())]\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del *a",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete starred",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "del *a\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del [*a]",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete starred",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "del [*a]\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "for a,(b,1) in xs: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 11,
+                "text": "for a,(b,1) in xs: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "with resource as [a,1]: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal",
+                "lineno": 1,
+                "offset": 21,
+                "end_lineno": 1,
+                "end_offset": 22,
+                "text": "with resource as [a,1]: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "def f((\n    a,\n                 b)): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "Function parameters cannot be parenthesized",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 3,
+                "end_offset": 8,
+                "text": "def f(("
+            },
+            "warnings": []
+        },
+        {
+            "source": "a,b: int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "only single target (not tuple) can be annotated",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 2,
+                "text": "a,b: int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "[a]: int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "only single target (not list) can be annotated",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "[a]: int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(): int",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "illegal target for annotation",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "f(): int\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "a,b += values",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'tuple' is an illegal expression for augmented assignment",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "a,b += values\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f() += value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'function call' is an illegal expression for augmented assignment",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "f() += value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(yield x) = value",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to yield expression here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "(yield x) = value\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(x+1 := value)",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use assignment expressions with expression",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "(x+1 := value)\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x = 1: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Maybe you meant '==' or ':=' instead of '='?",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 9,
+                "text": "if x = 1: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if f() = 1: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to function call here. Maybe you meant '==' instead of '='?",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "if f() = 1: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import os as 1",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use literal as import target",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 15,
+                "text": "import os as 1\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "import os as a+b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use expression as import target",
+                "lineno": 1,
+                "offset": 14,
+                "end_lineno": 1,
+                "end_offset": 17,
+                "text": "import os as a+b\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "from os import name as f()",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use function call as import target",
+                "lineno": 1,
+                "offset": 24,
+                "end_lineno": 1,
+                "end_offset": 27,
+                "text": "from os import name as f()\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case 1 as _: pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use '_' as a target",
+                "lineno": 2,
+                "offset": 15,
+                "end_lineno": 2,
+                "end_offset": 16,
+                "text": "    case 1 as _: pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "match x:\n    case 1 as f(): pass",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot use function call as pattern target",
+                "lineno": 2,
+                "offset": 15,
+                "end_lineno": 2,
+                "end_offset": 18,
+                "text": "    case 1 as f(): pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "r\u00e9sum\u00e9,(\ud835\udc99,1) = values",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot assign to literal",
+                "lineno": 1,
+                "offset": 11,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "r\u00e9sum\u00e9,(\ud835\udc99,1) = values\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "del r\u00e9sum\u00e9,(\ud835\udc99,f())",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "cannot delete function call",
+                "lineno": 1,
+                "offset": 15,
+                "end_lineno": 1,
+                "end_offset": 18,
+                "text": "del r\u00e9sum\u00e9,(\ud835\udc99,f())\n"
+            },
+            "warnings": []
         }
     ]
 }
