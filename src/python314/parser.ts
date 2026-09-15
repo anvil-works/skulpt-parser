@@ -66,6 +66,7 @@ export function memoizeLeftRec(_target: Parser, name: string, descriptor: Proper
 export class Parser {
     mark = 0;
     barryAsFlufl = false;
+    readonly python2Compat: boolean;
     callInvalidRules = false;
     private tokens: Token[] = [];
     private cache: Map<string, Memo>[] = [];
@@ -78,6 +79,7 @@ export class Parser {
     readonly onWarning: LexerOptions["onWarning"];
     readonly stringWarnings = new Set<string>();
     constructor(source: string, options: ParseOptions, readonly mode: "eval" | "exec") {
+        this.python2Compat = options.python2Compat ?? false;
         this.source = source.replace(/\r\n?/g, "\n");
         this.onWarning = options.onWarning;
         this.unicodeName = options.unicodeName;
@@ -231,6 +233,7 @@ export class Parser {
         );
     }
     checkNotEqual(token: Token): Token | null {
+        if (this.python2Compat) return token;
         if (this.barryAsFlufl && token.string !== "<>") {
             throw this.error("with Barry as BDFL, use '<>' instead of '!='", token);
         }
@@ -258,7 +261,7 @@ export class Parser {
         if (!token) return null;
         try {
             return ast.Constant(
-                parseNumber(token.string),
+                parseNumber(token.string, this.python2Compat),
                 null,
                 token.start[0],
                 token.startByte,

@@ -9,7 +9,15 @@ export type NumericConstant = Extract<ScalarConstant, { type: "int" | "float" | 
  * Signs belong to unary grammar actions; spelling errors belong to the lexer.
  * Decimal integers follow CPython's default conversion limit of 4300 digits.
  */
-export function parseNumber(token: string): NumericConstant {
+export function parseNumber(token: string, python2Compat = false): NumericConstant {
+    if (python2Compat) {
+        const legacyLong = token.endsWith("L");
+        const digits = (legacyLong ? token.slice(0, -1) : token).replace(/_/g, "");
+        const spelling = /^0[0-7]+$/.test(digits) ? "0o" + digits : digits;
+        const value = parseNumber(spelling);
+        if (legacyLong && value.type === "int") value.legacyLong = true;
+        return value;
+    }
     const text = token.replace(/_/g, "");
     const last = text[text.length - 1];
     if (last === "j" || last === "J") {

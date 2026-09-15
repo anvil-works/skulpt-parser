@@ -1,0 +1,158 @@
+{
+    "oracle": "Skulpt Python 2 parse + AST construction",
+    "bundleSha256": "29aa41f66d084b5826e6d386a5494b179d96a793607ebfc668cedc4752722e54",
+    "cases": [
+        {
+            "source": "0755",
+            "expected": {
+                "type": "int",
+                "value": "493",
+                "legacyLong": false,
+                "runtimeType": "int"
+            }
+        },
+        {
+            "source": "00",
+            "expected": {
+                "type": "int",
+                "value": "0",
+                "legacyLong": false,
+                "runtimeType": "int"
+            }
+        },
+        {
+            "source": "08",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "09",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "0_7",
+            "expected": {
+                "type": "int",
+                "value": "7",
+                "legacyLong": false,
+                "runtimeType": "int"
+            }
+        },
+        {
+            "source": "077.5",
+            "expected": {
+                "type": "float",
+                "value": 77.5
+            }
+        },
+        {
+            "source": "077e1",
+            "expected": {
+                "type": "float",
+                "value": 770
+            }
+        },
+        {
+            "source": "077j",
+            "expected": {
+                "type": "complex",
+                "real": 0,
+                "imag": 77
+            }
+        },
+        {
+            "source": "1L",
+            "expected": {
+                "type": "int",
+                "value": "1",
+                "legacyLong": true,
+                "runtimeType": "long"
+            }
+        },
+        {
+            "source": "0L",
+            "expected": {
+                "type": "int",
+                "value": "0",
+                "legacyLong": true,
+                "runtimeType": "long"
+            }
+        },
+        {
+            "source": "0755L",
+            "expected": {
+                "type": "int",
+                "value": "493",
+                "legacyLong": true,
+                "runtimeType": "long"
+            }
+        },
+        {
+            "source": "0xffL",
+            "expected": {
+                "type": "int",
+                "value": "255",
+                "legacyLong": true,
+                "runtimeType": "long"
+            }
+        },
+        {
+            "source": "0o755L",
+            "expected": {
+                "type": "int",
+                "value": "493",
+                "legacyLong": true,
+                "runtimeType": "long"
+            }
+        },
+        {
+            "source": "0b101L",
+            "expected": {
+                "type": "int",
+                "value": "5",
+                "legacyLong": true,
+                "runtimeType": "long"
+            }
+        },
+        {
+            "source": "123456789012345678901234567890L",
+            "expected": {
+                "type": "int",
+                "value": "123456789012345678901234567890",
+                "legacyLong": true,
+                "runtimeType": "long"
+            }
+        },
+        {
+            "source": "1l",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "1.0L",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "1e2L",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "1jL",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "1Lname",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "a <> b",
+            "expected": {
+                "comparison": "NotEq"
+            }
+        },
+        {
+            "source": "a != b",
+            "expected": {
+                "comparison": "NotEq"
+            }
+        }
+    ]
+}
