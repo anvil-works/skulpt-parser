@@ -261,6 +261,64 @@ sources.extend(
     ]
 )
 
+# Function parameters reuse the upstream argument assembly used by lambdas.
+for signature in [
+    "",
+    "a",
+    "a,b=1",
+    "a,/,b=1",
+    "a=1,/,b=2",
+    "*args",
+    "**kwargs",
+    "*,required,optional=1",
+    "a,/,b=1,*args,c,d=2,**kwargs",
+    "a:int,b:str='x'",
+    "a:int,/,b:list[int]=[]",
+    "*args:tuple[int,...],**kwargs:int",
+    "*args: *tuple[int, ...]",
+    "*args: *Ts, keyword: int = 1",
+    "résumé: str, 𝒙: int = 1",
+    "a: (lambda: int) = (lambda: 1)",
+    "a: int, # type: str\n b=2 # type: int\n",
+    "a,a",
+    "a=1,a=2",
+]:
+    sources.append(f"def f({signature}) -> Result:\n    return value")
+sources.extend(
+    [
+        "x = 1\ndef f():\n    pass",
+        "if x:\n    pass\n    def f(): pass",
+        "def f(): pass",
+        "def f(): a=1; return a",
+        "def f():\n    # type: () -> int\n    return 1",
+        "def f(): # type: () -> int\n    return 1",
+        "def f[T: int = int, *Ts = *tuple[()], **P = ...](x:T) -> tuple[T,*Ts]: return x",
+        "def f[T,T](x): pass",
+        "def outer(x):\n    def inner(y):\n        return x+y\n    return inner",
+        "async def f(): pass",
+        "async def f[T](a:T,/,b=1,*,c,**kw)->T:\n    async for x in xs:\n        await use(x)\n    return a",
+        "async def f():\n    yield 1",
+        "@decorate\ndef f(): pass",
+        "@outer(1)\n@inner\nasync def f(): pass",
+        "@(lambda f: f)\ndef f(): pass",
+        "@registry[key]\ndef f(): pass",
+        "@(chosen := decorate)\ndef f(): pass",
+        "class C: pass",
+        "class C(): pass",
+        "class C(Base): pass",
+        "class C(A,B,metaclass=M,**options): pass",
+        "class C(*bases,metaclass=M): pass",
+        "class C[T = int,*Ts = *tuple[()],**P = ...](Base[T]): pass",
+        "@decorate\nclass C: pass",
+        "@outer\n@inner(1)\nclass Café:\n    def méthode(self, 𝒙): return 𝒙",
+        "class Outer:\n    class Inner: pass\n    @staticmethod\n    def f(): pass",
+        "class C(metaclass=A,metaclass=B): pass",
+        "class C[T,T]: pass",
+        "def f():\r\n\treturn 1\r\n",
+        "def f():\n    x = '\\q'\n    return x",
+    ]
+)
+
 cases = []
 for source in sources:
     with warnings.catch_warnings(record=True) as caught:
@@ -276,6 +334,28 @@ for source in sources:
 # Rejection parity only until invalid-rule diagnostic actions are ported.
 rejections = []
 for source in [
+    "def f: pass",
+    "def f(: pass",
+    "def f() pass",
+    "def f() -> : pass",
+    "def f(a=1,b): pass",
+    "def f(*): pass",
+    "def f(*,): pass",
+    "def f(**kw,x): pass",
+    "def f(a,/,/): pass",
+    "def f(/): pass",
+    "def f(*args=1): pass",
+    "def f(**kwargs=1): pass",
+    "def f(a:): pass",
+    "def f[T](x) ->: pass",
+    "async def f() pass",
+    "async class C: pass",
+    "class : pass",
+    "class C pass",
+    "class C(x=1,Base): pass",
+    "@decorate\npass",
+    "@decorate def f(): pass",
+    "@\ndef f(): pass",
     "if x:\n    pass\n  pass",
     "if x pass",
     "if : pass",
@@ -421,9 +501,9 @@ for source in [
 # Valid CPython modules outside this migration slice must not be returned as
 # successfully parsed prefixes. These are project boundary tests, not parity.
 unsupported = [
-    "x = 1\ndef f():\n    pass",
-    "if x:\n    pass\n    def f(): pass",
     "for x in xs:\n    with resource: pass",
+    "def f():\n    pass\n    with resource: pass",
+    "class C:\n    try: pass\n    finally: pass",
 ]
 for source in unsupported:
     ast.parse(source, mode="exec")
