@@ -17,6 +17,7 @@ RULES = set(
     """
 file statements statement simple_stmts simple_stmt assignment augassign
 compound_stmt block if_stmt elif_stmt else_block while_stmt for_stmt
+with_stmt with_item try_stmt except_block except_star_block finally_block
 decorators class_def class_def_raw function_def function_def_raw func_type_comment
 params parameters slash_no_default slash_with_default star_etc kwds
 param_no_default param_no_default_star_annotation param_with_default param_maybe_default
@@ -131,6 +132,9 @@ def action(text):
             if name == "ClassDef":
                 args[4] = "[]"
                 args[5] = f"({args[5]} ?? [])"
+            if name in {"Try", "TryStar"}:
+                for index in (1, 2, 3):
+                    args[index] = "[]" if args[index] == "null" else f"({args[index]} ?? [])"
             if name == "TypeAlias":
                 args[1] = f"({args[1]} ?? [])"
             if name == "Call":
@@ -209,6 +213,7 @@ def action(text):
         in "Load Store Del And Or Not UAdd USub Invert Add Sub Mult MatMult Div Mod Pow FloorDiv LShift RShift BitOr BitXor BitAnd Eq NotEq Lt LtE Gt GtE Is IsNot In NotIn".split()
     ):
         return f"ast.{text}()"
+    text = re.sub(r"\(\s*(\w+)\s*\)(?=\s*->)", r"\1", text)
     text = re.sub(r"\s*->\s*v\s*\.\s*Name\s*\.\s*id", ".id", text)
     text = re.sub(r"\s*->\s*(key|value|kind)\b", r".\1", text)
     if not re.fullmatch(r"\w+(?:\.\w+)?", text):
