@@ -1,4 +1,4 @@
-"""Emit the first supported expression rules from the pinned CPython grammar.
+"""Emit expression rules from the pinned CPython grammar.
 
 Selection is explicit. Generation rejects unknown semantic calls rather than emitting
 fallback helpers. CHECK allocation guards disappear because JavaScript allocations
@@ -30,6 +30,9 @@ annotated_rhs strings string fstring fstring_middle fstring_replacement_field
 fstring_conversion fstring_full_format_spec fstring_format_spec
 tstring tstring_middle tstring_replacement_field tstring_full_format_spec
 tstring_format_spec tstring_format_spec_replacement_field
+yield_expr lambdef lambda_params lambda_parameters lambda_slash_no_default
+lambda_slash_with_default lambda_star_etc lambda_kwds lambda_param_no_default
+lambda_param_with_default lambda_param_maybe_default lambda_param default
 """.split()
 )
 
@@ -74,6 +77,12 @@ def action(text):
     if text == "_PyPegen_check_barry_as_flufl ( p , tok ) ? NULL : tok":
         # This internal expression entry point does not enable future flags.
         return "tok"
+    empty_lambda = re.fullmatch(
+        r"\(\s*(\w+)\s*\)\s*\?\s*\1\s*:\s*CHECK\s*\(\s*arguments_ty\s*,\s*_PyPegen_empty_arguments\s*\(\s*p\s*\)\s*\)",
+        text,
+    )
+    if empty_lambda:
+        return f"({empty_lambda[1]} ?? ast.arguments([], [], null, [], [], null, []))"
     call_fields = re.fullmatch(
         r"\(\s*(\w+)\s*\)\s*\?\s*\(\s*\1\s*\)\s*->\s*v\s*\.\s*Call\s*\.\s*(args|keywords)\s*:\s*NULL",
         text,
@@ -117,7 +126,14 @@ def action(text):
             method = string_helpers[name.removeprefix("_PyPegen_")]
             translated = [action(arg) for arg in args[1:] if arg != "p -> arena"]
             return f"strings.{method}(this, {', '.join(translated)})"
+        if name == "_PyPegen_name_default_pair":
+            if args[3] != "NULL":
+                raise ValueError("Parameter type comments are not implemented")
+            return f"{{arg: {action(args[1])}, value: {action(args[2])}}}"
         helper = {
+            "_PyPegen_make_arguments": lambda a: f"makeArguments({', '.join(a[1:])})",
+            "_PyPegen_slash_with_default": lambda a: f"{{plainNames: {a[1]}, namesWithDefaults: {a[2]}}}",
+            "_PyPegen_star_etc": lambda a: f"{{vararg: {a[1]}, kwonlyargs: {a[2]}, kwarg: {a[3]}}}",
             "_PyPegen_collect_call_seqs": lambda a: f"this.collectCallArgs({a[1]}, {a[2]})",
             "_PyPegen_join_sequences": lambda a: f"[...{a[1]}, ...{a[2]}]",
             "_PyPegen_keyword_or_starred": lambda a: f"{{element: {a[1]}, isKeyword: {json.dumps(bool(int(a[2])))}}}",
@@ -237,6 +253,7 @@ class Generator(ParserGenerator):
         self.print("// Expression subset selected by tools/generate314/parser.py. Do not edit.")
         self.print('import * as ast from "./ast.ts";')
         self.print('import * as strings from "./strings.ts";')
+        self.print('import { makeArguments } from "./parameters.ts";')
         self.print('import { Parser, memoize, memoizeLeftRec } from "./parser.ts";')
         self.print("export class ExpressionParser extends Parser {")
         for rule in self.all_rules.values():
@@ -306,7 +323,36 @@ class Generator(ParserGenerator):
         self.print("}")
 
 
+class References(GrammarVisitor):
+    def __init__(self):
+        self.names = set()
+
+    def visit_NameLeaf(self, node):
+        self.names.add(node.value)
+
+    def generic_visit(self, node):
+        for child in node:
+            self.visit(child)
+
+
+def check_expression_selection(grammar):
+    """Do not silently prune valid eval syntax when updating the pinned grammar."""
+    pending, visited = ["eval"], set()
+    while pending:
+        name = pending.pop()
+        if name in visited or name.startswith("invalid_") or name not in grammar.rules:
+            continue
+        visited.add(name)
+        refs = References()
+        refs.visit(grammar.rules[name].rhs)
+        pending.extend(refs.names)
+    missing = visited - RULES
+    if missing:
+        raise ValueError(f"Unselected expression rules: {sorted(missing)}")
+
+
 def generate(grammar, tokens):
+    check_expression_selection(grammar)
     grammar.rules = {name: rule for name, rule in grammar.rules.items() if name in RULES}
     selector = Select()
     for rule in grammar.rules.values():

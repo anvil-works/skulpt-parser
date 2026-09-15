@@ -71,3 +71,7 @@ The numeric helper is now used by the internal generated expression parser. See 
 The selected parser grammar now includes ordinary strings, bytes, f-strings and t-strings. Semantic actions are implemented in `src/python314/strings.ts`, translated from the pinned CPython string parser and action helpers. Their embedded expressions still follow the current selected expression grammar. See `docs/python314-expression.md` for scope, diagnostics and bundle costs.
 
 Run `python3.14 -m tools.generate314.string_names` to regenerate the name database. The Unicode 16 alias source and its license are vendored under `tools/generate314/unicode/`; the generated data records that source’s SHA-256. Names come from the pinned interpreter, and every alias is verified with its `unicodedata.lookup`. This is independent of the existing lexer’s Unicode identifier tables.
+
+## Lambda parameters and expression coverage
+
+Lambda parameter groups are assembled by `src/python314/parameters.ts`, following the pinned CPython action helpers. Yield actions use the structural constructors directly. Generation now checks that every non-diagnostic rule reachable from upstream `eval` is selected before it prunes diagnostic alternatives. This protects expression grammar coverage during future upstream changes; it does not establish exhaustive behavior or compiler validation. Source/AST comparisons and remaining limitations are documented in `docs/python314-expression.md`.
