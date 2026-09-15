@@ -25,6 +25,8 @@ jobs:
               env:
                   PYTHON: python
             - run: pnpm test:package
+            - run: pnpm build:expression
+            - run: pnpm test:expression-package
     upstream-inputs:
         runs-on: ubuntu-latest
         steps:
@@ -36,6 +38,11 @@ jobs:
             - run: python -m tools.upstream prepare
             - run: python -m tools.upstream check
             - run: python -m tools.generate314 --check
+            - run: python -m tools.generate314 --parser --check
+            - run: python -m tools.generate314.lexer_tables
+            - run: git diff --exit-code -- src/python314/lexer/unicode.json src/python314/lexer/operators.json
             - run: python tests/fixtures/generate_python314_ast.py
             - run: python tests/fixtures/generate_python314_numbers.py
-            - run: git diff --exit-code -- tests/fixtures/python314-ast.json tests/fixtures/python314-positions.json tests/fixtures/python314-numbers.json
+            - run: python tests/fixtures/generate_python314_expressions.py
+            - run: python tests/fixtures/generate_python314_lexer.py
+            - run: git diff --exit-code -- tests/fixtures/*.json
