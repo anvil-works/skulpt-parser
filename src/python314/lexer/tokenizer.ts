@@ -140,7 +140,7 @@ export class Scanner {
     strictText(a: number, b: number) {
         // Short ASCII tokens avoid a view allocation and UTF-8 decoder call.
         // Cap concatenation work; longer or non-ASCII tokens use the strict decoder.
-        if (b - a <= 32) {
+        if (b - a <= 8) {
             let ascii = "";
             let i = a;
             for (; i < b && this.bytes[i] < 128; i++) ascii += String.fromCharCode(this.bytes[i]);
