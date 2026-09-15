@@ -4,7 +4,7 @@ This change connects the selected CPython-shaped TypeScript lexer, generated PEG
 
 ## Supported grammar
 
-The slice includes names, numeric and singleton constants, unary/binary/boolean operations, comparisons, conditional expressions, attributes, slicing, tuple/list/set/dictionary displays, unpacking, await, parenthesized assignment expressions, calls and comprehensions. It does not yet support lambdas, strings, f/t-string AST construction, statements or the second-pass `invalid_*` diagnostic rules. Input outside the selected grammar is rejected; this entry point must not replace IDE or Skulpt parsing yet. General parse failures still have a basic syntax error, while tested lexer and numeric errors preserve upstream details.
+The slice includes names, numeric and singleton constants, unary/binary/boolean operations, comparisons, conditional expressions, attributes, slicing, tuple/list/set/dictionary displays, unpacking, await, parenthesized assignment expressions, calls, comprehensions, string/bytes literals and f/t-string AST construction. It does not yet support lambdas, yield expressions, statements or the second-pass `invalid_*` diagnostic rules. Input outside the selected grammar is rejected; this entry point must not replace IDE or Skulpt parsing yet. General parse failures still have a basic syntax error, while tested lexer and numeric errors preserve upstream details.
 
 `tools/generate314/parser.py` selects an explicit set of rules from the checksum-verified CPython 3.14.3 grammar and removes alternatives that depend on unselected rules, including alternatives inside groups. Remaining actions are translated into structural constructors or concrete sequence operations. Unknown semantic calls or ambiguous default actions fail generation. This deliberately avoids missing-helper proxies. Expand the selection and translator together with end-to-end fixtures as each next grammar section is ported.
 
@@ -16,17 +16,18 @@ The lexer comes from the selected experiment at `dbcc7ed0753063fdb4748bb64ddc285
 
 The parser normalizes CR and CRLF to LF, matching CPython source parsing; the standalone tokenizer preserves its own input contract. The parser requests tokens lazily and retains them for backtracking. Tokens expose code-point positions and separate UTF-8 byte columns computed directly by the scanner; AST construction does not use the legacy UTF-16 conversion map. Unicode identifier validity uses the pinned tables; NFKC normalization uses JavaScript's built-in normalization. This is identifier support, not a complete Python Unicode/string runtime. Shared extraction candidates remain in `docs/integration-notes.md`.
 
-The standalone tokenizer still supports regular and interpolation token streams. Its existing hidden interpolation-expression metadata is not implemented; f/t-string semantic integration must add it before claiming AST compatibility. Lexer warning paths report through an optional callback, silent when absent. Parser lookahead reuses cached tokens so warnings are not repeated during backtracking. No recovery mechanism is introduced.
+The standalone tokenizer still supports regular and interpolation token streams. String actions obtain interpolation-expression metadata from the normalized source using grammar-selected boundaries and CPython’s comment-removal rules. The source is byte-indexed once, lazily, when a debug field or t-string requires this metadata. Token middles retain raw-mode information; doubled braces retain the full parser byte span alongside the shorter tokenize span. Lexer warning paths report through an optional callback, silent when absent. Parser lookahead reuses cached tokens so warnings are not repeated during backtracking. No recovery mechanism is introduced.
 
 ## Verification and reproduction
 
-191 end-to-end cases compare complete ASTs and warnings or error details with CPython 3.14.3. Another 16 CPython-derived cases check rejection parity for malformed calls and comprehensions; they do not claim matching second-pass diagnostic wording. They include precedence and associativity, Unicode normalization and byte positions, slicing, unpacking and source-located lexer failures. 284 separate lexer cases compare token streams, error messages/ranges and warnings in both token modes, including deterministic malformed edits. Expected values come only from CPython; CI regenerates fixtures and rejects differences. The shared fixture serializer is used by both AST-factory and parsing fixtures, but does not call the TypeScript implementation.
+563 end-to-end cases compare complete ASTs and warnings or error details with CPython 3.14.3. Another 28 CPython-derived cases check rejection parity for malformed expressions and string combinations; they do not claim matching second-pass diagnostic wording. They include precedence and associativity, Unicode normalization and byte positions, slicing, unpacking and source-located lexer failures. 284 separate lexer cases compare token streams, error messages/ranges and warnings in both token modes, including deterministic malformed edits. Expected values come only from CPython; CI regenerates fixtures and rejects differences. The shared fixture serializer is used by both AST-factory and parsing fixtures, but does not call the TypeScript implementation.
 
 ```sh
 pnpm upstream:prepare
 pnpm generate:parser
 python3.14 -m tools.generate314 --parser --check
 python3.14 -m tools.generate314.lexer_tables
+python3.14 -m tools.generate314.string_names
 python3.14 tests/fixtures/generate_python314_expressions.py
 python3.14 tests/fixtures/generate_python314_lexer.py
 pnpm check
@@ -64,3 +65,13 @@ Comprehension targets follow the pinned `Parser/action_helpers.c` context conver
 These tests compare `ast.parse` behavior, not Python compilation. Some trees that parse successfully, such as duplicate keyword arguments or assignment expressions in comprehension iterables, are rejected by later compiler validation. That validation is not introduced here. Future performance CI is recorded in `docs/integration-notes.md`; this change adds no timing gate.
 
 With calls and comprehensions included, the standalone bundle is 78,691 bytes raw, 17,209 gzip and 13,120 Brotli on Node 26.7.0. This is an increase of 12,698 raw / 1,416 gzip / 1,150 Brotli bytes from the preceding expression slice. The public bundle remains unchanged. Timing and memory comparisons for these newly supported constructs remain future measurement work.
+
+## Strings and interpolation
+
+`src/python314/strings.ts` ports the pinned CPython string actions: escape decoding, adjacent literal folding, conversion checks, format specifications, debug text and `JoinedStr`/`TemplateStr` construction. Nested interpolation expressions use the same generated parser. They do not invoke a second parser on substrings. Ordinary strings preserve lone surrogate values; bytes use `Uint8Array`. Escape warnings use the optional warning callback and are deduplicated across backtracking. Compile-time validation and the second-pass invalid rules remain separate work.
+
+`\N{...}` lookup covers Unicode 16 character names and aliases, excluding named sequences as CPython does. `tools/generate314/string_names.py` generates the table from CPython 3.14.3 and the vendored Unicode 16 `NameAliases.txt`; its Unicode license is retained beside the file. Hangul and hexadecimal names use compact algorithms/ranges. Remaining names use sorted blocks of 32 with shared prefixes removed. A lookup decodes one block, without constructing a full name map. CI regenerates this data. Unicode names and properties remain candidates for a shared Skulpt dependency; this change does not create one.
+
+The complete name database makes this expression build substantially larger. Bundle measurements below include the database, rather than hiding it as an uncounted external asset. Before consumer rollout, decide whether to share the data with Skulpt or provide an explicitly configured smaller consumer build. No default export or data-loading policy is introduced here. Basic parse-error wording is still incomplete. Malformed format-spec escapes are normalized to `SyntaxError`; CPython 3.14.3 can leak `UnicodeDecodeError` for that path, which is not a useful frontend error contract.
+
+After string integration, the standalone expression bundle is 729,433 bytes raw / 233,032 gzip / 173,533 Brotli on Node 26.7.0. Relative to #23 this adds 650,742 / 215,823 / 160,413 bytes. The existing public bundle remains 181,027 raw / 34,144 gzip / 26,625 Brotli. No parsing-speed or peak-memory result is claimed. Three additional CPython-derived cases check the explicit normalization of leaked format-spec codec errors.

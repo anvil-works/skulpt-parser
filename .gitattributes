@@ -8,3 +8,4 @@ src/python314/lexer/unicode.json linguist-generated=true
 src/python314/lexer/operators.json linguist-generated=true
 tests/fixtures/python314-expressions.json linguist-generated=true
 tests/fixtures/python314-lexer.json linguist-generated=true
+src/python314/string_names.json linguist-generated=true

@@ -17,6 +17,7 @@ Each node is a plain object with an `_type` discriminant and CPython field names
 
 ```ts
 import * as ast from "../../src/python314/ast.ts";
+
 const value = ast.Constant({ type: "int", value: 42 }, null, 1, 0, 1, 2);
 const root = ast.Expression(value);
 ```
@@ -64,3 +65,9 @@ The helper is connected to the internal generated expression parser, but not the
 ## Expression integration
 
 The numeric helper is now used by the internal generated expression parser. See `docs/python314-expression.md` for supported rules, remaining gaps, source provenance, oracle checks and standalone build commands. The public package still uses the recovered parser.
+
+## String actions and Unicode names
+
+The selected parser grammar now includes ordinary strings, bytes, f-strings and t-strings. Semantic actions are implemented in `src/python314/strings.ts`, translated from the pinned CPython string parser and action helpers. Their embedded expressions still follow the current selected expression grammar. See `docs/python314-expression.md` for scope, diagnostics and bundle costs.
+
+Run `python3.14 -m tools.generate314.string_names` to regenerate the name database. The Unicode 16 alias source and its license are vendored under `tools/generate314/unicode/`; the generated data records that source’s SHA-256. Names come from the pinned interpreter, and every alias is verified with its `unicodedata.lookup`. This is independent of the existing lexer’s Unicode identifier tables.

@@ -8,12 +8,15 @@
  */
 import operators from "./operators.json";
 import unicode from "./unicode.json";
+
 export type Token = {
     type: string;
     string: string;
     start: [number, number];
     end: [number, number];
     line: string;
+    /** String-mode metadata used by parser actions, not the tokenize API. */
+    raw?: boolean;
     startByte: number;
     endByte: number;
 };
@@ -324,8 +327,16 @@ class Scanner {
             start: [lineno, col],
             end: [endLine, endCol],
             line,
+            ...(type === "FSTRING_MIDDLE" || type === "TSTRING_MIDDLE" ? { raw: this.mode.raw } : {}),
             startByte: a === null ? -1 : a - ls,
-            endByte: b === null ? -1 : b - this.lineStart,
+            // CPython parser spans include both doubled braces; tokenize spans
+            // and token spelling expose only the first one.
+            endByte:
+                b === null
+                    ? -1
+                    : b -
+                      this.lineStart +
+                      ((type === "FSTRING_MIDDLE" || type === "TSTRING_MIDDLE") && b === this.cur - 1 ? 1 : 0),
         };
     }
     continuation() {

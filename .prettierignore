@@ -9,3 +9,4 @@ src/python314/lexer/unicode.json
 src/python314/lexer/operators.json
 tests/fixtures/python314-expressions.json
 tests/fixtures/python314-lexer.json
+src/python314/string_names.json

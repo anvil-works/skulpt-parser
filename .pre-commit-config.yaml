@@ -29,7 +29,7 @@ repos:
       hooks:
           - id: insert-license
             # These CPython-derived files carry their own combined SPDX header.
-            exclude: ^src/python314/(generated_parser\.ts|lexer/tokenizer\.ts)$
+            exclude: ^src/python314/(generated_parser\.ts|strings\.ts|string_names\.ts|lexer/tokenizer\.ts)$
             files: "^(src|scripts)/.*ts$"
             args:
                 - --detect-license-in-X-top-lines=2
