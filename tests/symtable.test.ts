@@ -1,9 +1,10 @@
+import { test } from "@rstest/core";
 import { dump } from "../support/symtable_dump.ts";
 import { getPySymTableDump } from "../support/py_symtable_dump.ts";
 import { symtableFromString, SymbolTableScope } from "../src/symtable/mod.ts";
 
 import { runTests } from "./run_tests_helper.ts";
-import { assert, assertEquals, assertThrows } from "../deps.ts";
+import { ok as assert, deepStrictEqual as assertEquals, throws as assertThrows } from "node:assert";
 
 async function doTest(source: string) {
     const pyDump = await getPySymTableDump(source);
@@ -12,9 +13,9 @@ async function doTest(source: string) {
     assertEquals(symtable, JSON.parse(pyDump));
 }
 
-const files: string[] = JSON.parse(Deno.env.get("_TESTFILES") || "[]");
+const files: string[] = JSON.parse(process.env._TESTFILES || "[]");
 
-await runTests(doTest, { files, skip: new Set(), failFast: false });
+await runTests(doTest, { files, skip: new Set() });
 
 const TEST_CODE = `
 import sys
@@ -73,7 +74,7 @@ const internal = findBlock(spam, "internal");
 const otherInternal = findBlock(spam, "other_internal");
 const foo = findBlock(top, "foo");
 
-Deno.test("test_type", () => {
+test("test_type", () => {
     assertEquals(top.get_type(), "module");
     assertEquals(Mine.get_type(), "class");
     assertEquals(aMethod.get_type(), "function");
@@ -81,25 +82,25 @@ Deno.test("test_type", () => {
     assertEquals(internal.get_type(), "function");
 });
 
-Deno.test("test_nested", () => {
+test("test_nested", () => {
     assert(!top.is_nested());
     assert(!Mine.is_nested());
     assert(!spam.is_nested());
     assert(internal.is_nested());
 });
 
-Deno.test("test_children", () => {
+test("test_children", () => {
     assert(top.has_children());
     assert(Mine.has_children());
     assert(!foo.has_children());
 });
 
-Deno.test("test_lineno", () => {
+test("test_lineno", () => {
     assertEquals(top.get_lineno(), 0);
     assertEquals(spam.get_lineno(), 14);
 });
 
-Deno.test("test_function_info", () => {
+test("test_function_info", () => {
     const func = spam;
     assertEquals(func.get_parameters().sort(), ["a", "b", "kw", "var"]);
     const expected = ["a", "b", "internal", "kw", "other_internal", "some_var", "var", "x"];
@@ -108,7 +109,7 @@ Deno.test("test_function_info", () => {
     assertEquals(internal.get_frees(), ["x"]);
 });
 
-Deno.test("test_globals", () => {
+test("test_globals", () => {
     assert(spam.lookup("glob").is_global());
     assert(!spam.lookup("glob").is_declared_global());
     assert(spam.lookup("bar").is_global());
@@ -121,14 +122,14 @@ Deno.test("test_globals", () => {
     assert(top.lookup("some_assigned_global_var").is_global());
 });
 
-Deno.test("test_nonlocal", () => {
+test("test_nonlocal", () => {
     assert(!spam.lookup("some_var").is_nonlocal());
     assert(otherInternal.lookup("some_var").is_nonlocal());
     const expected = ["some_var"];
     assertEquals(otherInternal.get_nonlocals(), expected);
 });
 
-Deno.test("test_local", () => {
+test("test_local", () => {
     assert(spam.lookup("x").is_local());
     assert(!spam.lookup("bar").is_local());
     // Module-scope globals are both global and local
@@ -136,29 +137,29 @@ Deno.test("test_local", () => {
     assert(top.lookup("some_assigned_global_var").is_local());
 });
 
-Deno.test("test_free", () => {
+test("test_free", () => {
     assert(internal.lookup("x").is_free());
 });
 
-Deno.test("test_referenced", () => {
+test("test_referenced", () => {
     assert(internal.lookup("x").is_referenced());
     assert(spam.lookup("internal").is_referenced());
     assert(!spam.lookup("x").is_referenced());
 });
 
-Deno.test("test_parameters", () => {
+test("test_parameters", () => {
     for (const sym of ["a", "var", "kw"]) {
         assert(spam.lookup(sym).is_parameter());
     }
     assert(!spam.lookup("x").is_parameter());
 });
 
-Deno.test("test_symbol_lookup", () => {
+test("test_symbol_lookup", () => {
     assertEquals(top.get_identifiers().length, top.get_symbols().length);
     assertThrows(() => top.lookup("not_here"));
 });
 
-Deno.test("test_namespaces", () => {
+test("test_namespaces", () => {
     assert(top.lookup("Mine").is_namespace());
     assert(Mine.lookup("a_method").is_namespace());
     assert(top.lookup("spam").is_namespace());
@@ -176,7 +177,7 @@ Deno.test("test_namespaces", () => {
     assertThrows(() => nsTest2.get_namespace());
 });
 
-Deno.test("test_assigned", () => {
+test("test_assigned", () => {
     assert(spam.lookup("x").is_assigned());
     assert(spam.lookup("bar").is_assigned());
     assert(top.lookup("spam").is_assigned());
@@ -184,7 +185,7 @@ Deno.test("test_assigned", () => {
     assert(!internal.lookup("x").is_assigned());
 });
 
-Deno.test("test_annotated", () => {
+test("test_annotated", () => {
     const st1 = symtableFromString("def f():\n    x: int\n", "exec", "test").top!;
     const st2 = st1.get_children()[0];
     assert(st2.lookup("x").is_local());
@@ -209,22 +210,22 @@ Deno.test("test_annotated", () => {
     );
 });
 
-Deno.test("test_imported", () => {
+test("test_imported", () => {
     assert(top.lookup("sys").is_imported());
 });
 
-Deno.test("test_name", () => {
+test("test_name", () => {
     assertEquals(top.get_name(), "top");
     assertEquals(spam.get_name(), "spam");
     assertEquals(spam.lookup("x").get_name(), "x");
     assertEquals(Mine.get_name(), "Mine");
 });
 
-Deno.test("test_class_info", () => {
+test("test_class_info", () => {
     assertEquals(Mine.get_methods(), ["a_method"]);
 });
 
-Deno.test("test_filename_correct", () => {
+test("test_filename_correct", () => {
     // Bug tickler: SyntaxError file name correct whether error raised
     // while parsing or building symbol table.
     function checkfilename(brokencode: string, offset: number) {
@@ -251,19 +252,19 @@ Deno.test("test_filename_correct", () => {
     //     symtable.symtable("pass", list(b"spam"), "exec")
 });
 
-// Deno.test("test_eval", () => {
+// test("test_eval", () => {
 //     const symbols = symtable.symtable("42", "?", "eval")
 // });
 
-// Deno.test("test_single", () => {
+// test("test_single", () => {
 //     symbols = symtable.symtable("42", "?", "single")
 // });
 
-// Deno.test("test_exec", () => {
+// test("test_exec", () => {
 //     symbols = symtable.symtable("def f(x): return x", "?", "exec")
 // });
 
-// Deno.test("test_bytes", () => {
+// test("test_bytes", () => {
 //     top = symtable.symtable(TEST_CODE.encode('utf8'), "?", "exec")
 //     assertIsNotNone(find_block(top, "Mine"))
 
@@ -273,7 +274,7 @@ Deno.test("test_filename_correct", () => {
 //     assertIsNotNone(find_block(top, "\u017d"))
 // });
 
-// Deno.test("test_symtable_repr", () => {
+// test("test_symtable_repr", () => {
 //     assertEquals(str(top), "<SymbolTable for module ?>")
 //     assertEquals(str(spam), "<Function SymbolTable for spam in ?>")
 // });

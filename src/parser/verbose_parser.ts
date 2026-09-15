@@ -5,7 +5,7 @@ import { tokens } from "../tokenize/token.ts";
 import type { Tokenizer } from "../tokenize/Tokenizer.ts";
 import type { TokenInfo } from "../tokenize/tokenize.ts";
 import { Parser as BaseParser } from "./parser.ts";
-import { Colors } from "../../deps.ts";
+import Colors from "picocolors";
 import type { AST } from "../ast/astnodes.ts";
 
 /** If we have a memoized parser method that has a different call signature we'd need to adapt this */

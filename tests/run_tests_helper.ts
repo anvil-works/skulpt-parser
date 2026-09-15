@@ -1,46 +1,19 @@
-async function populateFiles(files: string[]) {
-    for await (const dirEntry of Deno.readDir("run-tests/")) {
-        if (!dirEntry.name.endsWith(".py")) {
-            continue;
-        }
-        files.push(dirEntry.name);
-    }
-    files.sort();
-}
-
-interface runTestsOptions {
+import { readdirSync, readFileSync } from "node:fs";
+import { test } from "@rstest/core";
+interface RunTestsOptions {
     files?: string[];
     skip?: Set<string>;
-    failFast?: boolean;
 }
-
-export async function runTests(doTest: (text: string) => void, options: runTestsOptions = {}) {
-    const { files = [], skip = new Set(), failFast = false } = options;
-    if (files.length === 0) {
-        await populateFiles(files);
-    }
-
-    for (const test of files) {
-        if (skip.has(test)) {
-            continue;
-        }
-        Deno.test({
-            name: test,
-            fn: async () => {
-                try {
-                    const text = await Deno.readTextFile("run-tests/" + test);
-                    await doTest(text);
-                } catch (e) {
-                    if (failFast) {
-                        console.error(e);
-                        Deno.exit(0);
-                    } else {
-                        throw e;
-                    }
-                }
-            },
-            sanitizeExit: false,
-            // allow us to exit early with Deno.exit
+export async function runTests(doTest: (text: string) => void | Promise<void>, options: RunTestsOptions = {}) {
+    const files = options.files?.length
+        ? options.files
+        : readdirSync("run-tests")
+              .filter((f) => f.endsWith(".py"))
+              .sort();
+    for (const name of files) {
+        const register = options.skip?.has(name) ? test.skip : test;
+        register(name, async () => {
+            await doTest(readFileSync("run-tests/" + name, "utf8"));
         });
     }
 }

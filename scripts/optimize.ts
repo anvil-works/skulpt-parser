@@ -3,7 +3,7 @@
 
 import { dump } from "../support/ast_dump.ts";
 import { parse } from "../deps.ts";
-import { runParserFromFile } from "../src/parser/mod.ts";
+import { runParserFromFile } from "../src/node.ts";
 import { getFileNameOrRunTest } from "./helpers.ts";
 import { astOptimize } from "../src/ast/optimize.ts";
 import { getDiff } from "../support/diff.ts";
