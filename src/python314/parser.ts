@@ -123,6 +123,15 @@ export class Parser {
         }
         return this.barryAsFlufl || token.string === "!=" ? token : null;
     }
+    ensurePatternNumber(node: ast.Constant, imaginary: boolean): ast.Constant {
+        if ((node.value.type === "complex") !== imaginary) {
+            throw this.error(
+                `${imaginary ? "imaginary" : "real"} number required in complex literal`,
+                this.tokens[this.mark - 1]
+            );
+        }
+        return node;
+    }
     typeComment(token: Token | null): null {
         // The internal API currently matches ast.parse(type_comments=False).
         if (token !== null) throw this.error("type comment parsing is not enabled", token);

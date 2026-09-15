@@ -18,6 +18,13 @@ RULES = set(
 file statements statement simple_stmts simple_stmt assignment augassign
 compound_stmt block if_stmt elif_stmt else_block while_stmt for_stmt
 with_stmt with_item try_stmt except_block except_star_block finally_block
+match_stmt subject_expr case_block guard patterns pattern as_pattern or_pattern
+closed_pattern literal_pattern literal_expr complex_number signed_number
+signed_real_number real_number imaginary_number capture_pattern pattern_capture_target
+wildcard_pattern value_pattern attr name_or_attr group_pattern sequence_pattern
+open_sequence_pattern maybe_sequence_pattern maybe_star_pattern star_pattern
+mapping_pattern items_pattern key_value_pattern double_star_pattern class_pattern
+positional_patterns keyword_patterns keyword_pattern
 decorators class_def class_def_raw function_def function_def_raw func_type_comment
 params parameters slash_no_default slash_with_default star_etc kwds
 param_no_default param_no_default_star_annotation param_with_default param_maybe_default
@@ -106,6 +113,8 @@ def action(text):
     alias_name = re.fullmatch(r"\(\s*(\w+)\s*\)\s*\?\s*\(\s*\1\s*\)\s*->\s*v\s*\.\s*Name\s*\.\s*id\s*:\s*NULL", text)
     if alias_name:
         return f"({alias_name[1]}?.id ?? null)"
+    if text == "asdl_seq_LEN ( patterns ) == 1 ? asdl_seq_GET ( patterns , 0 ) : _PyAST_MatchOr ( patterns , EXTRA )":
+        return "patterns.length === 1 ? patterns[0] : ast.MatchOr(patterns, ...this.span(mark))"
     call = re.fullmatch(r"(\w+)\s*\((.*)\)", text, re.S)
     if call:
         name, raw = call.groups()
@@ -135,6 +144,12 @@ def action(text):
             if name in {"Try", "TryStar"}:
                 for index in (1, 2, 3):
                     args[index] = "[]" if args[index] == "null" else f"({args[index]} ?? [])"
+            if name == "MatchSequence":
+                args[0] = f"({args[0]} ?? [])"
+            if name == "MatchMapping":
+                args[:2] = ["[]" if arg == "null" else arg for arg in args[:2]]
+            if name == "MatchClass":
+                args[1:4] = ["[]" if arg == "null" else arg for arg in args[1:4]]
             if name == "TypeAlias":
                 args[1] = f"({args[1]} ?? [])"
             if name == "Call":
@@ -164,6 +179,11 @@ def action(text):
             "_PyPegen_add_type_comment_to_arg": lambda a: f"(this.typeComment({a[2]}), {a[1]})",
             "_PyPegen_function_def_decorators": lambda a: f"{{...{a[2]}, decorator_list: {a[1]}}}",
             "_PyPegen_class_def_decorators": lambda a: f"{{...{a[2]}, decorator_list: {a[1]}}}",
+            "_PyPegen_key_pattern_pair": lambda a: f"{{key: {a[1]}, pattern: {a[2]}}}",
+            "_PyPegen_get_pattern_keys": lambda a: f"{a[1]}.map((pair: any) => pair.key)",
+            "_PyPegen_get_patterns": lambda a: f"{a[1]}.map((pair: any) => pair.pattern)",
+            "_PyPegen_ensure_real": lambda a: f"this.ensurePatternNumber({a[1]}, false)",
+            "_PyPegen_ensure_imaginary": lambda a: f"this.ensurePatternNumber({a[1]}, true)",
             "_PyPegen_make_module": lambda a: f"finishModule(this, {a[1]} ?? [])",
             "_PyPegen_checked_future_import": lambda a: f"checkedImport(this, {', '.join(a[1:])})",
             "_PyPegen_seq_count_dots": lambda a: f"{a[0]}.reduce((sum: number, token: Token) => sum + token.string.length, 0)",
@@ -399,8 +419,8 @@ class References(GrammarVisitor):
 
 
 def check_complete_rules(grammar):
-    """Do not silently prune complete expression/simple-statement entry rules."""
-    pending, visited = ["eval", "simple_stmt"], set()
+    """Do not silently prune non-diagnostic rules reachable from either entry point."""
+    pending, visited = ["eval", "file"], set()
     while pending:
         name = pending.pop()
         if name in visited or name.startswith("invalid_") or name not in grammar.rules:
@@ -411,7 +431,7 @@ def check_complete_rules(grammar):
         pending.extend(refs.names)
     missing = visited - RULES
     if missing:
-        raise ValueError(f"Unselected expression/simple-statement rules: {sorted(missing)}")
+        raise ValueError(f"Unselected eval/file rules: {sorted(missing)}")
 
 
 def generate(grammar, tokens):

@@ -9,6 +9,7 @@ function materialize(value: any): any {
     if (Array.isArray(value)) return value.map(materialize);
     if (value === null || typeof value !== "object") return value;
     if ("$bytes" in value) return new Uint8Array(value.$bytes);
+    if ("$float" in value) return Number(value.$float);
     if ("$bigint" in value) return BigInt(value.$bigint);
     return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, materialize(child)]));
 }

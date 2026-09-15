@@ -1,6 +1,13 @@
 """CPython AST serialization shared by generated conformance fixtures."""
 
 import ast
+import math
+
+
+def number(value):
+    if math.isfinite(value):
+        return value
+    return {"$float": "NaN" if math.isnan(value) else "Infinity" if value > 0 else "-Infinity"}
 
 
 def scalar(value):
@@ -13,9 +20,9 @@ def scalar(value):
     if isinstance(value, int):
         return {"type": "int", "value": value if abs(value) <= 2**53 - 1 else {"$bigint": str(value)}}
     if isinstance(value, float):
-        return {"type": "float", "value": value}
+        return {"type": "float", "value": number(value)}
     if isinstance(value, complex):
-        return {"type": "complex", "real": value.real, "imag": value.imag}
+        return {"type": "complex", "real": number(value.real), "imag": number(value.imag)}
     if isinstance(value, str):
         return {"type": "str", "value": value}
     if isinstance(value, bytes):
