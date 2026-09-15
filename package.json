@@ -21,7 +21,8 @@
         "generate:parser": "python3.14 -m tools.generate314 --parser",
         "build:expression": "rslib build --config rslib.expression.config.ts",
         "test:python314-corpus": "node scripts/check-python314-corpus.mjs",
-        "test:expression-package": "node --experimental-vm-modules scripts/check-expression-package.mjs"
+        "test:expression-package": "node --experimental-vm-modules scripts/check-expression-package.mjs",
+        "bench:python314": "node scripts/benchmark-python314.mjs"
     },
     "exports": {
         ".": {
