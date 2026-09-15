@@ -166,7 +166,7 @@ if (args.includes("--worker")) {
     }
     const report = {
         environment: { node: process.version, platform: platform(), arch: arch(), cpu: cpus()[0].model },
-        parserCommit: spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).stdout.trim(),
+        checkoutCommit: spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).stdout.trim(),
         skulptCommit: option("--skulpt-commit", null),
         cases: cases.map(({ name, source }) => ({
             name,

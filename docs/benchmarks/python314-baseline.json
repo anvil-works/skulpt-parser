@@ -5,7 +5,7 @@
         "arch": "arm64",
         "cpu": "Apple M1 Pro"
     },
-    "parserCommit": "401e7fffd0461c2dcf1b891e0ca5ccf6c2f74b49",
+    "checkoutCommit": "401e7fffd0461c2dcf1b891e0ca5ccf6c2f74b49",
     "skulptCommit": "ae5f4628e319bd51d26fc3e920baabd3803cacd5",
     "cases": [
         {

@@ -33,7 +33,7 @@ Values below are medians of three fresh-process runs. Speed ratio is Skulpt time
 | synthetic-editor-module       |       1.194 |     2.307 | 1.93× |                         89.7 / 85.2 |
 | synthetic-long-line           |       2.270 |     3.443 | 1.52× |                       137.3 / 109.3 |
 | legacy-stdlib/json/decoder.py |       2.463 |     4.331 | 1.76× |                       240.7 / 167.1 |
-| pathlib/**init**.py           |       9.483 |    16.115 | 1.70× |                       651.9 / 618.5 |
+| `pathlib/__init__.py`         |       9.483 |    16.115 | 1.70× |                       651.9 / 618.5 |
 | json/decoder.py               |       2.761 |     4.626 | 1.68× |                       245.8 / 174.4 |
 
 Skulpt rejects twelve of the eighteen valid inputs, including three older stdlib files. Those are coverage differences, not speed wins. Tiny-input and diagnostic latency favor Skulpt. Nontrivial shared inputs favor the new frontend; retained AST memory is higher on the displayed shared inputs. This does not establish performance in an Anvil IDE session or in another JavaScript engine.
