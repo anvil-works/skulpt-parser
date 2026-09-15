@@ -931,14 +931,17 @@ class Scanner {
     *scan(): Generator<Token> {
         while (true) {
             const t = this.mode.kind === "regular" ? this.normal() : this.literal();
-            if (t.type === "ENDMARKER" && !this.extra && !this.lineno) break;
             yield t;
             if (t.type === "ENDMARKER") break;
         }
     }
 }
 export function tokenize(source: string, options: LexerOptions = {}): Token[] {
-    return Array.from(scan(source, options));
+    const tokens = Array.from(scan(source, options));
+    // The parser stream needs EOF even for an empty module. CPython's tokenize
+    // adapter omits that token for empty input in non-extra mode.
+    if (options.extraTokens === false && tokens.length === 1 && tokens[0].start[0] === 0) return [];
+    return tokens;
 }
 
 export function scan(source: string, options: LexerOptions = {}): Generator<Token> {

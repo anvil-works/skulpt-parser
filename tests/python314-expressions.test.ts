@@ -1,4 +1,4 @@
-import { parseExpression } from "../src/python314/expression.ts";
+import { parseExpression } from "../src/python314/frontend.ts";
 import { test, expect } from "@rstest/core";
 import { readFileSync } from "node:fs";
 
