@@ -39,7 +39,7 @@ The regular test suite still needs `PYTHON` pointing at CPython 3.9.25 for the l
 
 ## Initial costs
 
-On Node 26.7.0, macOS arm64, the standalone expression bundle is 65,970 bytes raw, 15,784 gzip and 12,014 Brotli. It includes the full lexer and selected expression grammar, so it is not a final full-parser size estimate. The current public JavaScript bundle is unchanged.
+On Node 26.7.0, macOS arm64, the standalone expression bundle is 65,993 bytes raw, 15,793 gzip and 11,970 Brotli. It includes the full lexer and selected expression grammar, so it is not a final full-parser size estimate. The current public JavaScript bundle is unchanged.
 
 A small local comparison used 100 parses per sample, nine alternating-order rounds and the median after discarding the first two rounds. Results in milliseconds per parse:
 
