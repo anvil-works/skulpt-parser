@@ -43,6 +43,38 @@ Strict Python 3 parsing remains the default, including the existing
 `barry_as_FLUFL` comparison behavior. Compatibility mode accepts both comparison
 spellings independently of that Python 3 future feature.
 
+## Legacy async names
+
+`{ legacyAsyncNames: true }` treats `async` and `await` as ordinary names,
+independently of Python 2 statement and numeric syntax. Python 2 compatibility
+also enables this behavior by default; an explicit `legacyAsyncNames` value
+overrides that default. Without either option, both words remain keywords.
+
+For example, `await(x)` produces a `Call` in legacy-name mode and an `Await` in
+strict mode. Legacy-name mode rejects async function, loop, context-manager and
+comprehension syntax. It does not reinterpret a failed modern parse as legacy
+code. The tokenizer is unchanged because it already emits NAME tokens for words.
+Both the lean and full parser entry points accept this option. The lean core
+grows from 37,047 to 37,099 bytes gzip, an additional 52 bytes. The focused
+compatibility, expression, module and diagnostic run passes 1,660 tests; type
+checks and the built-package check also pass.
+
+The current Anvil Skulpt bundle accepts these identifiers in both Python 2 and
+Python 3 modes. `tests/fixtures/legacy-async-skulpt.json` records 20 cases per mode
+from real parse and AST construction, including ambiguous calls and rejected async
+constructs. Regenerate with:
+
+```sh
+node scripts/generate-legacy-async-fixtures.mjs /path/to/skulpt.min.js
+```
+
+Anvil's client parser should select legacy-name mode even for Python 3 apps.
+Its server parser should keep the selected server language policy. Client-only
+warnings for unsupported async constructs remain IDE integration work; valid
+legacy calls must not be misidentified as await expressions. Skulpt runtime async
+support is a separate project, and reserving these names later requires an
+explicit runtime-version migration.
+
 ## Evidence
 
 `tests/fixtures/python2-numeric-skulpt.json` records 22 accepted/rejected examples
@@ -82,7 +114,6 @@ The agreed ceiling is the Skulpt support audited in the issue
 [Define the bounded Python 2 compatibility syntax](https://github.com/anvil-works/skulpt-parser/issues/10).
 Still required before routing Anvil Python 2 applications to this parser:
 
-- `async` and `await` as legacy identifiers.
 - Consumer support for the compatibility extensions, and end-to-end parity tests.
 
 Backticks, exec statements, tuple parameters, `ur`/`ru` prefixes and lowercase

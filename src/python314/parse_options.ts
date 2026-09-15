@@ -3,6 +3,8 @@
 import type { LexerOptions } from "./lexer/tokenizer.ts";
 
 export type ParseOptions = Omit<LexerOptions, "extraTokens"> & {
+    /** Treat async/await as ordinary Skulpt names. Defaults to python2Compat. */
+    legacyAsyncNames?: boolean;
     /** Return a Unicode code point, or undefined for an unknown name. */
     unicodeName?: (name: string) => number | undefined;
 };
