@@ -4,6 +4,7 @@ import { getPyAstDump } from "../support/py_ast_dump.ts";
 import { runParserFromString } from "../src/parser/mod.ts";
 import { tokenizerFromString } from "../src/tokenize/mod.ts";
 import type { Module, Assign, JoinedStr, FormattedValue } from "../src/ast/astnodes.ts";
+import reference from "./fixtures/python314-positions.json";
 import { pySyntaxError } from "../src/mock_types/errors.ts";
 
 const options = { indent: 2, include_attributes: true };
@@ -30,23 +31,29 @@ test("AST conversion leaves tokenizer UTF-16 positions unchanged", () => {
 });
 
 test("AST-based errors report character positions after Unicode", () => {
-    const source = '"é😀"; f(a + b = 1)';
+    const expected = reference.diagnostic;
     try {
-        runParserFromString(source);
+        runParserFromString(expected.source);
         throw new Error("Expected invalid keyword argument to fail");
     } catch (error) {
         expect(error).toBeInstanceOf(pySyntaxError);
-        expect((error as pySyntaxError).traceback.slice(0, 3)).toEqual(["<string>", 1, 9]);
+        expect((error as pySyntaxError).name).toBe(expected.name);
+        expect((error as pySyntaxError).message).toBe(expected.message);
+        expect((error as pySyntaxError).traceback.slice(0, 3)).toEqual(expected.location);
     }
 });
 
 test("multiline f-string expressions use their actual source line", () => {
-    // CPython 3.9 has incorrect locations here (bpo-35212). These coordinates
-    // match the source and CPython 3.14.3, rather than the legacy oracle.
-    const tree = runParserFromString('x = f"""é\n😀{value}"""\n') as Module;
+    // CPython 3.9 has incorrect locations here (bpo-35212). CI regenerates
+    // this reference with CPython 3.14.3 and rejects any fixture drift.
+    const tree = runParserFromString(reference.multiline.source) as Module;
     const value = (tree.body[0] as Assign).value as JoinedStr;
     const expression = (value.values[1] as FormattedValue).value;
+    const expected = reference.multiline.expression;
     expect([expression.lineno, expression.col_offset, expression.end_lineno, expression.end_col_offset]).toEqual([
-        2, 5, 2, 10,
+        expected.lineno,
+        expected.col_offset,
+        expected.end_lineno,
+        expected.end_col_offset,
     ]);
 });

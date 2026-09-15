@@ -1,0 +1,27 @@
+{
+    "version": "3.14.3",
+    "diagnostic": {
+        "source": "\"\u00e9\ud83d\ude00\"; f(a + b = 1)",
+        "name": "SyntaxError",
+        "message": "expression cannot contain assignment, perhaps you meant \"==\"?",
+        "location": [
+            "<string>",
+            1,
+            9
+        ]
+    },
+    "multiline": {
+        "source": "x = f\"\"\"\u00e9\n\ud83d\ude00{value}\"\"\"\n",
+        "expression": {
+            "_type": "Name",
+            "id": "value",
+            "ctx": {
+                "_type": "Load"
+            },
+            "lineno": 2,
+            "col_offset": 5,
+            "end_lineno": 2,
+            "end_col_offset": 10
+        }
+    }
+}
