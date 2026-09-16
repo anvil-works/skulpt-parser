@@ -1,0 +1,44 @@
+name: parser-performance
+on:
+    pull_request:
+    push:
+        branches: [master, next]
+    workflow_dispatch:
+permissions:
+    contents: read
+concurrency:
+    group: parser-performance-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+jobs:
+    report:
+        runs-on: ubuntu-24.04
+        timeout-minutes: 20
+        steps:
+            - uses: actions/checkout@v4
+            - uses: pnpm/action-setup@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "22"
+                  cache: pnpm
+            - uses: actions/setup-python@v5
+              with:
+                  python-version: "3.14.3"
+            - run: pnpm install --frozen-lockfile
+            - run: pnpm build:core
+            - run: pnpm build:expression
+            - name: Measure lean source-to-AST performance
+              run: |
+                  mkdir -p "$RUNNER_TEMP/parser-performance"
+                  pnpm bench:python314 --python python --candidate dist-core/index.js --rounds 3 --output "$RUNNER_TEMP/parser-performance/benchmark.json"
+            - name: Report bundle sizes and benchmark medians
+              run: |
+                  pnpm perf:report "$RUNNER_TEMP/parser-performance"
+                  cat "$RUNNER_TEMP/parser-performance/summary.md" >> "$GITHUB_STEP_SUMMARY"
+            - name: Upload measurements
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: parser-performance-${{ github.sha }}
+                  path: ${{ runner.temp }}/parser-performance/
+                  if-no-files-found: warn
+                  retention-days: 30

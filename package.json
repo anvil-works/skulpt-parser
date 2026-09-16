@@ -24,7 +24,8 @@
         "test:expression-package": "node --experimental-vm-modules scripts/check-expression-package.mjs",
         "bench:python314": "node scripts/benchmark-python314.mjs",
         "build:core": "rslib build --config rslib.core.config.ts",
-        "test:core-package": "node --experimental-vm-modules scripts/check-core-package.mjs"
+        "test:core-package": "node --experimental-vm-modules scripts/check-core-package.mjs",
+        "perf:report": "node scripts/report-performance.mjs"
     },
     "exports": {
         ".": {
