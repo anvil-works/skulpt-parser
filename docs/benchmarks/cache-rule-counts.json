@@ -1,0 +1,1641 @@
+{
+    "node": "v26.7.0",
+    "bundleSha256": "9f8b3796d16fc40b5f086ff2c5661632d3576d43c93f094db7e533ebf7df6ee3",
+    "mode": "stats",
+    "memoRules": [
+        {
+            "name": "simple_stmt",
+            "leftRecursive": false
+        },
+        {
+            "name": "dotted_name",
+            "leftRecursive": true
+        },
+        {
+            "name": "block",
+            "leftRecursive": false
+        },
+        {
+            "name": "closed_pattern",
+            "leftRecursive": false
+        },
+        {
+            "name": "attr",
+            "leftRecursive": true
+        },
+        {
+            "name": "star_pattern",
+            "leftRecursive": false
+        },
+        {
+            "name": "type_param",
+            "leftRecursive": false
+        },
+        {
+            "name": "expression",
+            "leftRecursive": false
+        },
+        {
+            "name": "star_expression",
+            "leftRecursive": false
+        },
+        {
+            "name": "disjunction",
+            "leftRecursive": false
+        },
+        {
+            "name": "conjunction",
+            "leftRecursive": false
+        },
+        {
+            "name": "inversion",
+            "leftRecursive": false
+        },
+        {
+            "name": "bitwise_or",
+            "leftRecursive": true
+        },
+        {
+            "name": "bitwise_xor",
+            "leftRecursive": true
+        },
+        {
+            "name": "bitwise_and",
+            "leftRecursive": true
+        },
+        {
+            "name": "shift_expr",
+            "leftRecursive": true
+        },
+        {
+            "name": "sum",
+            "leftRecursive": true
+        },
+        {
+            "name": "term",
+            "leftRecursive": true
+        },
+        {
+            "name": "factor",
+            "leftRecursive": false
+        },
+        {
+            "name": "await_primary",
+            "leftRecursive": false
+        },
+        {
+            "name": "primary",
+            "leftRecursive": true
+        },
+        {
+            "name": "tstring",
+            "leftRecursive": false
+        },
+        {
+            "name": "strings",
+            "leftRecursive": false
+        },
+        {
+            "name": "arguments",
+            "leftRecursive": false
+        },
+        {
+            "name": "star_target",
+            "leftRecursive": false
+        },
+        {
+            "name": "target_with_star_atom",
+            "leftRecursive": false
+        },
+        {
+            "name": "t_primary",
+            "leftRecursive": true
+        },
+        {
+            "name": "del_target",
+            "leftRecursive": false
+        },
+        {
+            "name": "invalid_named_expression",
+            "leftRecursive": false
+        }
+    ],
+    "records": [
+        {
+            "name": "small",
+            "sourceBytes": 5,
+            "sourceSha256": "8ff436def1451285599a1b1ad70800493b8dcafde2912e1a38345633054e4c26",
+            "cache": {
+                "rows": 3,
+                "rules": {
+                    "normal:simple_stmt": {
+                        "hits": 1,
+                        "nullHits": 1,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:t_primary": {
+                        "hits": 21,
+                        "nullHits": 21,
+                        "misses": 3,
+                        "writes": 3
+                    },
+                    "normal:star_target": {
+                        "hits": 2,
+                        "nullHits": 2,
+                        "misses": 3,
+                        "writes": 3
+                    },
+                    "normal:target_with_star_atom": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 3,
+                        "writes": 3
+                    },
+                    "normal:star_expression": {
+                        "hits": 4,
+                        "nullHits": 2,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:expression": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:disjunction": {
+                        "hits": 2,
+                        "nullHits": 1,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:conjunction": {
+                        "hits": 2,
+                        "nullHits": 1,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:inversion": {
+                        "hits": 2,
+                        "nullHits": 1,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:bitwise_or": {
+                        "hits": 5,
+                        "nullHits": 3,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:bitwise_xor": {
+                        "hits": 4,
+                        "nullHits": 2,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:bitwise_and": {
+                        "hits": 4,
+                        "nullHits": 2,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:shift_expr": {
+                        "hits": 7,
+                        "nullHits": 4,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:sum": {
+                        "hits": 7,
+                        "nullHits": 4,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:term": {
+                        "hits": 16,
+                        "nullHits": 10,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:factor": {
+                        "hits": 1,
+                        "nullHits": 0,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:await_primary": {
+                        "hits": 2,
+                        "nullHits": 1,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:primary": {
+                        "hits": 12,
+                        "nullHits": 8,
+                        "misses": 2,
+                        "writes": 2
+                    }
+                },
+                "finalEntries": {
+                    "t_primary": {
+                        "success": 0,
+                        "failure": 3
+                    },
+                    "target_with_star_atom": {
+                        "success": 1,
+                        "failure": 2
+                    },
+                    "star_target": {
+                        "success": 1,
+                        "failure": 2
+                    },
+                    "simple_stmt": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "bitwise_or": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "bitwise_xor": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "bitwise_and": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "shift_expr": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "sum": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "term": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "primary": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "await_primary": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "factor": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "inversion": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "conjunction": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "disjunction": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "expression": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "star_expression": {
+                        "success": 1,
+                        "failure": 1
+                    }
+                }
+            }
+        },
+        {
+            "name": "synthetic-editor-module",
+            "sourceBytes": 2989,
+            "sourceSha256": "ed35fbc4ba36e53a146b82b806e731764dd4a67363af1b434aef6b9b20789afc",
+            "cache": {
+                "rows": 381,
+                "rules": {
+                    "normal:expression": {
+                        "hits": 320,
+                        "nullHits": 0,
+                        "misses": 281,
+                        "writes": 281
+                    },
+                    "normal:disjunction": {
+                        "hits": 361,
+                        "nullHits": 61,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:conjunction": {
+                        "hits": 321,
+                        "nullHits": 61,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:inversion": {
+                        "hits": 321,
+                        "nullHits": 61,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:bitwise_or": {
+                        "hits": 902,
+                        "nullHits": 382,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:bitwise_xor": {
+                        "hits": 841,
+                        "nullHits": 321,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:bitwise_and": {
+                        "hits": 841,
+                        "nullHits": 321,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:shift_expr": {
+                        "hits": 1422,
+                        "nullHits": 642,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:sum": {
+                        "hits": 1422,
+                        "nullHits": 642,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:term": {
+                        "hits": 3165,
+                        "nullHits": 1605,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:factor": {
+                        "hits": 260,
+                        "nullHits": 0,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:await_primary": {
+                        "hits": 321,
+                        "nullHits": 61,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:primary": {
+                        "hits": 2544,
+                        "nullHits": 1284,
+                        "misses": 321,
+                        "writes": 321
+                    },
+                    "normal:block": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 20,
+                        "writes": 20
+                    },
+                    "normal:simple_stmt": {
+                        "hits": 21,
+                        "nullHits": 21,
+                        "misses": 61,
+                        "writes": 61
+                    },
+                    "normal:t_primary": {
+                        "hits": 809,
+                        "nullHits": 809,
+                        "misses": 121,
+                        "writes": 121
+                    },
+                    "normal:star_target": {
+                        "hits": 101,
+                        "nullHits": 61,
+                        "misses": 121,
+                        "writes": 121
+                    },
+                    "normal:target_with_star_atom": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 121,
+                        "writes": 121
+                    },
+                    "normal:strings": {
+                        "hits": 60,
+                        "nullHits": 0,
+                        "misses": 60,
+                        "writes": 60
+                    },
+                    "normal:star_expression": {
+                        "hits": 162,
+                        "nullHits": 82,
+                        "misses": 81,
+                        "writes": 81
+                    },
+                    "normal:arguments": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 20,
+                        "writes": 20
+                    }
+                },
+                "finalEntries": {
+                    "bitwise_or": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "bitwise_xor": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "bitwise_and": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "shift_expr": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "sum": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "term": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "primary": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "await_primary": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "factor": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "inversion": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "conjunction": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "disjunction": {
+                        "success": 260,
+                        "failure": 61
+                    },
+                    "expression": {
+                        "success": 220,
+                        "failure": 61
+                    },
+                    "block": {
+                        "success": 20,
+                        "failure": 0
+                    },
+                    "t_primary": {
+                        "success": 0,
+                        "failure": 121
+                    },
+                    "target_with_star_atom": {
+                        "success": 60,
+                        "failure": 61
+                    },
+                    "star_target": {
+                        "success": 60,
+                        "failure": 61
+                    },
+                    "simple_stmt": {
+                        "success": 40,
+                        "failure": 21
+                    },
+                    "star_expression": {
+                        "success": 40,
+                        "failure": 41
+                    },
+                    "strings": {
+                        "success": 60,
+                        "failure": 0
+                    },
+                    "arguments": {
+                        "success": 20,
+                        "failure": 0
+                    }
+                }
+            }
+        },
+        {
+            "name": "synthetic-long-line",
+            "sourceBytes": 3901,
+            "sourceSha256": "b597f68b978d57fd32b1ed3bbd74c07f67b63a3653936890da9ecbf019693826",
+            "cache": {
+                "rows": 1003,
+                "rules": {
+                    "normal:simple_stmt": {
+                        "hits": 1,
+                        "nullHits": 1,
+                        "misses": 2,
+                        "writes": 2
+                    },
+                    "normal:t_primary": {
+                        "hits": 26,
+                        "nullHits": 26,
+                        "misses": 4,
+                        "writes": 4
+                    },
+                    "normal:star_target": {
+                        "hits": 2,
+                        "nullHits": 2,
+                        "misses": 4,
+                        "writes": 4
+                    },
+                    "normal:target_with_star_atom": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 4,
+                        "writes": 4
+                    },
+                    "normal:expression": {
+                        "hits": 2000,
+                        "nullHits": 0,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:disjunction": {
+                        "hits": 1002,
+                        "nullHits": 1,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:conjunction": {
+                        "hits": 1002,
+                        "nullHits": 1,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:inversion": {
+                        "hits": 1002,
+                        "nullHits": 1,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:bitwise_or": {
+                        "hits": 3005,
+                        "nullHits": 1003,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:bitwise_xor": {
+                        "hits": 3004,
+                        "nullHits": 1002,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:bitwise_and": {
+                        "hits": 3004,
+                        "nullHits": 1002,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:shift_expr": {
+                        "hits": 5007,
+                        "nullHits": 2004,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:sum": {
+                        "hits": 5007,
+                        "nullHits": 2004,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:term": {
+                        "hits": 11016,
+                        "nullHits": 5010,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:factor": {
+                        "hits": 1001,
+                        "nullHits": 0,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:await_primary": {
+                        "hits": 1002,
+                        "nullHits": 1,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:primary": {
+                        "hits": 8012,
+                        "nullHits": 4008,
+                        "misses": 1002,
+                        "writes": 1002
+                    },
+                    "normal:star_expression": {
+                        "hits": 4,
+                        "nullHits": 2,
+                        "misses": 2,
+                        "writes": 2
+                    }
+                },
+                "finalEntries": {
+                    "t_primary": {
+                        "success": 0,
+                        "failure": 4
+                    },
+                    "target_with_star_atom": {
+                        "success": 1,
+                        "failure": 3
+                    },
+                    "star_target": {
+                        "success": 1,
+                        "failure": 3
+                    },
+                    "simple_stmt": {
+                        "success": 1,
+                        "failure": 1
+                    },
+                    "bitwise_or": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "bitwise_xor": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "bitwise_and": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "shift_expr": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "sum": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "term": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "primary": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "await_primary": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "factor": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "inversion": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "conjunction": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "disjunction": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "expression": {
+                        "success": 1001,
+                        "failure": 1
+                    },
+                    "star_expression": {
+                        "success": 1,
+                        "failure": 1
+                    }
+                }
+            }
+        },
+        {
+            "name": "synthetic-unicode",
+            "sourceBytes": 4769,
+            "sourceSha256": "a0f873b8fe174bb44f8c7b235f3715a3a2d73be9e01c75f07bfdc81a60340810",
+            "cache": {
+                "rows": 401,
+                "rules": {
+                    "normal:simple_stmt": {
+                        "hits": 1,
+                        "nullHits": 1,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:t_primary": {
+                        "hits": 2409,
+                        "nullHits": 2409,
+                        "misses": 401,
+                        "writes": 401
+                    },
+                    "normal:star_target": {
+                        "hits": 101,
+                        "nullHits": 101,
+                        "misses": 401,
+                        "writes": 401
+                    },
+                    "normal:target_with_star_atom": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 401,
+                        "writes": 401
+                    },
+                    "normal:strings": {
+                        "hits": 200,
+                        "nullHits": 0,
+                        "misses": 100,
+                        "writes": 100
+                    },
+                    "normal:star_expression": {
+                        "hits": 402,
+                        "nullHits": 2,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:expression": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:disjunction": {
+                        "hits": 201,
+                        "nullHits": 1,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:conjunction": {
+                        "hits": 201,
+                        "nullHits": 1,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:inversion": {
+                        "hits": 201,
+                        "nullHits": 1,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:bitwise_or": {
+                        "hits": 602,
+                        "nullHits": 202,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:bitwise_xor": {
+                        "hits": 601,
+                        "nullHits": 201,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:bitwise_and": {
+                        "hits": 601,
+                        "nullHits": 201,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:shift_expr": {
+                        "hits": 1002,
+                        "nullHits": 402,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:sum": {
+                        "hits": 1002,
+                        "nullHits": 402,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:term": {
+                        "hits": 2205,
+                        "nullHits": 1005,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:factor": {
+                        "hits": 200,
+                        "nullHits": 0,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:await_primary": {
+                        "hits": 201,
+                        "nullHits": 1,
+                        "misses": 201,
+                        "writes": 201
+                    },
+                    "normal:primary": {
+                        "hits": 1604,
+                        "nullHits": 804,
+                        "misses": 201,
+                        "writes": 201
+                    }
+                },
+                "finalEntries": {
+                    "t_primary": {
+                        "success": 0,
+                        "failure": 401
+                    },
+                    "target_with_star_atom": {
+                        "success": 300,
+                        "failure": 101
+                    },
+                    "star_target": {
+                        "success": 300,
+                        "failure": 101
+                    },
+                    "simple_stmt": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "strings": {
+                        "success": 100,
+                        "failure": 0
+                    },
+                    "bitwise_or": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "bitwise_xor": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "bitwise_and": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "shift_expr": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "sum": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "term": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "primary": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "await_primary": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "factor": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "inversion": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "conjunction": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "disjunction": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "expression": {
+                        "success": 200,
+                        "failure": 1
+                    },
+                    "star_expression": {
+                        "success": 200,
+                        "failure": 1
+                    }
+                }
+            }
+        },
+        {
+            "name": "typing.py",
+            "sourceBytes": 135278,
+            "sourceSha256": "b474bb90d72d4ea28d0b4635a4fbc42ac54e459b8468a01034f2773656e47a00",
+            "cache": {
+                "rows": 6317,
+                "rules": {
+                    "normal:simple_stmt": {
+                        "hits": 646,
+                        "nullHits": 646,
+                        "misses": 1634,
+                        "writes": 1634
+                    },
+                    "normal:t_primary": {
+                        "hits": 18593,
+                        "nullHits": 16165,
+                        "misses": 2262,
+                        "writes": 2262
+                    },
+                    "normal:strings": {
+                        "hits": 640,
+                        "nullHits": 0,
+                        "misses": 527,
+                        "writes": 527
+                    },
+                    "normal:star_target": {
+                        "hits": 1331,
+                        "nullHits": 1223,
+                        "misses": 2261,
+                        "writes": 2261
+                    },
+                    "normal:target_with_star_atom": {
+                        "hits": 45,
+                        "nullHits": 24,
+                        "misses": 2259,
+                        "writes": 2259
+                    },
+                    "normal:star_expression": {
+                        "hits": 3972,
+                        "nullHits": 2084,
+                        "misses": 2004,
+                        "writes": 2004
+                    },
+                    "normal:expression": {
+                        "hits": 2799,
+                        "nullHits": 248,
+                        "misses": 4601,
+                        "writes": 4601
+                    },
+                    "normal:disjunction": {
+                        "hits": 4631,
+                        "nullHits": 1252,
+                        "misses": 4651,
+                        "writes": 4651
+                    },
+                    "normal:conjunction": {
+                        "hits": 4633,
+                        "nullHits": 1252,
+                        "misses": 4671,
+                        "writes": 4671
+                    },
+                    "normal:inversion": {
+                        "hits": 4625,
+                        "nullHits": 1252,
+                        "misses": 4784,
+                        "writes": 4784
+                    },
+                    "normal:bitwise_or": {
+                        "hits": 13192,
+                        "nullHits": 6196,
+                        "misses": 4944,
+                        "writes": 4944
+                    },
+                    "normal:bitwise_xor": {
+                        "hits": 12344,
+                        "nullHits": 4952,
+                        "misses": 4952,
+                        "writes": 4952
+                    },
+                    "normal:bitwise_and": {
+                        "hits": 12352,
+                        "nullHits": 4952,
+                        "misses": 4952,
+                        "writes": 4952
+                    },
+                    "normal:shift_expr": {
+                        "hits": 21004,
+                        "nullHits": 9904,
+                        "misses": 4952,
+                        "writes": 4952
+                    },
+                    "normal:sum": {
+                        "hits": 21060,
+                        "nullHits": 9904,
+                        "misses": 4952,
+                        "writes": 4952
+                    },
+                    "normal:term": {
+                        "hits": 47376,
+                        "nullHits": 24965,
+                        "misses": 4993,
+                        "writes": 4993
+                    },
+                    "normal:factor": {
+                        "hits": 3741,
+                        "nullHits": 0,
+                        "misses": 5025,
+                        "writes": 5025
+                    },
+                    "normal:await_primary": {
+                        "hits": 4996,
+                        "nullHits": 1252,
+                        "misses": 4996,
+                        "writes": 4996
+                    },
+                    "normal:primary": {
+                        "hits": 37998,
+                        "nullHits": 19984,
+                        "misses": 4996,
+                        "writes": 4996
+                    },
+                    "normal:dotted_name": {
+                        "hits": 51,
+                        "nullHits": 25,
+                        "misses": 25,
+                        "writes": 25
+                    },
+                    "normal:block": {
+                        "hits": 263,
+                        "nullHits": 0,
+                        "misses": 645,
+                        "writes": 645
+                    },
+                    "normal:arguments": {
+                        "hits": 275,
+                        "nullHits": 22,
+                        "misses": 752,
+                        "writes": 752
+                    },
+                    "normal:del_target": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 3,
+                        "writes": 3
+                    },
+                    "normal:type_param": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 5,
+                        "writes": 5
+                    },
+                    "normal:star_pattern": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 3,
+                        "writes": 3
+                    },
+                    "normal:closed_pattern": {
+                        "hits": 12,
+                        "nullHits": 0,
+                        "misses": 4,
+                        "writes": 4
+                    },
+                    "normal:tstring": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 4,
+                        "writes": 4
+                    },
+                    "normal:attr": {
+                        "hits": 9,
+                        "nullHits": 3,
+                        "misses": 3,
+                        "writes": 3
+                    }
+                },
+                "finalEntries": {
+                    "t_primary": {
+                        "success": 399,
+                        "failure": 1863
+                    },
+                    "strings": {
+                        "success": 523,
+                        "failure": 4
+                    },
+                    "target_with_star_atom": {
+                        "success": 1001,
+                        "failure": 1258
+                    },
+                    "star_target": {
+                        "success": 1007,
+                        "failure": 1254
+                    },
+                    "bitwise_or": {
+                        "success": 3692,
+                        "failure": 1252
+                    },
+                    "bitwise_xor": {
+                        "success": 3700,
+                        "failure": 1252
+                    },
+                    "bitwise_and": {
+                        "success": 3700,
+                        "failure": 1252
+                    },
+                    "shift_expr": {
+                        "success": 3700,
+                        "failure": 1252
+                    },
+                    "sum": {
+                        "success": 3700,
+                        "failure": 1252
+                    },
+                    "term": {
+                        "success": 3741,
+                        "failure": 1252
+                    },
+                    "primary": {
+                        "success": 3744,
+                        "failure": 1252
+                    },
+                    "await_primary": {
+                        "success": 3744,
+                        "failure": 1252
+                    },
+                    "factor": {
+                        "success": 3773,
+                        "failure": 1252
+                    },
+                    "inversion": {
+                        "success": 3532,
+                        "failure": 1252
+                    },
+                    "conjunction": {
+                        "success": 3419,
+                        "failure": 1252
+                    },
+                    "disjunction": {
+                        "success": 3399,
+                        "failure": 1252
+                    },
+                    "expression": {
+                        "success": 3351,
+                        "failure": 1250
+                    },
+                    "star_expression": {
+                        "success": 962,
+                        "failure": 1042
+                    },
+                    "simple_stmt": {
+                        "success": 988,
+                        "failure": 646
+                    },
+                    "dotted_name": {
+                        "success": 25,
+                        "failure": 0
+                    },
+                    "block": {
+                        "success": 645,
+                        "failure": 0
+                    },
+                    "arguments": {
+                        "success": 672,
+                        "failure": 80
+                    },
+                    "del_target": {
+                        "success": 3,
+                        "failure": 0
+                    },
+                    "type_param": {
+                        "success": 5,
+                        "failure": 0
+                    },
+                    "star_pattern": {
+                        "success": 0,
+                        "failure": 3
+                    },
+                    "tstring": {
+                        "success": 0,
+                        "failure": 4
+                    },
+                    "attr": {
+                        "success": 3,
+                        "failure": 0
+                    },
+                    "closed_pattern": {
+                        "success": 4,
+                        "failure": 0
+                    }
+                }
+            }
+        },
+        {
+            "name": "json/decoder.py",
+            "sourceBytes": 12873,
+            "sourceSha256": "302ce57cb6f411122d7ef2ad2997c1fc0f184849fab3f1f585752f18f2195c73",
+            "cache": {
+                "rows": 806,
+                "rules": {
+                    "normal:simple_stmt": {
+                        "hits": 73,
+                        "nullHits": 73,
+                        "misses": 223,
+                        "writes": 223
+                    },
+                    "normal:t_primary": {
+                        "hits": 2661,
+                        "nullHits": 2205,
+                        "misses": 325,
+                        "writes": 325
+                    },
+                    "normal:strings": {
+                        "hits": 89,
+                        "nullHits": 0,
+                        "misses": 73,
+                        "writes": 73
+                    },
+                    "normal:star_target": {
+                        "hits": 139,
+                        "nullHits": 131,
+                        "misses": 325,
+                        "writes": 325
+                    },
+                    "normal:target_with_star_atom": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 325,
+                        "writes": 325
+                    },
+                    "normal:star_expression": {
+                        "hits": 450,
+                        "nullHits": 220,
+                        "misses": 243,
+                        "writes": 243
+                    },
+                    "normal:expression": {
+                        "hits": 345,
+                        "nullHits": 40,
+                        "misses": 544,
+                        "writes": 544
+                    },
+                    "normal:disjunction": {
+                        "hits": 544,
+                        "nullHits": 131,
+                        "misses": 544,
+                        "writes": 544
+                    },
+                    "normal:conjunction": {
+                        "hits": 540,
+                        "nullHits": 131,
+                        "misses": 548,
+                        "writes": 548
+                    },
+                    "normal:inversion": {
+                        "hits": 547,
+                        "nullHits": 131,
+                        "misses": 549,
+                        "writes": 549
+                    },
+                    "normal:bitwise_or": {
+                        "hits": 1558,
+                        "nullHits": 717,
+                        "misses": 586,
+                        "writes": 586
+                    },
+                    "normal:bitwise_xor": {
+                        "hits": 1502,
+                        "nullHits": 589,
+                        "misses": 589,
+                        "writes": 589
+                    },
+                    "normal:bitwise_and": {
+                        "hits": 1505,
+                        "nullHits": 589,
+                        "misses": 589,
+                        "writes": 589
+                    },
+                    "normal:shift_expr": {
+                        "hits": 2553,
+                        "nullHits": 1178,
+                        "misses": 589,
+                        "writes": 589
+                    },
+                    "normal:sum": {
+                        "hits": 2597,
+                        "nullHits": 1180,
+                        "misses": 590,
+                        "writes": 590
+                    },
+                    "normal:term": {
+                        "hits": 6028,
+                        "nullHits": 3110,
+                        "misses": 622,
+                        "writes": 622
+                    },
+                    "normal:factor": {
+                        "hits": 491,
+                        "nullHits": 0,
+                        "misses": 623,
+                        "writes": 623
+                    },
+                    "normal:await_primary": {
+                        "hits": 623,
+                        "nullHits": 131,
+                        "misses": 623,
+                        "writes": 623
+                    },
+                    "normal:primary": {
+                        "hits": 4806,
+                        "nullHits": 2492,
+                        "misses": 623,
+                        "writes": 623
+                    },
+                    "normal:dotted_name": {
+                        "hits": 6,
+                        "nullHits": 3,
+                        "misses": 3,
+                        "writes": 3
+                    },
+                    "normal:block": {
+                        "hits": 42,
+                        "nullHits": 0,
+                        "misses": 72,
+                        "writes": 72
+                    },
+                    "normal:arguments": {
+                        "hits": 52,
+                        "nullHits": 11,
+                        "misses": 77,
+                        "writes": 77
+                    }
+                },
+                "finalEntries": {
+                    "t_primary": {
+                        "success": 76,
+                        "failure": 249
+                    },
+                    "strings": {
+                        "success": 73,
+                        "failure": 0
+                    },
+                    "target_with_star_atom": {
+                        "success": 190,
+                        "failure": 135
+                    },
+                    "star_target": {
+                        "success": 190,
+                        "failure": 135
+                    },
+                    "bitwise_or": {
+                        "success": 455,
+                        "failure": 131
+                    },
+                    "bitwise_xor": {
+                        "success": 458,
+                        "failure": 131
+                    },
+                    "bitwise_and": {
+                        "success": 458,
+                        "failure": 131
+                    },
+                    "shift_expr": {
+                        "success": 458,
+                        "failure": 131
+                    },
+                    "sum": {
+                        "success": 459,
+                        "failure": 131
+                    },
+                    "term": {
+                        "success": 491,
+                        "failure": 131
+                    },
+                    "primary": {
+                        "success": 492,
+                        "failure": 131
+                    },
+                    "await_primary": {
+                        "success": 492,
+                        "failure": 131
+                    },
+                    "factor": {
+                        "success": 492,
+                        "failure": 131
+                    },
+                    "inversion": {
+                        "success": 418,
+                        "failure": 131
+                    },
+                    "conjunction": {
+                        "success": 417,
+                        "failure": 131
+                    },
+                    "disjunction": {
+                        "success": 413,
+                        "failure": 131
+                    },
+                    "expression": {
+                        "success": 413,
+                        "failure": 131
+                    },
+                    "star_expression": {
+                        "success": 133,
+                        "failure": 110
+                    },
+                    "simple_stmt": {
+                        "success": 150,
+                        "failure": 73
+                    },
+                    "dotted_name": {
+                        "success": 3,
+                        "failure": 0
+                    },
+                    "block": {
+                        "success": 72,
+                        "failure": 0
+                    },
+                    "arguments": {
+                        "success": 64,
+                        "failure": 13
+                    }
+                }
+            }
+        },
+        {
+            "name": "invalid-editor",
+            "sourceBytes": 39,
+            "sourceSha256": "682492409df82e2a4b06e3198605ac8da6584a11c5cb67ffb080a3bde430e39b",
+            "cache": {
+                "rows": 6,
+                "rules": {
+                    "normal:block": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 1,
+                        "writes": 0
+                    },
+                    "normal:simple_stmt": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 1,
+                        "writes": 0
+                    },
+                    "normal:t_primary": {
+                        "hits": 16,
+                        "nullHits": 16,
+                        "misses": 3,
+                        "writes": 3
+                    },
+                    "normal:star_target": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 3,
+                        "writes": 2
+                    },
+                    "normal:target_with_star_atom": {
+                        "hits": 0,
+                        "nullHits": 0,
+                        "misses": 3,
+                        "writes": 2
+                    },
+                    "normal:expression": {
+                        "hits": 1,
+                        "nullHits": 0,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:disjunction": {
+                        "hits": 1,
+                        "nullHits": 0,
+                        "misses": 2,
+                        "writes": 1
+                    },
+                    "normal:conjunction": {
+                        "hits": 1,
+                        "nullHits": 0,
+                        "misses": 2,
+                        "writes": 1
+                    },
+                    "normal:inversion": {
+                        "hits": 1,
+                        "nullHits": 0,
+                        "misses": 2,
+                        "writes": 1
+                    },
+                    "normal:bitwise_or": {
+                        "hits": 3,
+                        "nullHits": 1,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:bitwise_xor": {
+                        "hits": 3,
+                        "nullHits": 1,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:bitwise_and": {
+                        "hits": 3,
+                        "nullHits": 1,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:shift_expr": {
+                        "hits": 5,
+                        "nullHits": 2,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:sum": {
+                        "hits": 5,
+                        "nullHits": 2,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:term": {
+                        "hits": 11,
+                        "nullHits": 5,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:factor": {
+                        "hits": 1,
+                        "nullHits": 0,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:await_primary": {
+                        "hits": 1,
+                        "nullHits": 0,
+                        "misses": 1,
+                        "writes": 1
+                    },
+                    "normal:primary": {
+                        "hits": 8,
+                        "nullHits": 4,
+                        "misses": 1,
+                        "writes": 1
+                    }
+                },
+                "finalEntries": {
+                    "t_primary": {
+                        "success": 0,
+                        "failure": 3
+                    },
+                    "target_with_star_atom": {
+                        "success": 2,
+                        "failure": 0
+                    },
+                    "star_target": {
+                        "success": 2,
+                        "failure": 0
+                    },
+                    "bitwise_or": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "bitwise_xor": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "bitwise_and": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "shift_expr": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "sum": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "term": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "primary": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "await_primary": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "factor": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "inversion": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "conjunction": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "disjunction": {
+                        "success": 1,
+                        "failure": 0
+                    },
+                    "expression": {
+                        "success": 1,
+                        "failure": 0
+                    }
+                }
+            }
+        }
+    ]
+}
