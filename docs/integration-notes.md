@@ -1,5 +1,10 @@
 # Skulpt integration notes
 
+The [compiler integration audit](skulpt-compiler-integration.md) maps the current
+AST/compiler boundary, records probes against the deployed runtime, and proposes
+the first guarded execution adapter. It distinguishes the deployed bundle from
+the sibling repository's compiler branches.
+
 During integration, review frontend functionality that Skulpt also needs and consider extracting it into a shared dependency. Unicode is a likely candidate: version-pinned identifier properties and normalization, Python string/code-point operations, and coordinate conversion where the consumers require the same semantics. Unicode identifier validation alone is not full Python Unicode support.
 
 Do not create that dependency speculatively during the parser migration. First compare the actual implementations and contracts in the parser and Skulpt. Extract shared code when it avoids duplicate implementations or data tables, preserves CPython compatibility, and has acceptable bundle size, startup time and memory costs. Pay particular attention to shipping duplicate Unicode tables when both packages appear in an IDE bundle. Keep consumer-specific adapters in their respective projects.
