@@ -72,6 +72,7 @@ export class Parser {
     mark = 0;
     barryAsFlufl = false;
     readonly python2Compat: boolean;
+    readonly printFunction: boolean;
     readonly legacyAsyncNames: boolean;
     callInvalidRules = false;
     private tokens: Token[] = [];
@@ -86,6 +87,7 @@ export class Parser {
     readonly stringWarnings = new Set<string>();
     constructor(source: string, options: ParseOptions, readonly mode: "eval" | "exec") {
         this.python2Compat = options.python2Compat ?? false;
+        this.printFunction = options.printFunction ?? false;
         this.legacyAsyncNames = options.legacyAsyncNames ?? this.python2Compat;
         this.source = source.replace(/\r\n?/g, "\n");
         this.onWarning = options.onWarning;
@@ -235,7 +237,7 @@ export class Parser {
             !(this.legacyAsyncNames && (token.string === "async" || token.string === "await"))
         )
             return null;
-        if (this.python2Compat && token.string === "print") return null;
+        if (this.python2Compat && !this.printFunction && token.string === "print") return null;
         this.mark++;
         return ast.Name(
             token.string.normalize("NFKC"),

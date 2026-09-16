@@ -33,18 +33,20 @@ function comparable(node: any): any {
             .map(([key, value]) => [key, comparable(value)])
     );
 }
-for (const { source, expected, error } of reference.cases) {
-    test(`Skulpt legacy statements: ${source}`, () => {
+for (const item of reference.cases) {
+    const { source, expected, error } = item;
+    const printFunction = "printFunction" in item && item.printFunction === true;
+    test(`Skulpt legacy statements (${printFunction ? "print function" : "print statement"}): ${source}`, () => {
         if (error) {
             let failure: unknown;
             try {
-                parseModule(source, { python2Compat: true });
+                parseModule(source, { python2Compat: true, printFunction });
             } catch (e) {
                 failure = e;
             }
             expect(failure).toMatchObject({ name: "SyntaxError" });
         } else {
-            expect(comparable(parseModule(source, { python2Compat: true }))).toEqual(expected);
+            expect(comparable(parseModule(source, { python2Compat: true, printFunction }))).toEqual(expected);
         }
     });
 }

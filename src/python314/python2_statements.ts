@@ -21,7 +21,7 @@ function endStatement(p: Parser): boolean {
     return ["NEWLINE", "ENDMARKER"].includes(p.peek().type) || p.peek().string === ";";
 }
 export function printStatement(p: Grammar): Print | null {
-    if (p.peek().string !== "print") return null;
+    if (p.printFunction || p.peek().string !== "print") return null;
     const start = p.mark;
     p.literal("print");
     let dest: ast.expr | null = null;
