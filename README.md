@@ -44,13 +44,13 @@ These are recovered baseline APIs, not the final agreed Python 3.14 API. Native 
 
 ## Python 3.14 generation inputs
 
-The next stage has a separate, checksum-pinned source preparation path. Run `pnpm upstream:prepare`, then `pnpm upstream:check` with CPython 3.14.3 installed. This validates upstream grammar, token definitions and AST layouts without modifying a sibling CPython checkout. It does not yet regenerate the TypeScript frontend. See [pinned input commands and scope](tools/upstream/README.md).
+The next stage has a separate, checksum-pinned source preparation path. Run `pnpm upstream:prepare`, then `pnpm upstream:check` with CPython 3.14.3 installed. This validates upstream grammar, token definitions and AST layouts without modifying a sibling CPython checkout. Run `pnpm generate:ast` to generate the structural Python 3.14 AST types and factories; `pnpm generate:check` verifies the checked-in output. These are internal migration modules, not yet connected to the parser or exported from the package root. The parser backend and its semantic helpers still need migration. See [pinned input commands and scope](tools/upstream/README.md).
 
 ## Known gaps and retained legacy files
 
 - `tests/parse.test.ts` retains the existing skip for `t542.py`: JavaScript string positions differ from CPython UTF-8 byte offsets. The 3.14 migration must implement the agreed position contract.
 - The Python-driven `tests/test_peg_parser.py` harness is not part of the recovered Rstest suite. It still invokes Deno and depends on CPython's private `_peg_parser` and `test.support`. The installed standalone CPython 3.9.25 lacks `test.support`. Port its useful cases when establishing the 3.14 conformance suite; the passing TypeScript suite does not imply that harness passes.
-- Parser/ASDL regeneration is not recovered in this step. `tools/`, `scripts.yml` and the old Deno scripts remain historical references. The old generator checks out and patches a sibling CPython tree and invokes Velociraptor. Do not run it against a working sibling checkout. The new isolated input commands above are ready; adapting the TypeScript generation backend to consume them is the next stage.
+- Parser/ASDL regeneration is not recovered in this step. `tools/`, `scripts.yml` and the old Deno scripts remain historical references. The old generator checks out and patches a sibling CPython tree and invokes Velociraptor. Do not run it against a working sibling checkout. The new isolated input commands above are ready; the structural AST generator consumes them now. Adapting the parser backend and its semantic helpers is the next stage.
 - CI now runs the recovered build, source checks, TypeScript suites and package smoke check. It does not claim to replace the legacy generator or Python PEG checks; those remain explicit gaps above.
 - Grammar, generated AST/parser, diagnostics, scalar representation and memoization policy are unchanged. Some parser rules benefit from caching and others regress. Future tuning must measure individual rules and preserve the distinct left-recursion algorithm requirements.
 

@@ -35,3 +35,6 @@ jobs:
             - run: python -m unittest tools.upstream.test_inputs
             - run: python -m tools.upstream prepare
             - run: python -m tools.upstream check
+            - run: python -m tools.generate314 --check
+            - run: python tests/fixtures/generate_python314_ast.py
+            - run: git diff --exit-code -- tests/fixtures/python314-ast.json

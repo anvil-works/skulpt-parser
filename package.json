@@ -11,11 +11,13 @@
         "build": "rslib build",
         "test": "rstest run",
         "test:watch": "rstest",
-        "check": "tsc --noEmit",
+        "check": "tsc --noEmit && tsc --project tsconfig.python314.json",
         "test:package": "node --experimental-vm-modules scripts/check-package.mjs",
         "upstream:prepare": "python3 -m tools.upstream prepare",
         "upstream:check": "python3.14 -m tools.upstream check",
-        "test:upstream": "python3 -m unittest tools.upstream.test_inputs"
+        "test:upstream": "python3 -m unittest tools.upstream.test_inputs",
+        "generate:ast": "python3.14 -m tools.generate314",
+        "generate:check": "python3.14 -m tools.generate314 --check"
     },
     "exports": {
         ".": {
