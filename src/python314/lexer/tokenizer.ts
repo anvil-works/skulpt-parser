@@ -648,12 +648,19 @@ export class Scanner {
                                 ["b", "t"],
                                 ["f", "t"],
                             ])
-                                if (saw.has(a) && saw.has(b))
+                                if (saw.has(a) && saw.has(b)) {
+                                    // Skulpt's editing tokenizer split legacy ur/ru prefixes
+                                    // into NAME + STRING, even though its parser rejected them.
+                                    if (a === "u" && b === "r" && this.extra && this.options.python2Compat) {
+                                        this.back(c);
+                                        return this.make("NAME", this.start, this.cur);
+                                    }
                                     this.syntax(
                                         `'${a}' and '${b}' prefixes are incompatible`,
                                         this.start + 1 - this.lineStart,
                                         this.cur - this.lineStart
                                     );
+                                }
                             return saw.has("f") || saw.has("t") ? this.startInterpolated(c, saw) : this.string(c);
                         }
                     }
