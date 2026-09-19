@@ -367,6 +367,82 @@ for kind in ("except", "except*"):
     for types in ("A,B", "A,B,", "(A,B)", "(A,B) as e", "factory()", "E if flag else F"):
         sources.append(f"try: pass\n{kind} {types}: pass")
 
+for pattern in [
+    "_",
+    "capture",
+    "résumé",
+    "𝒙",
+    "None",
+    "True",
+    "False",
+    "0",
+    "-1",
+    "1.5",
+    "-0.0",
+    "1j",
+    "-2j",
+    "1+2j",
+    "-1-2j",
+    "1e400",
+    "9007199254740993",
+    "0xff",
+    "'text'",
+    "b'bytes'",
+    "'a' 'b'",
+    "r'\\n'",
+    "f'{value}'",
+    "t'{value}'",
+    "module.VALUE",
+    "a.b.c",
+    "(capture)",
+    "1 | 2 | 3",
+    "(1 | 2) as chosen",
+    "[]",
+    "()",
+    "[a,b]",
+    "(a,)",
+    "a,b",
+    "[*rest]",
+    "[head,*middle,tail]",
+    "(*_,last)",
+    "[1|2, [x,y], Point(z)]",
+    "{}",
+    "{**rest}",
+    "{'key': value}",
+    "{'key': value, **rest}",
+    "{None: x, True: y, 1+2j: z, module.KEY: rest}",
+    "{'é': résumé}",
+    "Point()",
+    "Point(x,y)",
+    "Point(x=first,y=second)",
+    "Point(first,y=second,)",
+    "module.Point([x,*rest], flag=True)",
+    "Point(é=résumé)",
+    "[a,a]",
+    "[a,*b,*c]",
+    "{1:a,1:b}",
+    "Point(x=a,x=b)",
+    "x | y",
+    "1 as x",
+]:
+    sources.append(f"match subject:\n    case {pattern}:\n        pass")
+sources.extend(
+    [
+        "def f():\n    match value:\n        case _: pass",
+        "try: pass\nfinally:\n    match value:\n        case _: pass",
+        "match = case = 1\nmatch(case)",
+        "match x,y:\n    case a,b: use(a,b)",
+        "match *xs,:\n    case [*items]: pass",
+        "match (value := source()):\n    case x if (ok := check(x)): use(x)",
+        "match subject:\n    case 0: zero()\n    case [x,*xs] if xs: use(x)\n    case _: fallback()\nafter()",
+        "match subject:\n    case _:\n        match other:\n            case Point(x): use(x)\n    case 1: pass",
+        "match café:\n    case {'é': résumé}: use(résumé)",
+        "match subject:\r\n\tcase _: pass\r\n",
+        "match subject:\n    # comment\n    case _: # comment\n        pass\n",
+        "match subject:\n    case '\\q' | 'x': pass",
+    ]
+)
+
 cases = []
 for source in sources:
     with warnings.catch_warnings(record=True) as caught:
@@ -382,6 +458,27 @@ for source in sources:
 # Rejection parity only until invalid-rule diagnostic actions are ported.
 rejections = []
 for source in [
+    "match x: case _: pass",
+    "match x\n    case _: pass",
+    "match x:\n    case: pass",
+    "match x:\n    case _ pass",
+    "match x:\n    case *rest: pass",
+    "match x:\n    case 1+2: pass",
+    "match x:\n    case +1: pass",
+    "match x:\n    case x+y: pass",
+    "match x:\n    case 1 as _: pass",
+    "match x:\n    case [a,,b]: pass",
+    "match x:\n    case {**_}: pass",
+    "match x:\n    case {key: value}: pass",
+    "match x:\n    case {**rest, 'key': x}: pass",
+    "match x:\n    case Point(x=a,b): pass",
+    "match x:\n    case Point(*xs): pass",
+    "match x:\n    case Point(**kw): pass",
+    "match x:\n    case a[0]: pass",
+    "match x:\n    case a |: pass",
+    "match x:\n    case x if: pass",
+    "ｍａｔｃｈ x:\n    case _: pass",
+    "match x:\n    ｃａｓｅ _: pass",
     "with: pass",
     "with x pass",
     "with x as: pass",
@@ -527,6 +624,10 @@ for source in [
         raise AssertionError(f"Expected syntax rejection: {source}")
 errors = []
 for source in [
+    "match x:\n case 1+2: pass",
+    "match x:\n case 1j+2j: pass",
+    "match x:\n case -1j+2j: pass",
+    "match café:\n case {'é': 1+2}: pass",
     "try pass",
     "try: pass\nfinally pass",
     "if x: pass\nelse pass",
@@ -568,19 +669,12 @@ for source in [
         )
     else:
         raise AssertionError(f"Expected syntax error: {source}")
-# Valid CPython modules outside this migration slice must not be returned as
-# successfully parsed prefixes. These are project boundary tests, not parity.
-unsupported = [
-    "def f():\n    match value:\n        case _: pass",
-    "try: pass\nfinally:\n    match value:\n        case _: pass",
-]
-for source in unsupported:
-    ast.parse(source, mode="exec")
 fixtures = {
-    "unsupported": unsupported,
     "errors": errors,
     "version": lock["version"],
     "cases": cases,
     "rejections": rejections,
 }
-Path(__file__).with_name("python314-modules.json").write_text(json.dumps(fixtures, indent=4, ensure_ascii=True) + "\n")
+Path(__file__).with_name("python314-modules.json").write_text(
+    json.dumps(fixtures, indent=4, ensure_ascii=True, allow_nan=False) + "\n"
+)
