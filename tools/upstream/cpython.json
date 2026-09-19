@@ -29,6 +29,7 @@
         "Parser/lexer/state.h": "66e27b96b3de17f005e09e2bc75445b307c95fb67534027673c3d5c90a206b76",
         "Parser/tokenizer/readline_tokenizer.c": "ceec9fee99b6d9f20184fdce56480b401ceff8d93e59f203fc554a7a09396834",
         "Parser/tokenizer/helpers.c": "e4758befadbccd319b5f187146bb0026ba650b9ad141cacfe5a2d61ded7aeb34",
-        "Python/Python-tokenize.c": "fcb2f74a7f531ed038dd62be3d595d0276cfb3bf9e5d02ff2c88bedcd11b4e14"
+        "Python/Python-tokenize.c": "fcb2f74a7f531ed038dd62be3d595d0276cfb3bf9e5d02ff2c88bedcd11b4e14",
+        "Parser/action_helpers.c": "8525fb18908d8aeca6ba3c0cd80ad1069c6866805fe756dbb70f21fbd1ae15f6"
     }
 }

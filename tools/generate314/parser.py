@@ -22,6 +22,10 @@ bitwise_or bitwise_xor bitwise_and shift_expr sum term factor power await_primar
 primary atom group tuple list set dict double_starred_kvpairs double_starred_kvpair
 kvpair star_named_expressions star_named_expression star_expressions star_expression
 named_expression assignment_expression slices slice starred_expression
+arguments args kwargs kwarg_or_starred kwarg_or_double_starred
+for_if_clauses for_if_clause listcomp setcomp dictcomp genexp
+star_targets star_target star_targets_list_seq star_targets_tuple_seq
+target_with_star_atom star_atom t_primary t_lookahead
 """.split()
 )
 
@@ -66,6 +70,13 @@ def action(text):
     if text == "_PyPegen_check_barry_as_flufl ( p , tok ) ? NULL : tok":
         # This internal expression entry point does not enable future flags.
         return "tok"
+    call_fields = re.fullmatch(
+        r"\(\s*(\w+)\s*\)\s*\?\s*\(\s*\1\s*\)\s*->\s*v\s*\.\s*Call\s*\.\s*(args|keywords)\s*:\s*NULL",
+        text,
+    )
+    if call_fields:
+        variable, field = call_fields.groups()
+        return f"({variable}?.{field} ?? [])"
     call = re.fullmatch(r"(\w+)\s*\((.*)\)", text, re.S)
     if call:
         name, raw = call.groups()
@@ -77,9 +88,20 @@ def action(text):
             return action(args[3])
         if name.startswith("_PyAST_"):
             name = name.removeprefix("_PyAST_")
+            if name == "Call" and re.fullmatch(r"_PyPegen_dummy_name\s*\(\s*p\s*\)", args[0]):
+                # CPython uses a dummy Call as an argument carrier. Keep only its
+                # consumed fields; no fabricated node or locations reach the AST.
+                return f"{{args: {action(args[1])}, keywords: {action(args[2])}}}"
             args = [action(arg) for arg in args if arg != "p -> arena"]
+            if name == "Call":
+                args[1:3] = ["[]" if arg == "null" else arg for arg in args[1:3]]
             return f"ast.{name}({', '.join(args)})"
         helper = {
+            "_PyPegen_collect_call_seqs": lambda a: f"this.collectCallArgs({a[1]}, {a[2]})",
+            "_PyPegen_join_sequences": lambda a: f"[...{a[1]}, ...{a[2]}]",
+            "_PyPegen_keyword_or_starred": lambda a: f"{{element: {a[1]}, isKeyword: {json.dumps(bool(int(a[2])))}}}",
+            "_PyPegen_seq_extract_starred_exprs": lambda a: f"{a[1]}.filter((item: any) => !item.isKeyword).map((item: any) => item.element)",
+            "_PyPegen_seq_delete_starred_exprs": lambda a: f"{a[1]}.filter((item: any) => item.isKeyword).map((item: any) => item.element)",
             "_PyPegen_seq_insert_in_front": lambda a: f"[{a[1]}, ...({a[2]} ?? [])]",
             "_PyPegen_singleton_seq": lambda a: f"[{a[1]}]",
             "_PyPegen_cmpop_expr_pair": lambda a: f"{{op: {a[1]}, expr: {a[2]}}}",
@@ -111,6 +133,7 @@ def action(text):
     ):
         return f"ast.{text}()"
     text = re.sub(r"\s*->\s*v\s*\.\s*Name\s*\.\s*id", ".id", text)
+    text = re.sub(r"\s*->\s*(key|value)\b", r".\1", text)
     if not re.fullmatch(r"\w+(?:\.\w+)?", text):
         raise ValueError(f"Unsupported action expression: {text}")
     return text
@@ -216,6 +239,8 @@ class Generator(ParserGenerator):
             for item in alt.items:
                 suggested, call = self.callmakervisitor.visit(item.item)
                 name = item.name or suggested
+                if name in {"arguments", "eval"}:
+                    name += "_"
                 if name:
                     original, index = name, 1
                     while name in names:

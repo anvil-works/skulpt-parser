@@ -13,6 +13,9 @@ const keywords = new Set(
     )
 );
 
+type KeywordOrStarred = { isKeyword: true; element: ast.keyword } | { isKeyword: false; element: ast.Starred };
+type CallArguments = { args: ast.expr[]; keywords: ast.keyword[] };
+
 type Memo = { value: any; end: number };
 type Rule = (this: Parser) => any;
 
@@ -138,8 +141,31 @@ export class Parser {
         this.mark = start;
         return (result !== null) === positive;
     }
-    setContext(node: ast.Name, context: ast.expr_context): ast.Name {
-        return { ...node, ctx: context };
+    setContext(node: ast.expr, context: ast.expr_context): ast.expr {
+        // Copy instead of mutating nodes that may be reused after PEG backtracking.
+        switch (node._type) {
+            case "Name":
+            case "Attribute":
+            case "Subscript":
+                return { ...node, ctx: context };
+            case "Tuple":
+            case "List":
+                return { ...node, elts: node.elts.map((element) => this.setContext(element, context)), ctx: context };
+            case "Starred":
+                return { ...node, value: this.setContext(node.value, context), ctx: context };
+            default:
+                return node;
+        }
+    }
+    collectCallArgs(positional: ast.expr[], rest: KeywordOrStarred[] | null): CallArguments {
+        if (rest === null) return { args: positional, keywords: [] };
+        const args = positional.slice();
+        const keywords: ast.keyword[] = [];
+        for (const item of rest) {
+            if (item.isKeyword === true) keywords.push(item.element);
+            else args.push(item.element);
+        }
+        return { args, keywords };
     }
     error(message: string, token = this.tokens[this.tokens.length - 1]): SyntaxError {
         return Object.assign(new SyntaxError(message), {
