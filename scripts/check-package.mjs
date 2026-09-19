@@ -4,8 +4,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createContext, SourceTextModule } from "node:vm";
 import { gzipSync, brotliCompressSync, constants } from "node:zlib";
-import { runParserFromString } from "skulpt-parser";
-import { runParserFromFile } from "skulpt-parser/node";
+import { runParserFromString } from "@anvil-works/skulpt-parser";
+import { runParserFromFile } from "@anvil-works/skulpt-parser/node";
 
 // Execute the web entry without Node or Deno globals; reject all external imports.
 const module = new SourceTextModule(readFileSync("dist/index.js", "utf8"), {

@@ -83,7 +83,9 @@ console.log(
 );
 
 // Exercise the package subpath consumed by the IDE, not just a direct bundle path.
-const linkedCore = await import("skulpt-parser/core");
+const linkedCore = await import("@anvil-works/skulpt-parser/core");
+const { unicodeName: linkedUnicodeName } = await import("@anvil-works/skulpt-parser/unicode-names");
+assert.equal(linkedCore.parseExpression('"\\N{SNOWMAN}"', { unicodeName: linkedUnicodeName }).body.value.value, "☃");
 const lexerFixtures = JSON.parse(readFileSync("tests/fixtures/python314-lexer.json", "utf8"));
 for (const source of ["# comment", "é = 𝒙 + 1\n", 'def f(x):\n    return f"value {x!r:>10}"\n']) {
     const fixture = lexerFixtures.cases.find((item) => item.source === source && item.extra);

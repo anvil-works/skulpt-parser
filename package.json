@@ -1,7 +1,6 @@
 {
-    "name": "skulpt-parser",
-    "version": "0.0.0",
-    "private": true,
+    "name": "@anvil-works/skulpt-parser",
+    "version": "0.0.1-dev.0",
     "type": "module",
     "packageManager": "pnpm@10.10.0",
     "engines": {
@@ -25,7 +24,10 @@
         "bench:python314": "node scripts/benchmark-python314.mjs",
         "build:core": "rslib build --config rslib.core.config.ts",
         "test:core-package": "node --experimental-vm-modules scripts/check-core-package.mjs",
-        "perf:report": "node scripts/report-performance.mjs"
+        "perf:report": "node scripts/report-performance.mjs",
+        "prepack": "pnpm build && pnpm build:core",
+        "prepublishOnly": "node scripts/validate-release-version.mjs",
+        "test:release": "node --test scripts/validate-release-version.test.mjs"
     },
     "exports": {
         ".": {
@@ -39,6 +41,10 @@
         "./core": {
             "types": "./dist-core/python314/core.d.ts",
             "import": "./dist-core/index.js"
+        },
+        "./unicode-names": {
+            "types": "./dist-core/python314/string_names.d.ts",
+            "import": "./dist-core/unicode-names.js"
         }
     },
     "dependencies": {
@@ -49,5 +55,19 @@
         "@rstest/core": "0.11.12",
         "typescript": "5.9.3",
         "@types/node": "22.15.3"
+    },
+    "description": "Python 3.14 parser and tokenizer for JavaScript, with bounded Python 2 compatibility",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/anvil-works/skulpt-parser.git"
+    },
+    "files": [
+        "dist",
+        "dist-core",
+        "licenses"
+    ],
+    "publishConfig": {
+        "access": "public"
     }
 }
