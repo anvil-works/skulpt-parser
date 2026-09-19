@@ -67,6 +67,7 @@ export class Parser {
     mark = 0;
     barryAsFlufl = false;
     readonly python2Compat: boolean;
+    readonly legacyAsyncNames: boolean;
     callInvalidRules = false;
     private tokens: Token[] = [];
     private cache: Map<string, Memo>[] = [];
@@ -80,6 +81,7 @@ export class Parser {
     readonly stringWarnings = new Set<string>();
     constructor(source: string, options: ParseOptions, readonly mode: "eval" | "exec") {
         this.python2Compat = options.python2Compat ?? false;
+        this.legacyAsyncNames = options.legacyAsyncNames ?? this.python2Compat;
         this.source = source.replace(/\r\n?/g, "\n");
         this.onWarning = options.onWarning;
         this.unicodeName = options.unicodeName;
@@ -193,6 +195,7 @@ export class Parser {
         return token;
     }
     literal(text: string): Token | null {
+        if (this.legacyAsyncNames && (text === "async" || text === "await")) return null;
         const token = this.peek();
         if (token?.string !== text || token.type.endsWith("_MIDDLE")) return null;
         this.mark++;
@@ -221,7 +224,12 @@ export class Parser {
     }
     name(): ast.Name | null {
         const token = this.peek();
-        if (token?.type !== "NAME" || keywords.has(token.string)) return null;
+        if (token?.type !== "NAME") return null;
+        if (
+            keywords.has(token.string) &&
+            !(this.legacyAsyncNames && (token.string === "async" || token.string === "await"))
+        )
+            return null;
         if (this.python2Compat && token.string === "print") return null;
         this.mark++;
         return ast.Name(

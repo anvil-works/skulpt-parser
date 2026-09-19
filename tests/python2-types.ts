@@ -3,6 +3,7 @@ import type { Module } from "../src/python314/ast.ts";
 import type { CompatibilityModule } from "../src/python314/python2_ast.ts";
 
 const strict: Module = parseModule("pass");
+const legacyNames: Module = parseModule("await(x)", { legacyAsyncNames: true });
 const compatible: CompatibilityModule = parseModule("print 1", { python2Compat: true });
 // @ts-expect-error Compatibility statements must not masquerade as strict CPython statements.
 const notStrict: Module = compatible;

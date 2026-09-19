@@ -1,0 +1,225 @@
+{
+    "bundleSha256": "29aa41f66d084b5826e6d386a5494b179d96a793607ebfc668cedc4752722e54",
+    "cases": [
+        {
+            "mode": "python2",
+            "source": "async = 1\nawait = 2",
+            "kinds": ["Assign", "Assign"]
+        },
+        {
+            "mode": "python2",
+            "source": "def process(async, await):\n return async + await",
+            "kinds": ["FunctionDef"]
+        },
+        {
+            "mode": "python2",
+            "source": "def async():\n pass",
+            "kinds": ["FunctionDef"]
+        },
+        {
+            "mode": "python2",
+            "source": "class await:\n pass",
+            "kinds": ["ClassDef"]
+        },
+        {
+            "mode": "python2",
+            "source": "obj.async = obj.await",
+            "kinds": ["Assign"]
+        },
+        {
+            "mode": "python2",
+            "source": "import async\nfrom await import async",
+            "kinds": ["Import", "ImportFrom"]
+        },
+        {
+            "mode": "python2",
+            "source": "import thing as await",
+            "kinds": ["Import"]
+        },
+        {
+            "mode": "python2",
+            "source": "f(async=1, await=2)",
+            "kinds": ["Expr"],
+            "expressionKind": "Call",
+            "callee": "f"
+        },
+        {
+            "mode": "python2",
+            "source": "await(x)",
+            "kinds": ["Expr"],
+            "expressionKind": "Call",
+            "callee": "await"
+        },
+        {
+            "mode": "python2",
+            "source": "await (x).attr",
+            "kinds": ["Expr"],
+            "expressionKind": "Attribute"
+        },
+        {
+            "mode": "python2",
+            "source": "await[x]",
+            "kinds": ["Expr"],
+            "expressionKind": "Subscript"
+        },
+        {
+            "mode": "python2",
+            "source": "async(await(x))",
+            "kinds": ["Expr"],
+            "expressionKind": "Call",
+            "callee": "async"
+        },
+        {
+            "mode": "python2",
+            "source": "lambda await: await",
+            "kinds": ["Expr"],
+            "expressionKind": "Lambda"
+        },
+        {
+            "mode": "python2",
+            "source": "[await for await in async]",
+            "kinds": ["Expr"],
+            "expressionKind": "ListComp"
+        },
+        {
+            "mode": "python2",
+            "source": "def f():\n global async\n async = 1",
+            "kinds": ["FunctionDef"]
+        },
+        {
+            "mode": "python2",
+            "source": "async def f():\n await g()",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python2",
+            "source": "await f()",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python2",
+            "source": "async for x in items:\n pass",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python2",
+            "source": "async with manager:\n pass",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python2",
+            "source": "[x async for x in items]",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python3",
+            "source": "async = 1\nawait = 2",
+            "kinds": ["Assign", "Assign"]
+        },
+        {
+            "mode": "python3",
+            "source": "def process(async, await):\n return async + await",
+            "kinds": ["FunctionDef"]
+        },
+        {
+            "mode": "python3",
+            "source": "def async():\n pass",
+            "kinds": ["FunctionDef"]
+        },
+        {
+            "mode": "python3",
+            "source": "class await:\n pass",
+            "kinds": ["ClassDef"]
+        },
+        {
+            "mode": "python3",
+            "source": "obj.async = obj.await",
+            "kinds": ["Assign"]
+        },
+        {
+            "mode": "python3",
+            "source": "import async\nfrom await import async",
+            "kinds": ["Import", "ImportFrom"]
+        },
+        {
+            "mode": "python3",
+            "source": "import thing as await",
+            "kinds": ["Import"]
+        },
+        {
+            "mode": "python3",
+            "source": "f(async=1, await=2)",
+            "kinds": ["Expr"],
+            "expressionKind": "Call",
+            "callee": "f"
+        },
+        {
+            "mode": "python3",
+            "source": "await(x)",
+            "kinds": ["Expr"],
+            "expressionKind": "Call",
+            "callee": "await"
+        },
+        {
+            "mode": "python3",
+            "source": "await (x).attr",
+            "kinds": ["Expr"],
+            "expressionKind": "Attribute"
+        },
+        {
+            "mode": "python3",
+            "source": "await[x]",
+            "kinds": ["Expr"],
+            "expressionKind": "Subscript"
+        },
+        {
+            "mode": "python3",
+            "source": "async(await(x))",
+            "kinds": ["Expr"],
+            "expressionKind": "Call",
+            "callee": "async"
+        },
+        {
+            "mode": "python3",
+            "source": "lambda await: await",
+            "kinds": ["Expr"],
+            "expressionKind": "Lambda"
+        },
+        {
+            "mode": "python3",
+            "source": "[await for await in async]",
+            "kinds": ["Expr"],
+            "expressionKind": "ListComp"
+        },
+        {
+            "mode": "python3",
+            "source": "def f():\n global async\n async = 1",
+            "kinds": ["FunctionDef"]
+        },
+        {
+            "mode": "python3",
+            "source": "async def f():\n await g()",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python3",
+            "source": "await f()",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python3",
+            "source": "async for x in items:\n pass",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python3",
+            "source": "async with manager:\n pass",
+            "error": "SyntaxError"
+        },
+        {
+            "mode": "python3",
+            "source": "[x async for x in items]",
+            "error": "SyntaxError"
+        }
+    ]
+}
