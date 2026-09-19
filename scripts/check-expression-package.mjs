@@ -12,6 +12,9 @@ await module.link((specifier) => {
 await module.evaluate();
 const fixtures = JSON.parse(readFileSync("tests/fixtures/python314-expressions.json", "utf8"));
 const selected = [
+    "lambda a,/,b=2,*args,c,d=4,e=None,**kw: result",
+    "lambda: (yield from xs)",
+    't"{yield from values}"',
     't"a{x}" t"b{y}"',
     'f"{x!r:{y!s}}"',
     "'\\N{SNOWMAN}'",
