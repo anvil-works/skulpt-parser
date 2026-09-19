@@ -24,6 +24,11 @@
         "Tools/peg_generator/pegen/sccutils.py": "92b07637c790445b746c8c8297b6335d20adba1fc30f062392a359d50f574a18",
         "Tools/peg_generator/pegen/testutil.py": "f8cad2dc4caf6f892478467f5e10801e4610985b0e0f4a8809210349d8955d9a",
         "Tools/peg_generator/pegen/tokenizer.py": "070ef4770275bd2d1683ab0c03a12ca1c28de1b950ceb3ad738d259193b6305d",
-        "Tools/peg_generator/pegen/validator.py": "4b472fd16d6226a0d9261981211eeb0bfa6b9b9cbac53e77ec9954a9848118d0"
+        "Tools/peg_generator/pegen/validator.py": "4b472fd16d6226a0d9261981211eeb0bfa6b9b9cbac53e77ec9954a9848118d0",
+        "Parser/lexer/lexer.c": "1d863687835cc5aad4b2e1f20eb9bbae8a9b3c1ed147259b963f4da51cd604a8",
+        "Parser/lexer/state.h": "66e27b96b3de17f005e09e2bc75445b307c95fb67534027673c3d5c90a206b76",
+        "Parser/tokenizer/readline_tokenizer.c": "ceec9fee99b6d9f20184fdce56480b401ceff8d93e59f203fc554a7a09396834",
+        "Parser/tokenizer/helpers.c": "e4758befadbccd319b5f187146bb0026ba650b9ad141cacfe5a2d61ded7aeb34",
+        "Python/Python-tokenize.c": "fcb2f74a7f531ed038dd62be3d595d0276cfb3bf9e5d02ff2c88bedcd11b4e14"
     }
 }

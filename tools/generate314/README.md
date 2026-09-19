@@ -59,4 +59,8 @@ The numeric tests call the helper directly and compare against constants or erro
 python3.14 tests/fixtures/generate_python314_numbers.py
 ```
 
-The helper is not yet connected to a generated 3.14 parser or the package entry point. These are conversion tests, not full 3.14 parsing conformance. Shared-runtime extraction candidates for Skulpt are recorded in `docs/integration-notes.md`.
+The helper is connected to the internal generated expression parser, but not the public package entry point. The numeric tests described here remain conversion tests, not full 3.14 parsing conformance. Shared-runtime extraction candidates for Skulpt are recorded in `docs/integration-notes.md`.
+
+## Expression integration
+
+The numeric helper is now used by the internal generated expression parser. See `docs/python314-expression.md` for supported rules, remaining gaps, source provenance, oracle checks and standalone build commands. The public package still uses the recovered parser.
