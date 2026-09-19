@@ -1,5 +1,6 @@
 import { expect, test } from "@rstest/core";
 import { parseExpression, parseModule } from "../src/python314/frontend_core.ts";
+import { tokenize } from "../src/python314/lexer/tokenizer.ts";
 import reference from "./fixtures/python2-numeric-skulpt.json";
 
 function rejectsSyntax(parse: () => unknown) {
@@ -53,3 +54,22 @@ test("legacy long literals retain the complete source span", () => {
     expect(source.slice(value.col_offset, value.end_col_offset!)).toBe("0755L");
     expect(value).toMatchObject({ _type: "Constant", value: { type: "int", value: 493, legacyLong: true } });
 });
+
+test.each(["ur", "uR", "Ur", "UR", "ru", "rU", "Ru", "RU"])(
+    "Skulpt editing tokens preserve %s prefixes without accepting new syntax",
+    (prefix) => {
+        const source = `${prefix}"hello"\n`;
+        // Verified against Anvil's deployed Skulpt: NAME(prefix), STRING, NEWLINE, ENDMARKER.
+        expect(
+            tokenize(source, { extraTokens: true, python2Compat: true }).map(({ type, string }) => [type, string])
+        ).toEqual([
+            ["NAME", prefix],
+            ["STRING", '"hello"'],
+            ["NEWLINE", "\n"],
+            ["ENDMARKER", ""],
+        ]);
+        rejectsSyntax(() => parseModule(source, { python2Compat: true }));
+        rejectsSyntax(() => parseModule(source));
+        expect(() => tokenize(source, { extraTokens: true })).toThrow();
+    }
+);
