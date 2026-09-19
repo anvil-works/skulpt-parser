@@ -17,6 +17,4 @@ async function doTest(source: string) {
 
 const files: string[] = JSON.parse(process.env._TESTFILES || "[]");
 
-// t542.py uses unicode characters which have different bytes offsets compared with
-// skulpt parser which uses javascript string offsets
-await runTests(doTest, { files, skip: new Set(["t542.py"]) });
+await runTests(doTest, { files });

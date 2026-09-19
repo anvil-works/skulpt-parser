@@ -104,7 +104,7 @@ export class Parser {
     }
 
     extra(start: number): [number, number, number, number] {
-        const START = this._tokens[start].start;
+        const START_TOKEN = this._tokens[start];
         let m = this._mark - 1;
         let END_TOKEN = this._tokens[m];
         while (m >= 0) {
@@ -114,8 +114,18 @@ export class Parser {
             }
             END_TOKEN = this._tokens[--m];
         }
-        const END = END_TOKEN.end;
-        return [START[0], START[1], END[0], END[1]];
+        return this.tokenRange(START_TOKEN, END_TOKEN);
+    }
+
+    tokenRange(first: TokenInfo, last = first): [number, number, number, number] {
+        const [line, column] = first.start;
+        const [endLine, endColumn] = last.end;
+        return [
+            line,
+            this._tok.positions.utf8Column(line, column),
+            endLine,
+            this._tok.positions.utf8Column(endLine, endColumn),
+        ];
     }
 
     peek(): TokenInfo {
@@ -135,7 +145,13 @@ export class Parser {
 
     raise_error(errType: typeof pySyntaxError, msg: string, ...formatArgs: string[]): never {
         const tok = this.diagnose();
-        return this.raise_error_known_location(errType, tok.start[0], tok.start[1] + 1, msg, ...formatArgs);
+        return this.raise_error_known_location(
+            errType,
+            tok.start[0],
+            this._tok.positions.utf8Column(...tok.start) + 1,
+            msg,
+            ...formatArgs
+        );
     }
 
     raise_error_known_location(
@@ -159,7 +175,9 @@ export class Parser {
         while (tok.lineno !== lineno && i > 0) {
             tok = this._tokens[--i];
         }
-        throw new errType(msg, [this.filename, lineno, offset, tok.line]);
+        // Grammar actions supply one-based UTF-8 offsets; diagnostics use code points.
+        const characterOffset = this._tok.positions.characterColumn(lineno, offset - 1) + 1;
+        throw new errType(msg, [this.filename, lineno, characterOffset, tok.line]);
     }
 
     raise_error_invalid_target(type: TARGETS_TYPE, e: expr | null): never {
@@ -173,7 +191,7 @@ export class Parser {
             return this.raise_error_known_location(
                 pySyntaxError,
                 invalidTarget.lineno,
-                invalidTarget.col_offset,
+                invalidTarget.col_offset + 1,
                 msg,
                 get_expr_name(invalidTarget)
             );
@@ -185,7 +203,7 @@ export class Parser {
         const tok = this.peek();
         if (tok.type === NAME && !KEYWORDS.has(tok.string)) {
             this._mark++;
-            return new Name(tok.string, Load, tok.start[0], tok.start[1], tok.end[0], tok.end[1]);
+            return new Name(tok.string, Load, ...this.tokenRange(tok));
         }
         return null;
     }
@@ -204,7 +222,7 @@ export class Parser {
         const tok = this.peek();
         if (tok.type === NUMBER) {
             this._mark++;
-            return new Constant(parsenumber(tok.string), null, tok.start[0], tok.start[1], tok.end[0], tok.end[1]);
+            return new Constant(parsenumber(tok.string), null, ...this.tokenRange(tok));
         }
         return null;
     }
