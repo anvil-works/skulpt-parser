@@ -34,6 +34,10 @@
         "./node": {
             "types": "./dist/node.d.ts",
             "import": "./dist/node.js"
+        },
+        "./core": {
+            "types": "./dist-core/python314/core.d.ts",
+            "import": "./dist-core/index.js"
         }
     },
     "dependencies": {

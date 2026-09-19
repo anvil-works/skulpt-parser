@@ -66,3 +66,15 @@ Parsing itself remains synchronous. The application owns loading and retry polic
 Public package exports still use the recovered parser. These new artifacts are internal integration options; neither Skulpt nor the IDE is switched automatically.
 
 The existing full suite passes all 3,670 tests, and the full browser package and ten-file live corpus checks pass. The separate browser-style core check verifies Unicode/numeric/bytes/raw behavior before loading any names, the capability error, loading/retrying with 140 CPython-derived named-escape cases, unknown/malformed-name diagnostics, and configuration isolation. Both chunks must be self-contained. CI also applies a generous 64 KiB gzip ceiling to the core specifically to catch accidental inclusion of the large name database.
+
+### Linked IDE entry
+
+`skulpt-parser/core` exports the lean `parseExpression` and `parseModule` functions,
+`scan` and `tokenize`, and their TypeScript declarations. Build it with
+`pnpm build:core` before linking it into Anvil. This entry imports no Unicode-name
+database. It adds token exports to the same core bundle rather than bundling a second
+copy of the lexer. The gzip size with these exports is 36,318 bytes.
+
+The default package entry remains the recovered legacy parser. Consumers must
+explicitly import `skulpt-parser/core` to select the new frontend. No package is
+published by this change.
