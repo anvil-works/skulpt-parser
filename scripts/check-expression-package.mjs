@@ -38,6 +38,10 @@ for (const source of selected) {
 }
 const moduleFixtures = JSON.parse(readFileSync("tests/fixtures/python314-modules.json", "utf8"));
 const selectedModules = [
+    "if x: pass\nelif y: return 1\nelif z: return 2\nelse: return 3",
+    "while x:\n    x -= 1\n    if x: continue\n    break\nelse:\n    done()\nafter()",
+    "for a,(b,[c,*rest]) in values:\n    pass",
+    "async for x,*rest in await source():\n    await use(x)\nelse:\n    done()",
     "from .....a.b import c",
     "type Alias[T = int, *Ts = *tuple[()], **P = ...] = tuple[T,*Ts]",
     "from __future__ import barry_as_FLUFL; x <> y",
