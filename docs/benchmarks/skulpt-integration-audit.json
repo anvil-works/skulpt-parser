@@ -1,0 +1,631 @@
+{
+    "node": "v26.7.0",
+    "skulptSha256": "29aa41f66d084b5826e6d386a5494b179d96a793607ebfc668cedc4752722e54",
+    "coreSha256": "3f9094267a9ae24d19a0e4b20a5ff4bcdc83f8bad4dec01f86e628bd00b32288",
+    "directSymboltable": {
+        "ok": true,
+        "dump": "Sym_type: module\nSym_name: top\nSym_lineno: 0\nSym_nested: False\nSym_haschildren: False\n-- Identifiers --\n"
+    },
+    "oldSymboltable": "Sym_type: module\nSym_name: top\nSym_lineno: 0\nSym_nested: False\nSym_haschildren: False\n-- Identifiers --\nname: x\n  is_referenced: False\n  is_imported: False\n  is_parameter: False\n  is_global: False\n  is_declared_global: False\n  is_local: True\n  is_free: False\n  is_assigned: True\n  is_namespace: False\n  namespaces: [\n  ]\n",
+    "cases": [
+        {
+            "name": "assignment",
+            "source": "x = 1",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Num",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'x'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Constant",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "literals",
+            "source": "x = (1, 9007199254740993, 1.5, 2j, 'text', b'bytes', True, None, ...)",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Tuple",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'x'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Tuple\",\"elts\":[{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}},{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"9007199254740993\"}},{\"_type\":\"Num\",\"n\":{\"pythonType\":\"float\",\"repr\":\"1.5\"}},{\"_type\":\"Num\",\"n\":{\"pythonType\":\"complex\",\"repr\":\"2j\"}},{\"_type\":\"Str\",\"s\":{\"pythonType\":\"str\",\"repr\":\"'text'\"}},{\"_type\":\"JoinedStr\",\"values\":[{\"_type\":\"Bytes\",\"s\":{\"pythonType\":\"str\",\"repr\":\"'bytes'\"}}]},{\"_type\":\"NameConstant\",\"value\":{\"pythonType\":\"bool\",\"repr\":\"True\"}},{\"_type\":\"NameConstant\",\"value\":{\"pythonType\":\"NoneType\",\"repr\":\"None\"}},{\"_type\":\"Ellipsis\"}],\"ctx\":{\"_type\":\"Load\"}}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Tuple",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Tuple\",\"elts\":[{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":{\"bigint\":\"9007199254740993\"}},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"float\",\"value\":1.5},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"complex\",\"real\":0,\"imag\":2},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"str\",\"value\":\"text\"},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"bytes\",\"value\":[98,121,116,101,115]},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"bool\",\"value\":true},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"none\"},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"ellipsis\"},\"kind\":null}],\"ctx\":{\"_type\":\"Load\"}},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "slices",
+            "source": "x = a[1, 2:3]",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Subscript",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'x'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Subscript\",\"value\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'a'\"},\"ctx\":{\"_type\":\"Load\"}},\"slice\":{\"_type\":\"ExtSlice\",\"dims\":[{\"_type\":\"Index\",\"value\":{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}}},{\"_type\":\"Slice\",\"lower\":{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"2\"}},\"upper\":{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"3\"}},\"step\":null}]},\"ctx\":{\"_type\":\"Load\"}}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Subscript",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Subscript\",\"value\":{\"_type\":\"Name\",\"id\":\"a\",\"ctx\":{\"_type\":\"Load\"}},\"slice\":{\"_type\":\"Tuple\",\"elts\":[{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null},{\"_type\":\"Slice\",\"lower\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":2},\"kind\":null},\"upper\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":3},\"kind\":null},\"step\":null}],\"ctx\":{\"_type\":\"Load\"}},\"ctx\":{\"_type\":\"Load\"}},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "function",
+            "source": "def f(a, *, b=2):\n    'doc'\n    return a + b",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "FunctionDef",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"FunctionDef\",\"name\":{\"pythonType\":\"str\",\"repr\":\"'f'\"},\"args\":{\"_type\":\"arguments\",\"args\":[{\"_type\":\"arg\",\"arg\":{\"pythonType\":\"str\",\"repr\":\"'a'\"},\"annotation\":null}],\"vararg\":null,\"kwonlyargs\":[{\"_type\":\"arg\",\"arg\":{\"pythonType\":\"str\",\"repr\":\"'b'\"},\"annotation\":null}],\"kw_defaults\":[{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"2\"}}],\"kwarg\":null,\"defaults\":[]},\"body\":[{\"_type\":\"Expr\",\"value\":{\"_type\":\"Str\",\"s\":{\"pythonType\":\"str\",\"repr\":\"'doc'\"}}},{\"_type\":\"Return\",\"value\":{\"_type\":\"BinOp\",\"left\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'a'\"},\"ctx\":{\"_type\":\"Load\"}},\"op\":{\"_type\":\"Add\"},\"right\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'b'\"},\"ctx\":{\"_type\":\"Load\"}}}}],\"decorator_list\":[],\"returns\":null,\"docstring\":null}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "FunctionDef",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"FunctionDef\",\"name\":\"f\",\"args\":{\"_type\":\"arguments\",\"posonlyargs\":[],\"args\":[{\"_type\":\"arg\",\"arg\":\"a\",\"annotation\":null,\"type_comment\":null}],\"vararg\":null,\"kwonlyargs\":[{\"_type\":\"arg\",\"arg\":\"b\",\"annotation\":null,\"type_comment\":null}],\"kw_defaults\":[{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":2},\"kind\":null}],\"kwarg\":null,\"defaults\":[]},\"body\":[{\"_type\":\"Expr\",\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"str\",\"value\":\"doc\"},\"kind\":null}},{\"_type\":\"Return\",\"value\":{\"_type\":\"BinOp\",\"left\":{\"_type\":\"Name\",\"id\":\"a\",\"ctx\":{\"_type\":\"Load\"}},\"op\":{\"_type\":\"Add\"},\"right\":{\"_type\":\"Name\",\"id\":\"b\",\"ctx\":{\"_type\":\"Load\"}}}}],\"decorator_list\":[],\"returns\":null,\"type_comment\":null,\"type_params\":[]}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "handler",
+            "source": "try:\n    pass\nexcept ValueError as error:\n    pass",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Try",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Try\",\"body\":[{\"_type\":\"Pass\"}],\"handlers\":[{\"_type\":\"ExceptHandler\",\"type\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'ValueError'\"},\"ctx\":{\"_type\":\"Load\"}},\"name\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'error'\"},\"ctx\":{\"_type\":\"Store\"}},\"body\":[{\"_type\":\"Pass\"}]}],\"orelse\":[],\"finalbody\":null}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Try",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Try\",\"body\":[{\"_type\":\"Pass\"}],\"handlers\":[{\"_type\":\"ExceptHandler\",\"type\":{\"_type\":\"Name\",\"id\":\"ValueError\",\"ctx\":{\"_type\":\"Load\"}},\"name\":\"error\",\"body\":[{\"_type\":\"Pass\"}]}],\"orelse\":[],\"finalbody\":[]}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "fstring",
+            "source": "x = f'{value!r:>10}'",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "JoinedStr",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'x'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"JoinedStr\",\"values\":[{\"_type\":\"Str\",\"s\":{\"pythonType\":\"str\",\"repr\":\"''\"}},{\"_type\":\"FormattedValue\",\"value\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'value'\"},\"ctx\":{\"_type\":\"Load\"}},\"conversion\":\"r\",\"format_spec\":{\"_type\":\"JoinedStr\",\"values\":[{\"_type\":\"Str\",\"s\":{\"pythonType\":\"str\",\"repr\":\"'>10'\"}}]}}]}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "JoinedStr",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"JoinedStr\",\"values\":[{\"_type\":\"FormattedValue\",\"value\":{\"_type\":\"Name\",\"id\":\"value\",\"ctx\":{\"_type\":\"Load\"}},\"conversion\":114,\"format_spec\":{\"_type\":\"JoinedStr\",\"values\":[{\"_type\":\"Constant\",\"value\":{\"type\":\"str\",\"value\":\">10\"},\"kind\":null}]}}]},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "posonly",
+            "source": "def f(a, /):\n    return a",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "parser": {
+                "ok": true,
+                "first": "FunctionDef",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"FunctionDef\",\"name\":\"f\",\"args\":{\"_type\":\"arguments\",\"posonlyargs\":[{\"_type\":\"arg\",\"arg\":\"a\",\"annotation\":null,\"type_comment\":null}],\"args\":[],\"vararg\":null,\"kwonlyargs\":[],\"kw_defaults\":[],\"kwarg\":null,\"defaults\":[]},\"body\":[{\"_type\":\"Return\",\"value\":{\"_type\":\"Name\",\"id\":\"a\",\"ctx\":{\"_type\":\"Load\"}}}],\"decorator_list\":[],\"returns\":null,\"type_comment\":null,\"type_params\":[]}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "walrus",
+            "source": "x = (y := 1)",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "NamedExpr",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"NamedExpr\",\"target\":{\"_type\":\"Name\",\"id\":\"y\",\"ctx\":{\"_type\":\"Store\"}},\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null}},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "match",
+            "source": "match x:\n    case 1: pass",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "parser": {
+                "ok": true,
+                "first": "Match",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Match\",\"subject\":{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Load\"}},\"cases\":[{\"_type\":\"match_case\",\"pattern\":{\"_type\":\"MatchValue\",\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null}},\"guard\":null,\"body\":[{\"_type\":\"Pass\"}]}]}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "except-star",
+            "source": "try:\n    pass\nexcept* ValueError:\n    pass",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 3"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 3"
+            },
+            "parser": {
+                "ok": true,
+                "first": "TryStar",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"TryStar\",\"body\":[{\"_type\":\"Pass\"}],\"handlers\":[{\"_type\":\"ExceptHandler\",\"type\":{\"_type\":\"Name\",\"id\":\"ValueError\",\"ctx\":{\"_type\":\"Load\"}},\"name\":null,\"body\":[{\"_type\":\"Pass\"}]}],\"orelse\":[],\"finalbody\":[]}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "type-params",
+            "source": "def f[T](x: T):\n    return x",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "parser": {
+                "ok": true,
+                "first": "FunctionDef",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"FunctionDef\",\"name\":\"f\",\"args\":{\"_type\":\"arguments\",\"posonlyargs\":[],\"args\":[{\"_type\":\"arg\",\"arg\":\"x\",\"annotation\":{\"_type\":\"Name\",\"id\":\"T\",\"ctx\":{\"_type\":\"Load\"}},\"type_comment\":null}],\"vararg\":null,\"kwonlyargs\":[],\"kw_defaults\":[],\"kwarg\":null,\"defaults\":[]},\"body\":[{\"_type\":\"Return\",\"value\":{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Load\"}}}],\"decorator_list\":[],\"returns\":null,\"type_comment\":null,\"type_params\":[{\"_type\":\"TypeVar\",\"name\":\"T\",\"bound\":null,\"default_value\":null}]}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "type-alias",
+            "source": "type X = int",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "parser": {
+                "ok": true,
+                "first": "TypeAlias",
+                "expression": "Name",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"TypeAlias\",\"name\":{\"_type\":\"Name\",\"id\":\"X\",\"ctx\":{\"_type\":\"Store\"}},\"type_params\":[],\"value\":{\"_type\":\"Name\",\"id\":\"int\",\"ctx\":{\"_type\":\"Load\"}}}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "template",
+            "source": "x = t'{value}'",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "TemplateStr",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"TemplateStr\",\"values\":[{\"_type\":\"Interpolation\",\"value\":{\"_type\":\"Name\",\"id\":\"value\",\"ctx\":{\"_type\":\"Load\"}},\"str\":{\"type\":\"str\",\"value\":\"value\"},\"conversion\":-1,\"format_spec\":null}]},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "async-function",
+            "source": "async def f():\n    await g()",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "parser": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: invalid syntax"
+            }
+        },
+        {
+            "name": "async-comprehension",
+            "source": "x = [y async for y in z]",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: bad input on line 1"
+            },
+            "parser": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: invalid syntax. Perhaps you forgot a comma?"
+            }
+        },
+        {
+            "name": "legacy-async",
+            "source": "async = await(1)",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Call",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'async'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Call\",\"func\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'await'\"},\"ctx\":{\"_type\":\"Load\"}},\"args\":[{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}}],\"keywords\":[]}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Call",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"async\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Call\",\"func\":{\"_type\":\"Name\",\"id\":\"await\",\"ctx\":{\"_type\":\"Load\"}},\"args\":[{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null}],\"keywords\":[]},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "nonlocal",
+            "source": "def f():\n    x = 1\n    def g():\n        nonlocal x\n        x = 2",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: Not implemented: nonlocal on line 4"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: Not implemented: nonlocal on line 4"
+            },
+            "parser": {
+                "ok": true,
+                "first": "FunctionDef",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"FunctionDef\",\"name\":\"f\",\"args\":{\"_type\":\"arguments\",\"posonlyargs\":[],\"args\":[],\"vararg\":null,\"kwonlyargs\":[],\"kw_defaults\":[],\"kwarg\":null,\"defaults\":[]},\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null},\"type_comment\":null},{\"_type\":\"FunctionDef\",\"name\":\"g\",\"args\":{\"_type\":\"arguments\",\"posonlyargs\":[],\"args\":[],\"vararg\":null,\"kwonlyargs\":[],\"kw_defaults\":[],\"kwarg\":null,\"defaults\":[]},\"body\":[{\"_type\":\"Nonlocal\",\"names\":[\"x\"]},{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":2},\"kind\":null},\"type_comment\":null}],\"decorator_list\":[],\"returns\":null,\"type_comment\":null,\"type_params\":[]}],\"decorator_list\":[],\"returns\":null,\"type_comment\":null,\"type_params\":[]}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "debugger",
+            "source": "debugger",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Debugger",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Debugger\"}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Expr",
+                "expression": "Name",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Expr\",\"value\":{\"_type\":\"Name\",\"id\":\"debugger\",\"ctx\":{\"_type\":\"Load\"}}}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "unicode-name",
+            "source": "x = '\\N{SNOWMAN}'",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Str",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'x'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Str\",\"s\":{\"pythonType\":\"str\",\"repr\":\"'\\\\\\\\N{SNOWMAN}'\"}}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": false,
+                "error": "UnicodeNameDatabaseRequired",
+                "message": "UnicodeNameDatabaseRequired: Unicode name escapes require the optional Unicode name database"
+            }
+        },
+        {
+            "name": "unicode-identifier",
+            "source": "K = 1",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Num",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'K'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Constant",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"K\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "scope-error",
+            "source": "return 1",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Return",
+                "expression": "Num",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Return\",\"value\":{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}}}]}"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: 'return' outside function on line 1"
+            },
+            "parser": {
+                "ok": true,
+                "first": "Return",
+                "expression": "Constant",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Return\",\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null}}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "syntax-error",
+            "source": "x = (",
+            "python2": false,
+            "flags": {},
+            "frontend": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: EOF in multi-line statement on line 3"
+            },
+            "compile": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: EOF in multi-line statement on line 3"
+            },
+            "parser": {
+                "ok": false,
+                "error": "SyntaxError",
+                "message": "SyntaxError: '(' was never closed"
+            }
+        },
+        {
+            "name": "print",
+            "source": "print 1,",
+            "python2": true,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Print",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Print\",\"dest\":null,\"values\":[{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}}],\"nl\":false}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Print",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Print\",\"dest\":null,\"values\":[{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null}],\"nl\":false}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "long",
+            "source": "x = 0755L",
+            "python2": true,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Num",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'x'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Num\",\"n\":{\"pythonType\":\"long\",\"repr\":\"493L\"}}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Constant",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":493,\"legacyLong\":true},\"kind\":null},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "legacy-raise",
+            "source": "raise ValueError, 'bad'",
+            "python2": true,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Raise",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Raise\",\"exc\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'ValueError'\"},\"ctx\":{\"_type\":\"Load\"}},\"cause\":null,\"inst\":{\"_type\":\"Str\",\"s\":{\"pythonType\":\"str\",\"repr\":\"'bad'\"}},\"tback\":null}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "LegacyRaise",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"LegacyRaise\",\"exc\":{\"_type\":\"Name\",\"id\":\"ValueError\",\"ctx\":{\"_type\":\"Load\"}},\"inst\":{\"_type\":\"Constant\",\"value\":{\"type\":\"str\",\"value\":\"bad\"},\"kind\":null},\"tback\":null}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "legacy-handler",
+            "source": "try:\n    pass\nexcept ValueError, obj.error:\n    pass",
+            "python2": true,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Try",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Try\",\"body\":[{\"_type\":\"Pass\"}],\"handlers\":[{\"_type\":\"ExceptHandler\",\"type\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'ValueError'\"},\"ctx\":{\"_type\":\"Load\"}},\"name\":{\"_type\":\"Attribute\",\"value\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'obj'\"},\"ctx\":{\"_type\":\"Load\"}},\"attr\":{\"pythonType\":\"str\",\"repr\":\"'error'\"},\"ctx\":{\"_type\":\"Store\"}},\"body\":[{\"_type\":\"Pass\"}]}],\"orelse\":[],\"finalbody\":null}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Try",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Try\",\"body\":[{\"_type\":\"Pass\"}],\"handlers\":[{\"_type\":\"LegacyExceptHandler\",\"type\":{\"_type\":\"Name\",\"id\":\"ValueError\",\"ctx\":{\"_type\":\"Load\"}},\"target\":{\"_type\":\"Attribute\",\"value\":{\"_type\":\"Name\",\"id\":\"obj\",\"ctx\":{\"_type\":\"Load\"}},\"attr\":\"error\",\"ctx\":{\"_type\":\"Store\"}},\"body\":[{\"_type\":\"Pass\"}]}],\"orelse\":[],\"finalbody\":[]}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "future-print",
+            "source": "from __future__ import print_function\nprint(1, 2)",
+            "python2": true,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "ImportFrom",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"ImportFrom\",\"module\":{\"pythonType\":\"str\",\"repr\":\"'__future__'\"},\"names\":[{\"_type\":\"alias\",\"name\":{\"pythonType\":\"str\",\"repr\":\"'print_function'\"},\"asname\":null}],\"level\":0},{\"_type\":\"Print\",\"dest\":null,\"values\":[{\"_type\":\"Tuple\",\"elts\":[{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}},{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"2\"}}],\"ctx\":{\"_type\":\"Load\"}}],\"nl\":true}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "ImportFrom",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"ImportFrom\",\"module\":\"__future__\",\"names\":[{\"_type\":\"alias\",\"name\":\"print_function\",\"asname\":null}],\"level\":0},{\"_type\":\"Print\",\"dest\":null,\"values\":[{\"_type\":\"Tuple\",\"elts\":[{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":2},\"kind\":null}],\"ctx\":{\"_type\":\"Load\"}}],\"nl\":true}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "configured-print",
+            "source": "print(1, 2)",
+            "python2": true,
+            "flags": {
+                "print_function": true
+            },
+            "frontend": {
+                "ok": true,
+                "first": "Expr",
+                "expression": "Call",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Expr\",\"value\":{\"_type\":\"Call\",\"func\":{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'print'\"},\"ctx\":{\"_type\":\"Load\"}},\"args\":[{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"1\"}},{\"_type\":\"Num\",\"n\":{\"pythonType\":\"int\",\"repr\":\"2\"}}],\"keywords\":[]}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Print",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Print\",\"dest\":null,\"values\":[{\"_type\":\"Tuple\",\"elts\":[{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":1},\"kind\":null},{\"_type\":\"Constant\",\"value\":{\"type\":\"int\",\"value\":2},\"kind\":null}],\"ctx\":{\"_type\":\"Load\"}}],\"nl\":true}],\"type_ignores\":[]}"
+            }
+        },
+        {
+            "name": "bytes-py2",
+            "source": "x = b'\\u1234'",
+            "python2": true,
+            "flags": {},
+            "frontend": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "JoinedStr",
+                "flags": 0,
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":{\"pythonType\":\"str\",\"repr\":\"'x'\"},\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"JoinedStr\",\"values\":[{\"_type\":\"Bytes\",\"s\":{\"pythonType\":\"str\",\"repr\":\"'\\\\\\\\u1234'\"}}]}}]}"
+            },
+            "compile": {
+                "ok": true
+            },
+            "parser": {
+                "ok": true,
+                "first": "Assign",
+                "expression": "Constant",
+                "ast": "{\"_type\":\"Module\",\"body\":[{\"_type\":\"Assign\",\"targets\":[{\"_type\":\"Name\",\"id\":\"x\",\"ctx\":{\"_type\":\"Store\"}}],\"value\":{\"_type\":\"Constant\",\"value\":{\"type\":\"bytes\",\"value\":[92,117,49,50,51,52]},\"kind\":null},\"type_comment\":null}],\"type_ignores\":[]}"
+            }
+        }
+    ]
+}
