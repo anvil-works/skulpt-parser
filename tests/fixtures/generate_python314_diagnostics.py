@@ -77,6 +77,41 @@ for source in [
 ]:
     sources.append((source, "eval"))
 
+for target in ["1", "True", "f()", "a+b", "(x for x in xs)", "[x for x in xs]", "{'a':x}", "{x}", "f'{x}'", "t'{x}'"]:
+    for source in [
+        f"{target} = value",
+        f"del {target}",
+        f"for {target} in xs: pass",
+        f"with resource as {target}: pass",
+    ]:
+        sources.append((source, "exec"))
+for source in [
+    "a,(b,1) = values",
+    "del [a,(b,f())]",
+    "del *a",
+    "del [*a]",
+    "for a,(b,1) in xs: pass",
+    "with resource as [a,1]: pass",
+    "def f((\n    a,\n                 b)): pass",
+    "a,b: int",
+    "[a]: int",
+    "f(): int",
+    "a,b += values",
+    "f() += value",
+    "(yield x) = value",
+    "(x+1 := value)",
+    "if x = 1: pass",
+    "if f() = 1: pass",
+    "import os as 1",
+    "import os as a+b",
+    "from os import name as f()",
+    "match x:\n    case 1 as _: pass",
+    "match x:\n    case 1 as f(): pass",
+    "résumé,(𝒙,1) = values",
+    "del résumé,(𝒙,f())",
+]:
+    sources.append((source, "exec"))
+
 cases = []
 for source, mode in sources:
     with warnings.catch_warnings(record=True) as caught:

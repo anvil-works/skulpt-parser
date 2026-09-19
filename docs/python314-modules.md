@@ -36,9 +36,9 @@ Grouped lookahead returns success/failure without fabricating an AST value. Othe
 
 The CPython-generated module fixture contains 451 complete AST/warning cases, 26 exact errors and 157 rejection cases. The final pattern slice adds 68 AST/warning cases, four exact numeric-pattern errors and 21 rejection cases. Earlier unsupported-pattern cases now succeed, so no deliberate statement-family rejection fixtures remain. Non-finite scalar values use JSON markers, preventing invalid JSON for overflow literals.
 
-The full suite passes 3,542 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
+The full suite passes 3,605 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
 
-The standalone migration bundle is 821,984 bytes raw / 243,238 gzip / 181,328 Brotli on Node 26.7.0, up 26,874 / 2,556 / 2,036 from #31. Totals include Unicode-name data. Public exports remain unchanged. No speed or memory improvement is claimed. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
+The standalone migration bundle is 830,797 bytes raw / 244,561 gzip / 182,355 Brotli on Node 26.7.0, up 8,813 / 1,323 / 1,027 from #32. Totals include Unicode-name data. Public exports remain unchanged. No speed or memory improvement is claimed. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check

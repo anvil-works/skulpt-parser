@@ -236,7 +236,10 @@ export class Parser {
         message = message.replace(/%[dsU]/g, () => String(values[i++]));
         const a = "start" in start ? [start.start[0], start.startByte] : [start.lineno!, start.col_offset!];
         const b = "end" in end ? [end.end[0], end.endByte] : [end.end_lineno!, end.end_col_offset!];
-        const line = this.source.split("\n")[a[0] - 1] ?? "";
+        const lines = this.source.split("\n");
+        const line = lines[a[0] - 1] ?? "";
+        // CPython converts both columns against the starting line, even for
+        // multiline ranges. Preserve that behavior rather than using the end line.
         const column = (byte: number) =>
             [...new TextDecoder().decode(new TextEncoder().encode(line).subarray(0, byte))].length + 1;
         throw Object.assign(new SyntaxError(message), {
@@ -245,7 +248,7 @@ export class Parser {
             offset: column(a[1]),
             end_lineno: b[0],
             end_offset: column(b[1]),
-            text: line + (this.mode === "exec" ? "\n" : ""),
+            text: line + (this.scanner.lineno <= a[0] && (this.mode === "exec" || a[0] < lines.length) ? "\n" : ""),
         });
     }
     error(message: string, token = this.tokens[this.tokens.length - 1]): SyntaxError {

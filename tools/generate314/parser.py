@@ -15,6 +15,8 @@ from pegen.parser_generator import ParserGenerator
 
 RULES = set(
     """
+invalid_named_expression invalid_assignment invalid_ann_assign_target invalid_del_stmt
+invalid_with_item invalid_for_target invalid_as_pattern invalid_dotted_as_name invalid_import_from_as_name
 invalid_block invalid_if_stmt invalid_elif_stmt invalid_else_stmt invalid_while_stmt
 invalid_for_stmt invalid_def_raw invalid_class_def_raw invalid_with_stmt invalid_with_stmt_indent
 invalid_finally_stmt invalid_except_stmt_indent invalid_except_star_stmt_indent
@@ -130,6 +132,8 @@ def action(text):
         if name == "CHECK_VERSION":
             assert int(args[1]) <= 14
             return action(args[3])
+        if name == "RAISE_SYNTAX_ERROR_INVALID_TARGET":
+            return f"diagnostics.invalidTarget(this, {json.dumps(args[0])}, {action(args[1])})"
         if name in {"RAISE_SYNTAX_ERROR", "RAISE_INDENTATION_ERROR"}:
             return f"this.raiseDiagnostic({str(name == 'RAISE_INDENTATION_ERROR').lower()}, {', '.join(action(arg) for arg in args)})"
         if name in {"RAISE_SYNTAX_ERROR_KNOWN_LOCATION", "RAISE_SYNTAX_ERROR_KNOWN_RANGE"}:
@@ -196,6 +200,7 @@ def action(text):
             "_PyPegen_get_patterns": lambda a: f"{a[1]}.map((pair: any) => pair.pattern)",
             "_PyPegen_ensure_real": lambda a: f"this.ensurePatternNumber({a[1]}, false)",
             "_PyPegen_ensure_imaginary": lambda a: f"this.ensurePatternNumber({a[1]}, true)",
+            "_PyPegen_get_expr_name": lambda a: f"diagnostics.expressionName({a[0]})",
             "_PyPegen_make_module": lambda a: f"finishModule(this, {a[1]} ?? [])",
             "_PyPegen_checked_future_import": lambda a: f"checkedImport(this, {', '.join(a[1:])})",
             "_PyPegen_seq_count_dots": lambda a: f"{a[0]}.reduce((sum: number, token: Token) => sum + token.string.length, 0)",
@@ -360,6 +365,7 @@ class Generator(ParserGenerator):
         self.print('import type { Token } from "./lexer/tokenizer.ts";')
         self.print('import { checkedImport, finishModule } from "./imports.ts";')
         self.print('import * as strings from "./strings.ts";')
+        self.print('import * as diagnostics from "./diagnostics.ts";')
         self.print('import { makeArguments } from "./parameters.ts";')
         self.print('import { Parser, memoize, memoizeLeftRec } from "./parser.ts";')
         self.print("export class GeneratedParser extends Parser {")
