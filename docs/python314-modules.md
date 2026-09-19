@@ -4,9 +4,9 @@ The internal `src/python314/frontend.ts` now exposes `parseExpression` and `pars
 
 ## Supported statement subset
 
-Module input supports blank/comment-only files, expression statements, ordinary/chained/unpacking assignments, annotated assignments, all augmented assignments, deletion, pass, yield, return, raise, assert, break, continue, global, nonlocal, imports, type aliases, if/elif/else, while and for/async-for loops, function/async-function definitions and class definitions. Statements can span logical lines or be separated by semicolons. Assignment and deletion targets preserve CPython's Store/Del contexts while attribute bases and subscript expressions remain Load. Parenthesized annotated names use `simple=0`; bare names use `simple=1`.
+Module input supports blank/comment-only files, expression statements, ordinary/chained/unpacking assignments, annotated assignments, all augmented assignments, deletion, pass, yield, return, raise, assert, break, continue, global, nonlocal, imports, type aliases, if/elif/else, while and for/async-for loops, function/async-function definitions, class definitions, with/async-with and try/except/except\*/else/finally. Statements can span logical lines or be separated by semicolons. Assignment and deletion targets preserve CPython's Store/Del contexts while attribute bases and subscript expressions remain Load. Parenthesized annotated names use `simple=0`; bare names use `simple=1`.
 
-With, try and match statements remain unsupported. A module containing one is rejected in full, including inside a supported block or when supported statements precede it. The parser does not return a successfully parsed prefix. Python 2 syntax and second-pass invalid-rule diagnostics remain separate work. The generator’s dependency check covers all non-diagnostic rules reachable from `eval` and `simple_stmt`; it does not claim complete `file` coverage.
+Match statements remain unsupported. A module containing one is rejected in full, including inside a supported block or when supported statements precede it. The parser does not return a successfully parsed prefix. Python 2 syntax and second-pass invalid-rule diagnostics remain separate work. The generator’s dependency check covers all non-diagnostic rules reachable from `eval` and `simple_stmt`; it does not claim complete `file` coverage.
 
 The entry points match CPython's default `type_comments=False`. Type comments and type-ignore comments are ordinary comments, `Assign.type_comment` is null and `Module.type_ignores` is empty. No option to enable type-comment parsing is exposed yet. The assignment action explicitly rejects an unexpected type-comment token instead of silently dropping one.
 
@@ -20,11 +20,11 @@ The scanner's parser stream now includes an EOF token for empty input, which per
 
 ## Verification and costs
 
-`tests/fixtures/generate_python314_modules.py` runs CPython 3.14.3 to produce 322 complete module AST/warning cases, 20 exact error cases and 116 rejection cases. Three additional project-contract cases first verify that CPython accepts the source, then check that this incomplete parser rejects the whole module when a later statement is unsupported. CI regenerates this fixture alongside the expression fixtures and generated parser.
+`tests/fixtures/generate_python314_modules.py` runs CPython 3.14.3 to produce 383 complete module AST/warning cases, 22 exact error cases and 136 rejection cases. Two additional project-contract cases first verify that CPython accepts the source, then check that this incomplete parser rejects the whole module when a later statement is unsupported. CI regenerates this fixture alongside the expression fixtures and generated parser.
 
-The full suite passes 3,283 tests with zero skips. The standalone browser smoke check covers 16 module sources as well as the existing 13 expression sources. Public package checks remain separate.
+The full suite passes 3,365 tests with zero skips. The standalone browser smoke check covers 19 module sources as well as the existing 13 expression sources. Public package checks remain separate.
 
-The standalone migration bundle is 774,347 bytes raw / 238,426 gzip / 177,730 Brotli on Node 26.7.0. Relative to #28, the increase is 11,769 / 1,148 / 832 bytes. These totals include Unicode-name data. No parsing-speed or memory improvement is claimed. The existing command names `build:expression` and `test:expression-package` now exercise the shared internal frontend, preserving the previous measurement path.
+The standalone migration bundle is 781,435 bytes raw / 239,168 gzip / 178,180 Brotli on Node 26.7.0. Relative to #29, the increase is 7,088 / 742 / 450 bytes. These totals include Unicode-name data. No parsing-speed or memory improvement is claimed. The existing command names `build:expression` and `test:expression-package` now exercise the shared internal frontend, preserving the previous measurement path.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check
@@ -55,7 +55,7 @@ The selected CPython `compound_stmt` alternatives now include `if_stmt`, `while_
 
 The generator implements forced string literals for the upstream `else` colon check. Failure stops parsing immediately with `expected ':'`; fixtures compare the full CPython error. `_PyPegen_register_stmts` is an identity action in this first-pass parser, matching CPython when invalid rules are disabled. Its diagnostic location tracking belongs with the later invalid-rule pass.
 
-This slice adds 36 complete AST/warning cases, three exact errors and 23 rejection cases. The previous unsupported `if` example is now a success case. Remaining boundary tests reject definitions and with statements inside supported blocks. Fixtures cover nested dedents, inline semicolons, Unicode positions, tabs, CR/CRLF, target contexts, ignored type comments and warning deduplication across branch backtracking.
+This slice adds 36 complete AST/warning cases, three exact errors and 23 rejection cases. The previous unsupported `if` example is now a success case. That slice retained boundary tests for definitions and with statements inside supported blocks; later slices convert them to success cases. Fixtures cover nested dedents, inline semicolons, Unicode positions, tabs, CR/CRLF, target contexts, ignored type comments and warning deduplication across branch backtracking.
 
 Full indentation diagnostics remain unfinished. A mismatched dedent is checked for CPython's rejection and exception class, but the existing direct-lexer error omits the final newline and end range supplied by `ast.parse`. Missing-block diagnostics still use the basic parser fallback until invalid rules are ported. These tests do not claim full error-message parity.
 
@@ -67,4 +67,12 @@ Class definitions use the existing call-argument grammar for bases and keyword a
 
 A grouped lookahead such as `&(NEWLINE INDENT)` needs only success/failure, so its generated helper returns true when the sequence matches. Other ambiguous semantic actions still fail generation. This covers the upstream function-type-comment rule without fabricating an AST node.
 
-This slice adds 49 complete AST/warning cases and 22 rejection cases. They cover annotations, defaults, generic definitions, decorator ordering/positions, nested definitions, async functions and Unicode names. The prior definition boundary examples now parse successfully; unsupported context managers and try statements remain whole-module rejection checks. Duplicate parameters and similar restrictions accepted by `ast.parse` remain compiler checks.
+This slice adds 49 complete AST/warning cases and 22 rejection cases. They cover annotations, defaults, generic definitions, decorator ordering/positions, nested definitions, async functions and Unicode names. The prior definition boundary examples now parse successfully; that slice retained context managers and try statements as whole-module rejection checks, converted below to success cases. Duplicate parameters and similar restrictions accepted by `ast.parse` remain compiler checks.
+
+## Context managers and exception handling
+
+Selected upstream rules now produce `With`, `AsyncWith`, `Try`, `TryStar` and `ExceptHandler`. Context-manager bindings use existing target-context conversion. Exception aliases use normalized identifier strings. Empty handler, else and finally sequences become arrays. No new runtime helper is required; `try` and `finally` reuse forced colon checks.
+
+The grammar includes Python 3.14's unparenthesized exception tuples, such as `except A, B:` and `except* A, B:`. An alias on multiple types still requires parentheses. Bare handlers, multiple handlers, optional else/finally and nested context managers follow the pinned grammar. Compiler checks such as a bare handler preceding another handler remain outside `ast.parse` compatibility.
+
+This slice adds 61 complete AST/warning cases, two exact forced-colon errors and 20 rejection cases from CPython. Coverage includes mixed handler-kind rejection, bindings, async forms, Unicode alias locations, type comments, nesting and return in finally. Prior unsupported with/try examples now succeed; only match statements remain as explicit unsupported module boundaries.

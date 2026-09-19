@@ -319,6 +319,54 @@ sources.extend(
     ]
 )
 
+for prefix in ("with", "async with"):
+    for items in (
+        "resource",
+        "factory() as value",
+        "a as x, b as y",
+        "(a as x, b as y,)",
+        "(resource)",
+        "((a,b))",
+        "a as (x,y)",
+        "a as [x,*rest]",
+        "a as obj.attr",
+        "a as obj[index]",
+        "a as factory().attr",
+        "(\n    a as x,\n    b as y,\n)",
+        "café as résumé",
+    ):
+        sources.append(f"{prefix} {items}:\n    use()")
+sources.extend(
+    [
+        "for x in xs:\n    with resource: pass",
+        "def f():\n    pass\n    with resource: pass",
+        "class C:\n    try: pass\n    finally: pass",
+        "with (): pass",
+        "with resource: a=1; b=2",
+        "with resource: # type: Resource\n    pass",
+        "async with resource: # type: Resource\n    pass",
+        "with a:\n    with b: pass\nafter()",
+        "async def f():\n    async with a as x:\n        await use(x)",
+        "try: pass\nfinally: cleanup()",
+        "try: pass\nexcept: handle()",
+        "try: pass\nexcept E as e: handle(e)",
+        "try: pass\nexcept E1: one()\nexcept E2: two()\nexcept: fallback()",
+        "try: pass\nexcept E: handle()\nelse: success()\nfinally: cleanup()",
+        "try: pass\nexcept* E as e: handle(e)",
+        "try: pass\nexcept* E1: one()\nexcept* E2: two()\nelse: success()\nfinally: cleanup()",
+        "try:\n    try: pass\n    finally: inner()\nexcept E:\n    handle()\nfinally:\n    outer()\nafter()",
+        "try: pass\nexcept café as résumé: use(résumé)",
+        "try: pass\nexcept E as 𝒙: use(𝒙)",
+        "try: pass\nexcept: pass\nexcept E: pass",
+        "def f():\n    try: return 1\n    finally: return 2",
+        "try: pass\nfinally: x = '\\q'",
+        "try:\r\n\tpass\r\nexcept E:\r\n\tpass\r\n",
+    ]
+)
+for kind in ("except", "except*"):
+    for types in ("A,B", "A,B,", "(A,B)", "(A,B) as e", "factory()", "E if flag else F"):
+        sources.append(f"try: pass\n{kind} {types}: pass")
+
 cases = []
 for source in sources:
     with warnings.catch_warnings(record=True) as caught:
@@ -334,6 +382,26 @@ for source in sources:
 # Rejection parity only until invalid-rule diagnostic actions are ported.
 rejections = []
 for source in [
+    "with: pass",
+    "with x pass",
+    "with x as: pass",
+    "with x as 1: pass",
+    "with x as f(): pass",
+    "with x as a+b: pass",
+    "with x,: pass",
+    "with (x as a: pass",
+    "async with x pass",
+    "try: pass",
+    "try: pass\nelse: pass",
+    "try: pass\nexcept E as: pass",
+    "try: pass\nexcept A,B as e: pass",
+    "try: pass\nexcept* A,B as e: pass",
+    "try: pass\nexcept*: pass",
+    "try: pass\nexcept E: pass\nexcept* F: pass",
+    "try: pass\nexcept* E: pass\nexcept F: pass",
+    "try: pass\nfinally: pass\nexcept E: pass",
+    "except E: pass",
+    "finally: pass",
     "def f: pass",
     "def f(: pass",
     "def f() pass",
@@ -459,6 +527,8 @@ for source in [
         raise AssertionError(f"Expected syntax rejection: {source}")
 errors = []
 for source in [
+    "try pass",
+    "try: pass\nfinally pass",
     "if x: pass\nelse pass",
     "while x: pass\nelse pass",
     "for x in xs: pass\nelse pass",
@@ -501,9 +571,8 @@ for source in [
 # Valid CPython modules outside this migration slice must not be returned as
 # successfully parsed prefixes. These are project boundary tests, not parity.
 unsupported = [
-    "for x in xs:\n    with resource: pass",
-    "def f():\n    pass\n    with resource: pass",
-    "class C:\n    try: pass\n    finally: pass",
+    "def f():\n    match value:\n        case _: pass",
+    "try: pass\nfinally:\n    match value:\n        case _: pass",
 ]
 for source in unsupported:
     ast.parse(source, mode="exec")
