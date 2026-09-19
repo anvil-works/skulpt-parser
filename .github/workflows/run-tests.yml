@@ -51,5 +51,6 @@ jobs:
             - run: python tests/fixtures/generate_python314_numbers.py
             - run: python tests/fixtures/generate_python314_expressions.py
             - run: python tests/fixtures/generate_python314_modules.py
+            - run: python tests/fixtures/generate_python314_diagnostics.py
             - run: python tests/fixtures/generate_python314_lexer.py
             - run: git diff --exit-code -- tests/fixtures/*.json

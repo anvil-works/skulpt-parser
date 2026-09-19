@@ -71,6 +71,21 @@ for (const source of selectedModules) {
     assert.deepEqual(JSON.parse(JSON.stringify(tree)), fixture.tree);
     assert.deepEqual(warnings, fixture.warnings);
 }
+const diagnostics = JSON.parse(readFileSync("tests/fixtures/python314-diagnostics.json", "utf8"));
+for (const source of ["if x:\npass", "def f(a=1,b): pass", "lambda *:1"]) {
+    const fixture = diagnostics.cases.find((item) => item.source === source);
+    assert.ok(fixture, `Missing CPython diagnostic fixture: ${source}`);
+    let failure;
+    try {
+        module.namespace[fixture.mode === "exec" ? "parseModule" : "parseExpression"](source);
+    } catch (error) {
+        failure = error;
+    }
+    assert.ok(failure, `Expected rejection: ${source}`);
+    const actual = { name: failure.name, message: failure.message };
+    for (const key of ["lineno", "offset", "end_lineno", "end_offset", "text"]) actual[key] = failure[key] ?? null;
+    assert.deepEqual(actual, fixture.error);
+}
 console.log(
     JSON.stringify(
         {

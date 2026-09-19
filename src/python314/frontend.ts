@@ -7,15 +7,11 @@ import type { LexerOptions } from "./lexer/tokenizer.ts";
 /** Internal migration entry point. See tools/generate314/README.md for supported grammar. */
 export function parseExpression(source: string, options: Omit<LexerOptions, "extraTokens"> = {}): Expression {
     const parser = new GeneratedParser(source, options, "eval");
-    const result = parser.eval();
-    if (result === null) throw parser.error("invalid syntax");
-    return result;
+    return parser.parse(() => parser.eval());
 }
 
-/** Internal module entry point. Statement coverage is still being migrated. */
+/** Internal module entry point. See docs/python314-modules.md for the compatibility boundary. */
 export function parseModule(source: string, options: Omit<LexerOptions, "extraTokens"> = {}): Module {
     const parser = new GeneratedParser(source, options, "exec");
-    const result = parser.file();
-    if (result === null) throw parser.error("invalid syntax");
-    return result;
+    return parser.parse(() => parser.file());
 }

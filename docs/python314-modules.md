@@ -26,9 +26,9 @@ Future imports preserve two upstream behaviors. The checked import action enable
 
 ## Diagnostics and generator actions
 
-Second-pass `invalid_*` diagnostics remain unimplemented. Forced string literals retain upstream committed failures, including `expected ':'`. `_PyPegen_register_stmts` is an identity action while invalid rules are disabled, matching CPython. Its location tracking belongs with the later diagnostic pass.
+A second pass now enables selected upstream `invalid_*` diagnostics after normal parsing fails. See `python314-diagnostics.md` for coverage. Forced string literals retain upstream committed failures, including `expected ':'`. `_PyPegen_register_stmts` remains an identity action because CPython's internal last-statement metadata is not exposed by this frontend.
 
-Missing-block errors still use the basic parser fallback. Mismatched dedents match CPython's rejection and exception class, but direct-lexer errors omit the final newline and end range supplied by `ast.parse`. Unexpected indentation has a tested CPython diagnostic. Parser-created file-input errors include the implicit final newline. Full error parity is not claimed.
+Missing-block errors now use upstream diagnostic rules. Mismatched dedents match CPython's rejection and exception class, but direct-lexer errors omit the final newline and end range supplied by `ast.parse`. Unexpected indentation has a tested CPython diagnostic. Parser-created file-input errors include the implicit final newline. Full error parity is not claimed.
 
 Grouped lookahead returns success/failure without fabricating an AST value. Other ambiguous semantic actions and unknown action calls fail generation. Memoization follows upstream annotations; per-rule performance tuning remains future measured work.
 
@@ -36,9 +36,9 @@ Grouped lookahead returns success/failure without fabricating an AST value. Othe
 
 The CPython-generated module fixture contains 451 complete AST/warning cases, 26 exact errors and 157 rejection cases. The final pattern slice adds 68 AST/warning cases, four exact numeric-pattern errors and 21 rejection cases. Earlier unsupported-pattern cases now succeed, so no deliberate statement-family rejection fixtures remain. Non-finite scalar values use JSON markers, preventing invalid JSON for overflow literals.
 
-The full suite passes 3,456 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
+The full suite passes 3,542 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
 
-The standalone migration bundle is 795,110 bytes raw / 240,682 gzip / 179,292 Brotli on Node 26.7.0, up 13,675 / 1,514 / 1,112 from #30. Totals include Unicode-name data. Public exports remain unchanged. No speed or memory improvement is claimed. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
+The standalone migration bundle is 821,984 bytes raw / 243,238 gzip / 181,328 Brotli on Node 26.7.0, up 26,874 / 2,556 / 2,036 from #31. Totals include Unicode-name data. Public exports remain unchanged. No speed or memory improvement is claimed. The existing `build:expression` and `test:expression-package` commands exercise the shared frontend.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check
