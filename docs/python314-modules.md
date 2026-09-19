@@ -4,9 +4,9 @@ The internal `src/python314/frontend.ts` now exposes `parseExpression` and `pars
 
 ## Supported statement subset
 
-Module input supports blank/comment-only files, expression statements, ordinary/chained/unpacking assignments, annotated assignments, all augmented assignments, deletion, pass, yield, return, raise, assert, break, continue, global, nonlocal, imports, type aliases, if/elif/else, while and for/async-for loops. Statements can span logical lines or be separated by semicolons. Assignment and deletion targets preserve CPython's Store/Del contexts while attribute bases and subscript expressions remain Load. Parenthesized annotated names use `simple=0`; bare names use `simple=1`.
+Module input supports blank/comment-only files, expression statements, ordinary/chained/unpacking assignments, annotated assignments, all augmented assignments, deletion, pass, yield, return, raise, assert, break, continue, global, nonlocal, imports, type aliases, if/elif/else, while and for/async-for loops, function/async-function definitions and class definitions. Statements can span logical lines or be separated by semicolons. Assignment and deletion targets preserve CPython's Store/Del contexts while attribute bases and subscript expressions remain Load. Parenthesized annotated names use `simple=0`; bare names use `simple=1`.
 
-Function/class definitions, with, try and match statements remain unsupported. A module containing one is rejected in full, including inside a supported block or when supported statements precede it. The parser does not return a successfully parsed prefix. Python 2 syntax and second-pass invalid-rule diagnostics remain separate work. The generator’s dependency check covers all non-diagnostic rules reachable from `eval` and `simple_stmt`; it does not claim complete `file` coverage.
+With, try and match statements remain unsupported. A module containing one is rejected in full, including inside a supported block or when supported statements precede it. The parser does not return a successfully parsed prefix. Python 2 syntax and second-pass invalid-rule diagnostics remain separate work. The generator’s dependency check covers all non-diagnostic rules reachable from `eval` and `simple_stmt`; it does not claim complete `file` coverage.
 
 The entry points match CPython's default `type_comments=False`. Type comments and type-ignore comments are ordinary comments, `Assign.type_comment` is null and `Module.type_ignores` is empty. No option to enable type-comment parsing is exposed yet. The assignment action explicitly rejects an unexpected type-comment token instead of silently dropping one.
 
@@ -20,11 +20,11 @@ The scanner's parser stream now includes an EOF token for empty input, which per
 
 ## Verification and costs
 
-`tests/fixtures/generate_python314_modules.py` runs CPython 3.14.3 to produce 273 complete module AST/warning cases, 20 exact error cases and 94 rejection cases. Three additional project-contract cases first verify that CPython accepts the source, then check that this incomplete parser rejects the whole module when a later statement is unsupported. CI regenerates this fixture alongside the expression fixtures and generated parser.
+`tests/fixtures/generate_python314_modules.py` runs CPython 3.14.3 to produce 322 complete module AST/warning cases, 20 exact error cases and 116 rejection cases. Three additional project-contract cases first verify that CPython accepts the source, then check that this incomplete parser rejects the whole module when a later statement is unsupported. CI regenerates this fixture alongside the expression fixtures and generated parser.
 
-The full suite passes 3,212 tests with zero skips. The standalone browser smoke check covers 13 module sources as well as the existing 13 expression sources. Public package checks remain separate.
+The full suite passes 3,283 tests with zero skips. The standalone browser smoke check covers 16 module sources as well as the existing 13 expression sources. Public package checks remain separate.
 
-The standalone migration bundle is 762,578 bytes raw / 237,278 gzip / 176,898 Brotli on Node 26.7.0. Relative to #27, the increase is 4,298 / 521 / 354 bytes. These totals include Unicode-name data. No parsing-speed or memory improvement is claimed. The existing command names `build:expression` and `test:expression-package` now exercise the shared internal frontend, preserving the previous measurement path.
+The standalone migration bundle is 774,347 bytes raw / 238,426 gzip / 177,730 Brotli on Node 26.7.0. Relative to #28, the increase is 11,769 / 1,148 / 832 bytes. These totals include Unicode-name data. No parsing-speed or memory improvement is claimed. The existing command names `build:expression` and `test:expression-package` now exercise the shared internal frontend, preserving the previous measurement path.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check
@@ -58,3 +58,13 @@ The generator implements forced string literals for the upstream `else` colon ch
 This slice adds 36 complete AST/warning cases, three exact errors and 23 rejection cases. The previous unsupported `if` example is now a success case. Remaining boundary tests reject definitions and with statements inside supported blocks. Fixtures cover nested dedents, inline semicolons, Unicode positions, tabs, CR/CRLF, target contexts, ignored type comments and warning deduplication across branch backtracking.
 
 Full indentation diagnostics remain unfinished. A mismatched dedent is checked for CPython's rejection and exception class, but the existing direct-lexer error omits the final newline and end range supplied by `ast.parse`. Missing-block diagnostics still use the basic parser fallback until invalid rules are ported. These tests do not claim full error-message parity.
+
+## Function and class definitions
+
+Function definitions reuse the lambda argument assembly helper for positional-only parameters, defaults, variadic arguments and keyword-only parameters. The selected function rules add annotations, return annotations and type parameters. Parameter and function type comments remain ignored, matching the current `type_comments=False` contract. The translated argument actions reject an unexpected type-comment token rather than discard it silently.
+
+Class definitions use the existing call-argument grammar for bases and keyword arguments. Python decorators attach a new `decorator_list` to a copied definition node, retaining the raw definition's source location as CPython does. This supports Python decorator expressions; it does not introduce legacy TypeScript decorators. Missing decorator/type-parameter sequences become empty arrays.
+
+A grouped lookahead such as `&(NEWLINE INDENT)` needs only success/failure, so its generated helper returns true when the sequence matches. Other ambiguous semantic actions still fail generation. This covers the upstream function-type-comment rule without fabricating an AST node.
+
+This slice adds 49 complete AST/warning cases and 22 rejection cases. They cover annotations, defaults, generic definitions, decorator ordering/positions, nested definitions, async functions and Unicode names. The prior definition boundary examples now parse successfully; unsupported context managers and try statements remain whole-module rejection checks. Duplicate parameters and similar restrictions accepted by `ast.parse` remain compiler checks.

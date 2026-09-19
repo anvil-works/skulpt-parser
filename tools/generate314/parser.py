@@ -17,6 +17,10 @@ RULES = set(
     """
 file statements statement simple_stmts simple_stmt assignment augassign
 compound_stmt block if_stmt elif_stmt else_block while_stmt for_stmt
+decorators class_def class_def_raw function_def function_def_raw func_type_comment
+params parameters slash_no_default slash_with_default star_etc kwds
+param_no_default param_no_default_star_annotation param_with_default param_maybe_default
+param param_star_annotation annotation star_annotation
 single_target single_subscript_attribute_target del_targets del_target del_t_atom
 return_stmt raise_stmt pass_stmt break_stmt continue_stmt global_stmt nonlocal_stmt
 del_stmt yield_stmt assert_stmt
@@ -121,6 +125,12 @@ def action(text):
                 args[2] = f"({args[2]} ?? [])"
             if name in {"For", "AsyncFor"}:
                 args[3] = f"({args[3]} ?? [])"
+            if name in {"FunctionDef", "AsyncFunctionDef"}:
+                args[3] = "[]"
+                args[6] = f"({args[6]} ?? [])"
+            if name == "ClassDef":
+                args[4] = "[]"
+                args[5] = f"({args[5]} ?? [])"
             if name == "TypeAlias":
                 args[1] = f"({args[1]} ?? [])"
             if name == "Call":
@@ -144,10 +154,12 @@ def action(text):
             translated = [action(arg) for arg in args[1:] if arg != "p -> arena"]
             return f"strings.{method}(this, {', '.join(translated)})"
         if name == "_PyPegen_name_default_pair":
-            if args[3] != "NULL":
-                raise ValueError("Parameter type comments are not implemented")
-            return f"{{arg: {action(args[1])}, value: {action(args[2])}}}"
+            pair = f"{{arg: {action(args[1])}, value: {action(args[2])}}}"
+            return pair if args[3] == "NULL" else f"(this.typeComment({action(args[3])}), {pair})"
         helper = {
+            "_PyPegen_add_type_comment_to_arg": lambda a: f"(this.typeComment({a[2]}), {a[1]})",
+            "_PyPegen_function_def_decorators": lambda a: f"{{...{a[2]}, decorator_list: {a[1]}}}",
+            "_PyPegen_class_def_decorators": lambda a: f"{{...{a[2]}, decorator_list: {a[1]}}}",
             "_PyPegen_make_module": lambda a: f"finishModule(this, {a[1]} ?? [])",
             "_PyPegen_checked_future_import": lambda a: f"checkedImport(this, {', '.join(a[1:])})",
             "_PyPegen_seq_count_dots": lambda a: f"{a[0]}.reduce((sum: number, token: Token) => sum + token.string.length, 0)",
@@ -257,13 +269,17 @@ class Calls(GrammarVisitor):
         name = self.cache[node]
         return name, f"this.{name}()"
 
+    def lookahead(self, node, positive):
+        name, call = self.visit(node.node)
+        if node.node.__class__.__name__ == "Group":
+            self.gen.lookahead_groups.add(name)
+        return None, f"this.lookahead(() => {call}, {str(positive).lower()})"
+
     def visit_PositiveLookahead(self, node):
-        _, call = self.visit(node.node)
-        return None, f"this.lookahead(() => {call}, true)"
+        return self.lookahead(node, True)
 
     def visit_NegativeLookahead(self, node):
-        _, call = self.visit(node.node)
-        return None, f"this.lookahead(() => {call}, false)"
+        return self.lookahead(node, False)
 
     def visit_Forced(self, node):
         if node.node.__class__.__name__ != "StringLeaf":
@@ -279,6 +295,7 @@ class Generator(ParserGenerator):
     def __init__(self, grammar, tokens, file):
         super().__init__(grammar, tokens, file)
         self.callmakervisitor = Calls(self)
+        self.lookahead_groups = set()
 
     def generate(self, filename):
         self.collect_rules()
@@ -339,6 +356,9 @@ class Generator(ParserGenerator):
                 result = f"[{names[0]}, ...{names[1]}]"
             elif len(names) == 1:
                 result = names[0]
+            elif rule.name in self.lookahead_groups:
+                # Lookahead only consumes success/failure, never a semantic value.
+                result = "true"
             else:
                 raise ValueError(f"Ambiguous default action: {rule.name}: {names}")
             # CPython represents empty ASDL sequences as NULL; structural ASTs use arrays.
