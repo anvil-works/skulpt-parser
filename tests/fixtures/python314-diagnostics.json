@@ -5550,6 +5550,370 @@
                 "text": "t\"{x=foo}\""
             },
             "warnings": []
+        },
+        {
+            "source": "(a b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'(' was never closed",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "(a b\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(\na b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'(' was never closed",
+                "lineno": 1,
+                "offset": 1,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "("
+            },
+            "warnings": []
+        },
+        {
+            "source": "x y\n(",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "x y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x y\n]",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "unmatched ']'",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 1,
+                "text": "]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f(a=1,2",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'(' was never closed",
+                "lineno": 1,
+                "offset": 2,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "f(a=1,2\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x\n(",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expected ':'",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "if x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x\n\"bad",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "unterminated string literal (detected at line 2)",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 1,
+                "text": "\"bad"
+            },
+            "warnings": []
+        },
+        {
+            "source": "a = (\n x y\n",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'(' was never closed",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "a = ("
+            },
+            "warnings": []
+        },
+        {
+            "source": "x y\n  a\n b",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "x y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x y\n0b2",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid digit '2' in binary literal",
+                "lineno": 2,
+                "offset": 3,
+                "end_lineno": 2,
+                "end_offset": 3,
+                "text": "0b2"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x y\n\\x",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "x y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x y\nf'{a}'",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "x y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x y\nf'{a b}'",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 4,
+                "text": "x y\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "(\nif x\n)",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 2,
+                "offset": 1,
+                "end_lineno": 2,
+                "end_offset": 3,
+                "text": "if x\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "r\u00e9sum\u00e9 = (\n x y\n",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "'(' was never closed",
+                "lineno": 1,
+                "offset": 10,
+                "end_lineno": 1,
+                "end_offset": 0,
+                "text": "r\u00e9sum\u00e9 = ("
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x\n# comment\n]",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "unmatched ']'",
+                "lineno": 3,
+                "offset": 1,
+                "end_lineno": 3,
+                "end_offset": 1,
+                "text": "]"
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x y}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Perhaps you forgot a comma?",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "f\"{x y}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x y\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: expecting '}'",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "f\"{x y\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{(x y)}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Perhaps you forgot a comma?",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "f\"{(x y)}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{(x y\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: expecting '}'",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "f\"{(x y\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "f\"{x if}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "f-string: expecting '=', or '!', or ':', or '}'",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "f\"{x if}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x y}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Perhaps you forgot a comma?",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "t\"{x y}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x y\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: expecting '}'",
+                "lineno": 1,
+                "offset": 7,
+                "end_lineno": 1,
+                "end_offset": 7,
+                "text": "t\"{x y\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{(x y)}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax. Perhaps you forgot a comma?",
+                "lineno": 1,
+                "offset": 5,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "t\"{(x y)}\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{(x y\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: expecting '}'",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "t\"{(x y\""
+            },
+            "warnings": []
+        },
+        {
+            "source": "t\"{x if}\"",
+            "mode": "eval",
+            "error": {
+                "name": "SyntaxError",
+                "message": "t-string: expecting '=', or '!', or ':', or '}'",
+                "lineno": 1,
+                "offset": 6,
+                "end_lineno": 1,
+                "end_offset": 8,
+                "text": "t\"{x if}\""
+            },
+            "warnings": []
         }
     ]
 }

@@ -82,6 +82,9 @@ for (const source of [
     "print x",
     'f"{x!1}"',
     "type A[] = int",
+    "résumé = (\n x y\n",
+    "x y\n]",
+    'f"{x y"',
 ]) {
     const fixture = diagnostics.cases.find((item) => item.source === source);
     assert.ok(fixture, `Missing CPython diagnostic fixture: ${source}`);
