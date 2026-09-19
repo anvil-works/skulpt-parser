@@ -94,6 +94,7 @@ for _ in range(100):
         + rng.choice(["", "\n", "\r", "\x00", "\\", '"', "'", "}", "{", "\t", "é", "#", "!", "\f", "\u200b"])
         + source[end:]
     )
+sources.extend(["x <> y", "from __future__ import barry_as_FLUFL\nx <> y"])
 fixtures = {
     "version": lock["version"],
     "cases": [

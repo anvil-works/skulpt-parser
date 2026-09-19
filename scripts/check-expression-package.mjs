@@ -38,6 +38,9 @@ for (const source of selected) {
 }
 const moduleFixtures = JSON.parse(readFileSync("tests/fixtures/python314-modules.json", "utf8"));
 const selectedModules = [
+    "from .....a.b import c",
+    "type Alias[T = int, *Ts = *tuple[()], **P = ...] = tuple[T,*Ts]",
+    "from __future__ import barry_as_FLUFL; x <> y",
     "",
     "a,(b,[c,*rest]) = values",
     "x = 1; y = x + 1;",
