@@ -1,6 +1,6 @@
 # Python 3.14 module parsing
 
-The internal `src/python314/frontend.ts` exposes `parseExpression` and `parseModule`, returning structural `Expression` and `Module` ASTs. Both use the same generated parser. Public package exports still use the recovered parser; Skulpt and IDE integration remain separate work.
+The public `@anvil-works/skulpt-parser/core` entry exposes `parseExpression` and `parseModule`, returning structural `Expression` and `Module` ASTs. Both use the same generated parser. The package root retains the recovered Python 3.9 API; use `/core` for Python 3.14 integration.
 
 ## Grammar coverage
 
@@ -20,7 +20,7 @@ Pattern matching includes literal/singleton, capture, wildcard, value, group, se
 
 The entry points match `ast.parse` with default `type_comments=False`. Type comments and type-ignore comments remain ordinary comments; AST type-comment fields are null and `Module.type_ignores` is empty. No option to enable them is exposed. Translated actions reject unexpected type-comment tokens rather than silently discard them.
 
-Compatibility targets AST parsing, not subsequent compilation. Scope restrictions, duplicate parameters/captures, unreachable cases, duplicate pattern keys, bare-except ordering and other compiler checks that `ast.parse` accepts remain deferred. Python 2 compatibility is also separate work.
+Compatibility targets AST parsing, not subsequent compilation. Scope restrictions, duplicate parameters/captures, unreachable cases, duplicate pattern keys, bare-except ordering and other compiler checks that `ast.parse` accepts remain deferred. The separate opt-in Python 2 mode is documented in `python2-compatibility.md`.
 
 Future imports preserve two upstream behaviors. The checked import action enables `barry_as_FLUFL` for subsequent comparisons in that parser instance. The lexer recognizes both `!=` and `<>`; the parser enforces the active spelling. Ordinary and relative imports do not enable the flag. Module finalization follows `Python/future.c`, checking only the leading absolute future-import block after an optional docstring. Misplaced future imports retain CPython's AST-only behavior. This is not a general Python 2 mode.
 
@@ -38,7 +38,7 @@ The CPython-generated module fixture contains 451 complete AST/warning cases, 26
 
 The full suite passes 3,670 tests with zero skips. Browser smoke covers 13 expressions and 22 modules. CI regenerates parser output and fixtures. A live corpus check compares complete ASTs and warnings for ten files from the pinned interpreter's standard library: ast, dataclasses, enum, typing, contextlib, inspect, pathlib, asyncio/tasks, json/decoder and unittest/mock. Expectations come from CPython at runtime; the built TypeScript parser is the implementation under test.
 
-The full migration bundle is 867,000 bytes raw / 249,508 gzip / 185,615 Brotli on Node 26.7.0. A separate core entry point excludes the optional Unicode-name database and is 36,244 bytes gzip; see `python314-unicode-size.md` for loading behavior and both artifact sizes. Public exports remain unchanged. Earlier timing measurements and their limitations are documented in `python314-performance.md`. The existing `build:expression` and `test:expression-package` commands exercise the full frontend; `build:core` and `test:core-package` check the optional split.
+The full migration bundle is 867,000 bytes raw / 249,508 gzip / 185,615 Brotli on Node 26.7.0. A separate core entry point excludes the optional Unicode-name database and is 36,244 bytes gzip; see `python314-unicode-size.md` for loading behavior and both artifact sizes. The public `/core` export exposes the lean frontend; see the package README for current scoped imports. Earlier timing measurements and their limitations are documented in `python314-performance.md`. The existing `build:expression` and `test:expression-package` commands exercise the full frontend; `build:core` and `test:core-package` check the optional split.
 
 ```sh
 python3.14 -m tools.generate314 --parser --check

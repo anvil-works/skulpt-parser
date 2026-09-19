@@ -1,59 +1,107 @@
-# Skulpt parser migration baseline
+# @anvil-works/skulpt-parser
 
-This branch restores a buildable, testable Python 3.9 frontend before the planned Python 3.14 migration. It starts at upstream `master` revision `ae256889f0956d6dc102edd39f1a9555e97e850b`. Migration work integrates through the `next` branch; implementation PRs target `next` rather than `master`. It is a private development package, not a new parser release.
+A JavaScript parser and tokenizer targeting CPython 3.14.3, with opt-in compatibility
+for the Python 2 syntax supported by Skulpt. This is a development release. Parsing
+produces an AST; it does not supply Python execution or all compiler semantic checks.
 
-The [agreed migration route](https://github.com/anvil-works/skulpt-parser/issues/8#issuecomment-5673603629) is minimal baseline recovery, strict Python 3.14 source-to-AST, bounded Python 2 compatibility, then independent IDE and Skulpt adoption gates. WASM work is stopped. Cache tuning is deferred.
+## Python 3.14 frontend
 
-## Build and test
+Use the lean `/core` entry for browser and IDE consumers:
 
-Use Node 22 or later, pnpm 10.10.0 and CPython **3.9.25**. The checked-in generated parser still derives from CPython **3.9.5**; the test oracle patch version is pinned separately. The oracle rejects a different interpreter/version rather than silently comparing against a different AST schema.
+```js
+import { parseModule, parseExpression, scan } from "@anvil-works/skulpt-parser/core";
+
+const module = parseModule("answer = 42\n", { filename: "example.py" });
+const expression = parseExpression("answer + 1");
+const tokens = [...scan("answer = 42\n")];
+```
+
+AST nodes follow CPython's structure with a `_type` discriminant. Source locations
+use UTF-8 byte columns. Large integer values use native JavaScript BigInt. The
+initial browser target requires native BigInt; there is no pre-2020 fallback.
+Invalid source throws a positioned syntax error. Successful parsing, like
+`ast.parse`, does not imply the program passes subsequent compiler checks.
+
+The core includes Unicode identifiers and numeric character escapes. Unicode-name
+escapes such as `"\\N{SNOWMAN}"` require the separately loaded name database:
+
+```js
+import { parseExpression } from "@anvil-works/skulpt-parser/core";
+import { unicodeName } from "@anvil-works/skulpt-parser/unicode-names";
+
+const tree = parseExpression('"\\N{SNOWMAN}"', { unicodeName });
+```
+
+Without that resolver, a named escape raises `UnicodeNameDatabaseRequired`.
+Importing `/core` does not load the name database. The published tarball includes
+both bundles, but consumers only load the entry points they import.
+
+For existing Skulpt clients, select compatibility explicitly:
+
+```js
+parseModule("print 0755L\n", { python2Compat: true, legacyAsyncNames: true });
+```
+
+`legacyAsyncNames` independently allows `async` and `await` as identifiers.
+`printFunction` enables the configured Python 2 `print_function` behavior.
+Compatibility is bounded by existing Skulpt applications, not complete historical
+Python 2 support. See [the compatibility contract](https://github.com/anvil-works/skulpt-parser/blob/dev/docs/python2-compatibility.md).
+
+## Legacy entry points
+
+The package root retains the original Python 3.9 frontend. It is not the Python
+3.14 API. Its Node filesystem helpers are separate:
+
+```js
+import { runParserFromString } from "@anvil-works/skulpt-parser";
+import { runParserFromFile } from "@anvil-works/skulpt-parser/node";
+```
+
+New integrations should use `/core`. The legacy entry points remain for migration;
+Skulpt compiler integration still uses an adapter rather than a rewritten compiler.
+
+## Development
+
+Use Node 22 or later and pnpm 10.10.0. Legacy tests require CPython 3.9.25; Python
+3.14 generation and live corpus comparisons require CPython 3.14.3.
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm check
-pnpm build
 PYTHON=/path/to/python3.9 pnpm test
+pnpm test:release
+pnpm build
+pnpm build:core
 pnpm test:package
+pnpm test:core-package
+pnpm test:python314-corpus
 ```
 
-`PYTHON` defaults to `python3.9`. For example, with uv available, `uv python install 3.9.25` installs the required reference interpreter. Set `PYTHON` to its executable if your default Python 3.9 differs.
+Generation consumes checksum-pinned CPython inputs without modifying a sibling
+checkout. See [generation instructions](https://github.com/anvil-works/skulpt-parser/blob/dev/tools/generate314/README.md) and
+[upstream input preparation](https://github.com/anvil-works/skulpt-parser/blob/dev/tools/upstream/README.md). Historical migration
+measurements and decisions live under `docs/`.
 
-`pnpm test` runs the existing TypeScript AST dump, parsing, symbol-table and optimizer suites under Rstest, plus a persistent-oracle regression test. Each test worker lazily starts one Python process, sends requests over JSON lines and closes it after its suite. The original Python dump helpers remain the reference implementation. No Python process is included in the shipped frontend.
+## Development releases
 
-Run one suite with `pnpm test tests/parse.test.ts`. To select fixture files, retain the existing `_TESTFILES` convention:
+The first scoped version is `0.0.1-dev.0`. Review changes before integrating them
+into `dev`; `master` is not the development-release branch. From a clean, reviewed
+`dev` checkout, the maintainer publishes with:
 
 ```sh
-_TESTFILES='["t001.py"]' PYTHON=/path/to/python3.9 pnpm test tests/parse.test.ts
+pnpm publish --tag dev --publish-branch dev
 ```
 
-`pnpm check` checks the source TypeScript. `pnpm test:package` checks package exports, Node file parsing, declaration-file presence and execution of the web bundle in an isolated JS context without Node/Deno globals or external imports. This is a host-dependency smoke test, not a real-browser compatibility suite. It also reports raw, gzip and Brotli sizes.
+`prepublishOnly` rejects a missing tag, `latest`, and other tags, and requires an
+`X.Y.Z-dev.N` version. Unlike the existing CLI release workflow, this first release
+does not require a previously published stable version. `prepack` rebuilds the
+legacy and core bundles. Increment the prerelease number for subsequent publishes.
+Do not bypass lifecycle scripts when publishing.
 
-## Build outputs
+After publication, consumers can pin `@anvil-works/skulpt-parser@0.0.1-dev.0` and
+import its `/core` entry. The mutable `dev` tag is for choosing a release, not a
+substitute for an exact version in a reproducible application build.
 
-Rslib emits an ES2020 ESM web entry at `dist/index.js` and declarations rooted at `dist/mod.d.ts`. The `skulpt-parser` entry exposes the existing string tokenizer, parser and symbol-table operations. Node filesystem helpers are exported through `skulpt-parser/node`, with `dist/node.js` and `dist/node.d.ts`. The web entry does not import Node filesystem APIs.
-
-```js
-import { runParserFromString } from "skulpt-parser";
-import { runParserFromFile } from "skulpt-parser/node";
-
-const ast = runParserFromString("x = 42\n");
-const fileAst = runParserFromFile("example.py");
-```
-
-These are recovered baseline APIs, not the final agreed Python 3.14 API. Native BigInt is required for the initial target; this work does not add a pre-2020 browser fallback. Legacy decorators remain enabled for the existing generated parser. Moving generator output to modern decorators belongs with the later generation migration.
-
-## Python 3.14 generation inputs
-
-The next stage has a separate, checksum-pinned source preparation path. Run `pnpm upstream:prepare`, then `pnpm upstream:check` with CPython 3.14.3 installed. This validates upstream grammar, token definitions and AST layouts without modifying a sibling CPython checkout. Run `pnpm generate:ast` to generate the structural Python 3.14 AST types and factories; `pnpm generate:check` verifies the checked-in output. These are internal migration modules, not yet connected to the parser or exported from the package root. The parser backend and its semantic helpers still need migration. See [pinned input commands and scope](tools/upstream/README.md).
-
-## Known gaps and retained legacy files
-
-- AST columns use UTF-8 byte offsets, including Unicode strings and nested f-string expressions. Tokenizer positions remain JavaScript UTF-16 offsets; parser diagnostics use one-based character offsets. The previously skipped `t542.py` fixture is enabled.
-- The Python-driven `tests/test_peg_parser.py` harness is not part of the recovered Rstest suite. It still invokes Deno and depends on CPython's private `_peg_parser` and `test.support`. The installed standalone CPython 3.9.25 lacks `test.support`. Port its useful cases when establishing the 3.14 conformance suite; the passing TypeScript suite does not imply that harness passes.
-- Parser/ASDL regeneration is not recovered in this step. `tools/`, `scripts.yml` and the old Deno scripts remain historical references. The old generator checks out and patches a sibling CPython tree and invokes Velociraptor. Do not run it against a working sibling checkout. The new isolated input commands above are ready; the structural AST generator consumes them now. Adapting the parser backend and its semantic helpers is the next stage.
-- CI now runs the recovered build, source checks, TypeScript suites and package smoke check. It does not claim to replace the legacy generator or Python PEG checks; those remain explicit gaps above.
-- Grammar, generated AST/parser, diagnostics, scalar representation and memoization policy are unchanged. Some parser rules benefit from caching and others regress. Future tuning must measure individual rules and preserve the distinct left-recursion algorithm requirements.
-
-See [baseline evidence](docs/baseline-recovery.md) for measured results and scope.
-
-The [Python 3.14 expression migration](docs/python314-expression.md) now has an internal source-to-AST path and a standalone browser build. It remains a grammar subset and is not the package’s public parser.
+The package includes project, CPython and Unicode license notices. Test fixtures,
+benchmark reports, generator inputs and development tooling are excluded from the
+published file set.

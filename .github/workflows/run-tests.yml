@@ -2,7 +2,7 @@ name: baseline-tests
 on:
     pull_request:
     push:
-        branches: [master, next]
+        branches: [master, next, dev]
 permissions:
     contents: read
 jobs:
@@ -19,6 +19,7 @@ jobs:
               with:
                   python-version: "3.9.25"
             - run: pnpm install --frozen-lockfile
+            - run: pnpm test:release
             - run: pnpm check
             - run: pnpm build
             - run: pnpm test
