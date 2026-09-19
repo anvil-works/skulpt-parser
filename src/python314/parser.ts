@@ -21,35 +21,40 @@ type Located = { lineno: number; col_offset: number; end_lineno: number | null; 
 
 type Memo = { value: any; end: number };
 type Rule = (this: Parser) => any;
+// Decorators allocate stable slots once when the generated class is initialized.
+// Each parser still owns its cache rows; left-recursion seeds and pass reset are unchanged.
+let nextMemoId = 0;
 
-export function memoize(_target: Parser, name: string, descriptor: PropertyDescriptor): void {
+export function memoize(_target: Parser, _name: string, descriptor: PropertyDescriptor): void {
     const rule: Rule = descriptor.value;
+    const memoId = nextMemoId++;
     descriptor.value = function (this: Parser): any {
         const start = this.mark;
         const cache = this.cacheAt(start);
-        const hit = cache.get(name);
+        const hit = cache[memoId];
         if (hit) {
             this.mark = hit.end;
             return hit.value;
         }
         const value = rule.call(this);
-        cache.set(name, { value, end: this.mark });
+        cache[memoId] = { value, end: this.mark };
         return value;
     };
 }
 
-export function memoizeLeftRec(_target: Parser, name: string, descriptor: PropertyDescriptor): void {
+export function memoizeLeftRec(_target: Parser, _name: string, descriptor: PropertyDescriptor): void {
     const rule: Rule = descriptor.value;
+    const memoId = nextMemoId++;
     descriptor.value = function (this: Parser): any {
         const start = this.mark;
         const cache = this.cacheAt(start);
-        const hit = cache.get(name);
+        const hit = cache[memoId];
         if (hit) {
             this.mark = hit.end;
             return hit.value;
         }
         const seed: Memo = { value: null, end: start };
-        cache.set(name, seed);
+        cache[memoId] = seed;
         for (;;) {
             this.mark = start;
             const value = rule.call(this);
@@ -70,7 +75,7 @@ export class Parser {
     readonly legacyAsyncNames: boolean;
     callInvalidRules = false;
     private tokens: Token[] = [];
-    private cache: Map<string, Memo>[] = [];
+    private cache: (Memo | undefined)[][] = [];
     private iterator: Generator<Token>;
     private scanner: Scanner;
     private lexicalFailure = false;
@@ -165,8 +170,8 @@ export class Parser {
         }
         throw error;
     }
-    cacheAt(mark: number): Map<string, Memo> {
-        return this.cache[mark] ?? (this.cache[mark] = new Map());
+    cacheAt(mark: number): (Memo | undefined)[] {
+        return this.cache[mark] ?? (this.cache[mark] = []);
     }
     peek(): Token {
         if (this.mark === this.tokens.length) {

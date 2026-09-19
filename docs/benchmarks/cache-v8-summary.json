@@ -1,0 +1,526 @@
+{
+    "baselineCommit": "2e0fd625b6eb5175403f2f189419525bec3079c6",
+    "node": "v26.7.0",
+    "heap": [
+        {
+            "variant": "Map",
+            "workload": "small",
+            "parses": 143458,
+            "sampledBytes": 2134690512,
+            "sampledBytesPerParse": 14880.247264007585,
+            "topSelfAllocations": [
+                ["set", 476715144],
+                ["make", 196948024],
+                ["atom", 160049072],
+                ["compound_stmt", 124805136],
+                ["simple_stmt", 107535384],
+                ["parseNumber", 88807656],
+                ["Parser", 84256488],
+                ["Map", 77946488]
+            ],
+            "bundleSha256": "9f8b3796d16fc40b5f086ff2c5661632d3576d43c93f094db7e533ebf7df6ee3"
+        },
+        {
+            "variant": "Map",
+            "workload": "synthetic-editor-module",
+            "parses": 755,
+            "sampledBytes": 1275676472,
+            "sampledBytesPerParse": 1689637.7112582782,
+            "topSelfAllocations": [
+                ["set", 223443704],
+                ["make", 190668440],
+                ["atom", 90044120],
+                ["descriptor.value", 55510032],
+                ["Map", 53090272],
+                ["Set", 41025200],
+                ["push", 40008328],
+                ["param", 33644464]
+            ],
+            "bundleSha256": "9f8b3796d16fc40b5f086ff2c5661632d3576d43c93f094db7e533ebf7df6ee3"
+        },
+        {
+            "variant": "Map",
+            "workload": "synthetic-long-line",
+            "parses": 362,
+            "sampledBytes": 1306982296,
+            "sampledBytesPerParse": 3610448.3314917125,
+            "topSelfAllocations": [
+                ["set", 270489712],
+                ["make", 197821712],
+                ["parseNumber", 147116288],
+                ["named_expression", 133096728],
+                ["atom", 122243688],
+                ["Map", 66029808],
+                ["_gather_123", 63091856],
+                ["descriptor.value", 54565608]
+            ],
+            "bundleSha256": "9f8b3796d16fc40b5f086ff2c5661632d3576d43c93f094db7e533ebf7df6ee3"
+        },
+        {
+            "variant": "Map",
+            "workload": "synthetic-unicode",
+            "parses": 850,
+            "sampledBytes": 1417672896,
+            "sampledBytesPerParse": 1667850.465882353,
+            "topSelfAllocations": [
+                ["set", 286799088],
+                ["make", 189534264],
+                ["atom", 86279736],
+                ["subarray", 78636792],
+                ["_loop1_15", 76247272],
+                ["compound_stmt", 72421240],
+                ["Map", 62878272],
+                ["name", 57008744]
+            ],
+            "bundleSha256": "9f8b3796d16fc40b5f086ff2c5661632d3576d43c93f094db7e533ebf7df6ee3"
+        },
+        {
+            "variant": "Map",
+            "workload": "typing.py",
+            "parses": 40,
+            "sampledBytes": 1134124464,
+            "sampledBytesPerParse": 28353111.6,
+            "topSelfAllocations": [
+                ["set", 211787552],
+                ["make", 177890024],
+                ["atom", 76765208],
+                ["Map", 47504088],
+                ["Set", 37793968],
+                ["descriptor.value", 34037360],
+                ["compound_stmt", 33860632],
+                ["_loop1_3", 28078064]
+            ],
+            "bundleSha256": "9f8b3796d16fc40b5f086ff2c5661632d3576d43c93f094db7e533ebf7df6ee3"
+        },
+        {
+            "variant": "Map",
+            "workload": "json/decoder.py",
+            "parses": 321,
+            "sampledBytes": 1078819984,
+            "sampledBytesPerParse": 3360809.919003115,
+            "topSelfAllocations": [
+                ["set", 209794696],
+                ["make", 171022352],
+                ["atom", 72366248],
+                ["Map", 47110200],
+                ["compound_stmt", 35130400],
+                ["Set", 35127936],
+                ["descriptor.value", 32527424],
+                ["decode", 28793272]
+            ],
+            "bundleSha256": "9f8b3796d16fc40b5f086ff2c5661632d3576d43c93f094db7e533ebf7df6ee3"
+        },
+        {
+            "variant": "Map",
+            "workload": "invalid-editor",
+            "parses": 22789,
+            "sampledBytes": 574809376,
+            "sampledBytesPerParse": 25223.106586511036,
+            "topSelfAllocations": [
+                ["make", 95374640],
+                ["name", 43983968],
+                ["Set", 31538656],
+                ["raiseKnown", 28794608],
+                ["Map", 25806064],
+                ["makeArguments", 21741992],
+                ["ast_arg", 21130912],
+                ["error", 20303224]
+            ],
+            "bundleSha256": "9f8b3796d16fc40b5f086ff2c5661632d3576d43c93f094db7e533ebf7df6ee3"
+        },
+        {
+            "variant": "Slots",
+            "workload": "small",
+            "parses": 186802,
+            "sampledBytes": 2313913888,
+            "sampledBytesPerParse": 12386.986691791308,
+            "topSelfAllocations": [
+                ["make", 254497000],
+                ["atom", 204783384],
+                ["single_subscript_attribute_target", 182422008],
+                ["compound_stmt", 160819328],
+                ["simple_stmt", 142626704],
+                ["parseNumber", 114658768],
+                ["target_with_star_atom", 112001024],
+                ["Parser", 108739088]
+            ],
+            "bundleSha256": "30e0a0cff0e7699500a0826a16c069622fbbc594e93d6150ae2d076fee1ee208"
+        },
+        {
+            "variant": "Slots",
+            "workload": "synthetic-editor-module",
+            "parses": 926,
+            "sampledBytes": 1358783072,
+            "sampledBytesPerParse": 1467368.3282937366,
+            "topSelfAllocations": [
+                ["make", 236138864],
+                ["atom", 111923368],
+                ["inversion", 81563120],
+                ["descriptor.value", 78814368],
+                ["Set", 48739112],
+                ["push", 43228408],
+                ["param", 43130864],
+                ["disjunction", 37377608]
+            ],
+            "bundleSha256": "30e0a0cff0e7699500a0826a16c069622fbbc594e93d6150ae2d076fee1ee208"
+        },
+        {
+            "variant": "Slots",
+            "workload": "synthetic-long-line",
+            "parses": 293,
+            "sampledBytes": 885622976,
+            "sampledBytesPerParse": 3022604.013651877,
+            "topSelfAllocations": [
+                ["number", 168418080],
+                ["make", 163435552],
+                ["named_expression", 122282040],
+                ["descriptor.value", 111128120],
+                ["atom", 57059168],
+                ["_gather_123", 50803264],
+                ["conjunction", 29998968],
+                ["bitwise_or", 24328720]
+            ],
+            "bundleSha256": "30e0a0cff0e7699500a0826a16c069622fbbc594e93d6150ae2d076fee1ee208"
+        },
+        {
+            "variant": "Slots",
+            "workload": "synthetic-unicode",
+            "parses": 1018,
+            "sampledBytes": 1478981688,
+            "sampledBytesPerParse": 1452830.7347740668,
+            "topSelfAllocations": [
+                ["make", 219970856],
+                ["target_with_star_atom", 132634424],
+                ["atom", 106489048],
+                ["single_subscript_attribute_target", 102514912],
+                ["_loop1_15", 96551728],
+                ["subarray", 95736160],
+                ["compound_stmt", 84952216],
+                ["name", 69713328]
+            ],
+            "bundleSha256": "30e0a0cff0e7699500a0826a16c069622fbbc594e93d6150ae2d076fee1ee208"
+        },
+        {
+            "variant": "Slots",
+            "workload": "typing.py",
+            "parses": 40,
+            "sampledBytes": 974353600,
+            "sampledBytesPerParse": 24358840.0,
+            "topSelfAllocations": [
+                ["make", 177810920],
+                ["atom", 71746144],
+                ["descriptor.value", 59328632],
+                ["Set", 41384192],
+                ["inversion", 41073104],
+                ["single_subscript_attribute_target", 33535456],
+                ["compound_stmt", 32407648],
+                ["push", 30591224]
+            ],
+            "bundleSha256": "30e0a0cff0e7699500a0826a16c069622fbbc594e93d6150ae2d076fee1ee208"
+        },
+        {
+            "variant": "Slots",
+            "workload": "json/decoder.py",
+            "parses": 412,
+            "sampledBytes": 1189508256,
+            "sampledBytesPerParse": 2887155.9611650486,
+            "topSelfAllocations": [
+                ["make", 216115752],
+                ["atom", 97955336],
+                ["descriptor.value", 87177808],
+                ["single_subscript_attribute_target", 50460944],
+                ["Set", 45601856],
+                ["compound_stmt", 45396832],
+                ["decode", 33629560],
+                ["assignment", 32405560]
+            ],
+            "bundleSha256": "30e0a0cff0e7699500a0826a16c069622fbbc594e93d6150ae2d076fee1ee208"
+        },
+        {
+            "variant": "Slots",
+            "workload": "invalid-editor",
+            "parses": 23584,
+            "sampledBytes": 585966808,
+            "sampledBytesPerParse": 24845.946743554952,
+            "topSelfAllocations": [
+                ["make", 99975272],
+                ["descriptor.value", 46702744],
+                ["name", 46215568],
+                ["Set", 32688848],
+                ["raiseKnown", 28728728],
+                ["makeArguments", 21085896],
+                ["target_with_star_atom", 20092936],
+                ["ast_arg", 19687360]
+            ],
+            "bundleSha256": "30e0a0cff0e7699500a0826a16c069622fbbc594e93d6150ae2d076fee1ee208"
+        }
+    ],
+    "cpu": [
+        {
+            "variant": "Map",
+            "workload": "invalid-editor",
+            "durationUs": 1522625,
+            "cacheSelfPercent": 4.149413020277482,
+            "gcPercent": 0.2887119284131024,
+            "topSelfFunctionsUs": [
+                ["raiseKnown", 503514],
+                ["error", 358012],
+                ["make", 104366],
+                ["name", 63101],
+                ["descriptor.value", 46092],
+                ["normal", 43648],
+                ["peek", 29897],
+                ["raiseLocation", 28415],
+                ["post", 22897],
+                ["#encode", 22144]
+            ]
+        },
+        {
+            "variant": "Map",
+            "workload": "synthetic-editor-module",
+            "durationUs": 1529376,
+            "cacheSelfPercent": 30.03002531751512,
+            "gcPercent": 2.0676406586738647,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 360737],
+                ["name", 155250],
+                ["literal", 121015],
+                ["normal", 113749],
+                ["peek", 99751],
+                ["cacheAt", 98535],
+                ["make", 51230],
+                ["(program)", 34040],
+                ["(garbage collector)", 31622],
+                ["post", 29406]
+            ]
+        },
+        {
+            "variant": "Map",
+            "workload": "synthetic-long-line",
+            "durationUs": 1536650,
+            "cacheSelfPercent": 38.76295838349657,
+            "gcPercent": 2.238180457488693,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 464645],
+                ["parseNumber", 136882],
+                ["literal", 133475],
+                ["cacheAt", 131006],
+                ["peek", 107392],
+                ["normal", 67430],
+                ["make", 55088],
+                ["(program)", 36553],
+                ["post", 35955],
+                ["(garbage collector)", 34393]
+            ]
+        },
+        {
+            "variant": "Map",
+            "workload": "small",
+            "durationUs": 1527328,
+            "cacheSelfPercent": 33.91033229273607,
+            "gcPercent": 3.286392968635421,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 423444],
+                ["literal", 101756],
+                ["peek", 98610],
+                ["cacheAt", 94478],
+                ["#encode", 72883],
+                ["name", 53540],
+                ["(garbage collector)", 50194],
+                ["parseNumber", 46573],
+                ["normal", 43282],
+                ["(program)", 40589]
+            ]
+        },
+        {
+            "variant": "Map",
+            "workload": "json_decoder_py",
+            "durationUs": 1524142,
+            "cacheSelfPercent": 23.976834179492464,
+            "gcPercent": 3.2634754504501546,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 299274],
+                ["make", 211988],
+                ["name", 131241],
+                ["normal", 106942],
+                ["literal", 105705],
+                ["peek", 70608],
+                ["cacheAt", 66167],
+                ["(garbage collector)", 49740],
+                ["scan", 33284],
+                ["next", 31402]
+            ]
+        },
+        {
+            "variant": "Map",
+            "workload": "synthetic-unicode",
+            "durationUs": 1517577,
+            "cacheSelfPercent": 24.083127248238476,
+            "gcPercent": 0.9594241346567587,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 287635],
+                ["name", 236613],
+                ["decodeUTF8", 107883],
+                ["decode", 103316],
+                ["normal", 78415],
+                ["cacheAt", 77845],
+                ["literal", 76881],
+                ["peek", 68895],
+                ["make", 43063],
+                ["next", 37981]
+            ]
+        },
+        {
+            "variant": "Map",
+            "workload": "typing_py",
+            "durationUs": 1563851,
+            "cacheSelfPercent": 21.49226492805261,
+            "gcPercent": 5.5107551806406105,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 253474],
+                ["make", 199137],
+                ["name", 149561],
+                ["literal", 106999],
+                ["normal", 89899],
+                ["(garbage collector)", 86180],
+                ["cacheAt", 82633],
+                ["peek", 72309],
+                ["post", 46378],
+                ["next", 45352]
+            ]
+        },
+        {
+            "variant": "Slots",
+            "workload": "invalid-editor",
+            "durationUs": 1523559,
+            "cacheSelfPercent": 3.2234393285721126,
+            "gcPercent": 0.14702417169272736,
+            "topSelfFunctionsUs": [
+                ["raiseKnown", 490593],
+                ["error", 339340],
+                ["make", 96024],
+                ["name", 60213],
+                ["normal", 47300],
+                ["raiseLocation", 43682],
+                ["descriptor.value", 35627],
+                ["peek", 33612],
+                ["literal", 28367],
+                ["post", 23782]
+            ]
+        },
+        {
+            "variant": "Slots",
+            "workload": "synthetic-editor-module",
+            "durationUs": 1538281,
+            "cacheSelfPercent": 19.297579570962654,
+            "gcPercent": 2.2616154005672566,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 186385],
+                ["name", 183048],
+                ["literal", 157533],
+                ["normal", 140137],
+                ["cacheAt", 110466],
+                ["peek", 105297],
+                ["make", 59803],
+                ["scan", 47288],
+                ["post", 37220],
+                ["(garbage collector)", 34790]
+            ]
+        },
+        {
+            "variant": "Slots",
+            "workload": "synthetic-long-line",
+            "durationUs": 1518654,
+            "cacheSelfPercent": 26.280377228782857,
+            "gcPercent": 1.7681446860180132,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 256739],
+                ["literal", 160444],
+                ["parseNumber", 145652],
+                ["cacheAt", 142369],
+                ["peek", 138675],
+                ["normal", 110786],
+                ["make", 56939],
+                ["scan", 35972],
+                ["named_expression", 34554],
+                ["number", 31424]
+            ]
+        },
+        {
+            "variant": "Slots",
+            "workload": "small",
+            "durationUs": 1521373,
+            "cacheSelfPercent": 18.344350793658094,
+            "gcPercent": 3.6077280193614585,
+            "topSelfFunctionsUs": [
+                ["descriptor.value", 160232],
+                ["literal", 145143],
+                ["peek", 124909],
+                ["cacheAt", 118854],
+                ["statements", 81773],
+                ["#encode", 81244],
+                ["name", 71183],
+                ["(garbage collector)", 54887],
+                ["normal", 53743],
+                ["parseNumber", 51771]
+            ]
+        },
+        {
+            "variant": "Slots",
+            "workload": "json_decoder_py",
+            "durationUs": 1545824,
+            "cacheSelfPercent": 12.72428167760366,
+            "gcPercent": 4.4922966650795955,
+            "topSelfFunctionsUs": [
+                ["make", 263182],
+                ["name", 146028],
+                ["descriptor.value", 129460],
+                ["literal", 117104],
+                ["normal", 104894],
+                ["peek", 82416],
+                ["(garbage collector)", 69443],
+                ["cacheAt", 67235],
+                ["next", 45529],
+                ["post", 44906]
+            ]
+        },
+        {
+            "variant": "Slots",
+            "workload": "synthetic-unicode",
+            "durationUs": 1517474,
+            "cacheSelfPercent": 15.008560278462763,
+            "gcPercent": 1.534853315443955,
+            "topSelfFunctionsUs": [
+                ["name", 248958],
+                ["descriptor.value", 150119],
+                ["decodeUTF8", 125555],
+                ["decode", 118660],
+                ["literal", 94624],
+                ["peek", 84941],
+                ["normal", 82275],
+                ["cacheAt", 77632],
+                ["strictText", 45299],
+                ["make", 39504]
+            ]
+        },
+        {
+            "variant": "Slots",
+            "workload": "typing_py",
+            "durationUs": 1530350,
+            "cacheSelfPercent": 13.82945077923351,
+            "gcPercent": 9.941516646518771,
+            "topSelfFunctionsUs": [
+                ["make", 212860],
+                ["(garbage collector)", 152140],
+                ["descriptor.value", 141343],
+                ["name", 132250],
+                ["literal", 114050],
+                ["normal", 93188],
+                ["peek", 70858],
+                ["cacheAt", 70296],
+                ["next", 44083],
+                ["scan", 34486]
+            ]
+        }
+    ]
+}
