@@ -26,6 +26,10 @@ arguments args kwargs kwarg_or_starred kwarg_or_double_starred
 for_if_clauses for_if_clause listcomp setcomp dictcomp genexp
 star_targets star_target star_targets_list_seq star_targets_tuple_seq
 target_with_star_atom star_atom t_primary t_lookahead
+annotated_rhs strings string fstring fstring_middle fstring_replacement_field
+fstring_conversion fstring_full_format_spec fstring_format_spec
+tstring tstring_middle tstring_replacement_field tstring_full_format_spec
+tstring_format_spec tstring_format_spec_replacement_field
 """.split()
 )
 
@@ -96,6 +100,23 @@ def action(text):
             if name == "Call":
                 args[1:3] = ["[]" if arg == "null" else arg for arg in args[1:3]]
             return f"ast.{name}({', '.join(args)})"
+        string_helpers = {
+            "constant_from_string": "literal",
+            "constant_from_token": "constant",
+            "decoded_constant_from_token": "decodedConstant",
+            "joined_str": "joined",
+            "template_str": "template",
+            "formatted_value": "formatted",
+            "interpolation": "interpolation",
+            "check_fstring_conversion": "conversion",
+            "setup_full_format_spec": "formatSpec",
+            "concatenate_strings": "concatenate",
+            "concatenate_tstrings": "concatenateTemplates",
+        }
+        if name.startswith("_PyPegen_") and name.removeprefix("_PyPegen_") in string_helpers:
+            method = string_helpers[name.removeprefix("_PyPegen_")]
+            translated = [action(arg) for arg in args[1:] if arg != "p -> arena"]
+            return f"strings.{method}(this, {', '.join(translated)})"
         helper = {
             "_PyPegen_collect_call_seqs": lambda a: f"this.collectCallArgs({a[1]}, {a[2]})",
             "_PyPegen_join_sequences": lambda a: f"[...{a[1]}, ...{a[2]}]",
@@ -215,6 +236,7 @@ class Generator(ParserGenerator):
         self.print("// Upstream grammar/actions retain their PSF license; see licenses/CPython.txt.")
         self.print("// Expression subset selected by tools/generate314/parser.py. Do not edit.")
         self.print('import * as ast from "./ast.ts";')
+        self.print('import * as strings from "./strings.ts";')
         self.print('import { Parser, memoize, memoizeLeftRec } from "./parser.ts";')
         self.print("export class ExpressionParser extends Parser {")
         for rule in self.all_rules.values():

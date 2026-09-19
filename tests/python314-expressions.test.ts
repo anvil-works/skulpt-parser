@@ -1,10 +1,14 @@
-import { test, expect } from "@rstest/core";
 import { parseExpression } from "../src/python314/expression.ts";
-import reference from "./fixtures/python314-expressions.json";
+import { test, expect } from "@rstest/core";
+import { readFileSync } from "node:fs";
+
+// Preserve legal Python string values containing lone surrogate code points.
+const reference = JSON.parse(readFileSync(new URL("./fixtures/python314-expressions.json", import.meta.url), "utf8"));
 
 function materialize(value: any): any {
     if (Array.isArray(value)) return value.map(materialize);
     if (value === null || typeof value !== "object") return value;
+    if ("$bytes" in value) return new Uint8Array(value.$bytes);
     if ("$bigint" in value) return BigInt(value.$bigint);
     return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, materialize(child)]));
 }
@@ -47,5 +51,19 @@ for (const { source, errorName } of reference.rejections) {
         }
         expect(failure).toBeInstanceOf(SyntaxError);
         expect((failure as Error).name).toBe(errorName);
+    });
+}
+
+// Deliberate frontend normalization of CPython's leaked codec exception.
+for (const { source, upstreamName, message } of reference.normalizedErrors) {
+    test(`Normalize ${upstreamName} from format specification: ${source}`, () => {
+        let failure: unknown;
+        try {
+            parseExpression(source);
+        } catch (error) {
+            failure = error;
+        }
+        expect(failure).toBeInstanceOf(SyntaxError);
+        expect((failure as Error).message).toBe(`(unicode error) ${message}`);
     });
 }

@@ -1,6 +1,5 @@
 // Copyright (c) 2021 the Skulpt Project
 // SPDX-License-Identifier: MIT
-
 import * as ast from "./ast.ts";
 import type { Token, LexerOptions } from "./lexer/tokenizer.ts";
 import { scan } from "./lexer/tokenizer.ts";
@@ -66,10 +65,15 @@ export class Parser {
     private cache: Map<string, Memo>[] = [];
     private iterator: Generator<Token>;
     readonly filename: string;
+    readonly source: string;
+    readonly onWarning: LexerOptions["onWarning"];
+    readonly stringWarnings = new Set<string>();
     constructor(source: string, options: Omit<LexerOptions, "extraTokens"> = {}) {
+        this.source = source.replace(/\r\n?/g, "\n");
+        this.onWarning = options.onWarning;
         this.filename = options.filename ?? "<string>";
         // CPython parsing uses universal newlines; the standalone tokenizer does not.
-        this.iterator = scan(source.replace(/\r\n?/g, "\n"), { ...options, extraTokens: false });
+        this.iterator = scan(this.source, { ...options, extraTokens: false });
     }
     cacheAt(mark: number): Map<string, Memo> {
         return this.cache[mark] ?? (this.cache[mark] = new Map());
@@ -90,7 +94,7 @@ export class Parser {
     }
     literal(text: string): Token | null {
         const token = this.peek();
-        if (token?.string !== text) return null;
+        if (token?.string !== text || token.type.endsWith("_MIDDLE")) return null;
         this.mark++;
         return token;
     }
