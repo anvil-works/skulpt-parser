@@ -3,7 +3,7 @@
 
 /** Source-literal values, independent of Skulpt runtime objects. */
 export type ScalarConstant =
-    | { type: "int"; value: number | bigint }
+    | { type: "int"; value: number | bigint; legacyLong?: true }
     | { type: "float"; value: number }
     | { type: "complex"; real: number; imag: number }
     | { type: "str"; value: string }

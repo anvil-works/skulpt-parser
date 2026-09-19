@@ -21,7 +21,13 @@ export type Token = {
     endByte: number;
 };
 export type LexerWarning = { name: "SyntaxWarning"; message: string; filename: string; lineno: number };
-export type LexerOptions = { extraTokens?: boolean; filename?: string; onWarning?: (warning: LexerWarning) => void };
+export type LexerOptions = {
+    extraTokens?: boolean;
+    filename?: string;
+    onWarning?: (warning: LexerWarning) => void;
+    /** Experimental, bounded Skulpt Python 2 syntax support; strict Python 3 by default. */
+    python2Compat?: boolean;
+};
 type Mode = {
     kind: "regular" | "literal";
     curly: number;
@@ -462,6 +468,7 @@ export class Scanner {
                 } while (c === 95);
                 if (base !== "hexadecimal" && digit(c))
                     this.syntax(`invalid digit '${String.fromCharCode(c)}' in ${base} literal`);
+                if (this.options.python2Compat && c === 76) c = this.next();
                 this.verifyEnd(c, kind);
                 this.back(c);
                 return this.make("NUMBER", this.start, this.cur);
@@ -488,7 +495,7 @@ export class Scanner {
                 fraction = true;
             } else if (c === 101 || c === 69) exponent = true;
             else if (c === 106 || c === 74) imaginary = true;
-            else if (nonzero && !this.extra) {
+            else if (nonzero && !this.extra && !this.options.python2Compat) {
                 this.back(c);
                 this.syntax(
                     "leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers",
@@ -496,6 +503,11 @@ export class Scanner {
                     zerosEnd - this.lineStart
                 );
             } else {
+                if (nonzero && this.options.python2Compat) {
+                    const spelling = this.text(this.start!, this.cur - (c === EOF ? 0 : 1));
+                    if (!/^0[0-7]+$/.test(spelling.replace(/_/g, ""))) this.syntax("invalid legacy octal literal");
+                }
+                if (this.options.python2Compat && c === 76) c = this.next();
                 this.verifyEnd(c, "decimal");
                 this.back(c);
                 return this.make("NUMBER", this.start, this.cur);
@@ -509,6 +521,7 @@ export class Scanner {
         }
         if (fraction && digit(c)) c = this.decimalTail();
         if (exponent || c === 101 || c === 69) {
+            exponent = true;
             const e = c;
             c = this.next();
             if (c === 43 || c === 45) {
@@ -529,6 +542,7 @@ export class Scanner {
             c = this.next();
             kind = "imaginary";
         }
+        if (this.options.python2Compat && c === 76 && !fraction && !exponent && kind === "decimal") c = this.next();
         this.verifyEnd(c, kind);
         this.back(c);
         return this.make("NUMBER", this.start, this.cur);
