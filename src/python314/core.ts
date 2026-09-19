@@ -5,3 +5,11 @@ export { parseExpression, parseModule, UnicodeNameDatabaseRequired } from "./fro
 export type { ParseOptions } from "./frontend_core.ts";
 export { scan, tokenize } from "./lexer/tokenizer.ts";
 export type { Token, LexerOptions, LexerWarning } from "./lexer/tokenizer.ts";
+
+export type {
+    CompatibilityModule,
+    CompatibilityStatement,
+    Print,
+    LegacyRaise,
+    LegacyExceptHandler,
+} from "./python2_ast.ts";

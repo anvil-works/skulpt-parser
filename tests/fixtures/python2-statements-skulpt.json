@@ -1,0 +1,1034 @@
+{
+    "oracle": "Skulpt Python 2 parse + AST construction",
+    "bundleSha256": "29aa41f66d084b5826e6d386a5494b179d96a793607ebfc668cedc4752722e54",
+    "cases": [
+        {
+            "source": "print",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print 1",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "int",
+                                    "value": "1"
+                                }
+                            }
+                        ],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print 1, 'two'",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "int",
+                                    "value": "1"
+                                }
+                            },
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "str",
+                                    "value": "two"
+                                }
+                            }
+                        ],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print 1,",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "int",
+                                    "value": "1"
+                                }
+                            }
+                        ],
+                        "nl": false
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print >>out",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": {
+                            "_type": "Name",
+                            "id": "out",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "values": [],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print >>out, 1, 'two',",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": {
+                            "_type": "Name",
+                            "id": "out",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "int",
+                                    "value": "1"
+                                }
+                            },
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "str",
+                                    "value": "two"
+                                }
+                            }
+                        ],
+                        "nl": false
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print(1)",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "int",
+                                    "value": "1"
+                                }
+                            }
+                        ],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print(1, 2)",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Tuple",
+                                "elts": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "int",
+                                            "value": "1"
+                                        }
+                                    },
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "int",
+                                            "value": "2"
+                                        }
+                                    }
+                                ],
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            }
+                        ],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print()",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Tuple",
+                                "elts": [],
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            }
+                        ],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print 0755L; print 2",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "int",
+                                    "value": "493",
+                                    "legacyLong": true
+                                }
+                            }
+                        ],
+                        "nl": true
+                    },
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "int",
+                                    "value": "2"
+                                }
+                            }
+                        ],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "if True: print 'yes'",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "If",
+                        "test": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "bool",
+                                "value": true
+                            }
+                        },
+                        "body": [
+                            {
+                                "_type": "Print",
+                                "dest": null,
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": "yes"
+                                        }
+                                    }
+                                ],
+                                "nl": true
+                            }
+                        ],
+                        "orelse": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "def f():\n    print 'yes'\n    raise ValueError, 'no'",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "FunctionDef",
+                        "name": "f",
+                        "args": {
+                            "_type": "arguments",
+                            "args": [],
+                            "vararg": null,
+                            "kwonlyargs": [],
+                            "kw_defaults": [],
+                            "kwarg": null,
+                            "defaults": []
+                        },
+                        "body": [
+                            {
+                                "_type": "Print",
+                                "dest": null,
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": "yes"
+                                        }
+                                    }
+                                ],
+                                "nl": true
+                            },
+                            {
+                                "_type": "LegacyRaise",
+                                "exc": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "inst": {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "str",
+                                        "value": "no"
+                                    }
+                                },
+                                "tback": null
+                            }
+                        ],
+                        "decorator_list": [],
+                        "returns": null
+                    }
+                ]
+            }
+        },
+        {
+            "source": "raise",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Raise",
+                        "exc": null,
+                        "cause": null
+                    }
+                ]
+            }
+        },
+        {
+            "source": "raise ValueError",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Raise",
+                        "exc": {
+                            "_type": "Name",
+                            "id": "ValueError",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "cause": null
+                    }
+                ]
+            }
+        },
+        {
+            "source": "raise ValueError, 'bad'",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "LegacyRaise",
+                        "exc": {
+                            "_type": "Name",
+                            "id": "ValueError",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "inst": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "bad"
+                            }
+                        },
+                        "tback": null
+                    }
+                ]
+            }
+        },
+        {
+            "source": "raise ValueError, ('bad', 2), traceback",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "LegacyRaise",
+                        "exc": {
+                            "_type": "Name",
+                            "id": "ValueError",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "inst": {
+                            "_type": "Tuple",
+                            "elts": [
+                                {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "str",
+                                        "value": "bad"
+                                    }
+                                },
+                                {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": "2"
+                                    }
+                                }
+                            ],
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "tback": {
+                            "_type": "Name",
+                            "id": "traceback",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    print 'try'\nexcept ValueError, error:\n    print error",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Print",
+                                "dest": null,
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": "try"
+                                        }
+                                    }
+                                ],
+                                "nl": true
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "Name",
+                                    "id": "error",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Print",
+                                        "dest": null,
+                                        "values": [
+                                            {
+                                                "_type": "Name",
+                                                "id": "error",
+                                                "ctx": {
+                                                    "_type": "Load"
+                                                }
+                                            }
+                                        ],
+                                        "nl": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    pass\nexcept (ValueError, TypeError), error:\n    raise ValueError, error",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Tuple",
+                                    "elts": [
+                                        {
+                                            "_type": "Name",
+                                            "id": "ValueError",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        {
+                                            "_type": "Name",
+                                            "id": "TypeError",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        }
+                                    ],
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "Name",
+                                    "id": "error",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "LegacyRaise",
+                                        "exc": {
+                                            "_type": "Name",
+                                            "id": "ValueError",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "inst": {
+                                            "_type": "Name",
+                                            "id": "error",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            }
+                                        },
+                                        "tback": null
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError, obj.error:\n    pass",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "Attribute",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "obj",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "attr": "error",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass"
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError, errors[0]:\n    pass",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "Subscript",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "errors",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "slice": {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "int",
+                                            "value": "0"
+                                        }
+                                    },
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass"
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError, (first, second):\n    pass",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "Tuple",
+                                    "elts": [
+                                        {
+                                            "_type": "Name",
+                                            "id": "first",
+                                            "ctx": {
+                                                "_type": "Store"
+                                            }
+                                        },
+                                        {
+                                            "_type": "Name",
+                                            "id": "second",
+                                            "ctx": {
+                                                "_type": "Store"
+                                            }
+                                        }
+                                    ],
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass"
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError, [first, second]:\n    pass",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "List",
+                                    "elts": [
+                                        {
+                                            "_type": "Name",
+                                            "id": "first",
+                                            "ctx": {
+                                                "_type": "Store"
+                                            }
+                                        },
+                                        {
+                                            "_type": "Name",
+                                            "id": "second",
+                                            "ctx": {
+                                                "_type": "Store"
+                                            }
+                                        }
+                                    ],
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass"
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError as obj.error:\n    pass",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "Attribute",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "obj",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        }
+                                    },
+                                    "attr": "error",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass"
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError as error:\n    print error",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "Name",
+                                    "id": "error",
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Print",
+                                        "dest": null,
+                                        "values": [
+                                            {
+                                                "_type": "Name",
+                                                "id": "error",
+                                                "ctx": {
+                                                    "_type": "Load"
+                                                }
+                                            }
+                                        ],
+                                        "nl": true
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "from __future__ import print_function\nprint(1, 2)",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "ImportFrom",
+                        "module": "__future__",
+                        "names": [
+                            {
+                                "_type": "alias",
+                                "name": "print_function",
+                                "asname": null
+                            }
+                        ],
+                        "level": 0
+                    },
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Tuple",
+                                "elts": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "int",
+                                            "value": "1"
+                                        }
+                                    },
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "int",
+                                            "value": "2"
+                                        }
+                                    }
+                                ],
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            }
+                        ],
+                        "nl": true
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print >>out,",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "print ,",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "print 1 2",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "raise ValueError,",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "raise ValueError, 1, 2, 3",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError, 1:\n    pass",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError, first + second:\n    pass",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError, f():\n    pass",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "from __future__ import print_function\nprint 1",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "ImportFrom",
+                        "module": "__future__",
+                        "names": [
+                            {
+                                "_type": "alias",
+                                "name": "print_function",
+                                "asname": null
+                            }
+                        ],
+                        "level": 0
+                    },
+                    {
+                        "_type": "Print",
+                        "dest": null,
+                        "values": [
+                            {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "int",
+                                    "value": "1"
+                                }
+                            }
+                        ],
+                        "nl": true
+                    }
+                ]
+            }
+        }
+    ]
+}

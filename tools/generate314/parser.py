@@ -438,6 +438,7 @@ class Generator(ParserGenerator):
         self.print('import type { Token } from "./lexer/tokenizer.ts";')
         self.print('import { checkedImport, finishModule } from "./imports.ts";')
         self.print('import * as strings from "./strings.ts";')
+        self.print('import * as python2 from "./python2_statements.ts";')
         self.print('import * as diagnostics from "./diagnostics.ts";')
         self.print('import { makeArguments } from "./parameters.ts";')
         self.print('import { Parser, memoize, memoizeLeftRec } from "./parser.ts";')
@@ -456,6 +457,15 @@ class Generator(ParserGenerator):
         self.print(f"{rule.name}(): any {{")
         if rule.name.endswith("without_invalid"):
             self.print("const previous = this.callInvalidRules; this.callInvalidRules = false; try {")
+        compatibility_rule = {
+            "simple_stmt": "printStatement",
+            "raise_stmt": "raiseStatement",
+            "except_block": "exceptBlock",
+        }.get(rule.name)
+        if compatibility_rule:
+            self.print(
+                f"if (this.python2Compat) {{ const legacy = python2.{compatibility_rule}(this); if (legacy !== null) return legacy; }}"
+            )
         self.print(f"// {rule.name}: {rule.rhs}")
         loop = rule.is_loop()
         self.print(f"{'let' if loop else 'const'} mark = this.mark;")
@@ -514,7 +524,9 @@ class Generator(ParserGenerator):
         self.print(
             "return children;"
             if rule.name.startswith("_loop0")
-            else "return children.length ? children : null;" if loop else "return null;"
+            else "return children.length ? children : null;"
+            if loop
+            else "return null;"
         )
         if rule.name.endswith("without_invalid"):
             self.print("} finally { this.callInvalidRules = previous; }")
