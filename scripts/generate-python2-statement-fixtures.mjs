@@ -79,14 +79,18 @@ const sources = [
     ...["1", "first + second", "f()"].map((target) => `try:\n    pass\nexcept ValueError, ${target}:\n    pass`),
     "from __future__ import print_function\nprint 1",
 ];
-const cases = sources.map((source) => {
-    Sk.configure({ __future__: { ...Sk.python2, print_function: false } });
+const inputs = sources.map((source) => ({ source }));
+for (const source of ["print(1, 2)", "print = 1", "print(0755L)", "print 1", "raise ValueError, 'bad'"])
+    inputs.push({ source, printFunction: true });
+const cases = inputs.map((input) => {
+    const { source, printFunction = false } = input;
+    Sk.configure({ __future__: { ...Sk.python2, print_function: printFunction } });
     try {
         const parsed = Sk.parse("input.py", source + "\n");
-        return { source, expected: tree(Sk.astFromParse(parsed.cst, "input.py", parsed.flags)) };
+        return { ...input, expected: tree(Sk.astFromParse(parsed.cst, "input.py", parsed.flags)) };
     } catch (e) {
         if (!e.tp$name) throw e;
-        return { source, error: e.tp$name };
+        return { ...input, error: e.tp$name };
     }
 });
 fs.writeFileSync(

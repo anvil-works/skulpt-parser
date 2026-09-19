@@ -1029,6 +1029,138 @@
                     }
                 ]
             }
+        },
+        {
+            "source": "print(1, 2)",
+            "printFunction": true,
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Expr",
+                        "value": {
+                            "_type": "Call",
+                            "func": {
+                                "_type": "Name",
+                                "id": "print",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            },
+                            "args": [
+                                {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": "1"
+                                    }
+                                },
+                                {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": "2"
+                                    }
+                                }
+                            ],
+                            "keywords": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print = 1",
+            "printFunction": true,
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "print",
+                                "ctx": {
+                                    "_type": "Store"
+                                }
+                            }
+                        ],
+                        "value": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "int",
+                                "value": "1"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print(0755L)",
+            "printFunction": true,
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Expr",
+                        "value": {
+                            "_type": "Call",
+                            "func": {
+                                "_type": "Name",
+                                "id": "print",
+                                "ctx": {
+                                    "_type": "Load"
+                                }
+                            },
+                            "args": [
+                                {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "int",
+                                        "value": "493",
+                                        "legacyLong": true
+                                    }
+                                }
+                            ],
+                            "keywords": []
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "source": "print 1",
+            "printFunction": true,
+            "error": "SyntaxError"
+        },
+        {
+            "source": "raise ValueError, 'bad'",
+            "printFunction": true,
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "LegacyRaise",
+                        "exc": {
+                            "_type": "Name",
+                            "id": "ValueError",
+                            "ctx": {
+                                "_type": "Load"
+                            }
+                        },
+                        "inst": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "bad"
+                            }
+                        },
+                        "tback": null
+                    }
+                ]
+            }
         }
     ]
 }

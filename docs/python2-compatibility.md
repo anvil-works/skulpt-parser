@@ -6,6 +6,17 @@ slices of the agreed Skulpt compatibility mode, not complete Python 2 support.
 Anvil's IDE integration now has focused parity coverage for this mode.
 Application execution still uses Skulpt.
 
+Skulpt's experimental compiler adapter can pass `{ printFunction: true }` with
+`python2Compat` to treat `print` as an ordinary name, matching configured
+`Sk.__future__.print_function`. Other compatibility syntax remains enabled. This
+option defaults to false and does not change the source future-import behavior
+described below. Five additional fixtures come from the real Skulpt frontend with
+that flag configured, including a long/octal argument and legacy raise.
+
+The compatibility boundary protects existing applications, rather than enforcing
+historical Python 2 restrictions. Modern syntax can be used where the consumer's
+runtime implements its semantics. Runtime/compiler support remains a separate gate.
+
 Implemented forms:
 
 - `<>` and `!=` both produce ordinary `NotEq` comparisons.
