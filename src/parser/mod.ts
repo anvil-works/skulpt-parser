@@ -1,7 +1,7 @@
 // Copyright (c) 2021 the Skulpt Project
 // SPDX-License-Identifier: MIT
 
-import { tokenizerFromFile, tokenizerFromString } from "../tokenize/mod.ts";
+import { tokenizerFromString } from "../tokenize/mod.ts";
 import { GeneratedParser } from "./generated_parser.ts";
 import { StartRule } from "./pegen_types.ts";
 
@@ -30,15 +30,4 @@ export function runParserFromString(text: string, mode: ModeStr = "exec", filena
     return parserFromString(text, mode, filename).parse();
 }
 
-export function parserFromFile(filename: string, mode: ModeStr = "exec") {
-    const parser = new GeneratedParser(tokenizerFromFile(filename), modeStrToStartRule(mode));
-    parser.filename = filename;
-    return parser;
-}
-
-export function runParserFromFile(filename: string, mode: ModeStr = "exec") {
-    return parserFromFile(filename, mode).parse();
-}
-
-export var astFromString = runParserFromString;
-export var astFromFile = runParserFromFile;
+export const astFromString = runParserFromString;

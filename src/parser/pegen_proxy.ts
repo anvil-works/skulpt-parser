@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 // deno-lint-ignore-file no-explicit-any
-import { Colors } from "../../deps.ts";
+import Colors from "picocolors";
 import * as pegenReal from "./pegen.ts";
 import type { Parser } from "./parser.ts";
 import type { VerboseParser } from "./verbose_parser.ts";

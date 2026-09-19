@@ -1,3 +1,4 @@
+import { test } from "@rstest/core";
 import { astOptimize } from "../src/ast/optimize.ts";
 import { ModeStr, runParserFromString } from "../src/parser/mod.ts";
 import { dump } from "../support/ast_dump.ts";
@@ -21,16 +22,16 @@ function checkDontOptimize(a: string, expected?: string, mode: ModeStr = "eval")
 // https://github.com/vstinner/fatoptimizer/blob/master/test_fatoptimizer.py#L1980
 
 /**** ConstantFoldingBinOpTests ****/
-Deno.test("test_basic", () => {
+test("test_basic", () => {
     checkOptimize("1 + 1", "2");
 });
 
-Deno.test("test_not_constant", () => {
+test("test_not_constant", () => {
     checkDontOptimize("x + 1");
     checkDontOptimize("1 + x");
 });
 
-Deno.test("test_shift_error", () => {
+test("test_shift_error", () => {
     checkOptimize("2 << 53", "18014398509481984");
     checkDontOptimize(
         "1 << -3",
@@ -41,14 +42,14 @@ Deno.test("test_shift_error", () => {
         `Expression(body=BinOp(left=Constant(value=1), op=RShift(), right=Constant(value=-3)))`
     );
 });
-Deno.test("test_float_binopts", () => {
+test("test_float_binopts", () => {
     checkDontOptimize("1.0 << 2");
     checkDontOptimize("1.0 >> 2");
     checkDontOptimize("1.0 & 2");
     checkDontOptimize("1.0 | 2");
     checkDontOptimize("1.0 ^ 2");
 });
-Deno.test("test_complex_binopts", () => {
+test("test_complex_binopts", () => {
     checkDontOptimize("1.0j ** 2");
     checkDontOptimize("1.0j // 2");
     checkDontOptimize("1.0j % 2");
@@ -58,7 +59,7 @@ Deno.test("test_complex_binopts", () => {
     checkDontOptimize("1.0j | 2");
     checkDontOptimize("1.0j ^ 2");
 });
-Deno.test("test_division_by_zero", () => {
+test("test_division_by_zero", () => {
     checkDontOptimize("1 // 0");
     checkDontOptimize("1.0 // 0.0");
 
@@ -66,11 +67,11 @@ Deno.test("test_division_by_zero", () => {
     checkDontOptimize("1.0 / 0.0");
     checkDontOptimize("1.0j / 0.0j");
 });
-Deno.test("test_formatting", () => {
+test("test_formatting", () => {
     checkDontOptimize("b'hello %s' % b'world'");
     checkDontOptimize("'hello %s' % 'world'");
 });
-Deno.test("test_add", () => {
+test("test_add", () => {
     checkOptimize("2 + 3", "5");
     checkOptimize("2.0 + 3.0", "5.0");
     checkOptimize("2.0j + 3.0j", "5.0j");
@@ -84,12 +85,12 @@ Deno.test("test_add", () => {
     checkOptimize("b'a' + b'b'", "b'ab'");
     checkOptimize("b'a' + b'bc'", "b'abc'");
 });
-Deno.test("test_sub", () => {
+test("test_sub", () => {
     checkOptimize("3 - 2", "1");
     checkOptimize("3.0 - 2.0", "1.0");
     checkOptimize("3.0j - 2.0j", "1.0j");
 });
-Deno.test("test_mul", () => {
+test("test_mul", () => {
     checkOptimize("2 * 3", "6");
     checkOptimize("2.0 * 3.0", "6.0");
     checkOptimize("2.0j * 3.0", "6j");
@@ -108,22 +109,22 @@ Deno.test("test_mul", () => {
         "Expression(body=BinOp(left=Constant(value=500), op=Mult(), right=Constant(value=(1, 2))))"
     );
 });
-Deno.test("test_floor_div", () => {
+test("test_floor_div", () => {
     checkOptimize("10 // 3", "3");
     checkOptimize("10.0 // 3.0", "3.0");
 });
-Deno.test("test_div", () => {
+test("test_div", () => {
     checkOptimize("5 / 2", "2.5");
     checkOptimize("5.0 / 2.0", "2.5");
     /** @todo */
     // checkOptimize("5.0j / 2.0", "2.5j");
 });
-Deno.test("test_mod", () => {
+test("test_mod", () => {
     checkOptimize("5 % 2", "1");
     /** @todo */
     // checkOptimize("5.0 % 2.0", "1.0");
 });
-Deno.test("test_pow", () => {
+test("test_pow", () => {
     checkOptimize("2 ** 3", "8");
     checkOptimize("2.0 ** 3.0", "8.0");
 
@@ -141,7 +142,7 @@ Deno.test("test_pow", () => {
     //  ast.BinOp(left=ast.Num(n=0.0), op=ast.Pow(), right=ast.Num(-1)))
 });
 
-Deno.test("test_pow_max_int_bits", () => {
+test("test_pow_max_int_bits", () => {
     // self.config.max_int_bits = 16
     checkOptimize("2 ** 15", "32768");
     checkDontOptimize("2 ** 130");
@@ -149,12 +150,12 @@ Deno.test("test_pow_max_int_bits", () => {
     // self.config.max_int_bits = 17
     checkOptimize("2 ** 15", "32768");
 });
-Deno.test("test_shift", () => {
+test("test_shift", () => {
     checkOptimize("1 << 3", "8");
     checkOptimize("16 >> 2", "4");
 });
 
-Deno.test("test_bits", () => {
+test("test_bits", () => {
     checkOptimize("3 & 1", "1");
     checkOptimize("1 | 2", "3");
     checkOptimize("3 ^ 3", "0");
@@ -164,7 +165,7 @@ Deno.test("test_bits", () => {
 });
 
 /*** BoolOp ****/
-Deno.test("test_boolop", () => {
+test("test_boolop", () => {
     checkOptimize("1 and 2 and 3 and 4", "4");
     checkOptimize("1 or 2 or 3 or 0", "1");
     checkOptimize("1 and 0 and 2 and 3 and 4", "0");
@@ -177,31 +178,31 @@ Deno.test("test_boolop", () => {
 
 /**** UnaryOp ****/
 
-Deno.test("test_not_constant", () => {
+test("test_not_constant", () => {
     checkDontOptimize("-x");
     checkDontOptimize("+x");
     checkDontOptimize("~x");
     checkDontOptimize("not x");
 });
-Deno.test("test_uadd", () => {
+test("test_uadd", () => {
     checkOptimize("+3", "3");
     checkOptimize("+3.0", "3.0");
     checkOptimize("+3.0j", "3.0j");
     checkDontOptimize("+'abc'");
 });
-Deno.test("test_usub", () => {
+test("test_usub", () => {
     // checkOptimize("-3", ast.Num(n=-3))
     // checkOptimize("-3.0", ast.Num(n=-3.0))
     // checkOptimize("-3.0j", ast.Num(n=-3.0j))
     checkDontOptimize("-'abc'");
 });
-Deno.test("test_invert", () => {
+test("test_invert", () => {
     checkOptimize("~3", "-4");
     checkDontOptimize("~3.0");
     checkDontOptimize("~3.0j");
     checkDontOptimize("~'abc'");
 });
-Deno.test("test_not", () => {
+test("test_not", () => {
     checkOptimize("not 0", "True");
     checkOptimize("not ''", "True");
     checkOptimize("not 3", "False");
@@ -210,7 +211,7 @@ Deno.test("test_not", () => {
     // checkDontOptimize("not 'abc'");
     checkOptimize("not 'abc'", "False");
 });
-Deno.test("test_not_compare", () => {
+test("test_not_compare", () => {
     checkOptimize("not(x is y)", "x is not y");
     checkOptimize("not(x is not y)", "x is y");
 
@@ -228,7 +229,7 @@ Deno.test("test_not_compare", () => {
     checkDontOptimize("not(x < y < y)");
 });
 
-Deno.test("test_not_constant", () => {
+test("test_not_constant", () => {
     checkDontOptimize("x[k]");
     checkDontOptimize("'abc'[k]");
     checkDontOptimize("x[0]");
@@ -236,7 +237,7 @@ Deno.test("test_not_constant", () => {
     checkDontOptimize("x[start:10]");
     checkDontOptimize("x[:10]");
 });
-Deno.test("test_subscript_index", () => {
+test("test_subscript_index", () => {
     checkOptimize("'abc'[0]", "'a'");
     checkOptimize("'abc'[-2]", "'b'");
     // checkOptimize("'abcde'[::2]", "'ace'");
@@ -259,7 +260,7 @@ Deno.test("test_subscript_index", () => {
     // checkDontOptimize("{1: 2}[8]")  //# KeyError
 });
 
-Deno.test("test_subscript_slice", () => {
+test("test_subscript_slice", () => {
     // checkOptimize("'abc'[:2]", "'ab'");
     // checkOptimize("'abc'[-2:]", "'bc'");
     // checkOptimize("b'ABC'[:2]", "b'AB'");
@@ -277,7 +278,7 @@ Deno.test("test_subscript_slice", () => {
 });
 
 // ConstantFoldingCompareTests
-// Deno.test("test_not_constant", () => {
+// test("test_not_constant", () => {
 //     checkDontOptimize("a in b")
 //     checkDontOptimize("'x' in b")
 //     checkDontOptimize("a in 'xyz'")
@@ -288,7 +289,7 @@ Deno.test("test_subscript_slice", () => {
 
 // });
 
-// Deno.test("test_contains_type_error", () => {
+// test("test_contains_type_error", () => {
 //     checkDontOptimize("1 in 'abc'")
 //     checkDontOptimize("'x' in 2")
 //     checkDontOptimize("b'bytes' in 'unicode'")
@@ -296,7 +297,7 @@ Deno.test("test_subscript_slice", () => {
 
 // });
 
-// Deno.test("test_contains", () => {
+// test("test_contains", () => {
 //     // # str
 //     checkOptimize("'a' in 'abc'", "True")
 //     checkOptimize("'a' not in 'abc'", "False")
@@ -316,7 +317,7 @@ Deno.test("test_subscript_slice", () => {
 
 // });
 
-// Deno.test("test_compare", () => {
+// test("test_compare", () => {
 //     checkOptimize("1 < 2", "True")
 //     checkOptimize("1 <= 2", "True")
 //     checkOptimize("1 == 2", "False")
@@ -335,11 +336,11 @@ Deno.test("test_subscript_slice", () => {
 //     checkDontOptimize('b"bytes" < "str"')
 
 // });
-// Deno.test("test_is", () => {
+// test("test_is", () => {
 //     checkOptimize("None is None", "True")
 
 // });
-// Deno.test("test_contains_to_const", () => {
+// test("test_contains_to_const", () => {
 //     // # list => tuple
 //     checkOptimize("x in [1, 2]", "x in (1, 2)")
 
@@ -356,7 +357,7 @@ Deno.test("test_subscript_slice", () => {
 
 // });
 
-Deno.test("test_if", () => {
+test("test_if", () => {
     checkOptimize(
         `
 if test:
@@ -373,7 +374,7 @@ else:
         "exec"
     );
 });
-Deno.test("test_for", () => {
+test("test_for", () => {
     checkOptimize(
         `
 for i in range(5):
@@ -386,7 +387,7 @@ for i in range(5):
         "exec"
     );
 });
-Deno.test("test_while", () => {
+test("test_while", () => {
     checkOptimize(
         `
 x = 0
@@ -401,7 +402,7 @@ while x < 2:
         "exec"
     );
 });
-Deno.test("test_try", () => {
+test("test_try", () => {
     checkOptimize(
         `
 try:
@@ -426,7 +427,7 @@ finally:
         "exec"
     );
 });
-Deno.test("test_FunctionDef", () => {
+test("test_FunctionDef", () => {
     checkOptimize(
         `
 x = 1
@@ -443,7 +444,7 @@ def func():
 
     // @need_python35
 });
-Deno.test("test_AsyncFunctionDef", () => {
+test("test_AsyncFunctionDef", () => {
     checkOptimize(
         `
 x = 1
@@ -458,7 +459,7 @@ async def func():
         "exec"
     );
 });
-Deno.test("test_ClassDef", () => {
+test("test_ClassDef", () => {
     checkOptimize(
         `
 x = 1
@@ -473,7 +474,7 @@ class MyClass:
         "exec"
     );
 });
-Deno.test("test_DictComp", () => {
+test("test_DictComp", () => {
     checkOptimize(
         `
 x = 1
@@ -486,7 +487,7 @@ y = {k: 5 + x for k in "abc"}
         "exec"
     );
 });
-Deno.test("test_ListComp", () => {
+test("test_ListComp", () => {
     checkOptimize(
         `
 x = 1
@@ -499,7 +500,7 @@ y = [5 + x for k in "abc"]
         "exec"
     );
 });
-Deno.test("test_SetComp", () => {
+test("test_SetComp", () => {
     checkOptimize(
         `
 x = 1
@@ -512,7 +513,7 @@ y = {5 + x for k in "abc"}
         "exec"
     );
 });
-Deno.test("test_GeneratorExp", () => {
+test("test_GeneratorExp", () => {
     checkOptimize(
         `
 x = 1
@@ -525,7 +526,7 @@ y = (5 + x for k in "abc")
         "exec"
     );
 });
-Deno.test("test_Lambda", () => {
+test("test_Lambda", () => {
     checkOptimize(
         `
 x = 1
