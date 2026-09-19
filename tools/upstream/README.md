@@ -1,6 +1,6 @@
 # Pinned CPython generation inputs
 
-`cpython.json` pins CPython 3.14.3 to commit `323c59a5e348347be2ce2b7ea55fcb30bf68b2d3` and records SHA-256 hashes for 33 source files. The input set contains the upstream license, grammar, token definitions, ASDL schema/reader the `pegen` package, and five lexer/tokenizer reference files and the semantic action helpers, string decoder, Unicode/bytes escape codecs and Unicode-name lookup implementation. It is separate from the existing generated parser's 3.9.5 provenance and the baseline test oracle's 3.9.25 runtime.
+`cpython.json` pins CPython 3.14.3 to commit `323c59a5e348347be2ce2b7ea55fcb30bf68b2d3` and records SHA-256 hashes for 35 source files. The input set contains the upstream license, grammar, token definitions, ASDL schema/reader the `pegen` package, and five lexer/tokenizer reference files and the semantic action helpers, string decoder, Unicode/bytes escape codecs and Unicode-name lookup implementation, plus the PEG token bridge and error helpers. It is separate from the existing generated parser's 3.9.5 provenance and the baseline test oracle's 3.9.25 runtime.
 
 ```sh
 pnpm upstream:prepare
