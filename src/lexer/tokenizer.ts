@@ -579,6 +579,9 @@ export class Scanner {
                 if (!blankline && !this.parens.length) {
                     col = cont || col;
                     alt = cont || alt;
+                    // Skulpt's Python 2 mode compares indentation at eight-column tab stops.
+                    // Only strict Python 3 mode also checks the one-column tab interpretation.
+                    if (this.options.python2Compat) alt = col;
                     const top = this.indstack.length - 1;
                     if (col === this.indstack[top]) {
                         if (alt !== this.altstack[top]) this.error("TABSPACE");
