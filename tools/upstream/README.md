@@ -1,6 +1,6 @@
 # Pinned CPython generation inputs
 
-`cpython.json` pins CPython 3.14.3 to commit `323c59a5e348347be2ce2b7ea55fcb30bf68b2d3` and records SHA-256 hashes for 37 source files. The input set contains the upstream license, grammar, token definitions, ASDL schema/reader the `pegen` package, and five lexer/tokenizer reference files and the semantic action helpers, string decoder, Unicode/bytes escape codecs and Unicode-name lookup implementation, plus the PEG token bridge, parser declarations, error helpers and future-feature validation. It is separate from the existing generated parser's 3.9.5 provenance and the baseline test oracle's 3.9.25 runtime.
+`cpython.json` pins CPython 3.14.3 to commit `323c59a5e348347be2ce2b7ea55fcb30bf68b2d3` and records SHA-256 hashes for 37 source files. The input set contains the upstream license, grammar, token definitions, ASDL schema/reader the `pegen` package, and five lexer/tokenizer reference files and the semantic action helpers, string decoder, Unicode/bytes escape codecs and Unicode-name lookup implementation, plus the PEG token bridge, parser declarations, error helpers and future-feature validation.
 
 ```sh
 pnpm upstream:prepare
@@ -26,9 +26,9 @@ No command checks out a Git revision, patches upstream files, replaces an upstre
 
 The command uses the pinned upstream grammar parser to read the full Python grammar and its token-definition reader to load `Grammar/Tokens`. It parses and validates `Python.asdl`, then compares all declared AST field and attribute names with the pinned CPython runtime. The current result is 268 grammar rules, 113 matching AST layouts and 69 token definitions.
 
-This proves that the isolated inputs can be loaded together. It does **not** generate a working TypeScript 3.14 frontend, validate adapted semantic actions, implement the agreed structural AST representation or establish Python 3.14 parsing support. The existing 3.9 TypeScript generator has not yet been pointed at these files. Its historical scripts still have the limitations described in the root README.
-
-The next migration change should use these sources to adapt the TypeScript backend and AST generation, with output paths and adaptations under our control. Keep the source inputs unchanged; do not recreate the old generator-file replacement workflow.
+This checks the generation inputs. Generate and validate the TypeScript frontend
+separately with [the generator commands](../generate314/README.md). Keep these
+source inputs unchanged; adaptations belong in the TypeScript generator and runtime.
 
 ## Updating the pin
 

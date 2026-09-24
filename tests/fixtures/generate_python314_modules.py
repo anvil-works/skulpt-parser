@@ -14,6 +14,13 @@ if sys.implementation.name != "cpython" or ".".join(map(str, sys.version_info[:3
     sys.exit(f'Use CPython {lock["version"]} to refresh these fixtures')
 
 sources = [
+    # Unicode/location regressions retained from the retired frontend.
+    'résumé = "中文😀"; result = résumé + "é"\n',
+    'x = """中文\n😀é"""; y = 123\n',
+    'x = "é" "😀"; y = b"abc"\n',
+    'x = f"é😀{value + 12}"\n',
+    'x = f"é{value:{width}}"\n',
+    'x = f"""é\n😀{value}"""\n',
     "",
     "\n",
     " \t\n",

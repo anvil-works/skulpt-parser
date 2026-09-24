@@ -1,5 +1,0 @@
-print((str(list(range(5, 0, -3)))[:5]))
-print((len(list(range(5, 0, -3)))))
-print((list(range(5, 0, -3))[0]))
-print((list(range(5, 0, -3))[1]))
-print((list(range(5, 0, -3))[-1]))

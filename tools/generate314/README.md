@@ -1,6 +1,6 @@
 # Python 3.14 AST generation
 
-The first generator using the isolated inputs emits `src/python314/ast.ts` from the pinned `Parser/Python.asdl`. It produces all 113 concrete AST node interfaces and positional factories, plus the ASDL sum types and an `AST` union. These are migration modules; the existing Python 3.9 parser and public package entry remain unchanged.
+The AST generator emits `src/python314/ast.ts` from the pinned `Parser/Python.asdl`. It produces all 113 concrete AST node interfaces and positional factories, plus the ASDL sum types and an `AST` union. These types underpin the public parser.
 
 ```sh
 pnpm upstream:prepare
@@ -40,19 +40,21 @@ python3.14 tests/fixtures/generate_python314_ast.py
 
 CI verifies both generated-source freshness and fixture freshness. The generated files are excluded from Prettier so a formatter version does not become an undeclared generation input. Edit the generators and regenerate rather than editing the outputs.
 
-These fixtures test schema construction, not parsing Python 3.14 with the TypeScript parser. The recovered 3.9 conformance suites remain separate and unchanged.
+These fixtures test schema construction, not parsing Python 3.14 with the TypeScript parser. Parser conformance fixtures are generated separately.
 
 ## Parser backend boundary
 
-The existing parser backend expects the 3.9 pegen API, a manually patched grammar with TypeScript actions, old token categories and runtime helpers. The pinned 3.14 grammar contains C actions, newer forced parsing and soft-keyword constructs, new interpolation tokens and diagnostic paths. It cannot simply be redirected at the new source directory.
-
-The parser migration must adapt grammar traversal, actions and helper contracts together and test generated output through the real parser runtime. Do not emit raw C expressions, silently return placeholder values for missing helpers or treat successful grammar loading as parser readiness. This PR deliberately leaves the old generated parser intact while establishing the AST representation that those actions will construct.
+The parser generator adapts the pinned CPython grammar's C actions to TypeScript
+helpers and emits `src/python314/generated_parser.ts`. Grammar traversal, semantic
+actions and runtime helpers must stay aligned. Check generated output with
+`python3.14 -m tools.generate314 --parser --check` and validate behavior through
+the parser's CPython reference fixtures and live corpus comparison.
 
 ## Numeric runtime helper
 
 `src/python314/parse_number.ts` converts a validated, unsigned `NUMBER` token into an independent tagged numeric constant. It distinguishes base-prefixed integers before looking for exponent markers, preserves large integers with native `bigint`, and converts decimal floating-point and imaginary literals with JavaScript's decimal-to-double conversion. Unary signs remain grammar operations. Invalid token spelling remains the lexer's responsibility.
 
-Decimal integers use CPython's default 4,300-digit conversion limit. Underscores do not count; all-zero decimal literals and non-decimal bases follow the upstream exemptions. Conversion failure throws a `SyntaxError` carrying the CPython message. The future parser action must attach the token's source location through the frontend error interface. This helper does not implement Python's process-global `sys.set_int_max_str_digits()` setting or Python 2 syntax.
+Decimal integers use CPython's default 4,300-digit conversion limit. Underscores do not count; all-zero decimal literals and non-decimal bases follow the upstream exemptions. Conversion failure throws a `SyntaxError` carrying the CPython message. The parser action attaches the token's source location through the frontend error interface. This helper does not implement Python's process-global `sys.set_int_max_str_digits()` setting or Python 2 syntax.
 
 The numeric tests call the helper directly and compare against constants or errors obtained from CPython 3.14.3 `ast.parse`. Integers are compared exactly and floating-point/complex components are compared by their IEEE-754 bits. Cases cover safe-integer promotion, all four integer bases, hexadecimal `e` digits, underscores, imaginary literals, rounding ties, subnormal values, overflow, underflow and conversion-limit boundaries. CI regenerates the fixtures using the pinned interpreter and fails on differences:
 
@@ -60,11 +62,11 @@ The numeric tests call the helper directly and compare against constants or erro
 python3.14 tests/fixtures/generate_python314_numbers.py
 ```
 
-The helper is connected to the internal generated expression parser, but not the public package entry point. The numeric tests described here remain conversion tests, not full 3.14 parsing conformance. Shared-runtime extraction candidates for Skulpt are recorded in `docs/integration-notes.md`.
+The public parser uses this helper. The numeric tests described here remain conversion tests, not full 3.14 parsing conformance. Shared-runtime extraction candidates for Skulpt are recorded in `docs/integration-notes.md`.
 
 ## Expression integration
 
-The numeric helper is now used by the internal generated expression parser. See `docs/python314-expression.md` for supported rules, remaining gaps, source provenance, oracle checks and standalone build commands. The public package still uses the recovered parser.
+The numeric helper is now used by the internal generated expression parser. See `docs/python314-expression.md` for supported rules, remaining gaps, source provenance, oracle checks and standalone build commands. The package root and `/core` both export the modern parser.
 
 ## String actions and Unicode names
 

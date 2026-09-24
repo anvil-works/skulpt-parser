@@ -2,7 +2,6 @@
 src/python314/ast.ts
 tests/fixtures/python314-ast.json
 
-tests/fixtures/python314-positions.json
 tests/fixtures/python314-numbers.json
 src/python314/generated_parser.ts
 src/python314/lexer/unicode.json

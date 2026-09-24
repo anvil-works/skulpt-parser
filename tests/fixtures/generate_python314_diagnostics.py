@@ -10,7 +10,7 @@ lock = json.loads((Path(__file__).resolve().parents[2] / "tools/upstream/cpython
 if sys.implementation.name != "cpython" or ".".join(map(str, sys.version_info[:3])) != lock["version"]:
     sys.exit(f'Use CPython {lock["version"]} to refresh diagnostics')
 
-sources = []
+sources = [('"é😀"; f(a + b = 1)', "exec")]
 for header in [
     "if x",
     "if café",

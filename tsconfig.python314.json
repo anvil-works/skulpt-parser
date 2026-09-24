@@ -1,5 +1,0 @@
-{
-    "extends": "./tsconfig.json",
-    "compilerOptions": { "strict": true },
-    "include": ["src/python314/**/*.ts", "tests/python314-types.ts", "tests/python2-types.ts"]
-}

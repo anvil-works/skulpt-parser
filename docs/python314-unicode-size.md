@@ -1,5 +1,8 @@
 # Unicode-name size investigation
 
+> Historical migration notes. The Python 3.9 implementation has since been removed.
+> The package root and `/core` now both export the modern lean parser.
+
 The production frontend at #37 is 866,555 bytes raw, 248,641 gzip and 185,523 Brotli. An experimental build with empty Unicode-name keys/blocks, retaining algorithmic range handling, is 229,131 / 36,830 / 28,047 bytes. The marginal contribution is therefore 637,424 raw / 211,811 gzip / 157,476 Brotli bytes. This is a build-size attribution experiment, not a usable replacement build.
 
 The large database resolves character names in string escapes such as `"\N{SNOWMAN}"`. It is separate from Unicode identifier properties, identifier normalization, literal Unicode text, and numeric escapes such as `"\u2603"`.

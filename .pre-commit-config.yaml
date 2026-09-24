@@ -5,7 +5,6 @@ repos:
           - id: check-yaml
           - id: end-of-file-fixer
           - id: trailing-whitespace
-            exclude: grammar.patch
     - repo: https://github.com/psf/black
       rev: 21.10b0 # Replace by any tag/version: https://github.com/psf/black/tags
       hooks:
@@ -13,7 +12,6 @@ repos:
             args: # arguments to configure black
                 - --line-length=119
             language_version: python3 # Should be a command that runs python3.6+
-            exclude: src/parser/generated_parser.py
     # flake8
     - repo: https://github.com/PyCQA/flake8
       rev: 4.0.1
