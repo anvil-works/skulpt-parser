@@ -5,8 +5,8 @@ export default defineConfig({
     source: {
         decorators: { version: "legacy" },
         entry: {
-            index: "./src/python314/core.ts",
-            "unicode-names": "./src/python314/string_names.ts",
+            index: "./src/index.ts",
+            "unicode-names": "./src/string_names.ts",
         },
     },
     lib: [{ format: "esm", syntax: "es2020", dts: true }],

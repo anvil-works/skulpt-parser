@@ -1,6 +1,6 @@
-import { parseModule } from "../src/python314/frontend_core.ts";
-import type { Module } from "../src/python314/ast.ts";
-import type { CompatibilityModule } from "../src/python314/python2_ast.ts";
+import { parseModule } from "../src/frontend_core.ts";
+import type { Module } from "../src/ast.ts";
+import type { CompatibilityModule } from "../src/python2_ast.ts";
 
 const strict: Module = parseModule("pass");
 const legacyNames: Module = parseModule("await(x)", { legacyAsyncNames: true });

@@ -1,5 +1,5 @@
 import { expect, test } from "@rstest/core";
-import { parseModule } from "../src/python314/frontend_core.ts";
+import { parseModule } from "../src/frontend_core.ts";
 import reference from "./fixtures/python2-statements-skulpt.json";
 
 function comparable(node: any): any {

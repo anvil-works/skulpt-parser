@@ -31,15 +31,15 @@
     },
     "exports": {
         ".": {
-            "types": "./dist-core/python314/core.d.ts",
+            "types": "./dist-core/index.d.ts",
             "import": "./dist-core/index.js"
         },
         "./core": {
-            "types": "./dist-core/python314/core.d.ts",
+            "types": "./dist-core/index.d.ts",
             "import": "./dist-core/index.js"
         },
         "./unicode-names": {
-            "types": "./dist-core/python314/string_names.d.ts",
+            "types": "./dist-core/string_names.d.ts",
             "import": "./dist-core/unicode-names.js"
         }
     },

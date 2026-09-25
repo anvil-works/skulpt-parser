@@ -1,6 +1,6 @@
 import { expect, test } from "@rstest/core";
-import { parseExpression, parseModule } from "../src/python314/frontend_core.ts";
-import { parseExpression as parseFullExpression } from "../src/python314/frontend.ts";
+import { parseExpression, parseModule } from "../src/frontend_core.ts";
+import { parseExpression as parseFullExpression } from "../src/frontend.ts";
 import reference from "./fixtures/legacy-async-skulpt.json";
 
 for (const entry of reference.cases) {

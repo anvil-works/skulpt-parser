@@ -1,4 +1,4 @@
-import * as ast from "../src/python314/ast.ts";
+import * as ast from "../src/ast.ts";
 
 const value = ast.Name("x", ast.Load(), 1, 0, 1, 1);
 // ASDL expr?* means nullable elements, not a nullable collection.

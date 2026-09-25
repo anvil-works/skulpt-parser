@@ -1,5 +1,5 @@
 import { test, expect } from "@rstest/core";
-import { parseNumber } from "../src/python314/parse_number.ts";
+import { parseNumber } from "../src/parse_number.ts";
 import reference from "./fixtures/python314-numbers.json";
 
 function bits(value: number): string {

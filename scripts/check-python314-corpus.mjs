@@ -24,6 +24,11 @@ for (const { name, source, tree, warnings } of records) {
     });
     assert.deepEqual(actual, materialize(tree), `${name}: AST differs from CPython`);
     assert.deepEqual(actualWarnings, warnings, `${name}: warnings differ from CPython`);
-    console.log(`CPython corpus passed: ${name}`);
+    if (name.startsWith("stdlib/")) console.log(`CPython corpus passed: ${name}`);
 }
-console.log(`Compared ${records.length} complete standard-library ASTs and warnings.`);
+const retained = records.filter(({ name }) => name.startsWith("corpus/")).length;
+console.log(
+    `Compared ${retained} retained source fixtures and ${
+        records.length - retained
+    } standard-library ASTs and warnings.`
+);

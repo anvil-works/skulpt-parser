@@ -25,10 +25,10 @@ if args.parser:
 
     grammar, _, _ = build_parser(str(source / "Grammar/python.gram"))
     output = generate_parser(grammar, set(token.tok_name.values()))
-    target = ROOT / "src/python314/generated_parser.ts"
+    target = ROOT / "src/generated_parser.ts"
 else:
     output = generate(asdl.parse(str(source / "Parser/Python.asdl")), lock)
-    target = ROOT / "src/python314/ast.ts"
+    target = ROOT / "src/ast.ts"
 if args.check:
     if not target.exists() or target.read_text(encoding="utf8") != output:
         sys.exit(f"Generated output is stale: {target}. Regenerate with the same arguments without --check.")

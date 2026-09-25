@@ -56,10 +56,19 @@ AST nodes. The old AST classes, symbol-table API and `/node` filesystem helpers 
 no longer exported. Node callers should read files themselves before parsing.
 Skulpt compiler integration uses a separate adapter.
 
+## Source layout
+
+`src/index.ts` is the public entry point. The parser and AST implementation live
+in `src/`, with tokenization in `src/lexer/`. The pinned CPython version and source
+hashes live in `tools/upstream/cpython.json`; source directories are not versioned.
+`/core` is a compatibility alias for the root export, not a different parser.
+
 ## Development
 
 Use Node 22 or later and pnpm 10.10.0. Fixture generation and live corpus
-comparisons require CPython 3.14.3. Tests use checked-in CPython reference fixtures.
+comparisons require CPython 3.14.3. Tests use checked-in CPython reference fixtures. The live corpus check also compares
+all 560 retained programs in `tests/corpus/` and ten standard-library files against
+CPython, including complete AST locations and warnings.
 
 ```sh
 pnpm install --frozen-lockfile

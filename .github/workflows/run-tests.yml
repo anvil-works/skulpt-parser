@@ -41,9 +41,9 @@ jobs:
             - run: python -m tools.generate314 --check
             - run: python -m tools.generate314 --parser --check
             - run: python -m tools.generate314.string_names
-            - run: git diff --exit-code -- src/python314/string_names.json
+            - run: git diff --exit-code -- src/string_names.json
             - run: python -m tools.generate314.lexer_tables
-            - run: git diff --exit-code -- src/python314/lexer/unicode.json src/python314/lexer/operators.json
+            - run: git diff --exit-code -- src/lexer/unicode.json src/lexer/operators.json
             - run: python tests/fixtures/generate_python314_ast.py
             - run: python tests/fixtures/generate_python314_numbers.py
             - run: python tests/fixtures/generate_python314_expressions.py

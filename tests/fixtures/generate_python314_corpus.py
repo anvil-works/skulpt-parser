@@ -1,4 +1,4 @@
-"""Emit live CPython AST expectations for representative standard-library files."""
+"""Emit live CPython expectations for the retained source corpus and stdlib files."""
 
 import ast
 import json
@@ -14,7 +14,7 @@ if sys.implementation.name != "cpython" or ".".join(map(str, sys.version_info[:3
     sys.exit(f'Use CPython {lock["version"]} for the corpus check')
 stdlib = Path(sysconfig.get_path("stdlib"))
 records = []
-for name in [
+stdlib_names = [
     "ast.py",
     "dataclasses.py",
     "enum.py",
@@ -25,8 +25,14 @@ for name in [
     "asyncio/tasks.py",
     "json/decoder.py",
     "unittest/mock.py",
-]:
-    source = (stdlib / name).read_text(encoding="utf8")
+]
+corpus = Path(__file__).resolve().parents[1] / "corpus"
+sources = [("corpus/" + path.name, path) for path in sorted(corpus.glob("*.py"))]
+if not sources:
+    sys.exit("The retained parser source corpus is missing")
+sources.extend(("stdlib/" + name, stdlib / name) for name in stdlib_names)
+for name, path in sources:
+    source = path.read_text(encoding="utf8")
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter("always")
         tree = encode(ast.parse(source))
