@@ -4,7 +4,7 @@ import { parseModule } from "../dist-expression/index.js";
 
 // Expectations come from the pinned interpreter at runtime, not checked-in TS output.
 const records = JSON.parse(
-    execFileSync("python3.14", ["tests/fixtures/generate_python314_corpus.py"], {
+    execFileSync("python3.14", ["tests/fixtures/generate_python314_corpus.py", "--include-retained"], {
         encoding: "utf8",
         maxBuffer: 64 * 1024 * 1024,
     })
@@ -24,7 +24,7 @@ for (const { name, source, tree, warnings } of records) {
     });
     assert.deepEqual(actual, materialize(tree), `${name}: AST differs from CPython`);
     assert.deepEqual(actualWarnings, warnings, `${name}: warnings differ from CPython`);
-    if (name.startsWith("stdlib/")) console.log(`CPython corpus passed: ${name}`);
+    if (!name.startsWith("corpus/")) console.log(`CPython corpus passed: ${name}`);
 }
 const retained = records.filter(({ name }) => name.startsWith("corpus/")).length;
 console.log(
