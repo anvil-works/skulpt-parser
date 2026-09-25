@@ -73,3 +73,20 @@ test.each(["ur", "uR", "Ur", "UR", "ru", "rU", "Ru", "RU"])(
         expect(() => tokenize(source, { extraTokens: true })).toThrow();
     }
 );
+
+for (const source of [
+    "if True:\n        pass\n\tpass\n",
+    "if True:\n    if True:\n\tpass\n",
+    "if True:\n        if True:\n            pass\n\tpass\n",
+]) {
+    test(`legacy indentation accepts equivalent tab stops: ${JSON.stringify(source)}`, () => {
+        expect(() => parseModule(source, { python2Compat: true })).not.toThrow();
+        expect(() => parseModule(source)).toThrow("inconsistent use of tabs and spaces in indentation");
+    });
+}
+
+test("legacy indentation still rejects dedents between established levels", () => {
+    expect(() => parseModule("if True:\n\tpass\n   pass\n", { python2Compat: true })).toThrow(
+        "unindent does not match any outer indentation level"
+    );
+});
