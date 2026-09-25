@@ -26,29 +26,3 @@ SOURCES = [
 
 fixtures = {"version": lock["version"], "cases": [{"source": s, "tree": encode(ast.parse(s))} for s in SOURCES]}
 Path(__file__).with_name("python314-ast.json").write_text(json.dumps(fixtures, indent=4, ensure_ascii=True) + "\n")
-
-# These legacy-runtime regressions need the newer reference: CPython 3.9 has
-# incorrect multiline f-string locations. Keep the source beside its expected result.
-error_source = '"é😀"; f(a + b = 1)'
-try:
-    ast.parse(error_source, filename="<string>")
-except SyntaxError as error:
-    diagnostic = {
-        "source": error_source,
-        "name": type(error).__name__,
-        "message": error.msg,
-        "location": [error.filename, error.lineno, error.offset],
-    }
-else:
-    raise AssertionError("Expected the reference to reject the invalid keyword argument")
-
-multiline_source = 'x = f"""é\n😀{value}"""\n'
-expression = ast.parse(multiline_source).body[0].value.values[1].value
-positions = {
-    "version": lock["version"],
-    "diagnostic": diagnostic,
-    "multiline": {"source": multiline_source, "expression": encode(expression)},
-}
-Path(__file__).with_name("python314-positions.json").write_text(
-    json.dumps(positions, indent=4, ensure_ascii=True) + "\n"
-)

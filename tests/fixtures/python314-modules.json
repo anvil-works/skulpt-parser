@@ -316,6 +316,527 @@
     "version": "3.14.3",
     "cases": [
         {
+            "source": "r\u00e9sum\u00e9 = \"\u4e2d\u6587\ud83d\ude00\"; result = r\u00e9sum\u00e9 + \"\u00e9\"\n",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "r\u00e9sum\u00e9",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 0,
+                                "end_lineno": 1,
+                                "end_col_offset": 8
+                            }
+                        ],
+                        "value": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "\u4e2d\u6587\ud83d\ude00"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 11,
+                            "end_lineno": 1,
+                            "end_col_offset": 23
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 23
+                    },
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "result",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 25,
+                                "end_lineno": 1,
+                                "end_col_offset": 31
+                            }
+                        ],
+                        "value": {
+                            "_type": "BinOp",
+                            "left": {
+                                "_type": "Name",
+                                "id": "r\u00e9sum\u00e9",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 34,
+                                "end_lineno": 1,
+                                "end_col_offset": 42
+                            },
+                            "op": {
+                                "_type": "Add"
+                            },
+                            "right": {
+                                "_type": "Constant",
+                                "value": {
+                                    "type": "str",
+                                    "value": "\u00e9"
+                                },
+                                "kind": null,
+                                "lineno": 1,
+                                "col_offset": 45,
+                                "end_lineno": 1,
+                                "end_col_offset": 49
+                            },
+                            "lineno": 1,
+                            "col_offset": 34,
+                            "end_lineno": 1,
+                            "end_col_offset": 49
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 25,
+                        "end_lineno": 1,
+                        "end_col_offset": 49
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = \"\"\"\u4e2d\u6587\n\ud83d\ude00\u00e9\"\"\"; y = 123\n",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 0,
+                                "end_lineno": 1,
+                                "end_col_offset": 1
+                            }
+                        ],
+                        "value": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "\u4e2d\u6587\n\ud83d\ude00\u00e9"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 2,
+                            "end_col_offset": 9
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 9
+                    },
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "y",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 2,
+                                "col_offset": 11,
+                                "end_lineno": 2,
+                                "end_col_offset": 12
+                            }
+                        ],
+                        "value": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "int",
+                                "value": 123
+                            },
+                            "kind": null,
+                            "lineno": 2,
+                            "col_offset": 15,
+                            "end_lineno": 2,
+                            "end_col_offset": 18
+                        },
+                        "type_comment": null,
+                        "lineno": 2,
+                        "col_offset": 11,
+                        "end_lineno": 2,
+                        "end_col_offset": 18
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = \"\u00e9\" \"\ud83d\ude00\"; y = b\"abc\"\n",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 0,
+                                "end_lineno": 1,
+                                "end_col_offset": 1
+                            }
+                        ],
+                        "value": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "\u00e9\ud83d\ude00"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 15
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 15
+                    },
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "y",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 17,
+                                "end_lineno": 1,
+                                "end_col_offset": 18
+                            }
+                        ],
+                        "value": {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "bytes",
+                                "value": {
+                                    "$bytes": [
+                                        97,
+                                        98,
+                                        99
+                                    ]
+                                }
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 21,
+                            "end_lineno": 1,
+                            "end_col_offset": 27
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 17,
+                        "end_lineno": 1,
+                        "end_col_offset": 27
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = f\"\u00e9\ud83d\ude00{value + 12}\"\n",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 0,
+                                "end_lineno": 1,
+                                "end_col_offset": 1
+                            }
+                        ],
+                        "value": {
+                            "_type": "JoinedStr",
+                            "values": [
+                                {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "str",
+                                        "value": "\u00e9\ud83d\ude00"
+                                    },
+                                    "kind": null,
+                                    "lineno": 1,
+                                    "col_offset": 6,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 12
+                                },
+                                {
+                                    "_type": "FormattedValue",
+                                    "value": {
+                                        "_type": "BinOp",
+                                        "left": {
+                                            "_type": "Name",
+                                            "id": "value",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            },
+                                            "lineno": 1,
+                                            "col_offset": 13,
+                                            "end_lineno": 1,
+                                            "end_col_offset": 18
+                                        },
+                                        "op": {
+                                            "_type": "Add"
+                                        },
+                                        "right": {
+                                            "_type": "Constant",
+                                            "value": {
+                                                "type": "int",
+                                                "value": 12
+                                            },
+                                            "kind": null,
+                                            "lineno": 1,
+                                            "col_offset": 21,
+                                            "end_lineno": 1,
+                                            "end_col_offset": 23
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 13,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 23
+                                    },
+                                    "conversion": -1,
+                                    "format_spec": null,
+                                    "lineno": 1,
+                                    "col_offset": 12,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 24
+                                }
+                            ],
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 25
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 25
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = f\"\u00e9{value:{width}}\"\n",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 0,
+                                "end_lineno": 1,
+                                "end_col_offset": 1
+                            }
+                        ],
+                        "value": {
+                            "_type": "JoinedStr",
+                            "values": [
+                                {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "str",
+                                        "value": "\u00e9"
+                                    },
+                                    "kind": null,
+                                    "lineno": 1,
+                                    "col_offset": 6,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 8
+                                },
+                                {
+                                    "_type": "FormattedValue",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "value",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 9,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 14
+                                    },
+                                    "conversion": -1,
+                                    "format_spec": {
+                                        "_type": "JoinedStr",
+                                        "values": [
+                                            {
+                                                "_type": "FormattedValue",
+                                                "value": {
+                                                    "_type": "Name",
+                                                    "id": "width",
+                                                    "ctx": {
+                                                        "_type": "Load"
+                                                    },
+                                                    "lineno": 1,
+                                                    "col_offset": 16,
+                                                    "end_lineno": 1,
+                                                    "end_col_offset": 21
+                                                },
+                                                "conversion": -1,
+                                                "format_spec": null,
+                                                "lineno": 1,
+                                                "col_offset": 15,
+                                                "end_lineno": 1,
+                                                "end_col_offset": 22
+                                            }
+                                        ],
+                                        "lineno": 1,
+                                        "col_offset": 14,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 22
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 8,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 23
+                                }
+                            ],
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 1,
+                            "end_col_offset": 24
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 24
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
+            "source": "x = f\"\"\"\u00e9\n\ud83d\ude00{value}\"\"\"\n",
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Assign",
+                        "targets": [
+                            {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Store"
+                                },
+                                "lineno": 1,
+                                "col_offset": 0,
+                                "end_lineno": 1,
+                                "end_col_offset": 1
+                            }
+                        ],
+                        "value": {
+                            "_type": "JoinedStr",
+                            "values": [
+                                {
+                                    "_type": "Constant",
+                                    "value": {
+                                        "type": "str",
+                                        "value": "\u00e9\n\ud83d\ude00"
+                                    },
+                                    "kind": null,
+                                    "lineno": 1,
+                                    "col_offset": 8,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 4
+                                },
+                                {
+                                    "_type": "FormattedValue",
+                                    "value": {
+                                        "_type": "Name",
+                                        "id": "value",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 2,
+                                        "col_offset": 5,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 10
+                                    },
+                                    "conversion": -1,
+                                    "format_spec": null,
+                                    "lineno": 2,
+                                    "col_offset": 4,
+                                    "end_lineno": 2,
+                                    "end_col_offset": 11
+                                }
+                            ],
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 2,
+                            "end_col_offset": 14
+                        },
+                        "type_comment": null,
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 2,
+                        "end_col_offset": 14
+                    }
+                ],
+                "type_ignores": []
+            },
+            "warnings": []
+        },
+        {
             "source": "",
             "tree": {
                 "_type": "Module",

@@ -1,13 +1,13 @@
+tests/corpus/
 # Generated deterministically by tools/generate314. Format the generator, not its output.
-src/python314/ast.ts
+src/ast.ts
 tests/fixtures/python314-ast.json
 
-tests/fixtures/python314-positions.json
 tests/fixtures/python314-numbers.json
-src/python314/generated_parser.ts
-src/python314/lexer/unicode.json
-src/python314/lexer/operators.json
+src/generated_parser.ts
+src/lexer/unicode.json
+src/lexer/operators.json
 tests/fixtures/python314-expressions.json
 tests/fixtures/python314-lexer.json
-src/python314/string_names.json
+src/string_names.json
 tests/fixtures/python314-modules.json

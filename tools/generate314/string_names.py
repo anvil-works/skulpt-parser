@@ -59,4 +59,4 @@ result = {
     "keys": keys,
     "blocks": blocks,
 }
-(root / "src/python314/string_names.json").write_text(json.dumps(result, separators=(",", ":")) + "\n")
+(root / "src/string_names.json").write_text(json.dumps(result, separators=(",", ":")) + "\n")

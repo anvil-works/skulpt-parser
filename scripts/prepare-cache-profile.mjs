@@ -11,7 +11,7 @@ mkdirSync(root); // Refuse to replace an existing experiment.
 cpSync("src", join(root, "src"), { recursive: true });
 symlinkSync(resolve("node_modules"), join(root, "node_modules"), "dir");
 writeFileSync(join(root, "package.json"), '{"type":"module"}\n');
-const generated = readFileSync("src/python314/generated_parser.ts", "utf8");
+const generated = readFileSync("src/generated_parser.ts", "utf8");
 // Slots are assigned once, in generated decorator registration order.
 const memoRules = [...generated.matchAll(/@(memoize(?:LeftRec)?)\n(\w+)\(\)/g)].map(([, decorator, name]) => ({
     name,
@@ -20,8 +20,8 @@ const memoRules = [...generated.matchAll(/@(memoize(?:LeftRec)?)\n(\w+)\(\)/g)].
 assert.ok(memoRules.length, "No generated memoized rules found");
 writeFileSync(
     join(root, "profile-entry.ts"),
-    'export { parseModule } from "./src/python314/frontend_core.ts";\n' +
-        'export { Parser } from "./src/python314/parser.ts";\n' +
+    'export { parseModule } from "./src/frontend_core.ts";\n' +
+        'export { Parser } from "./src/parser.ts";\n' +
         `export const memoRules = ${JSON.stringify(memoRules)};\n`
 );
 writeFileSync(

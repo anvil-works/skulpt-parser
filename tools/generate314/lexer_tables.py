@@ -24,7 +24,7 @@ def ranges(predicate):
 
 if sys.implementation.name != "cpython" or sys.version_info[:3] != (3, 14, 3):
     raise SystemExit("Generate with CPython 3.14.3")
-target = Path(__file__).resolve().parents[2] / "src/python314/lexer"
+target = Path(__file__).resolve().parents[2] / "src/lexer"
 properties = {
     "unicodeVersion": unicodedata.unidata_version,
     "start": ranges(str.isidentifier),

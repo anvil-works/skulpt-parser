@@ -1,6 +1,9 @@
 # Python 3.14 expression integration
 
-This change connects the selected CPython-shaped TypeScript lexer, generated PEG rules, numeric decoder and structural AST. The internal `src/python314/frontend.ts` entry point accepts source strings through `parseExpression` and produces an `Expression` tree. The same file also exposes the internal `parseModule` entry point. It is a migration slice, not a complete frontend release. The package's existing entry points continue to use the recovered parser; no consumer deployment or server change is required.
+> Historical migration report. The package root now exports the modern parser
+> through `src/index.ts`; the old Python 3.9 implementation has been removed.
+
+This change connects the selected CPython-shaped TypeScript lexer, generated PEG rules, numeric decoder and structural AST. The internal `src/frontend.ts` entry point accepts source strings through `parseExpression` and produces an `Expression` tree. The same file also exposes the internal `parseModule` entry point. It is a migration slice, not a complete frontend release. The package's existing entry points continue to use the recovered parser; no consumer deployment or server change is required.
 
 ## Supported grammar
 
@@ -54,7 +57,7 @@ These are common-input measurements of an incomplete parser with a different AST
 
 ## Review order
 
-Read the selection and action translation in `tools/generate314/parser.py`, then `src/python314/parser.ts` and `expression.ts`. Review the lexer against the checksum-pinned C reference files fetched by `pnpm upstream:prepare`, especially lazy scanning, native byte columns and warnings. The experiment SHA records development provenance; reproduction and review do not require that separate checkout. Finally inspect the CPython fixture generators, tests and CI freshness checks. Generated parser, tables and fixture JSON should be verified by regeneration, rather than treated as handwritten code.
+Read the selection and action translation in `tools/generate314/parser.py`, then `src/parser.ts` and `expression.ts`. Review the lexer against the checksum-pinned C reference files fetched by `pnpm upstream:prepare`, especially lazy scanning, native byte columns and warnings. The experiment SHA records development provenance; reproduction and review do not require that separate checkout. Finally inspect the CPython fixture generators, tests and CI freshness checks. Generated parser, tables and fixture JSON should be verified by regeneration, rather than treated as handwritten code.
 
 ## Calls and comprehensions
 
@@ -68,7 +71,7 @@ With calls and comprehensions included, the standalone bundle is 78,691 bytes ra
 
 ## Strings and interpolation
 
-`src/python314/strings.ts` ports the pinned CPython string actions: escape decoding, adjacent literal folding, conversion checks, format specifications, debug text and `JoinedStr`/`TemplateStr` construction. Nested interpolation expressions use the same generated parser. They do not invoke a second parser on substrings. Ordinary strings preserve lone surrogate values; bytes use `Uint8Array`. Escape warnings use the optional warning callback and are deduplicated across backtracking. Compile-time validation and the second-pass invalid rules remain separate work.
+`src/strings.ts` ports the pinned CPython string actions: escape decoding, adjacent literal folding, conversion checks, format specifications, debug text and `JoinedStr`/`TemplateStr` construction. Nested interpolation expressions use the same generated parser. They do not invoke a second parser on substrings. Ordinary strings preserve lone surrogate values; bytes use `Uint8Array`. Escape warnings use the optional warning callback and are deduplicated across backtracking. Compile-time validation and the second-pass invalid rules remain separate work.
 
 `\N{...}` lookup covers Unicode 16 character names and aliases, excluding named sequences as CPython does. `tools/generate314/string_names.py` generates the table from CPython 3.14.3 and the vendored Unicode 16 `NameAliases.txt`; its Unicode license is retained beside the file. Hangul and hexadecimal names use compact algorithms/ranges. Remaining names use sorted blocks of 32 with shared prefixes removed. A lookup decodes one block, without constructing a full name map. CI regenerates this data. Unicode names and properties remain candidates for a shared Skulpt dependency; this change does not create one.
 
@@ -78,7 +81,7 @@ After string integration, the standalone expression bundle is 729,433 bytes raw 
 
 ## Lambdas and yield expressions
 
-The selected lambda rules cover positional-only parameters, defaults, variadic parameters and keyword-only arguments. `src/python314/parameters.ts` assembles the grammar’s intermediate groups using CPython’s action-helper field ordering. Positional defaults span positional-only and ordinary parameters; required keyword-only arguments retain null entries in `kw_defaults`. Empty lambda argument lists use the structural `arguments` factory directly. The translator enforces the current `type_comments=False` contract for both lambda and function parameters.
+The selected lambda rules cover positional-only parameters, defaults, variadic parameters and keyword-only arguments. `src/parameters.ts` assembles the grammar’s intermediate groups using CPython’s action-helper field ordering. Positional defaults span positional-only and ordinary parameters; required keyword-only arguments retain null entries in `kw_defaults`. Empty lambda argument lists use the structural `arguments` factory directly. The translator enforces the current `type_comments=False` contract for both lambda and function parameters.
 
 `Yield` and `YieldFrom` use generated AST constructors. Parentheses, tuple values, unpacking and placement in interpolation fields follow the upstream grammar. This entry point matches `ast.parse(mode="eval")`, which can construct yields outside a generator and lambdas with duplicate parameter names. Those later compilation errors are not introduced as parser restrictions.
 

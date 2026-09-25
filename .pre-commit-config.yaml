@@ -1,3 +1,5 @@
+# Parser inputs are fixtures; preserve their exact source text.
+exclude: ^tests/corpus/
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v4.0.1
@@ -5,7 +7,6 @@ repos:
           - id: check-yaml
           - id: end-of-file-fixer
           - id: trailing-whitespace
-            exclude: grammar.patch
     - repo: https://github.com/psf/black
       rev: 21.10b0 # Replace by any tag/version: https://github.com/psf/black/tags
       hooks:
@@ -13,7 +14,6 @@ repos:
             args: # arguments to configure black
                 - --line-length=119
             language_version: python3 # Should be a command that runs python3.6+
-            exclude: src/parser/generated_parser.py
     # flake8
     - repo: https://github.com/PyCQA/flake8
       rev: 4.0.1
@@ -29,7 +29,7 @@ repos:
       hooks:
           - id: insert-license
             # These CPython-derived files carry their own combined SPDX header.
-            exclude: ^src/python314/(generated_parser\.ts|diagnostics\.ts|parser\.ts|imports\.ts|parameters\.ts|strings\.ts|string_names\.ts|lexer/tokenizer\.ts)$
+            exclude: ^src/(generated_parser\.ts|diagnostics\.ts|parser\.ts|imports\.ts|parameters\.ts|strings\.ts|string_names\.ts|lexer/tokenizer\.ts)$
             files: "^(src|scripts)/.*ts$"
             args:
                 - --detect-license-in-X-top-lines=2

@@ -1,4 +1,4 @@
-import { parseModule } from "../src/python314/frontend.ts";
+import { parseModule } from "../src/frontend.ts";
 import { test, expect } from "@rstest/core";
 import { readFileSync } from "node:fs";
 

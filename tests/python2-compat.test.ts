@@ -1,6 +1,6 @@
 import { expect, test } from "@rstest/core";
-import { parseExpression, parseModule } from "../src/python314/frontend_core.ts";
-import { tokenize } from "../src/python314/lexer/tokenizer.ts";
+import { parseExpression, parseModule } from "../src/frontend_core.ts";
+import { tokenize } from "../src/lexer/tokenizer.ts";
 import reference from "./fixtures/python2-numeric-skulpt.json";
 
 function rejectsSyntax(parse: () => unknown) {

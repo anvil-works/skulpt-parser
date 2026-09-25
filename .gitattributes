@@ -1,12 +1,11 @@
-src/python314/ast.ts linguist-generated=true
+src/ast.ts linguist-generated=true
 tests/fixtures/python314-ast.json linguist-generated=true
 
-tests/fixtures/python314-positions.json linguist-generated=true
 tests/fixtures/python314-numbers.json linguist-generated=true
-src/python314/generated_parser.ts linguist-generated=true
-src/python314/lexer/unicode.json linguist-generated=true
-src/python314/lexer/operators.json linguist-generated=true
+src/generated_parser.ts linguist-generated=true
+src/lexer/unicode.json linguist-generated=true
+src/lexer/operators.json linguist-generated=true
 tests/fixtures/python314-expressions.json linguist-generated=true
 tests/fixtures/python314-lexer.json linguist-generated=true
-src/python314/string_names.json linguist-generated=true
+src/string_names.json linguist-generated=true
 tests/fixtures/python314-modules.json linguist-generated=true

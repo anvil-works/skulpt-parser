@@ -6,10 +6,10 @@ produces an AST; it does not supply Python execution or all compiler semantic ch
 
 ## Python 3.14 frontend
 
-Use the lean `/core` entry for browser and IDE consumers:
+The package root and `/core` alias expose the same lean browser and IDE API:
 
 ```js
-import { parseModule, parseExpression, scan } from "@anvil-works/skulpt-parser/core";
+import { parseModule, parseExpression, scan } from "@anvil-works/skulpt-parser";
 
 const module = parseModule("answer = 42\n", { filename: "example.py" });
 const expression = parseExpression("answer + 1");
@@ -26,7 +26,7 @@ The core includes Unicode identifiers and numeric character escapes. Unicode-nam
 escapes such as `"\\N{SNOWMAN}"` require the separately loaded name database:
 
 ```js
-import { parseExpression } from "@anvil-works/skulpt-parser/core";
+import { parseExpression } from "@anvil-works/skulpt-parser";
 import { unicodeName } from "@anvil-works/skulpt-parser/unicode-names";
 
 const tree = parseExpression('"\\N{SNOWMAN}"', { unicodeName });
@@ -47,33 +47,39 @@ parseModule("print 0755L\n", { python2Compat: true, legacyAsyncNames: true });
 Compatibility is bounded by existing Skulpt applications, not complete historical
 Python 2 support. See [the compatibility contract](https://github.com/anvil-works/skulpt-parser/blob/dev/docs/python2-compatibility.md).
 
-## Legacy entry points
+## Migrating from the Python 3.9 API
 
-The package root retains the original Python 3.9 frontend. It is not the Python
-3.14 API. Its Node filesystem helpers are separate:
+The Python 3.9 implementation has been removed. The root now exports the modern
+parser; `/core` remains an alias for existing integrations. Replace
+`runParserFromString` with `parseModule` or `parseExpression` and consume structural
+AST nodes. The old AST classes, symbol-table API and `/node` filesystem helpers are
+no longer exported. Node callers should read files themselves before parsing.
+Skulpt compiler integration uses a separate adapter.
 
-```js
-import { runParserFromString } from "@anvil-works/skulpt-parser";
-import { runParserFromFile } from "@anvil-works/skulpt-parser/node";
-```
+## Source layout
 
-New integrations should use `/core`. The legacy entry points remain for migration;
-Skulpt compiler integration still uses an adapter rather than a rewritten compiler.
+`src/index.ts` is the public entry point. The parser and AST implementation live
+in `src/`, with tokenization in `src/lexer/`. The pinned CPython version and source
+hashes live in `tools/upstream/cpython.json`; source directories are not versioned.
+`/core` is a compatibility alias for the root export, not a different parser.
 
 ## Development
 
-Use Node 22 or later and pnpm 10.10.0. Legacy tests require CPython 3.9.25; Python
-3.14 generation and live corpus comparisons require CPython 3.14.3.
+Use Node 22 or later and pnpm 10.10.0. Fixture generation and live corpus
+comparisons require CPython 3.14.3. Tests use checked-in CPython reference fixtures. The live corpus check also compares
+all 560 retained programs in `tests/corpus/` and ten standard-library files against
+CPython, including complete AST locations and warnings.
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm check
-PYTHON=/path/to/python3.9 pnpm test
+pnpm test
 pnpm test:release
 pnpm build
-pnpm build:core
 pnpm test:package
 pnpm test:core-package
+pnpm build:expression
+pnpm test:expression-package
 pnpm test:python314-corpus
 ```
 
@@ -95,7 +101,7 @@ pnpm publish --tag dev --publish-branch dev
 `prepublishOnly` rejects a missing tag, `latest`, and other tags, and requires an
 `X.Y.Z-dev.N` version. Unlike the existing CLI release workflow, this first release
 does not require a previously published stable version. `prepack` rebuilds the
-legacy and core bundles. Increment the prerelease number for subsequent publishes.
+core and optional Unicode-name bundles. Increment the prerelease number for subsequent publishes.
 Do not bypass lifecycle scripts when publishing.
 
 After publication, consumers can pin `@anvil-works/skulpt-parser@0.0.1-dev.0` and

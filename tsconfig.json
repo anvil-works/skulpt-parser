@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
         "target": "ES2020",
+        "rootDir": "src",
         "module": "ESNext",
         "moduleResolution": "Bundler",
         "allowImportingTsExtensions": true,
@@ -8,7 +9,7 @@
         "experimentalDecorators": true,
         "useDefineForClassFields": false,
         "skipLibCheck": true,
-        "strict": false,
+        "strict": true,
         "types": ["node"]
     },
     "include": ["src/**/*.ts"]

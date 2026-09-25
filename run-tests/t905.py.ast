@@ -1,8 +1,0 @@
-Module(
-    body=[
-        AnnAssign(
-            target=Name(id='a', ctx=Store()),
-            annotation=Name(id='int', ctx=Load()),
-            value=Constant(value=0),
-            simple=1)],
-    type_ignores=[])

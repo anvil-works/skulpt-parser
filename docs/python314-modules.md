@@ -1,6 +1,6 @@
 # Python 3.14 module parsing
 
-The public `@anvil-works/skulpt-parser/core` entry exposes `parseExpression` and `parseModule`, returning structural `Expression` and `Module` ASTs. Both use the same generated parser. The package root retains the recovered Python 3.9 API; use `/core` for Python 3.14 integration.
+The public `@anvil-works/skulpt-parser/core` entry exposes `parseExpression` and `parseModule`, returning structural `Expression` and `Module` ASTs. Both use the same generated parser. The package root and `/core` are aliases for the same Python 3.14 API.
 
 ## Grammar coverage
 
@@ -50,4 +50,4 @@ pnpm test:expression-package
 pnpm test:python314-corpus
 ```
 
-The legacy suite requires `PYTHON` to select CPython 3.9.25. Module fixtures and the live corpus check require CPython 3.14.3. Broader conformance, semantic validation, performance measurements and consumer integration remain future work.
+Module fixtures and the live corpus check require CPython 3.14.3. The Python 3.9 implementation and its test suite have been removed.

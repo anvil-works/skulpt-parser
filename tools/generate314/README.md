@@ -1,6 +1,6 @@
 # Python 3.14 AST generation
 
-The first generator using the isolated inputs emits `src/python314/ast.ts` from the pinned `Parser/Python.asdl`. It produces all 113 concrete AST node interfaces and positional factories, plus the ASDL sum types and an `AST` union. These are migration modules; the existing Python 3.9 parser and public package entry remain unchanged.
+The AST generator emits `src/ast.ts` from the pinned `Parser/Python.asdl`. It produces all 113 concrete AST node interfaces and positional factories, plus the ASDL sum types and an `AST` union. These types underpin the public parser.
 
 ```sh
 pnpm upstream:prepare
@@ -16,7 +16,7 @@ Generation requires CPython 3.14.3 and performs the upstream integrity/schema ch
 Each node is a plain object with an `_type` discriminant and CPython field names. `_type` leaves `Constant.kind` available for its upstream meaning. Factories take fields in CPython ASDL order, followed by declared source attributes. For example:
 
 ```ts
-import * as ast from "../../src/python314/ast.ts";
+import * as ast from "../../src/ast.ts";
 
 const value = ast.Constant({ type: "int", value: 42 }, null, 1, 0, 1, 2);
 const root = ast.Expression(value);
@@ -40,19 +40,21 @@ python3.14 tests/fixtures/generate_python314_ast.py
 
 CI verifies both generated-source freshness and fixture freshness. The generated files are excluded from Prettier so a formatter version does not become an undeclared generation input. Edit the generators and regenerate rather than editing the outputs.
 
-These fixtures test schema construction, not parsing Python 3.14 with the TypeScript parser. The recovered 3.9 conformance suites remain separate and unchanged.
+These fixtures test schema construction, not parsing Python 3.14 with the TypeScript parser. Parser conformance fixtures are generated separately.
 
 ## Parser backend boundary
 
-The existing parser backend expects the 3.9 pegen API, a manually patched grammar with TypeScript actions, old token categories and runtime helpers. The pinned 3.14 grammar contains C actions, newer forced parsing and soft-keyword constructs, new interpolation tokens and diagnostic paths. It cannot simply be redirected at the new source directory.
-
-The parser migration must adapt grammar traversal, actions and helper contracts together and test generated output through the real parser runtime. Do not emit raw C expressions, silently return placeholder values for missing helpers or treat successful grammar loading as parser readiness. This PR deliberately leaves the old generated parser intact while establishing the AST representation that those actions will construct.
+The parser generator adapts the pinned CPython grammar's C actions to TypeScript
+helpers and emits `src/generated_parser.ts`. Grammar traversal, semantic
+actions and runtime helpers must stay aligned. Check generated output with
+`python3.14 -m tools.generate314 --parser --check` and validate behavior through
+the parser's CPython reference fixtures and live corpus comparison.
 
 ## Numeric runtime helper
 
-`src/python314/parse_number.ts` converts a validated, unsigned `NUMBER` token into an independent tagged numeric constant. It distinguishes base-prefixed integers before looking for exponent markers, preserves large integers with native `bigint`, and converts decimal floating-point and imaginary literals with JavaScript's decimal-to-double conversion. Unary signs remain grammar operations. Invalid token spelling remains the lexer's responsibility.
+`src/parse_number.ts` converts a validated, unsigned `NUMBER` token into an independent tagged numeric constant. It distinguishes base-prefixed integers before looking for exponent markers, preserves large integers with native `bigint`, and converts decimal floating-point and imaginary literals with JavaScript's decimal-to-double conversion. Unary signs remain grammar operations. Invalid token spelling remains the lexer's responsibility.
 
-Decimal integers use CPython's default 4,300-digit conversion limit. Underscores do not count; all-zero decimal literals and non-decimal bases follow the upstream exemptions. Conversion failure throws a `SyntaxError` carrying the CPython message. The future parser action must attach the token's source location through the frontend error interface. This helper does not implement Python's process-global `sys.set_int_max_str_digits()` setting or Python 2 syntax.
+Decimal integers use CPython's default 4,300-digit conversion limit. Underscores do not count; all-zero decimal literals and non-decimal bases follow the upstream exemptions. Conversion failure throws a `SyntaxError` carrying the CPython message. The parser action attaches the token's source location through the frontend error interface. This helper does not implement Python's process-global `sys.set_int_max_str_digits()` setting or Python 2 syntax.
 
 The numeric tests call the helper directly and compare against constants or errors obtained from CPython 3.14.3 `ast.parse`. Integers are compared exactly and floating-point/complex components are compared by their IEEE-754 bits. Cases cover safe-integer promotion, all four integer bases, hexadecimal `e` digits, underscores, imaginary literals, rounding ties, subnormal values, overflow, underflow and conversion-limit boundaries. CI regenerates the fixtures using the pinned interpreter and fails on differences:
 
@@ -60,22 +62,22 @@ The numeric tests call the helper directly and compare against constants or erro
 python3.14 tests/fixtures/generate_python314_numbers.py
 ```
 
-The helper is connected to the internal generated expression parser, but not the public package entry point. The numeric tests described here remain conversion tests, not full 3.14 parsing conformance. Shared-runtime extraction candidates for Skulpt are recorded in `docs/integration-notes.md`.
+The public parser uses this helper. The numeric tests described here remain conversion tests, not full 3.14 parsing conformance. Shared-runtime extraction candidates for Skulpt are recorded in `docs/integration-notes.md`.
 
 ## Expression integration
 
-The numeric helper is now used by the internal generated expression parser. See `docs/python314-expression.md` for supported rules, remaining gaps, source provenance, oracle checks and standalone build commands. The public package still uses the recovered parser.
+The numeric helper is now used by the internal generated expression parser. See `docs/python314-expression.md` for supported rules, remaining gaps, source provenance, oracle checks and standalone build commands. The package root and `/core` both export the modern parser.
 
 ## String actions and Unicode names
 
-The selected parser grammar now includes ordinary strings, bytes, f-strings and t-strings. Semantic actions are implemented in `src/python314/strings.ts`, translated from the pinned CPython string parser and action helpers. Their embedded expressions still follow the current selected expression grammar. See `docs/python314-expression.md` for scope, diagnostics and bundle costs.
+The selected parser grammar now includes ordinary strings, bytes, f-strings and t-strings. Semantic actions are implemented in `src/strings.ts`, translated from the pinned CPython string parser and action helpers. Their embedded expressions still follow the current selected expression grammar. See `docs/python314-expression.md` for scope, diagnostics and bundle costs.
 
 Run `python3.14 -m tools.generate314.string_names` to regenerate the name database. The Unicode 16 alias source and its license are vendored under `tools/generate314/unicode/`; the generated data records that source’s SHA-256. Names come from the pinned interpreter, and every alias is verified with its `unicodedata.lookup`. This is independent of the existing lexer’s Unicode identifier tables.
 
 ## Lambda parameters and expression coverage
 
-Lambda parameter groups are assembled by `src/python314/parameters.ts`, following the pinned CPython action helpers. Yield actions use the structural constructors directly. Generation now checks that every rule reachable from upstream `eval` and `file`, including diagnostic rules, is selected. This protects expression and module grammar coverage during future upstream changes; it does not establish exhaustive behavior or compiler validation. Source/AST comparisons and remaining limitations are documented in `docs/python314-expression.md`.
+Lambda parameter groups are assembled by `src/parameters.ts`, following the pinned CPython action helpers. Yield actions use the structural constructors directly. Generation now checks that every rule reachable from upstream `eval` and `file`, including diagnostic rules, is selected. This protects expression and module grammar coverage during future upstream changes; it does not establish exhaustive behavior or compiler validation. Source/AST comparisons and remaining limitations are documented in `docs/python314-expression.md`.
 
 ## Module integration
 
-`src/python314/frontend.ts` exposes internal expression and module entry points backed by `GeneratedParser`. The module rules now cover every rule reachable from `file`, including compound statements, pattern matching and second-pass diagnostics. This is grammar coverage, not exhaustive conformance. See `docs/python314-modules.md` for exact scope, default type-comment behavior, EOF/error adaptation and CPython fixture checks. The existing `--parser` generator option emits both entry rules.
+`src/frontend.ts` exposes internal expression and module entry points backed by `GeneratedParser`. The module rules now cover every rule reachable from `file`, including compound statements, pattern matching and second-pass diagnostics. This is grammar coverage, not exhaustive conformance. See `docs/python314-modules.md` for exact scope, default type-comment behavior, EOF/error adaptation and CPython fixture checks. The existing `--parser` generator option emits both entry rules.

@@ -20,7 +20,7 @@ The checkout's local guidance says compiler/name-resolution work starts from
 
 Static evidence comes from Skulpt's `src/compile.js`, `src/symtable.js`,
 `src/ast.js`, `src/builtin.js`, `src/parser.js`, `src/pgen/ast/Python.asdl` and
-`gen/astnodes.js`. Parser evidence comes from `src/python314/ast.ts`,
+`gen/astnodes.js`. Parser evidence comes from `src/ast.ts`,
 `constants.ts`, `python2_ast.ts`, `parse_options.ts` and `imports.ts`.
 
 The executable probe uses the existing deployed runtime bundle, SHA-256

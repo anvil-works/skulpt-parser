@@ -1,5 +1,5 @@
 import { test, expect } from "@rstest/core";
-import * as ast from "../src/python314/ast.ts";
+import * as ast from "../src/ast.ts";
 import fixtures from "./fixtures/python314-ast.json";
 
 function materialize(value: any, useFactories: boolean): any {

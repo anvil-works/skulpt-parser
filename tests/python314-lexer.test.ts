@@ -1,5 +1,5 @@
 import { test, expect } from "@rstest/core";
-import { tokenize } from "../src/python314/lexer/tokenizer.ts";
+import { tokenize } from "../src/lexer/tokenizer.ts";
 import { readFileSync } from "node:fs";
 
 // The bundler JSON loader rejects lone surrogates; JSON.parse preserves these test inputs.

@@ -2,6 +2,20 @@
     "version": "3.14.3",
     "cases": [
         {
+            "source": "\"\u00e9\ud83d\ude00\"; f(a + b = 1)",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "expression cannot contain assignment, perhaps you meant \"==\"?",
+                "lineno": 1,
+                "offset": 9,
+                "end_lineno": 1,
+                "end_offset": 16,
+                "text": "\"\u00e9\ud83d\ude00\"; f(a + b = 1)\n"
+            },
+            "warnings": []
+        },
+        {
             "source": "if x",
             "mode": "exec",
             "error": {
