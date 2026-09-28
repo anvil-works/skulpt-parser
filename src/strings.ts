@@ -21,7 +21,6 @@ const simple: Record<string, string> = {
     t: "\t",
     v: "\v",
 };
-const encoder = new TextEncoder();
 const decoder = new TextDecoder("utf-8", { ignoreBOM: true });
 // Allocate this index only for debug fields or t-strings, once per parse.
 const sourceIndexes = new WeakMap<Parser, { bytes: Uint8Array; lines: number[] }>();
@@ -221,7 +220,7 @@ export function formatSpec(p: Parser, token: Token, values: ast.expr[], ...span:
 function expressionText(p: Parser, startLine: number, startByte: number, end: Token): string {
     let source = sourceIndexes.get(p);
     if (!source) {
-        const bytes = encoder.encode(p.source),
+        const bytes = p.sourceBytes,
             lines = [0];
         for (let i = 0; i < bytes.length; i++) if (bytes[i] === 10) lines.push(i + 1);
         source = { bytes, lines };
