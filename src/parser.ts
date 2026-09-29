@@ -97,6 +97,10 @@ export class Parser {
         this.scanner = new Scanner(this.source, { ...options, extraTokens: false });
         this.iterator = this.scanner.scan();
     }
+    // Reuse the scanner's normalized UTF-8 source for interpolation text.
+    get sourceBytes(): Uint8Array {
+        return this.scanner.bytes;
+    }
     parse<T>(rule: () => T | null): T {
         let result: T | null;
         try {

@@ -403,9 +403,8 @@ export class Scanner {
         } while (true);
         return c;
     }
-    verifyIdentifier() {
+    verifyIdentifier(s: string) {
         if (this.extra) return;
-        const s = this.strictText(this.start!, this.cur);
         let offset = this.start!;
         let first = true;
         for (const ch of s) {
@@ -672,8 +671,9 @@ export class Scanner {
                         c = this.next();
                     }
                     this.back(c);
-                    if (nonascii) this.verifyIdentifier();
-                    return this.make("NAME", this.start, this.cur);
+                    const token = this.make("NAME", this.start, this.cur);
+                    if (nonascii) this.verifyIdentifier(token.string);
+                    return token;
                 }
                 if (c === 13) c = this.next();
                 if (c === 10) {
