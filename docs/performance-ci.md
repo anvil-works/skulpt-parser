@@ -9,7 +9,7 @@ The job publishes a GitHub Actions summary and a 30-day artifact containing:
 - `benchmark.json`: raw timings, retained AST memory, process startup/heap/RSS,
   environment, checkout commit and source/bundle hashes.
 - `bundles.json`: raw, gzip and Brotli bytes plus SHA-256 for each bundle.
-- `summary.md`: bundle sizes and medians across three fresh-process rounds.
+- `summary.md`: bundle sizes, medians and p95 latency across three fresh-process rounds.
 
 There are no speed, memory or size regression thresholds. Build errors, benchmark
 failures and CPython mismatches still fail the job. The existing package tests
@@ -21,7 +21,9 @@ No PR comments, repository writes or external reporting service are needed.
 The existing `benchmark-python314.mjs` validates ASTs, diagnostics and warnings
 against CPython before timing. Workloads cover a small assignment, synthetic
 editor/long-line/Unicode sources, ten standard-library files and three invalid
-inputs. Each round loads the lean parser in a fresh process. Parsing gets ten
+inputs. Extended runs add 4, 16 and 64 KiB scaling workloads and larger unfinished
+buffers ending after a dot, inside strings/f-strings, or inside definitions and
+multiline expressions. Each round loads the lean parser in a fresh process. Parsing gets ten
 warm-up iterations, calibrated batches and nine timing samples. Memory samples
 use explicit GC while retaining multiple ASTs.
 
@@ -44,10 +46,13 @@ From the parser checkout, with dependencies installed and CPython 3.14.3 availab
 pnpm build:core
 pnpm build:expression
 mkdir -p /tmp/parser-performance
-pnpm bench:python314 --python python3.14 --candidate dist-core/index.js --rounds 3 --output /tmp/parser-performance/benchmark.json
+pnpm bench:python314 --python python3.14 --candidate dist-core/index.js --extended --rounds 3 --output /tmp/parser-performance/benchmark.json
 pnpm perf:report /tmp/parser-performance
 ```
 
 Use `--rounds 1` for a shorter smoke run; CI always requests three rounds. The
 reporter rejects a lean bundle whose hash differs from the measured artifact.
 Reports are generated outside the checkout and are not committed as new baselines.
+
+For browser measurements, deterministic robustness probes and optimization
+comparisons, see [the performance and robustness workflow](performance-and-robustness.md).

@@ -24,6 +24,8 @@
         "test:python314-corpus": "node scripts/check-python314-corpus.mjs",
         "test:expression-package": "node --experimental-vm-modules scripts/check-expression-package.mjs",
         "bench:python314": "node scripts/benchmark-python314.mjs",
+        "bench:browser": "node scripts/benchmark-browser.mjs",
+        "probe:robustness": "node scripts/check-robustness.mjs",
         "build:core": "pnpm build",
         "test:core-package": "node --experimental-vm-modules scripts/check-core-package.mjs",
         "perf:report": "node scripts/report-performance.mjs",
@@ -49,6 +51,7 @@
         "@rslib/core": "1.0.0",
         "@rstest/core": "0.11.12",
         "@types/node": "22.15.3",
+        "playwright": "1.63.0",
         "prettier": "3.8.1",
         "typescript": "5.9.3"
     },

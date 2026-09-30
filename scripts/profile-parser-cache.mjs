@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { Session } from "node:inspector/promises";
 import { resolve, join } from "node:path";
 import { pathToFileURL } from "node:url";
+import { performanceEnvironment } from "./performance-environment.mjs";
 
 const [bundle, corpus, mode, output] = process.argv.slice(2);
 assert.ok(
@@ -144,6 +145,7 @@ writeFileSync(
     JSON.stringify(
         {
             node: process.version,
+            environment: performanceEnvironment(),
             bundleSha256: createHash("sha256").update(readFileSync(bundle)).digest("hex"),
             mode,
             memoRules,

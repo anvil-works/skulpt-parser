@@ -51,4 +51,9 @@ jobs:
             - run: python tests/fixtures/generate_python314_modules.py
             - run: python tests/fixtures/generate_python314_diagnostics.py
             - run: python tests/fixtures/generate_python314_lexer.py
+            - uses: pnpm/action-setup@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "22"
+            - run: node scripts/generate-robustness-smoke.mjs
             - run: git diff --exit-code -- tests/fixtures/*.json

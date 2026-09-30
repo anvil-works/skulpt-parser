@@ -57,8 +57,8 @@ const lines = [
     "",
     "## Lean parser timings and memory",
     "",
-    "| Workload | Source bytes | Parse ms | Retained bytes / AST |",
-    "| --- | ---: | ---: | ---: |",
+    "| Workload | Source bytes | Median ms | p95 ms | Retained bytes / AST |",
+    "| --- | ---: | ---: | ---: | ---: |",
 ];
 for (const item of report.cases) {
     const runs = candidate.runs.map((run) => run.cases.find(({ name }) => name === item.name));
@@ -70,7 +70,7 @@ for (const item of report.cases) {
         ? "n/a (rejected input)"
         : median(runs.map((run) => run.retainedBytesPerAST)).toFixed(0);
     lines.push(
-        `| ${cell(item.name)} | ${item.bytes} | ${median(runs.map((run) => run.medianMs)).toFixed(3)} | ${retained} |`
+        `| ${cell(item.name)} | ${item.bytes} | ${median(runs.map((run) => run.medianMs)).toFixed(3)} | ${median(runs.map((run) => run.p95Ms)).toFixed(3)} | ${retained} |`
     );
 }
 lines.push(

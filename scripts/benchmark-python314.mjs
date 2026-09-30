@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
+import { measure } from "./performance-utils.mjs";
+import { scalingCases, incompleteCases } from "./robustness-cases.mjs";
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { cpus, platform, arch } from "node:os";
+import { performanceEnvironment } from "./performance-environment.mjs";
 import { resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -90,16 +92,7 @@ if (args.includes("--worker")) {
                   throw new Error("Expected rejection");
               }
             : () => parse(item.source);
-        for (let i = 0; i < 10; i++) run();
-        const trialStart = performance.now();
-        for (let i = 0; i < 5; i++) run();
-        const iterations = Math.max(1, Math.min(1000, Math.ceil(25 / ((performance.now() - trialStart) / 5))));
-        const samplesMs = [];
-        for (let sample = 0; sample < 9; sample++) {
-            const start = performance.now();
-            for (let i = 0; i < iterations; i++) run();
-            samplesMs.push((performance.now() - start) / iterations);
-        }
+        const timing = measure(run);
         let retainedBytesPerAST = null;
         if (!item.error) {
             const copies = Math.max(16, Math.min(1024, Math.ceil(65536 / item.source.length)));
@@ -115,7 +108,7 @@ if (args.includes("--worker")) {
             }
             retainedBytesPerAST = median(retainedSamples);
         }
-        results.push({ name: item.name, medianMs: median(samplesMs), samplesMs, iterations, retainedBytesPerAST });
+        results.push({ name: item.name, ...timing, retainedBytesPerAST });
     }
     console.log(
         JSON.stringify({
@@ -155,8 +148,20 @@ if (args.includes("--worker")) {
             return { ...item, name: "invalid:" + source };
         }),
     ];
+    if (args.includes("--extended")) {
+        const extra = spawnSync(option("--python", "python3.14"), ["scripts/python314_probe.py"], {
+            input: JSON.stringify([...scalingCases(), ...incompleteCases()]),
+            encoding: "utf8",
+            maxBuffer: 64 * 1024 * 1024,
+        });
+        assert.equal(extra.status, 0, extra.stderr);
+        cases.push(...JSON.parse(extra.stdout));
+    }
+    if (option("--cases")) cases.splice(0, cases.length, ...JSON.parse(readFileSync(option("--cases"), "utf8")));
+    if (option("--cases-output")) writeFileSync(option("--cases-output"), JSON.stringify(cases));
+    if (args.includes("--prepare-only")) process.exit(0);
     const engines = [
-        { name: "candidate", kind: "frontend", path: resolve(option("--candidate", "dist-expression/index.js")) },
+        { name: "candidate", kind: "frontend", path: resolve(option("--candidate", "dist-core/index.js")) },
     ];
     for (const [flag, name, kind] of [
         ["--baseline", "baseline", "frontend"],
@@ -165,7 +170,9 @@ if (args.includes("--worker")) {
         if (option(flag)) engines.push({ name, kind, path: resolve(option(flag)) });
     }
     const report = {
-        environment: { node: process.version, platform: platform(), arch: arch(), cpu: cpus()[0].model },
+        environment: performanceEnvironment(),
+        python: spawnSync(option("--python", "python3.14"), ["--version"], { encoding: "utf8" }).stdout.trim(),
+        manifest: option("--manifest") ? JSON.parse(readFileSync(option("--manifest"), "utf8")) : null,
         checkoutCommit: spawnSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).stdout.trim(),
         skulptCommit: option("--skulpt-commit", null),
         cases: cases.map(({ name, source }) => ({

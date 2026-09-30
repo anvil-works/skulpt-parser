@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 
 // Read directly because legal Python string values can contain lone surrogates.
 const reference = JSON.parse(readFileSync(new URL("./fixtures/python314-modules.json", import.meta.url), "utf8"));
+const robustness = JSON.parse(readFileSync(new URL("./fixtures/python314-robustness.json", import.meta.url), "utf8"));
 function materialize(value: any): any {
     if (Array.isArray(value)) return value.map(materialize);
     if (value === null || typeof value !== "object") return value;
@@ -12,7 +13,7 @@ function materialize(value: any): any {
     if ("$bigint" in value) return BigInt(value.$bigint);
     return Object.fromEntries(Object.entries(value).map(([key, child]) => [key, materialize(child)]));
 }
-for (const { source, tree, warnings } of reference.cases) {
+for (const { source, tree, warnings } of [...reference.cases, ...robustness.cases]) {
     test(`CPython source → Module: ${JSON.stringify(source)}`, () => {
         const actualWarnings: any[] = [];
         const actual = parseModule(source, {
@@ -23,11 +24,14 @@ for (const { source, tree, warnings } of reference.cases) {
     });
 }
 
-for (const { source, error: expected } of reference.errors) {
+for (const { source, error: expected, warnings = [] } of [...reference.errors, ...robustness.errors]) {
     test(`CPython module error: ${JSON.stringify(source)}`, () => {
         let failure: any;
+        const actualWarnings: any[] = [];
         try {
-            parseModule(source);
+            parseModule(source, {
+                onWarning: ({ name, message, lineno }) => actualWarnings.push({ name, message, lineno }),
+            });
         } catch (error) {
             failure = error;
         }
@@ -35,5 +39,6 @@ for (const { source, error: expected } of reference.errors) {
         const actual: any = { name: failure.name, message: failure.message };
         for (const key of ["lineno", "offset", "end_lineno", "end_offset", "text"]) actual[key] = failure[key] ?? null;
         expect(actual).toEqual(expected);
+        expect(actualWarnings).toEqual(warnings);
     });
 }

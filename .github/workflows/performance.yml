@@ -29,7 +29,7 @@ jobs:
             - name: Measure lean source-to-AST performance
               run: |
                   mkdir -p "$RUNNER_TEMP/parser-performance"
-                  pnpm bench:python314 --python python --candidate dist-core/index.js --rounds 3 --output "$RUNNER_TEMP/parser-performance/benchmark.json"
+                  pnpm bench:python314 --python python --candidate dist-core/index.js --extended --rounds 3 --output "$RUNNER_TEMP/parser-performance/benchmark.json"
             - name: Report bundle sizes and benchmark medians
               run: |
                   pnpm perf:report "$RUNNER_TEMP/parser-performance"

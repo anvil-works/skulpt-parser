@@ -1,0 +1,448 @@
+{
+  "python": "3.14.3",
+  "seed": "0x314cafe",
+  "cases": [
+    {
+      "name": "mutation-3-whitespace",
+      "source": "if x:\n    a=1\n    b=2\t\nc=3",
+      "tree": {
+        "_type": "Module",
+        "body": [
+          {
+            "_type": "If",
+            "test": {
+              "_type": "Name",
+              "id": "x",
+              "ctx": {
+                "_type": "Load"
+              },
+              "lineno": 1,
+              "col_offset": 3,
+              "end_lineno": 1,
+              "end_col_offset": 4
+            },
+            "body": [
+              {
+                "_type": "Assign",
+                "targets": [
+                  {
+                    "_type": "Name",
+                    "id": "a",
+                    "ctx": {
+                      "_type": "Store"
+                    },
+                    "lineno": 2,
+                    "col_offset": 4,
+                    "end_lineno": 2,
+                    "end_col_offset": 5
+                  }
+                ],
+                "value": {
+                  "_type": "Constant",
+                  "value": {
+                    "type": "int",
+                    "value": 1
+                  },
+                  "kind": null,
+                  "lineno": 2,
+                  "col_offset": 6,
+                  "end_lineno": 2,
+                  "end_col_offset": 7
+                },
+                "type_comment": null,
+                "lineno": 2,
+                "col_offset": 4,
+                "end_lineno": 2,
+                "end_col_offset": 7
+              },
+              {
+                "_type": "Assign",
+                "targets": [
+                  {
+                    "_type": "Name",
+                    "id": "b",
+                    "ctx": {
+                      "_type": "Store"
+                    },
+                    "lineno": 3,
+                    "col_offset": 4,
+                    "end_lineno": 3,
+                    "end_col_offset": 5
+                  }
+                ],
+                "value": {
+                  "_type": "Constant",
+                  "value": {
+                    "type": "int",
+                    "value": 2
+                  },
+                  "kind": null,
+                  "lineno": 3,
+                  "col_offset": 6,
+                  "end_lineno": 3,
+                  "end_col_offset": 7
+                },
+                "type_comment": null,
+                "lineno": 3,
+                "col_offset": 4,
+                "end_lineno": 3,
+                "end_col_offset": 7
+              }
+            ],
+            "orelse": [],
+            "lineno": 1,
+            "col_offset": 0,
+            "end_lineno": 3,
+            "end_col_offset": 7
+          },
+          {
+            "_type": "Assign",
+            "targets": [
+              {
+                "_type": "Name",
+                "id": "c",
+                "ctx": {
+                  "_type": "Store"
+                },
+                "lineno": 4,
+                "col_offset": 0,
+                "end_lineno": 4,
+                "end_col_offset": 1
+              }
+            ],
+            "value": {
+              "_type": "Constant",
+              "value": {
+                "type": "int",
+                "value": 3
+              },
+              "kind": null,
+              "lineno": 4,
+              "col_offset": 2,
+              "end_lineno": 4,
+              "end_col_offset": 3
+            },
+            "type_comment": null,
+            "lineno": 4,
+            "col_offset": 0,
+            "end_lineno": 4,
+            "end_col_offset": 3
+          }
+        ],
+        "type_ignores": []
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-19-whitespace",
+      "source": "x = 1\nif x:\n   \t pass",
+      "tree": {
+        "_type": "Module",
+        "body": [
+          {
+            "_type": "Assign",
+            "targets": [
+              {
+                "_type": "Name",
+                "id": "x",
+                "ctx": {
+                  "_type": "Store"
+                },
+                "lineno": 1,
+                "col_offset": 0,
+                "end_lineno": 1,
+                "end_col_offset": 1
+              }
+            ],
+            "value": {
+              "_type": "Constant",
+              "value": {
+                "type": "int",
+                "value": 1
+              },
+              "kind": null,
+              "lineno": 1,
+              "col_offset": 4,
+              "end_lineno": 1,
+              "end_col_offset": 5
+            },
+            "type_comment": null,
+            "lineno": 1,
+            "col_offset": 0,
+            "end_lineno": 1,
+            "end_col_offset": 5
+          },
+          {
+            "_type": "If",
+            "test": {
+              "_type": "Name",
+              "id": "x",
+              "ctx": {
+                "_type": "Load"
+              },
+              "lineno": 2,
+              "col_offset": 3,
+              "end_lineno": 2,
+              "end_col_offset": 4
+            },
+            "body": [
+              {
+                "_type": "Pass",
+                "lineno": 3,
+                "col_offset": 5,
+                "end_lineno": 3,
+                "end_col_offset": 9
+              }
+            ],
+            "orelse": [],
+            "lineno": 2,
+            "col_offset": 0,
+            "end_lineno": 3,
+            "end_col_offset": 9
+          }
+        ],
+        "type_ignores": []
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-32-truncate",
+      "source": "class C(Base): pas",
+      "tree": {
+        "_type": "Module",
+        "body": [
+          {
+            "_type": "ClassDef",
+            "name": "C",
+            "bases": [
+              {
+                "_type": "Name",
+                "id": "Base",
+                "ctx": {
+                  "_type": "Load"
+                },
+                "lineno": 1,
+                "col_offset": 8,
+                "end_lineno": 1,
+                "end_col_offset": 12
+              }
+            ],
+            "keywords": [],
+            "body": [
+              {
+                "_type": "Expr",
+                "value": {
+                  "_type": "Name",
+                  "id": "pas",
+                  "ctx": {
+                    "_type": "Load"
+                  },
+                  "lineno": 1,
+                  "col_offset": 15,
+                  "end_lineno": 1,
+                  "end_col_offset": 18
+                },
+                "lineno": 1,
+                "col_offset": 15,
+                "end_lineno": 1,
+                "end_col_offset": 18
+              }
+            ],
+            "decorator_list": [],
+            "type_params": [],
+            "lineno": 1,
+            "col_offset": 0,
+            "end_lineno": 1,
+            "end_col_offset": 18
+          }
+        ],
+        "type_ignores": []
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-35-whitespace",
+      "source": "x: (lambda : int) = 1",
+      "tree": {
+        "_type": "Module",
+        "body": [
+          {
+            "_type": "AnnAssign",
+            "target": {
+              "_type": "Name",
+              "id": "x",
+              "ctx": {
+                "_type": "Store"
+              },
+              "lineno": 1,
+              "col_offset": 0,
+              "end_lineno": 1,
+              "end_col_offset": 1
+            },
+            "annotation": {
+              "_type": "Lambda",
+              "args": {
+                "_type": "arguments",
+                "posonlyargs": [],
+                "args": [],
+                "vararg": null,
+                "kwonlyargs": [],
+                "kw_defaults": [],
+                "kwarg": null,
+                "defaults": []
+              },
+              "body": {
+                "_type": "Name",
+                "id": "int",
+                "ctx": {
+                  "_type": "Load"
+                },
+                "lineno": 1,
+                "col_offset": 13,
+                "end_lineno": 1,
+                "end_col_offset": 16
+              },
+              "lineno": 1,
+              "col_offset": 4,
+              "end_lineno": 1,
+              "end_col_offset": 16
+            },
+            "value": {
+              "_type": "Constant",
+              "value": {
+                "type": "int",
+                "value": 1
+              },
+              "kind": null,
+              "lineno": 1,
+              "col_offset": 20,
+              "end_lineno": 1,
+              "end_col_offset": 21
+            },
+            "simple": 1,
+            "lineno": 1,
+            "col_offset": 0,
+            "end_lineno": 1,
+            "end_col_offset": 21
+          }
+        ],
+        "type_ignores": []
+      },
+      "warnings": []
+    }
+  ],
+  "errors": [
+    {
+      "name": "mutation-0-truncate",
+      "source": "async def f[T](a:T,/,b",
+      "error": {
+        "name": "SyntaxError",
+        "message": "'(' was never closed",
+        "lineno": 1,
+        "offset": 15,
+        "end_lineno": 1,
+        "end_offset": 0,
+        "text": "async def f[T](a:T,/,b\n"
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-1-delete-token",
+      "source": "try:\r\n\tpass\r\n E:\r\n\tpass\r\n",
+      "error": {
+        "name": "IndentationError",
+        "message": "unindent does not match any outer indentation level",
+        "lineno": 3,
+        "offset": 4,
+        "end_lineno": 3,
+        "end_offset": -1,
+        "text": " E:\n"
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-2-delimiter",
+      "source": "match subj[ct:\n    case -1-2j:\n        pass",
+      "error": {
+        "name": "SyntaxError",
+        "message": "'[' was never closed",
+        "lineno": 1,
+        "offset": 11,
+        "end_lineno": 1,
+        "end_offset": 0,
+        "text": "match subj[ct:"
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-16-truncate",
+      "source": "match café:\n    case {'é': résumé}:",
+      "error": {
+        "name": "IndentationError",
+        "message": "expected an indented block after 'case' statement on line 2",
+        "lineno": 2,
+        "offset": 24,
+        "end_lineno": 2,
+        "end_offset": -1,
+        "text": "    case {'é': résumé}:\n"
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-17-delete-token",
+      "source": "match subject:\n    case -:\n        pass",
+      "error": {
+        "name": "SyntaxError",
+        "message": "invalid syntax",
+        "lineno": 2,
+        "offset": 11,
+        "end_lineno": 2,
+        "end_offset": 12,
+        "text": "    case -:\n"
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-18-delimiter",
+      "source": "match sub)ect:\n    case 9007199254740993:\n        pass",
+      "error": {
+        "name": "SyntaxError",
+        "message": "unmatched ')'",
+        "lineno": 1,
+        "offset": 10,
+        "end_lineno": 1,
+        "end_offset": 10,
+        "text": "match sub)ect:"
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-33-delete-token",
+      "source": "async with a as obj.attr:\n    use(",
+      "error": {
+        "name": "SyntaxError",
+        "message": "'(' was never closed",
+        "lineno": 2,
+        "offset": 8,
+        "end_lineno": 2,
+        "end_offset": 0,
+        "text": "    use(\n"
+      },
+      "warnings": []
+    },
+    {
+      "name": "mutation-34-delimiter",
+      "source": "assert (a,b]",
+      "error": {
+        "name": "SyntaxError",
+        "message": "closing parenthesis ']' does not match opening parenthesis '('",
+        "lineno": 1,
+        "offset": 12,
+        "end_lineno": 1,
+        "end_offset": 12,
+        "text": "assert (a,b]"
+      },
+      "warnings": []
+    }
+  ]
+}

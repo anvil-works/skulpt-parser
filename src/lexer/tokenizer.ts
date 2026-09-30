@@ -309,7 +309,8 @@ export class Scanner {
         throw e;
     }
     make(type: string, a: number | null = null, b: number | null = null): Token {
-        const stringlit = ["STRING", "FSTRING_MIDDLE", "TSTRING_MIDDLE"].includes(type);
+        const middle = type === "FSTRING_MIDDLE" || type === "TSTRING_MIDDLE";
+        const stringlit = type === "STRING" || middle;
         const ls = stringlit ? this.multiStart : this.lineStart;
         let line = this.lastLine;
         const trailing = type === "ENDMARKER" || (type === "DEDENT" && this.done);
@@ -338,23 +339,21 @@ export class Scanner {
                 endCol++;
             } else if (type === "NL" && this.implicit) string = "";
         }
-        return {
+        const token: Token = {
             type,
             string,
             start: [lineno, col],
             end: [endLine, endCol],
             line,
-            ...(type === "FSTRING_MIDDLE" || type === "TSTRING_MIDDLE" ? { raw: this.mode.raw } : {}),
             startByte: a === null ? -1 : a - ls,
             // CPython parser spans include both doubled braces; tokenize spans
             // and token spelling expose only the first one.
-            endByte:
-                b === null
-                    ? -1
-                    : b -
-                      this.lineStart +
-                      ((type === "FSTRING_MIDDLE" || type === "TSTRING_MIDDLE") && b === this.cur - 1 ? 1 : 0),
+            endByte: b === null ? -1 : b - this.lineStart + (middle && b === this.cur - 1 ? 1 : 0),
         };
+        // Most tokens carry no string-mode metadata. Keep their construction
+        // free of the temporary object used by conditional object spread.
+        if (middle) token.raw = this.mode.raw;
+        return token;
     }
     continuation() {
         let c = this.next();
@@ -635,11 +634,13 @@ export class Scanner {
                     return this.make("ENDMARKER");
                 }
                 if (potentialStart(c)) {
-                    const saw = new Set<string>();
+                    let prefixes = "";
                     let nonascii = false;
                     while (true) {
-                        const lower = String.fromCharCode(c).toLowerCase();
-                        if ("brutf".includes(lower) && !saw.has(lower)) saw.add(lower);
+                        // Prefix letters are ASCII. Folding the byte also leaves
+                        // non-ASCII identifier bytes outside the prefix alphabet.
+                        const lower = String.fromCharCode(c | 32);
+                        if ("brutf".includes(lower) && !prefixes.includes(lower)) prefixes += lower;
                         else break;
                         c = this.next();
                         if (c === 34 || c === 39) {
@@ -652,7 +653,7 @@ export class Scanner {
                                 ["b", "t"],
                                 ["f", "t"],
                             ])
-                                if (saw.has(a) && saw.has(b)) {
+                                if (prefixes.includes(a) && prefixes.includes(b)) {
                                     // Skulpt's editing tokenizer split legacy ur/ru prefixes
                                     // into NAME + STRING, even though its parser rejected them.
                                     if (a === "u" && b === "r" && this.extra && this.options.pythonVersion === 2) {
@@ -665,7 +666,9 @@ export class Scanner {
                                         this.cur - this.lineStart
                                     );
                                 }
-                            return saw.has("f") || saw.has("t") ? this.startInterpolated(c, saw) : this.string(c);
+                            return prefixes.includes("f") || prefixes.includes("t")
+                                ? this.startInterpolated(c, prefixes)
+                                : this.string(c);
                         }
                     }
                     while (potentialChar(c)) {
@@ -784,7 +787,7 @@ export class Scanner {
             }
         }
     }
-    startInterpolated(quote: number, saw: Set<string>): Token {
+    startInterpolated(quote: number, prefixes: string): Token {
         let size = 1;
         this.firstLine = this.lineno;
         this.multiStart = this.lineStart;
@@ -807,8 +810,8 @@ export class Scanner {
             start: this.start!,
             lineStart: this.lineStart,
             firstLine: this.lineno,
-            raw: saw.has("r"),
-            stringKind: saw.has("t") ? "TSTRING" : "FSTRING",
+            raw: prefixes.includes("r"),
+            stringKind: prefixes.includes("t") ? "TSTRING" : "FSTRING",
             expr: -1,
         });
         this.modes.push(mode);

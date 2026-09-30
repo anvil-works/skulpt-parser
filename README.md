@@ -132,6 +132,9 @@ checkout. See [generation instructions](https://github.com/anvil-works/skulpt-pa
 measurements and decisions live under `docs/`.
 
 For benchmark commands and CI artifacts, see [performance reporting](docs/performance-ci.md).
+For local Node/browser comparisons and correctness probes, see the
+[performance and robustness workflow](docs/performance-and-robustness.md) and
+[dev.5 measurements](docs/performance-robustness-results.md).
 For Skulpt compiler integration requirements, see
 [integration status](docs/skulpt-compiler-integration.md). Historical migration
 reports describe earlier checkpoints; use this README for the current public API.

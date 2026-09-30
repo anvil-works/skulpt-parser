@@ -16,6 +16,9 @@ importers:
             "@types/node":
                 specifier: 22.15.3
                 version: 22.15.3
+            playwright:
+                specifier: 1.63.0
+                version: 1.63.0
             prettier:
                 specifier: 3.8.1
                 version: 3.8.1
@@ -353,6 +356,22 @@ packages:
             }
         engines: { node: ">=12" }
 
+    playwright-core@1.63.0:
+        resolution:
+            {
+                integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==,
+            }
+        engines: { node: ">=20" }
+        hasBin: true
+
+    playwright@1.63.0:
+        resolution:
+            {
+                integrity: sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==,
+            }
+        engines: { node: ">=20" }
+        hasBin: true
+
     prettier@3.8.1:
         resolution:
             {
@@ -575,6 +594,12 @@ snapshots:
             undici-types: 6.21.0
 
     assertion-error@2.0.1: {}
+
+    playwright-core@1.63.0: {}
+
+    playwright@1.63.0:
+        dependencies:
+            playwright-core: 1.63.0
 
     prettier@3.8.1: {}
 
