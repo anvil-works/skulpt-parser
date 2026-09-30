@@ -28,7 +28,5 @@ for (const { name, source, tree, warnings } of records) {
 }
 const retained = records.filter(({ name }) => name.startsWith("corpus/")).length;
 console.log(
-    `Compared ${retained} retained source fixtures and ${
-        records.length - retained
-    } standard-library ASTs and warnings.`
+    `Compared ${retained} retained source fixtures and ${records.length - retained} standard-library ASTs and warnings.`
 );

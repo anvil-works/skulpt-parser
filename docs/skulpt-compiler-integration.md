@@ -1,6 +1,30 @@
 # Skulpt compiler integration audit
 
-The next integration should use a Skulpt-owned adapter from the structural AST to
+## Current integration
+
+Skulpt owns adaptation to its runtime and compiler. This parser supplies structural
+ASTs without runtime objects or application rollout policy. Two integration paths
+are implemented in the Skulpt repository:
+
+- [Skulpt #9](https://github.com/anvil-works/skulpt/pull/9) supplies an adapter to the
+  existing AST, with independent old-frontend AST comparisons and execution CI.
+- [Skulpt #10](https://github.com/anvil-works/skulpt/pull/10) consumes structural ASTs
+  directly in the symbol table and compiler. Its execution checks cover builtins,
+  unsupported-feature guards and runtime/debugger locations.
+
+Both integrations forward the configured `printFunction` option. They must update
+to the parser option names documented in the README when adopting this revision.
+The draft PRs are implementation evidence, not a claim that deployment has occurred.
+
+Named escapes require the optional Unicode-name resolver. Each consumer decides
+whether and when to load it; the lean parser does not load the database automatically.
+
+## Historical audit, 2026-09-16
+
+The following records the earlier boundary investigation and proposed sequence.
+The current implementations and their tests are linked above.
+
+The proposed integration used a Skulpt-owned adapter from the structural AST to
 Skulpt's existing AST constructors, with explicit rejection of unsupported syntax
 before symbol-table analysis. Keep the parser independent of Skulpt runtime
 objects. Start with an opt-in execution path and differential tests, then decide
@@ -29,7 +53,7 @@ claiming that bundle was built from any of the sibling branches. The core bundle
 hash is `3f9094267a9ae24d19a0e4b20a5ff4bcdc83f8bad4dec01f86e628bd00b32288`.
 [Probe output](benchmarks/skulpt-integration-audit.json) records 29 synthetic
 cases through the real old parser/AST builder and `Sk.compile`, and through the
-new parser with client legacy-async-name policy. It records observations, not
+new parser with Skulpt async/await identifier policy. It records observations, not
 golden correctness expectations. Compilation success does not establish execution
 correctness. There is no adapter in this audit.
 
@@ -91,9 +115,9 @@ comprehension flags must not be silently discarded.
 
 Initially guard features the selected compiler base cannot implement. Account
 for its existing nonlocal work rather than blindly preserving the deployed
-bundle's rejection. Keep `legacyAsyncNames: true` for the current client runtime
+bundle's rejection. Keep `asyncAwaitAsIdentifiers: true` for the Skulpt runtime
 in both language modes. Async constructs remain unavailable under that policy;
-strict server parsing remains independent. Reserving those names and implementing
+other consumers can retain strict keyword parsing. Reserving those names and implementing
 coroutines would require a separate runtime migration.
 
 Modern syntax that maps to existing semantics can be considered individually.
@@ -104,11 +128,10 @@ parse to AST and must still fail compilation.
 
 ## Compatibility gaps to resolve in the first slice
 
-- **Configured futures:** the runtime accepts Python 2 `print_function: true` as
-  a function call, while `python2Compat: true` currently parses the same text as
-  a print statement. The source future-import quirk is already covered by parser
-  fixtures and differs from this configured flag. Add the narrow syntax option
-  needed to bridge the configuration; disabling all Python 2 syntax is not valid.
+- **Configured futures:** this gap is resolved by `printFunction`, which both
+  Skulpt integrations forward. The source future-import quirk is covered by parser
+  fixtures and differs from this configured flag. The audit script now passes the
+  configured flag too. Other compatibility syntax remains enabled.
   Audit other configured future flags and source imports through compilation,
   including division and import behavior. New parse results expose no Skulpt
   numeric flags. `Sk.compile` currently scopes `Sk.__future__` around compilation;
@@ -163,5 +186,4 @@ parse to AST and must still fail compilation.
 
 The immediate checkpoint is an adapter executing the existing supported subset
 with useful errors for unsupported features. Full Python 3.14 runtime support,
-automatic loading of Unicode data, compiler-wide AST replacement and removal of
-Skulpt from the IDE are separate work.
+automatic loading of Unicode data, compiler-wide AST replacement are separate work.

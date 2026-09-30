@@ -26,11 +26,12 @@ type Fields<T> = { [K in keyof T]: Compatible<T[K]> };
 type Compatible<T> = T extends ast.stmt
     ? Fields<T> | Print | LegacyRaise
     : T extends ast.ExceptHandler
-    ? Fields<T> | LegacyExceptHandler
-    : T extends (infer E)[]
-    ? Compatible<E>[]
-    : T extends { _type: string }
-    ? Fields<T>
-    : T;
+      ? Fields<T> | LegacyExceptHandler
+      : T extends (infer E)[]
+        ? Compatible<E>[]
+        : T extends { _type: string }
+          ? Fields<T>
+          : T;
 export type CompatibilityStatement = Compatible<ast.stmt>;
 export type CompatibilityModule = Compatible<ast.Module>;
+export type CompatibilityAST = Compatible<ast.AST>;

@@ -33,12 +33,12 @@ Local Node: 26.7.0, macOS arm64, Apple M1 Pro. CPython: 3.14.3.
    left-recursive decorator.
 5. Test indexed storage separately. Validate all 17 workloads against CPython and
    compare minified bundles over three alternating-order fresh-process rounds with
-   the existing benchmark. Then run the actual Anvil worker in isolated Chromium
-   using the same IDE sources, changing only its parser bundle alias.
+   the existing benchmark. Consumer worker benchmarks are maintained separately
+   by the consuming project.
 
 The screening run was exploratory. It showed small mixed gains and large tiny-input
 outliers, including an apparent slowdown for indexed slots. That tiny-input slowdown
-did not reproduce in the full benchmark or IDE-worker comparison. No rule-selection
+did not reproduce in the full benchmark comparison. No rule-selection
 change was kept on the strength of those screening numbers.
 
 ## V8 findings
@@ -95,30 +95,6 @@ Process high-water RSS is noisy: slots range from 217,584 to 233,552 KiB, while 
 ranges from 210,896 to 231,040 KiB. The slot median is higher. This does **not**
 establish a peak-RSS reduction despite lower sampled allocation volume.
 
-## Anvil worker results
-
-Both artifacts use the already-migrated native worker, without Skulpt. Three rounds
-cover Python 2 and 3. Source hashes and completion lists match throughout, and
-partial-form/Python-2 compatibility checks pass. This is an isolated worker test,
-not an interactive IDE/browser check.
-
-| Mode / workload | Map ms | Slots ms | Change |
-| --------------- | -----: | -------: | -----: |
-| 2 / small       |   0.60 |     0.60 |  +0.0% |
-| 2 / medium      |   2.42 |     2.22 |  -8.3% |
-| 2 / large       |   8.94 |     8.16 |  -8.7% |
-| 2 / unicode     |   2.60 |     2.44 |  -6.2% |
-| 2 / legacy      |   3.68 |     3.34 |  -9.2% |
-| 3 / small       |   0.64 |     0.62 |  -3.1% |
-| 3 / medium      |   2.38 |     2.18 |  -8.4% |
-| 3 / large       |   8.86 |     8.08 |  -8.8% |
-| 3 / unicode     |   2.54 |     2.44 |  -3.9% |
-
-Worker gzip grows by four bytes. The medium/large cases improve about 8–9%; small
-calls are effectively unchanged at this timing resolution. These worker results,
-the full oracle checks and lower allocation estimates justify keeping indexed
-storage. They do not justify removing additional memoized rules.
-
 ## Reproduction and evidence
 
 The profiling helpers are diagnostic tools, not public parser APIs. From a checkout
@@ -145,7 +121,6 @@ and run `pnpm bench:python314 --candidate <candidate> --baseline <baseline> --ro
 - [Exploratory rule-switch screen](benchmarks/cache-rule-screen.json)
 - [V8 CPU and allocation summaries](benchmarks/cache-v8-summary.json)
 - [Full Node benchmark samples](benchmarks/cache-slots-node.json)
-- [Anvil worker samples and provenance](benchmarks/cache-slots-worker.json)
 
 Raw `.cpuprofile` and `.heapprofile` captures stay outside the repository. Open
 `.cpuprofile` files in DevTools Performance and `.heapprofile` files in Memory.

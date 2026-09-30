@@ -71,9 +71,9 @@ export function memoizeLeftRec(_target: Parser, _name: string, descriptor: Prope
 export class Parser {
     mark = 0;
     barryAsFlufl = false;
-    readonly python2Compat: boolean;
+    readonly python2: boolean;
     readonly printFunction: boolean;
-    readonly legacyAsyncNames: boolean;
+    readonly asyncAwaitAsIdentifiers: boolean;
     callInvalidRules = false;
     private tokens: Token[] = [];
     private cache: (Memo | undefined)[][] = [];
@@ -82,16 +82,20 @@ export class Parser {
     private lexicalFailure = false;
     readonly filename: string;
     readonly source: string;
-    readonly unicodeName: ParseOptions["unicodeName"];
+    readonly resolveUnicodeName: ParseOptions["resolveUnicodeName"];
     readonly onWarning: LexerOptions["onWarning"];
     readonly stringWarnings = new Set<string>();
-    constructor(source: string, options: ParseOptions, readonly mode: "eval" | "exec") {
-        this.python2Compat = options.python2Compat ?? false;
+    constructor(
+        source: string,
+        options: ParseOptions,
+        readonly mode: "eval" | "exec"
+    ) {
+        this.python2 = options.pythonVersion === 2;
         this.printFunction = options.printFunction ?? false;
-        this.legacyAsyncNames = options.legacyAsyncNames ?? this.python2Compat;
+        this.asyncAwaitAsIdentifiers = options.asyncAwaitAsIdentifiers ?? this.python2;
         this.source = source.replace(/\r\n?/g, "\n");
         this.onWarning = options.onWarning;
-        this.unicodeName = options.unicodeName;
+        this.resolveUnicodeName = options.resolveUnicodeName;
         this.filename = options.filename ?? "<string>";
         // CPython parsing uses universal newlines; the standalone tokenizer does not.
         this.scanner = new Scanner(this.source, { ...options, extraTokens: false });
@@ -206,7 +210,7 @@ export class Parser {
         return token;
     }
     literal(text: string): Token | null {
-        if (this.legacyAsyncNames && (text === "async" || text === "await")) return null;
+        if (this.asyncAwaitAsIdentifiers && (text === "async" || text === "await")) return null;
         const token = this.peek();
         if (token?.string !== text || token.type.endsWith("_MIDDLE")) return null;
         this.mark++;
@@ -238,10 +242,10 @@ export class Parser {
         if (token?.type !== "NAME") return null;
         if (
             keywords.has(token.string) &&
-            !(this.legacyAsyncNames && (token.string === "async" || token.string === "await"))
+            !(this.asyncAwaitAsIdentifiers && (token.string === "async" || token.string === "await"))
         )
             return null;
-        if (this.python2Compat && !this.printFunction && token.string === "print") return null;
+        if (this.python2 && !this.printFunction && token.string === "print") return null;
         this.mark++;
         return ast.Name(
             token.string.normalize("NFKC"),
@@ -253,7 +257,7 @@ export class Parser {
         );
     }
     checkNotEqual(token: Token): Token | null {
-        if (this.python2Compat) return token;
+        if (this.python2) return token;
         if (this.barryAsFlufl && token.string !== "<>") {
             throw this.error("with Barry as BDFL, use '<>' instead of '!='", token);
         }
@@ -281,7 +285,7 @@ export class Parser {
         if (!token) return null;
         try {
             return ast.Constant(
-                parseNumber(token.string, this.python2Compat),
+                parseNumber(token.string, this.python2),
                 null,
                 token.start[0],
                 token.startByte,
@@ -422,7 +426,7 @@ export class Parser {
             text:
                 this.mode === "exec" && token?.line && !token.line.endsWith("\n")
                     ? token.line + "\n"
-                    : token?.line ?? "",
+                    : (token?.line ?? ""),
         });
     }
 }

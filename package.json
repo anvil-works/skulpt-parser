@@ -1,6 +1,6 @@
 {
     "name": "@anvil-works/skulpt-parser",
-    "version": "0.0.1-dev.4",
+    "version": "0.0.1-dev.5",
     "type": "module",
     "packageManager": "pnpm@10.10.0",
     "engines": {
@@ -11,6 +11,8 @@
         "test": "rstest run",
         "test:watch": "rstest",
         "check": "tsc --noEmit --project tsconfig.tests.json",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
         "test:package": "node --experimental-vm-modules scripts/check-package.mjs",
         "upstream:prepare": "python3 -m tools.upstream prepare",
         "upstream:check": "python3.14 -m tools.upstream check",
@@ -46,8 +48,9 @@
     "devDependencies": {
         "@rslib/core": "1.0.0",
         "@rstest/core": "0.11.12",
-        "typescript": "5.9.3",
-        "@types/node": "22.15.3"
+        "@types/node": "22.15.3",
+        "prettier": "3.8.1",
+        "typescript": "5.9.3"
     },
     "description": "Python 3.14 parser and tokenizer for JavaScript, with bounded Python 2 compatibility",
     "license": "MIT",

@@ -22,11 +22,12 @@ export type Token = {
 };
 export type LexerWarning = { name: "SyntaxWarning"; message: string; filename: string; lineno: number };
 export type LexerOptions = {
+    /** CPython tokenize mode: include comments/non-significant newlines and defer parser-level validation. Defaults to true. */
     extraTokens?: boolean;
     filename?: string;
     onWarning?: (warning: LexerWarning) => void;
-    /** Experimental, bounded Skulpt Python 2 syntax support; strict Python 3 by default. */
-    python2Compat?: boolean;
+    /** Select strict Python 3.14 parsing (default) or the bounded Python 2 syntax supported by Skulpt. */
+    pythonVersion?: 2 | 3;
 };
 type Mode = {
     kind: "regular" | "literal";
@@ -111,17 +112,17 @@ export class Scanner {
     positionBase = -1;
     positionByte = 0;
     positionCol = 0;
-    constructor(source: string, private options: LexerOptions) {
+    constructor(
+        source: string,
+        private options: LexerOptions
+    ) {
         const malformed = /[\uD800-\uDFFF]+/u.exec(source);
         if (malformed) {
             const lineStart = source.lastIndexOf("\n", malformed.index) + 1;
             const offset = Array.from(source.slice(lineStart, malformed.index)).length;
             const span =
                 malformed[0].length === 1
-                    ? `character '\\u${malformed[0]
-                          .charCodeAt(0)
-                          .toString(16)
-                          .padStart(4, "0")}' in position ${offset}`
+                    ? `character '\\u${malformed[0].charCodeAt(0).toString(16).padStart(4, "0")}' in position ${offset}`
                     : `characters in position ${offset}-${offset + malformed[0].length - 1}`;
             this.encodingError = {
                 lineByte: encoder.encode(source.slice(0, lineStart)).length,
@@ -295,8 +296,8 @@ export class Scanner {
                 code === "TABSPACE"
                     ? "TabError"
                     : ["DEDENT", "TOODEEP"].includes(code)
-                    ? "IndentationError"
-                    : "SyntaxError",
+                      ? "IndentationError"
+                      : "SyntaxError",
             msg: msgs[code],
             filename: this.filename,
             lineno: this.lineno,
@@ -440,10 +441,10 @@ export class Scanner {
                 c === 120 || c === 88
                     ? "hexadecimal"
                     : c === 111 || c === 79
-                    ? "octal"
-                    : c === 98 || c === 66
-                    ? "binary"
-                    : null;
+                      ? "octal"
+                      : c === 98 || c === 66
+                        ? "binary"
+                        : null;
             if (base) {
                 kind = base;
                 c = this.next();
@@ -451,8 +452,8 @@ export class Scanner {
                     base === "hexadecimal"
                         ? hex
                         : base === "octal"
-                        ? (x: number) => x >= 48 && x < 56
-                        : (x: number) => x === 48 || x === 49;
+                          ? (x: number) => x >= 48 && x < 56
+                          : (x: number) => x === 48 || x === 49;
                 do {
                     if (c === 95) c = this.next();
                     if (!valid(c)) {
@@ -467,7 +468,7 @@ export class Scanner {
                 } while (c === 95);
                 if (base !== "hexadecimal" && digit(c))
                     this.syntax(`invalid digit '${String.fromCharCode(c)}' in ${base} literal`);
-                if (this.options.python2Compat && c === 76) c = this.next();
+                if (this.options.pythonVersion === 2 && c === 76) c = this.next();
                 this.verifyEnd(c, kind);
                 this.back(c);
                 return this.make("NUMBER", this.start, this.cur);
@@ -494,7 +495,7 @@ export class Scanner {
                 fraction = true;
             } else if (c === 101 || c === 69) exponent = true;
             else if (c === 106 || c === 74) imaginary = true;
-            else if (nonzero && !this.extra && !this.options.python2Compat) {
+            else if (nonzero && !this.extra && this.options.pythonVersion !== 2) {
                 this.back(c);
                 this.syntax(
                     "leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers",
@@ -502,11 +503,11 @@ export class Scanner {
                     zerosEnd - this.lineStart
                 );
             } else {
-                if (nonzero && this.options.python2Compat) {
+                if (nonzero && this.options.pythonVersion === 2) {
                     const spelling = this.text(this.start!, this.cur - (c === EOF ? 0 : 1));
                     if (!/^0[0-7]+$/.test(spelling.replace(/_/g, ""))) this.syntax("invalid legacy octal literal");
                 }
-                if (this.options.python2Compat && c === 76) c = this.next();
+                if (this.options.pythonVersion === 2 && c === 76) c = this.next();
                 this.verifyEnd(c, "decimal");
                 this.back(c);
                 return this.make("NUMBER", this.start, this.cur);
@@ -541,7 +542,8 @@ export class Scanner {
             c = this.next();
             kind = "imaginary";
         }
-        if (this.options.python2Compat && c === 76 && !fraction && !exponent && kind === "decimal") c = this.next();
+        if (this.options.pythonVersion === 2 && c === 76 && !fraction && !exponent && kind === "decimal")
+            c = this.next();
         this.verifyEnd(c, kind);
         this.back(c);
         return this.make("NUMBER", this.start, this.cur);
@@ -580,7 +582,7 @@ export class Scanner {
                     alt = cont || alt;
                     // Skulpt's Python 2 mode compares indentation at eight-column tab stops.
                     // Only strict Python 3 mode also checks the one-column tab interpretation.
-                    if (this.options.python2Compat) alt = col;
+                    if (this.options.pythonVersion === 2) alt = col;
                     const top = this.indstack.length - 1;
                     if (col === this.indstack[top]) {
                         if (alt !== this.altstack[top]) this.error("TABSPACE");
@@ -653,7 +655,7 @@ export class Scanner {
                                 if (saw.has(a) && saw.has(b)) {
                                     // Skulpt's editing tokenizer split legacy ur/ru prefixes
                                     // into NAME + STRING, even though its parser rejected them.
-                                    if (a === "u" && b === "r" && this.extra && this.options.python2Compat) {
+                                    if (a === "u" && b === "r" && this.extra && this.options.pythonVersion === 2) {
                                         this.back(c);
                                         return this.make("NAME", this.start, this.cur);
                                     }

@@ -464,7 +464,7 @@ class Generator(ParserGenerator):
         }.get(rule.name)
         if compatibility_rule:
             self.print(
-                f"if (this.python2Compat) {{ const legacy = python2.{compatibility_rule}(this); if (legacy !== null) return legacy; }}"
+                f"if (this.python2) {{ const legacy = python2.{compatibility_rule}(this); if (legacy !== null) return legacy; }}"
             )
         self.print(f"// {rule.name}: {rule.rhs}")
         loop = rule.is_loop()

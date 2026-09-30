@@ -40,13 +40,13 @@ for (const item of reference.cases) {
         if (error) {
             let failure: unknown;
             try {
-                parseModule(source, { python2Compat: true, printFunction });
+                parseModule(source, { pythonVersion: 2, printFunction });
             } catch (e) {
                 failure = e;
             }
             expect(failure).toMatchObject({ name: "SyntaxError" });
         } else {
-            expect(comparable(parseModule(source, { python2Compat: true, printFunction }))).toEqual(expected);
+            expect(comparable(parseModule(source, { pythonVersion: 2, printFunction }))).toEqual(expected);
         }
     });
 }
@@ -60,8 +60,8 @@ test("strict mode keeps modern interpretations and rejects legacy-only statement
     expect(strict.body[0]._type).toBe("Try");
     if (strict.body[0]._type === "Try") expect(strict.body[0].handlers[0].name).toBeNull();
     // Match the current Skulpt frontend: the source future import does not switch its print parser.
-    expect(parseModule("from __future__ import print_function\nprint(1)", { python2Compat: true }).body[1]._type).toBe(
+    expect(parseModule("from __future__ import print_function\nprint(1)", { pythonVersion: 2 }).body[1]._type).toBe(
         "Print"
     );
-    expect(parseModule("print(1)", { python2Compat: true }).body[0]._type).toBe("Print");
+    expect(parseModule("print(1)", { pythonVersion: 2 }).body[0]._type).toBe("Print");
 });

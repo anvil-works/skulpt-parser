@@ -77,6 +77,9 @@ const sources = [
     "raise ValueError,",
     "raise ValueError, 1, 2, 3",
     ...["1", "first + second", "f()"].map((target) => `try:\n    pass\nexcept ValueError, ${target}:\n    pass`),
+    ...["()", "(first, ())", "[]"].flatMap((target) =>
+        [",", "as"].map((separator) => `try:\n    pass\nexcept ValueError ${separator} ${target}:\n    pass`)
+    ),
     "from __future__ import print_function\nprint 1",
 ];
 const inputs = sources.map((source) => ({ source }));

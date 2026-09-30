@@ -13,7 +13,7 @@ The script also accepts `--candidate`, `--baseline`, `--rounds` and `--python`. 
 
 Each engine runs in a fresh Node process for each round, with engine order rotated between rounds. Defaults are three rounds, ten warmup parses, then nine timed batches calibrated to about 25 ms each. File I/O, CPython execution and AST verification are outside timing. The frontend's ASTs, warnings and selected diagnostic fields must match CPython before measurement. Skulpt runs with `Sk.python3`; its source-to-AST time includes both `Sk.parse` and `Sk.astFromParse`. Skulpt's different AST representation is not compared structurally. Unsupported files are reported and excluded from ratios.
 
-Inputs include a tiny assignment, synthetic editor-sized functions, a long line and Unicode identifiers, ten current stdlib files, optional older stdlib files, and three malformed inputs. Synthetic cases are labeled; they are not private Anvil application code. Diagnostic timing reports rejection latency, not matching Skulpt error quality.
+Inputs include a tiny assignment, synthetic editor-sized functions, a long line and Unicode identifiers, ten current stdlib files, optional older stdlib files, and three malformed inputs. Synthetic cases are labeled; they contain no private application code. Diagnostic timing reports rejection latency, not matching Skulpt error quality.
 
 The report separates module-load time, the first parse of the tiny assignment, warmed source-to-AST latency, and retained heap per AST. Retained heap uses the median of five batches with forced GC and 16–1,024 live ASTs depending on source size; noisy negative deltas are left visible. Load heap is the post-GC increase after importing/configuring the engine. Process maximum RSS includes the harness, reference corpus, engine and all workloads; it is not per-parse peak memory. Startup values are single observations per fresh process and include V8 initialization effects. Heap and RSS measurements are exploratory, not portable limits.
 
@@ -36,7 +36,7 @@ Values below are medians of three fresh-process runs. Speed ratio is Skulpt time
 | `pathlib/__init__.py`         |       9.483 |    16.115 | 1.70× |                       651.9 / 618.5 |
 | json/decoder.py               |       2.761 |     4.626 | 1.68× |                       245.8 / 174.4 |
 
-Skulpt rejects twelve of the eighteen valid inputs, including three older stdlib files. Those are coverage differences, not speed wins. Tiny-input and diagnostic latency favor Skulpt. Nontrivial shared inputs favor the new frontend; retained AST memory is higher on the displayed shared inputs. This does not establish performance in an Anvil IDE session or in another JavaScript engine.
+Skulpt rejects twelve of the eighteen valid inputs, including three older stdlib files. Those are coverage differences, not speed wins. Tiny-input and diagnostic latency favor Skulpt. Nontrivial shared inputs favor the new frontend; retained AST memory is higher on the displayed shared inputs. This does not establish performance in a downstream IDE session or in another JavaScript engine.
 
 The frontend is 866,443 raw / 248,599 gzip / 185,680 Brotli bytes. Skulpt's whole runtime is 618,354 / 163,304 / 132,554 bytes in this build. The new parser is larger even against that broad comparator. Its Unicode-name database is a major bundle cost; sharing it with Skulpt remains an integration concern.
 

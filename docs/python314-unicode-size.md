@@ -37,7 +37,7 @@ No feature has been removed or replacement encoding adopted. The split below pre
 
 ## Optional module implementation
 
-`frontend.ts` remains the full internal entry point and supplies the existing name lookup to the parser. `frontend_core.ts` exposes the same parsing functions with an optional `unicodeName` lookup in `ParseOptions`. Both use the same generated parser and string decoder. The lookup module has no parser or Skulpt runtime dependency, allowing eventual sharing without duplicating parsing code.
+`frontend.ts` remains the full internal entry point and supplies the existing name lookup to the parser. `frontend_core.ts` exposes the same parsing functions with an optional `resolveUnicodeName` lookup in `ParseOptions`. Both use the same generated parser and string decoder. The lookup module has no parser or Skulpt runtime dependency, allowing eventual sharing without duplicating parsing code.
 
 Run `pnpm build:core` to produce:
 
@@ -60,7 +60,7 @@ try {
 } catch (error) {
   if (!(error instanceof UnicodeNameDatabaseRequired)) throw error;
   const { unicodeName } = await import("./dist-core/unicode-names.js");
-  tree = parseModule(source, { unicodeName });
+  tree = parseModule(source, { resolveUnicodeName: unicodeName });
 }
 ```
 
@@ -74,7 +74,7 @@ The existing full suite passes all 3,670 tests, and the full browser package and
 
 `skulpt-parser/core` exports the lean `parseExpression` and `parseModule` functions,
 `scan` and `tokenize`, and their TypeScript declarations. Build it with
-`pnpm build:core` before linking it into Anvil. This entry imports no Unicode-name
+`pnpm build:core` before linking it into a consuming project. This entry imports no Unicode-name
 database. It adds token exports to the same core bundle rather than bundling a second
 copy of the lexer. The gzip size with these exports is 36,318 bytes.
 

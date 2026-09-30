@@ -30,7 +30,7 @@ function encode(value) {
 function check(fixture, unicodeName) {
     const warnings = [];
     const actual = core.parseExpression(fixture.source, {
-        unicodeName,
+        resolveUnicodeName: unicodeName,
         onWarning: ({ name, message, lineno }) => warnings.push({ name, message, lineno }),
     });
     assert.deepEqual(encode(actual), fixture.tree, fixture.source);
@@ -66,7 +66,7 @@ for (const { source, error: expected } of fixtures.errors.filter((item) => item.
     for (const unicodeName of resolvers) {
         let failure;
         try {
-            core.parseExpression(source, { unicodeName });
+            core.parseExpression(source, { resolveUnicodeName: unicodeName });
         } catch (error) {
             failure = error;
         }
@@ -85,7 +85,10 @@ console.log(
 // Exercise the package subpath consumed by the IDE, not just a direct bundle path.
 const linkedCore = await import("@anvil-works/skulpt-parser/core");
 const { unicodeName: linkedUnicodeName } = await import("@anvil-works/skulpt-parser/unicode-names");
-assert.equal(linkedCore.parseExpression('"\\N{SNOWMAN}"', { unicodeName: linkedUnicodeName }).body.value.value, "☃");
+assert.equal(
+    linkedCore.parseExpression('"\\N{SNOWMAN}"', { resolveUnicodeName: linkedUnicodeName }).body.value.value,
+    "☃"
+);
 const lexerFixtures = JSON.parse(readFileSync("tests/fixtures/python314-lexer.json", "utf8"));
 for (const source of ["# comment", "é = 𝒙 + 1\n", 'def f(x):\n    return f"value {x!r:>10}"\n']) {
     const fixture = lexerFixtures.cases.find((item) => item.source === source && item.extra);

@@ -82,7 +82,12 @@ const results = cases.map(([name, source, python2 = false, flags = {}]) => {
         Sk.compile(source + "\n", "audit.py", "exec", true);
         return {};
     });
-    const options = { filename: "audit.py", python2Compat: python2, legacyAsyncNames: true };
+    const options = {
+        filename: "audit.py",
+        pythonVersion: python2 ? 2 : 3,
+        asyncAwaitAsIdentifiers: true,
+        printFunction: flags.print_function ?? false,
+    };
     const parser = attempt(() => {
         const ast = parseModule(source + "\n", options);
         const first = ast.body[0];

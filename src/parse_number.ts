@@ -7,18 +7,14 @@ export type NumericConstant = Extract<ScalarConstant, { type: "int" | "float" | 
 
 /** Decode a syntactically valid, unsigned Python 3.14 NUMBER token.
  * Signs belong to unary grammar actions; spelling errors belong to the lexer.
- * Decimal integers follow CPython's default conversion limit of 4300 digits.
+ * Strict-mode decimal integers follow CPython's default 4300-digit limit.
+ * Skulpt compatibility mode retains its unrestricted integer literals.
  */
-export function parseNumber(token: string, python2Compat = false): NumericConstant {
-    if (python2Compat) {
-        const legacyLong = token.endsWith("L");
-        const digits = (legacyLong ? token.slice(0, -1) : token).replace(/_/g, "");
-        const spelling = /^0[0-7]+$/.test(digits) ? "0o" + digits : digits;
-        const value = parseNumber(spelling);
-        if (legacyLong && value.type === "int") value.legacyLong = true;
-        return value;
-    }
-    const text = token.replace(/_/g, "");
+export function parseNumber(token: string, python2 = false): NumericConstant {
+    let text = token.replace(/_/g, "");
+    const legacyLong = python2 && text.endsWith("L");
+    if (legacyLong) text = text.slice(0, -1);
+    if (python2 && /^0[0-7]+$/.test(text)) text = "0o" + text;
     const last = text[text.length - 1];
     if (last === "j" || last === "J") {
         return { type: "complex", real: 0, imag: Number(text.slice(0, -1)) };
@@ -29,7 +25,7 @@ export function parseNumber(token: string, python2Compat = false): NumericConsta
 
     // CPython skips leading zeroes before checking the decimal conversion limit.
     // In a valid decimal integer token, a leading zero means all digits are zero.
-    if (!prefixed && text[0] !== "0" && text.length > 4300) {
+    if (!python2 && !prefixed && text[0] !== "0" && text.length > 4300) {
         throw new SyntaxError(
             `Exceeds the limit (4300 digits) for integer string conversion: value has ${text.length} digits; ` +
                 "use sys.set_int_max_str_digits() to increase the limit - " +
@@ -37,5 +33,10 @@ export function parseNumber(token: string, python2Compat = false): NumericConsta
         );
     }
     const approximate = Number(text);
-    return { type: "int", value: Number.isSafeInteger(approximate) ? approximate : BigInt(text) };
+    const value: NumericConstant = {
+        type: "int",
+        value: Number.isSafeInteger(approximate) ? approximate : BigInt(text),
+    };
+    if (legacyLong) value.legacyLong = true;
+    return value;
 }

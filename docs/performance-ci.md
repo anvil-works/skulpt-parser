@@ -1,7 +1,7 @@
 # Performance CI reporting
 
 `.github/workflows/performance.yml` runs on pull requests, pushes to `master` and
-`next`, and manual dispatch. It builds the lean parser, optional Unicode-name
+`next` and `dev`, and manual dispatch. It builds the lean parser, optional Unicode-name
 resolver and full frontend using the lockfile, Node 22 and CPython 3.14.3.
 
 The job publishes a GitHub Actions summary and a 30-day artifact containing:
@@ -26,9 +26,8 @@ warm-up iterations, calibrated batches and nine timing samples. Memory samples
 use explicit GC while retaining multiple ASTs.
 
 This job measures Python 3 source-to-AST in Node. It does not measure compilation,
-Python 2 compatibility, browser execution or Anvil autocomplete. Anvil's worker
-benchmarks remain separate; wiring those into CI can follow its reproducible
-parser package dependency. The local Anvil pnpm link is unchanged.
+Python 2 compatibility, browser execution or downstream autocomplete. Consumer
+benchmarks belong in the consuming project.
 
 Hosted-runner hardware, contention and GC vary. Compare repeated runs with matching
 Node versions, source hashes and hardware. Bundle bytes are more reproducible than

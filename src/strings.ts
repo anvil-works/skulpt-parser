@@ -114,9 +114,9 @@ function decode(
                     body[i + 1] !== "{" ? i + 1 : end < 0 ? body.length : i + 2
                 );
             const name = body.slice(i + 2, end);
-            if (!p.unicodeName)
+            if (!p.resolveUnicodeName)
                 throw new UnicodeNameDatabaseRequired(name, p.filename, token.start[0], token.start[1] + 1);
-            const cp = p.unicodeName(name);
+            const cp = p.resolveUnicodeName(name);
             if (cp === undefined) decodeError("unknown Unicode character name", start, end + 1);
             result += String.fromCodePoint(cp);
             i = end;

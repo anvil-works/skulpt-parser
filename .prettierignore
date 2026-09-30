@@ -1,13 +1,12 @@
 tests/corpus/
-# Generated deterministically by tools/generate314. Format the generator, not its output.
+# Generated deterministically. Edit the generator, not its output.
 src/ast.ts
-tests/fixtures/python314-ast.json
-
-tests/fixtures/python314-numbers.json
 src/generated_parser.ts
-src/lexer/unicode.json
-src/lexer/operators.json
-tests/fixtures/python314-expressions.json
-tests/fixtures/python314-lexer.json
+src/lexer/*.json
 src/string_names.json
-tests/fixtures/python314-modules.json
+# Independent fixtures and measured reports retain their producer's exact bytes.
+tests/fixtures/*.json
+docs/benchmarks/*.json
+tools/upstream/cpython.json
+tools/generate314/unicode/
+pnpm-lock.yaml

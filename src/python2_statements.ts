@@ -62,7 +62,8 @@ export function raiseStatement(p: Grammar): LegacyRaise | null {
 }
 function assignmentTarget(node: ast.expr): boolean {
     if (["Name", "Attribute", "Subscript"].includes(node._type)) return true;
-    return (node._type === "Tuple" || node._type === "List") && node.elts.every(assignmentTarget);
+    if (node._type === "Tuple") return node.elts.length > 0 && node.elts.every(assignmentTarget);
+    return node._type === "List" && node.elts.every(assignmentTarget);
 }
 export function exceptBlock(p: Grammar): LegacyExceptHandler | ast.ExceptHandler | null {
     const start = p.mark;

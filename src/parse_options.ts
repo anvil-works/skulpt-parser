@@ -3,12 +3,12 @@
 import type { LexerOptions } from "./lexer/tokenizer.ts";
 
 export type ParseOptions = Omit<LexerOptions, "extraTokens"> & {
-    /** Treat print as a name in Python 2 compatibility mode, as configured by Skulpt. */
+    /** Treat print as a name in Python 2 mode. */
     printFunction?: boolean;
-    /** Treat async/await as ordinary Skulpt names. Defaults to python2Compat. */
-    legacyAsyncNames?: boolean;
+    /** Treat async/await as ordinary identifiers. Defaults to true in Python 2 mode. */
+    asyncAwaitAsIdentifiers?: boolean;
     /** Return a Unicode code point, or undefined for an unknown name. */
-    unicodeName?: (name: string) => number | undefined;
+    resolveUnicodeName?: (name: string) => number | undefined;
 };
 
 /** A missing capability, not a syntax error. Load the name database and retry. */

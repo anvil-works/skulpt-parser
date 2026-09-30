@@ -7,14 +7,14 @@ import type { CompatibilityModule } from "./python2_ast.ts";
 import type { ParseOptions } from "./parse_options.ts";
 
 /** Full CPython-compatible named escapes; lean consumers use frontend_core. */
-export function parseExpression(source: string, options: Omit<ParseOptions, "unicodeName"> = {}) {
-    return core.parseExpression(source, { ...options, unicodeName });
+export function parseExpression(source: string, options: Omit<ParseOptions, "resolveUnicodeName"> = {}) {
+    return core.parseExpression(source, { ...options, resolveUnicodeName: unicodeName });
 }
 
-type Options = Omit<ParseOptions, "unicodeName">;
-export function parseModule(source: string, options?: Options & { python2Compat?: false }): Module;
-export function parseModule(source: string, options: Options & { python2Compat: true }): CompatibilityModule;
+type Options = Omit<ParseOptions, "resolveUnicodeName">;
+export function parseModule(source: string, options?: Options & { pythonVersion?: 3 }): Module;
+export function parseModule(source: string, options: Options & { pythonVersion: 2 }): CompatibilityModule;
 export function parseModule(source: string, options: Options): Module | CompatibilityModule;
 export function parseModule(source: string, options: Options = {}): Module | CompatibilityModule {
-    return core.parseModule(source, { ...options, unicodeName });
+    return core.parseModule(source, { ...options, resolveUnicodeName: unicodeName });
 }

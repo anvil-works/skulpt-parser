@@ -53,7 +53,7 @@ const lines = [
     "| --- | ---: | ---: | ---: |",
     ...bundles.map((b) => `| ${b.name} | ${b.raw} | ${b.gzip} | ${b.brotli} |`),
     "",
-    "The optional resolver is separate from the lean parser. These are standalone artifacts, not the Anvil worker or full IDE.",
+    "The optional resolver is separate from the lean parser. These are standalone artifacts, not a consumer worker or complete application.",
     "",
     "## Lean parser timings and memory",
     "",

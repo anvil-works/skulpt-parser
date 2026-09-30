@@ -5,9 +5,12 @@ export { parseExpression, parseModule, UnicodeNameDatabaseRequired } from "./fro
 export type { ParseOptions } from "./frontend_core.ts";
 export { scan, tokenize } from "./lexer/tokenizer.ts";
 export type { Token, LexerOptions, LexerWarning } from "./lexer/tokenizer.ts";
+export type * from "./ast.ts";
+export type { ScalarConstant } from "./constants.ts";
 
 export type {
     CompatibilityModule,
+    CompatibilityAST,
     CompatibilityStatement,
     Print,
     LegacyRaise,

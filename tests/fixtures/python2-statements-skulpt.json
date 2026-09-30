@@ -997,6 +997,106 @@
             "error": "SyntaxError"
         },
         {
+            "source": "try:\n    pass\nexcept ValueError , ():\n    pass",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError as ():\n    pass",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError , (first, ()):\n    pass",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError as (first, ()):\n    pass",
+            "error": "SyntaxError"
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError , []:\n    pass",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "List",
+                                    "elts": [],
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass"
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
+            "source": "try:\n    pass\nexcept ValueError as []:\n    pass",
+            "expected": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "Try",
+                        "body": [
+                            {
+                                "_type": "Pass"
+                            }
+                        ],
+                        "handlers": [
+                            {
+                                "_type": "LegacyExceptHandler",
+                                "type": {
+                                    "_type": "Name",
+                                    "id": "ValueError",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    }
+                                },
+                                "target": {
+                                    "_type": "List",
+                                    "elts": [],
+                                    "ctx": {
+                                        "_type": "Store"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "_type": "Pass"
+                                    }
+                                ]
+                            }
+                        ],
+                        "orelse": [],
+                        "finalbody": []
+                    }
+                ]
+            }
+        },
+        {
             "source": "from __future__ import print_function\nprint 1",
             "expected": {
                 "_type": "Module",

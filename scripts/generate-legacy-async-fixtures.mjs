@@ -1,4 +1,4 @@
-// Independent parse + AST oracle from the Skulpt bundle used by Anvil.
+// Independent parse + AST oracle from the independently supplied Skulpt reference bundle.
 import fs from "node:fs";
 import vm from "node:vm";
 import { createHash } from "node:crypto";

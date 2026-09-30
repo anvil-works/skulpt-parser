@@ -19,6 +19,7 @@ jobs:
               with:
                   python-version: "3.14.3"
             - run: pnpm install --frozen-lockfile
+            - run: pnpm format:check
             - run: pnpm test:release
             - run: pnpm check
             - run: pnpm build

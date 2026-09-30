@@ -13,8 +13,17 @@ The string migration now includes a complete Unicode 16 character-name and alias
 
 Python compatibility tests must derive expectations independently from a pinned CPython interpreter, either through a live oracle or generated fixtures whose freshness CI checks. Project-specific contracts that intentionally differ from CPython should be identified explicitly. Tests of AST construction do not establish source parsing compatibility.
 
-## Future performance CI
+## Performance CI
 
-Add a separate reporting job once the parser path and benchmark corpus are stable. Report raw, gzip and Brotli bundle sizes and fixed source-to-AST benchmarks against the PR's actual base commit, which matters for stacked PRs. Use the same pinned Node version, build settings and inputs for both revisions. Publish machine-readable results and a readable summary in CI artifacts or the job summary.
+The separate reporting job is implemented in `.github/workflows/performance.yml`;
+see [its commands and artifacts](performance-ci.md). It reports candidate bundle
+sizes and source-to-AST measurements without blocking timing thresholds.
 
-Start with reporting rather than blocking timing thresholds. Shared runners are noisy; warm up both revisions, alternate their order and record repeated samples and variability before choosing regression budgets. Bundle-size checks can adopt budgets earlier because they are more reproducible. Add memory measurements separately once a repeatable method distinguishes retained AST size, parser peak allocation and runtime baseline. The incomplete expression bundle is not a full-parser size baseline. No new performance CI job is introduced by this note.
+Comparing the candidate with the PR's actual base commit remains follow-on work,
+especially for stacked PRs. Use the same Node version, build settings and inputs
+for both revisions, and publish machine-readable samples beside the summary.
+
+Shared runners are noisy; warm up both revisions, alternate their order and record
+repeated samples and variability before choosing regression budgets. The current
+memory report measures retained ASTs and process RSS, not peak parser allocation.
+Bundle-size budgets can be introduced earlier because bytes are more reproducible.

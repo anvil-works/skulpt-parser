@@ -1,13 +1,11 @@
 # Bounded Python 2 compatibility
 
 `parseModule` and `parseExpression` now accept the experimental option
-`{ python2Compat: true }`. It defaults to false. This implements the numeric and statement
+`{ pythonVersion: 2 }`. The default is `pythonVersion: 3`. This implements the numeric and statement
 slices of the agreed Skulpt compatibility mode, not complete Python 2 support.
-Anvil's IDE integration now has focused parity coverage for this mode.
-Application execution still uses Skulpt.
 
 Skulpt's experimental compiler adapter can pass `{ printFunction: true }` with
-`python2Compat` to treat `print` as an ordinary name, matching configured
+`pythonVersion: 2` to treat `print` as an ordinary name, matching configured
 `Sk.__future__.print_function`. Other compatibility syntax remains enabled. This
 option defaults to false and does not change the source future-import behavior
 described below. Five additional fixtures come from the real Skulpt frontend with
@@ -25,6 +23,8 @@ Implemented forms:
 - Uppercase `L` suffixes produce integer scalar values with `legacyLong: true`.
   This preserves explicit long-literal identity independently of the JavaScript
   number/bigint storage choice. Strict Python 3 values never gain this property.
+- Decimal integer literals retain Skulpt's unrestricted length in compatibility
+  mode. Strict mode keeps CPython's default 4,300-digit limit.
 - Floating-point and imaginary literals beginning with zero retain decimal
   interpretation. Lowercase `l` and suffixes on floats/imaginary values remain
   rejected, matching the tested Skulpt frontend.
@@ -36,10 +36,12 @@ Implemented forms:
 - Comma exception binding and non-name `as` targets produce
   `LegacyExceptHandler` with an expression-valued `target` in Store context.
   Ordinary `as name` retains the CPython handler representation.
+  Empty tuple targets, including nested empty tuples, are rejected. Empty list
+  targets remain accepted, matching the existing Skulpt frontend.
 
-`parseModule` returns `CompatibilityModule` when this option is true. Its types
+`parseModule` returns `CompatibilityModule` when `pythonVersion` is 2. Its types
 include the extension nodes inside nested suites. Default calls still return the
-strict generated CPython `Module` type. A runtime boolean option requires callers
+strict generated CPython `Module` type. A runtime `2 | 3` option requires callers
 to handle either result.
 
 In compatibility mode, `print(1, 2)` is a print statement containing a tuple.
@@ -57,9 +59,9 @@ spellings independently of that Python 3 future feature.
 
 ## Legacy async names
 
-`{ legacyAsyncNames: true }` treats `async` and `await` as ordinary names,
+`{ asyncAwaitAsIdentifiers: true }` treats `async` and `await` as ordinary names,
 independently of Python 2 statement and numeric syntax. Python 2 compatibility
-also enables this behavior by default; an explicit `legacyAsyncNames` value
+also enables this behavior by default; an explicit `asyncAwaitAsIdentifiers` value
 overrides that default. Without either option, both words remain keywords.
 
 For example, `await(x)` produces a `Call` in legacy-name mode and an `Await` in
@@ -71,7 +73,7 @@ grows from 37,047 to 37,099 bytes gzip, an additional 52 bytes. The focused
 compatibility, expression, module and diagnostic run passes 1,660 tests; type
 checks and the built-package check also pass.
 
-The current Anvil Skulpt bundle accepts these identifiers in both Python 2 and
+The reference Skulpt bundle accepts these identifiers in both Python 2 and
 Python 3 modes. `tests/fixtures/legacy-async-skulpt.json` records 20 cases per mode
 from real parse and AST construction, including ambiguous calls and rejected async
 constructs. Regenerate with:
@@ -80,19 +82,16 @@ constructs. Regenerate with:
 node scripts/generate-legacy-async-fixtures.mjs /path/to/skulpt.min.js
 ```
 
-Anvil's client parser selects legacy-name mode even for Python 3 apps.
-Python 3 server parsing keeps strict keywords. The IDE warns about recognized
-unsupported async constructs only on the client, without reinterpreting valid
-legacy calls as await expressions. Skulpt runtime async
-support is a separate project, and reserving these names later requires an
-explicit runtime-version migration.
+Consumers that target Skulpt can select this identifier policy even in Python 3
+mode. Consumers that implement async syntax should retain strict keywords. Reserving
+these names in a previously permissive runtime requires an explicit migration.
 
 ## Evidence
 
-`tests/fixtures/python2-numeric-skulpt.json` records 22 accepted/rejected examples
+`tests/fixtures/python2-numeric-skulpt.json` records 24 accepted/rejected examples
 through the real Skulpt parser and AST constructor, with the runtime bundle's
 SHA-256. Values and comparison operators come from that independent oracle.
-The bundle used is the checked-in runtime currently consumed by Anvil, hash
+The reference bundle has SHA-256
 `29aa41f66d084b5826e6d386a5494b179d96a793607ebfc668cedc4752722e54`.
 Regenerate with a local copy of that bundle:
 
@@ -100,7 +99,7 @@ Regenerate with a local copy of that bundle:
 node scripts/generate-python2-numeric-fixtures.mjs /path/to/skulpt.min.js
 ```
 
-`tests/fixtures/python2-statements-skulpt.json` adds 34 accepted/rejected cases
+`tests/fixtures/python2-statements-skulpt.json` records 45 accepted/rejected cases
 from the same runtime, including nested statements, redirected print, malformed
 operands, and non-name exception targets. Regenerate it with:
 
@@ -124,16 +123,9 @@ bundle.
 
 The agreed ceiling is the Skulpt support audited in the issue
 [Define the bounded Python 2 compatibility syntax](https://github.com/anvil-works/skulpt-parser/issues/10).
-Anvil's IDE now consumes the compatibility nodes for Python 2 client and server
-modules. Twelve completion scenarios compare native output with the real Skulpt
-parser through the production correction and walking paths. They cover print
-values/destinations, raise operands, exception assignment targets, explicit long
-keys/defaults and legacy comparisons. Navigation and four rejection/diagnostic
-cases also match. The broader focused IDE suite passes 103 tests.
-
-Skulpt remains responsible for application execution and for the IDE's remaining
-Python value/type operations. This checkpoint does not establish compatibility
-with every existing app or implement Python 2 runtime semantics.
+Consumers must test the compatibility nodes through their own visitors and runtime
+adapters. Parser conformance does not establish application execution compatibility
+or implement Python 2 runtime semantics.
 
 Backticks, exec statements, tuple parameters, `ur`/`ru` prefixes and lowercase
 long suffixes are not required by the audited Skulpt ceiling. Runtime fixes for
