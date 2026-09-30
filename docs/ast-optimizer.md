@@ -82,8 +82,10 @@ runtimes do not support `from __future__ import annotations`; deferred annotatio
 text is therefore protected by the parser AST regression rather than a Skulpt
 execution assertion.
 
-The default parser bundle is byte-for-byte unchanged from performance commit
-`f5182f0`. Standalone optimizer measurements with Node 22.15.0 were 6,467
+The optimizer-only dev.6 commit left the default parser bundle byte-for-byte
+unchanged from performance commit `f5182f0`. The subsequent
+[performance follow-up](parser-performance-followup.md) changes that core bundle.
+Standalone optimizer measurements with Node 22.15.0 were 6,467
 raw bytes, 2,315 gzip bytes and 2,153 Brotli bytes. Only consumers importing
 `/optimize` load this code. Package checks execute both entries without Node
 globals or external imports and check declarations from an external TypeScript

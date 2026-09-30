@@ -1,5 +1,10 @@
 # Performance and robustness results, 30 September 2026
 
+Subsequent work committed this lexer candidate and added a local identifier fast
+path. The [performance follow-up](parser-performance-followup.md) records the
+focused p95/first-operation checks and diagnostic repairs. The earlier tail flags
+below did not repeat in those comparisons; historical measurements are preserved.
+
 The measurement and robustness tooling and two lexer allocation reductions are
 selected for staging. The parser changes simplify token construction and replace
 per-identifier prefix Sets with bounded prefix strings. The rebuilt core matches

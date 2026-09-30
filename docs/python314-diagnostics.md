@@ -6,7 +6,7 @@ The first slice selects upstream block/header and parameter diagnostics. It cove
 
 Generic diagnostic actions report the last token read by the scanner, while known-location/range actions use AST/token UTF-8 positions converted to character columns. The scanner supplies its consumed column for indentation/EOF tokens whose tokenize positions are absent. This does not change standalone token fields. Forced colons also retain NEWLINE error widths. Warning deduplication survives the second pass.
 
-`tests/fixtures/generate_python314_diagnostics.py` obtains 422 exact error and warning expectations from CPython 3.14.3. Tests compare name, message, line/end-line, column/end-column and source text. Cases include Unicode, CRLF, multiline headers, comment-only tails and both module/expression entry points. CI regenerates the fixture; browser smoke checks twelve representative errors. Current suite and build measurements are recorded in `python314-performance.md`; the ten-file live corpus also verifies valid parsing.
+`tests/fixtures/generate_python314_diagnostics.py` obtains 430 exact error and warning expectations from CPython 3.14.3. Tests compare name, message, line/end-line, column/end-column and source text. Cases include Unicode, CRLF, multiline headers, comment-only tails and both module/expression entry points. CI regenerates the fixture; browser smoke checks twelve representative errors. Current suite and build measurements are recorded in `python314-performance.md`; the ten-file live corpus also verifies valid parsing.
 
 All 62 upstream invalid rules are selected, and generation now checks diagnostic dependencies as well as ordinary syntax. This is not exhaustive diagnostic parity. Full-source tokenizer-error precedence follows the upstream failed-input path; tokenizer failures outside the tested cases may still differ. CPython's internal last-statement metadata is not exposed. Type-comment-specific diagnostics remain unreachable under the `type_comments=False` API contract. Existing syntax/conversion errors that throw during the first pass also check the remaining source for higher-priority tokenizer errors.
 
@@ -31,3 +31,16 @@ After a parser error, the frontend scans the remaining source directly without a
 The scanner records its failure status internally; the standalone tokenizer still exposes the same tokens and errors. Direct parser EOF errors use the opening delimiter's location and CPython's unknown end-column sentinel. The earlier dictionary regression protects that sentinel too. Successful parses never run the remainder scan.
 
 26 additional exact CPython cases cover competing parser/lexer errors, same-line versus earlier-line delimiters, malformed later literals, indentation/continuation failures, Unicode and f/t-string expressions. Browser checks include unclosed Unicode input, a later unmatched bracket and preserved interpolation syntax errors.
+
+## Robustness regressions
+
+The deterministic mutation probe exposed three diagnostic-field discrepancies.
+Parser-owned TabError normalization now reports column 1, end column 0 and the
+complete source line, including an implicit final newline. Commented NEWLINE
+errors use the end of the comment for their range. Generic errors raised after
+the scanner advances to another line omit the earlier line's newline, following
+CPython's source-buffer fallback. The standalone tokenizer contract is unchanged.
+
+Seven pinned CPython fixtures cover the minimized cases plus explicit/implicit
+newlines, Unicode comments/identifiers and mixed indentation. The full 200-case
+mutation probe and twelve scaling inputs now match the CPython oracle.

@@ -169,14 +169,18 @@ export class Parser {
                     `'${String.fromCharCode(opening.c)}' was never closed`
                 );
         }
-        if (this.scanner.failureKind === "DEDENT" && error instanceof Error) {
+        if (
+            (this.scanner.failureKind === "DEDENT" || this.scanner.failureKind === "TABSPACE") &&
+            error instanceof Error
+        ) {
             const line = this.scanner.lineno;
             const lines = this.source.split("\n");
             Object.assign(error, {
                 end_lineno: line,
-                end_offset: -1,
+                end_offset: this.scanner.failureKind === "TABSPACE" ? 0 : -1,
                 text: (lines[line - 1] ?? "") + (this.mode === "exec" || line < lines.length ? "\n" : ""),
             });
+            if (this.scanner.failureKind === "TABSPACE") Object.assign(error, { offset: 1 });
         }
         throw error;
     }
@@ -247,14 +251,10 @@ export class Parser {
             return null;
         if (this.python2 && !this.printFunction && token.string === "print") return null;
         this.mark++;
-        return ast.Name(
-            token.string.normalize("NFKC"),
-            ast.Load(),
-            token.start[0],
-            token.startByte,
-            token.end[0],
-            token.endByte
-        );
+        // Equal UTF-8 byte and character columns prove the line prefix is
+        // ASCII, including this name. NFKC leaves those identifiers unchanged.
+        const id = token.endByte === token.end[1] ? token.string : token.string.normalize("NFKC");
+        return ast.Name(id, ast.Load(), token.start[0], token.startByte, token.end[0], token.endByte);
     }
     checkNotEqual(token: Token): Token | null {
         if (this.python2) return token;
@@ -414,19 +414,22 @@ export class Parser {
                 text: line + "\n",
             });
         }
+        // Once the scanner has advanced, CPython takes the original source line
+        // without its newline rather than the current tokenizer line buffer.
+        const line =
+            this.scanner.lineno > (token?.start[0] ?? 1) ? (token?.line ?? "").replace(/\n$/, "") : (token?.line ?? "");
         return Object.assign(new SyntaxError(message), {
             filename: this.filename,
             lineno: token?.start[0] ?? 1,
             offset: (token?.start[1] ?? 0) + 1,
             end_lineno: token?.end[0] ?? 1,
-            end_offset:
-                token?.type === "NEWLINE" && token.start[1] >= 0 ? token.start[1] + 2 : (token?.end[1] ?? 0) + 1,
+            end_offset: token?.type === "NEWLINE" && token.start[1] >= 0 ? token.end[1] + 2 : (token?.end[1] ?? 0) + 1,
             // File-input parser errors include the implicit final newline;
             // direct tokenizer errors preserve their separate source contract.
             text:
-                this.mode === "exec" && token?.line && !token.line.endsWith("\n")
-                    ? token.line + "\n"
-                    : (token?.line ?? ""),
+                this.scanner.lineno <= (token?.start[0] ?? 1) && this.mode === "exec" && line && !line.endsWith("\n")
+                    ? line + "\n"
+                    : line,
         });
     }
 }

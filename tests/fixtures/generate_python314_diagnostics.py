@@ -193,6 +193,18 @@ for prefix in ["f", "t"]:
     for content in ["{x y}", "{x y", "{(x y)}", "{(x y", "{x!1}", "{x if}"]:
         sources.append((prefix + '"' + content + '"', "eval"))
 
+# Minimized diagnostic discrepancies from the deterministic robustness probe.
+for source in [
+    "match t:\n    \tcase (1 | 2) as chosen:\n        pass",
+    "x=#",
+    "x= # café 雪",
+    "x=#comment\n",
+    "e ias[:\n int]",
+    "résumé other[:\n int]",
+    "if x:\n\tpass\n        pass",
+]:
+    sources.append((source, "exec"))
+
 sources = list(dict.fromkeys(sources))
 
 cases = []

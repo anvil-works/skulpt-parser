@@ -5928,6 +5928,104 @@
                 "text": "t\"{x if}\""
             },
             "warnings": []
+        },
+        {
+            "source": "match t:\n    \tcase (1 | 2) as chosen:\n        pass",
+            "mode": "exec",
+            "error": {
+                "name": "TabError",
+                "message": "inconsistent use of tabs and spaces in indentation",
+                "lineno": 3,
+                "offset": 1,
+                "end_lineno": 3,
+                "end_offset": 0,
+                "text": "        pass\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x=#",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 5,
+                "text": "x=#\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x= # caf\u00e9 \u96ea",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 4,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "x= # caf\u00e9 \u96ea\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "x=#comment\n",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 12,
+                "text": "x=#comment\n"
+            },
+            "warnings": []
+        },
+        {
+            "source": "e ias[:\n int]",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 3,
+                "end_lineno": 1,
+                "end_offset": 6,
+                "text": "e ias[:"
+            },
+            "warnings": []
+        },
+        {
+            "source": "r\u00e9sum\u00e9 other[:\n int]",
+            "mode": "exec",
+            "error": {
+                "name": "SyntaxError",
+                "message": "invalid syntax",
+                "lineno": 1,
+                "offset": 8,
+                "end_lineno": 1,
+                "end_offset": 13,
+                "text": "r\u00e9sum\u00e9 other[:"
+            },
+            "warnings": []
+        },
+        {
+            "source": "if x:\n\tpass\n        pass",
+            "mode": "exec",
+            "error": {
+                "name": "TabError",
+                "message": "inconsistent use of tabs and spaces in indentation",
+                "lineno": 3,
+                "offset": 1,
+                "end_lineno": 3,
+                "end_offset": 0,
+                "text": "        pass\n"
+            },
+            "warnings": []
         }
     ]
 }
