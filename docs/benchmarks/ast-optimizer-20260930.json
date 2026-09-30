@@ -1,0 +1,163 @@
+{
+    "measuredAt": "2026-09-30T08:47:06.773Z",
+    "purpose": "Correctness and bundle/generated-code size validation; no latency claims",
+    "environment": {
+        "node": "v22.15.0",
+        "versions": {
+            "node": "22.15.0",
+            "acorn": "8.14.1",
+            "ada": "2.9.2",
+            "amaro": "0.4.1",
+            "ares": "1.34.5",
+            "brotli": "1.1.0",
+            "cjs_module_lexer": "2.1.0",
+            "cldr": "46.0",
+            "icu": "76.1",
+            "llhttp": "9.2.1",
+            "modules": "127",
+            "napi": "10",
+            "nbytes": "0.1.1",
+            "ncrypto": "0.0.1",
+            "nghttp2": "1.64.0",
+            "openssl": "3.0.16",
+            "simdjson": "3.12.2",
+            "simdutf": "6.0.3",
+            "sqlite": "3.49.1",
+            "tz": "2025a",
+            "undici": "6.21.2",
+            "unicode": "16.0",
+            "uv": "1.49.2",
+            "uvwasi": "0.0.21",
+            "v8": "12.4.254.21-node.24",
+            "zlib": "1.3.0.1-motley-788cb3c",
+            "zstd": "1.5.6"
+        },
+        "cpython": "3.14.3",
+        "platform": "darwin",
+        "release": "24.5.0",
+        "arch": "arm64",
+        "cpu": "Apple M1 Pro",
+        "logicalCpus": 10,
+        "ramBytes": 34359738368
+    },
+    "revisions": {
+        "parser": "f5182f0034d0717c21776d8fd235ebc9022f477d",
+        "adapter": "12c51fdf26b852a9f3f64b6f001e4bbbc02133cb",
+        "direct": "deafa5692ebf56581efb3210e106c6fe9d4dbd60"
+    },
+    "status": "Captured before the dev.6 optimizer commit; consumer harness is a separate working-tree addition",
+    "optimizerSource": {
+        "path": "/Users/scork/Desktop/Projects/skulpt_parser/src/optimize_ast.ts",
+        "sha256": "911f90c06246e5cf3b6932bf5cef9d9364849c9c74161571e0709ff191871988",
+        "bytes": 15602
+    },
+    "oracleGenerator": {
+        "path": "/Users/scork/Desktop/Projects/skulpt_parser/tests/fixtures/generate_ast_optimizer.py",
+        "sha256": "707bfb9b66461e43c340c6c241d52e793a1f8f4ca8bc9e2aeda5c1530724f8e7",
+        "bytes": 2722
+    },
+    "oracleFixture": {
+        "path": "/Users/scork/Desktop/Projects/skulpt_parser/tests/fixtures/ast-optimizer.json",
+        "sha256": "43226bfc1a2f2eab140d41fcd07f3e8be489d56727220b8168158f0b65c6617b",
+        "bytes": 30301
+    },
+    "consumerHarness": {
+        "path": "/Users/scork/Desktop/Projects/skulpt-parser-rollout/test/ast_optimizer.mjs",
+        "sha256": "d7d8c98bc041b3006800c87028decdcf83cb31852de07e51ac0a3e3d43f63ebc",
+        "bytes": 5429
+    },
+    "coreArtifact": {
+        "path": "/Users/scork/Desktop/Projects/skulpt_parser/dist-core/index.js",
+        "sha256": "78ceab086128a8a37904f8dc5b7c8c7dbfce9241f763eb199c8694fd08791e2d",
+        "bytes": 230994
+    },
+    "optimizerArtifact": {
+        "path": "/Users/scork/Desktop/Projects/skulpt_parser/dist-core/optimize.js",
+        "sha256": "d30eb0fa92100735899dc37b9cd4b7e6b4bdae52f873ddeb2d64bd473d9a0321",
+        "bytes": 6467
+    },
+    "parserBundleUnchanged": true,
+    "sizes": {
+        "./dist-core/index.js": {
+            "bytes": 230994,
+            "gzip": 36444,
+            "brotli": 28399
+        },
+        "./dist-core/optimize.js": {
+            "bytes": 6467,
+            "gzip": 2315,
+            "brotli": 2153
+        }
+    },
+    "tests": {
+        "testFiles": 10,
+        "failedFiles": 0,
+        "tests": 2256,
+        "failedTests": 0,
+        "passedTests": 2256,
+        "skippedTests": 0,
+        "todoTests": 0,
+        "oracleValueCases": 152,
+        "types": "passed",
+        "package": "passed",
+        "browserVm": "passed",
+        "cpythonCorpus": {
+            "retainedFixtures": 560,
+            "stdlibFiles": 10,
+            "status": "passed"
+        },
+        "generators": "AST/parser/oracle fresh",
+        "format": "passed",
+        "codeReview": {
+            "standards": 0,
+            "specRemaining": 0,
+            "corrected": "Preserved annotation/type-definition text; guarded ambiguous Unicode boundaries"
+        }
+    },
+    "runtimeArtifacts": {
+        "adapter": {
+            "path": "/tmp/skulpt-parser-performance-20260930/full-adapter.js",
+            "sha256": "0bf81ce67798ca298366a2d76ebfbf9f0400db0afba36f33741d1d8e89c5a988",
+            "bytes": 626654
+        },
+        "direct": {
+            "path": "/tmp/skulpt-parser-performance-20260930/direct-candidate.js",
+            "sha256": "e623be27f0b26e971f259c66200b66fc85dc3f6b26fa522a4404445258aa67ff",
+            "bytes": 760935
+        },
+        "stdlib": {
+            "path": "/tmp/skulpt-parser-performance-20260930/baseline/stdlib.js",
+            "sha256": "068aba4240ff1dc1af54337cda34c28cd245512caeac9132a65b627e569afd8c",
+            "bytes": 66586
+        }
+    },
+    "consumers": {
+        "adapter": {
+            "compiler": "adapter",
+            "cpythonPrograms": 12,
+            "python2": "passed",
+            "knownRuntimeDifference": "Unoptimized Skulpt 1.0 // 0.1 == 10.0; CPython and folded value == 9.0",
+            "constantAdd": {
+                "beforeBytes": 1216,
+                "afterBytes": 1111
+            }
+        },
+        "direct": {
+            "compiler": "direct",
+            "cpythonPrograms": 12,
+            "python2": "passed",
+            "knownRuntimeDifference": "Unoptimized Skulpt 1.0 // 0.1 == 10.0; CPython and folded value == 9.0",
+            "constantAdd": {
+                "beforeBytes": 1216,
+                "afterBytes": 1111
+            }
+        }
+    },
+    "consumerMethod": "Test-only boundary wrappers load built optimizer; no runtime rollout or dependency changes",
+    "limitations": [
+        "Conservative CPython folding subset",
+        "Python2 skipped",
+        "Deferred annotation AST contract tested independently because checkpoint Skulpt lacks future annotations",
+        "Skulpt dynamic float-floor bug remains; folded 1.0//0.1 uses CPython value"
+    ]
+}

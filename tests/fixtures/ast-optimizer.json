@@ -1,0 +1,1222 @@
+{
+    "version": "3.14.3",
+    "cases": [
+        {
+            "source": "1 + 2 * 3",
+            "expected": {
+                "type": "int",
+                "value": 7
+            }
+        },
+        {
+            "source": "(\n  1 +\n  2 * 3\n)",
+            "expected": {
+                "type": "int",
+                "value": 7
+            }
+        },
+        {
+            "source": "9007199254740993 + 2",
+            "expected": {
+                "type": "int",
+                "value": {
+                    "$bigint": "9007199254740995"
+                }
+            }
+        },
+        {
+            "source": "2 ** 64",
+            "expected": {
+                "type": "int",
+                "value": {
+                    "$bigint": "18446744073709551616"
+                }
+            }
+        },
+        {
+            "source": "0 ** 0",
+            "expected": {
+                "type": "int",
+                "value": 1
+            }
+        },
+        {
+            "source": "1 << 100",
+            "expected": {
+                "type": "int",
+                "value": {
+                    "$bigint": "1267650600228229401496703205376"
+                }
+            }
+        },
+        {
+            "source": "(-1) >> 100",
+            "expected": {
+                "type": "int",
+                "value": -1
+            }
+        },
+        {
+            "source": "+True",
+            "expected": {
+                "type": "int",
+                "value": 1
+            }
+        },
+        {
+            "source": "-False",
+            "expected": {
+                "type": "int",
+                "value": 0
+            }
+        },
+        {
+            "source": "~42",
+            "expected": {
+                "type": "int",
+                "value": -43
+            }
+        },
+        {
+            "source": "-0.0",
+            "expected": {
+                "type": "float",
+                "bits": "8000000000000000"
+            }
+        },
+        {
+            "source": "+1e999",
+            "expected": {
+                "type": "float",
+                "bits": "7ff0000000000000"
+            }
+        },
+        {
+            "source": "-1e999",
+            "expected": {
+                "type": "float",
+                "bits": "fff0000000000000"
+            }
+        },
+        {
+            "source": "-2j",
+            "expected": {
+                "type": "complex",
+                "real": "8000000000000000",
+                "imag": "c000000000000000"
+            }
+        },
+        {
+            "source": "-0j",
+            "expected": {
+                "type": "complex",
+                "real": "8000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "1 + 2j",
+            "expected": {
+                "type": "complex",
+                "real": "3ff0000000000000",
+                "imag": "4000000000000000"
+            }
+        },
+        {
+            "source": "2j + 1",
+            "expected": {
+                "type": "complex",
+                "real": "3ff0000000000000",
+                "imag": "4000000000000000"
+            }
+        },
+        {
+            "source": "1 - 2j",
+            "expected": {
+                "type": "complex",
+                "real": "3ff0000000000000",
+                "imag": "c000000000000000"
+            }
+        },
+        {
+            "source": "2j - 1",
+            "expected": {
+                "type": "complex",
+                "real": "bff0000000000000",
+                "imag": "4000000000000000"
+            }
+        },
+        {
+            "source": "(1 + 2j) + (3 - 4j)",
+            "expected": {
+                "type": "complex",
+                "real": "4010000000000000",
+                "imag": "c000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) + (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "8000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "(-0j) - (-0.0)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "True & False",
+            "expected": {
+                "type": "bool",
+                "value": false
+            }
+        },
+        {
+            "source": "True | False",
+            "expected": {
+                "type": "bool",
+                "value": true
+            }
+        },
+        {
+            "source": "True ^ True",
+            "expected": {
+                "type": "bool",
+                "value": false
+            }
+        },
+        {
+            "source": "True + True",
+            "expected": {
+                "type": "int",
+                "value": 2
+            }
+        },
+        {
+            "source": "True / True",
+            "expected": {
+                "type": "float",
+                "bits": "3ff0000000000000"
+            }
+        },
+        {
+            "source": "not None",
+            "expected": {
+                "type": "bool",
+                "value": true
+            }
+        },
+        {
+            "source": "not False",
+            "expected": {
+                "type": "bool",
+                "value": true
+            }
+        },
+        {
+            "source": "not 0",
+            "expected": {
+                "type": "bool",
+                "value": true
+            }
+        },
+        {
+            "source": "not 2j",
+            "expected": {
+                "type": "bool",
+                "value": false
+            }
+        },
+        {
+            "source": "not ''",
+            "expected": {
+                "type": "bool",
+                "value": true
+            }
+        },
+        {
+            "source": "not b'x'",
+            "expected": {
+                "type": "bool",
+                "value": false
+            }
+        },
+        {
+            "source": "'abc' + 'def'",
+            "expected": {
+                "type": "str",
+                "value": "abcdef"
+            }
+        },
+        {
+            "source": "b'abc' + b'\\xff'",
+            "expected": {
+                "type": "bytes",
+                "value": {
+                    "$bytes": [
+                        97,
+                        98,
+                        99,
+                        255
+                    ]
+                }
+            }
+        },
+        {
+            "source": "'ab' * 3",
+            "expected": {
+                "type": "str",
+                "value": "ababab"
+            }
+        },
+        {
+            "source": "3 * 'ab'",
+            "expected": {
+                "type": "str",
+                "value": "ababab"
+            }
+        },
+        {
+            "source": "'x' * -3",
+            "expected": {
+                "type": "str",
+                "value": ""
+            }
+        },
+        {
+            "source": "b'ab' * 3",
+            "expected": {
+                "type": "bytes",
+                "value": {
+                    "$bytes": [
+                        97,
+                        98,
+                        97,
+                        98,
+                        97,
+                        98
+                    ]
+                }
+            }
+        },
+        {
+            "source": "3 * b'ab'",
+            "expected": {
+                "type": "bytes",
+                "value": {
+                    "$bytes": [
+                        97,
+                        98,
+                        97,
+                        98,
+                        97,
+                        98
+                    ]
+                }
+            }
+        },
+        {
+            "source": "b'x' * False",
+            "expected": {
+                "type": "bytes",
+                "value": {
+                    "$bytes": []
+                }
+            }
+        },
+        {
+            "source": "'' * 1000000",
+            "expected": {
+                "type": "str",
+                "value": ""
+            }
+        },
+        {
+            "source": "() * 1000000",
+            "expected": {
+                "type": "tuple",
+                "items": []
+            }
+        },
+        {
+            "source": "(1, 'x') + (True, None)",
+            "expected": {
+                "type": "tuple",
+                "items": [
+                    {
+                        "type": "int",
+                        "value": 1
+                    },
+                    {
+                        "type": "str",
+                        "value": "x"
+                    },
+                    {
+                        "type": "bool",
+                        "value": true
+                    },
+                    {
+                        "type": "none"
+                    }
+                ]
+            }
+        },
+        {
+            "source": "(1, (2, 3)) * 2",
+            "expected": {
+                "type": "tuple",
+                "items": [
+                    {
+                        "type": "int",
+                        "value": 1
+                    },
+                    {
+                        "type": "tuple",
+                        "items": [
+                            {
+                                "type": "int",
+                                "value": 2
+                            },
+                            {
+                                "type": "int",
+                                "value": 3
+                            }
+                        ]
+                    },
+                    {
+                        "type": "int",
+                        "value": 1
+                    },
+                    {
+                        "type": "tuple",
+                        "items": [
+                            {
+                                "type": "int",
+                                "value": 2
+                            },
+                            {
+                                "type": "int",
+                                "value": 3
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "source": "2 * (1, (2, 3))",
+            "expected": {
+                "type": "tuple",
+                "items": [
+                    {
+                        "type": "int",
+                        "value": 1
+                    },
+                    {
+                        "type": "tuple",
+                        "items": [
+                            {
+                                "type": "int",
+                                "value": 2
+                            },
+                            {
+                                "type": "int",
+                                "value": 3
+                            }
+                        ]
+                    },
+                    {
+                        "type": "int",
+                        "value": 1
+                    },
+                    {
+                        "type": "tuple",
+                        "items": [
+                            {
+                                "type": "int",
+                                "value": 2
+                            },
+                            {
+                                "type": "int",
+                                "value": 3
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "source": "(1, 2) * -3",
+            "expected": {
+                "type": "tuple",
+                "items": []
+            }
+        },
+        {
+            "source": "(1 + 2, 'x' * 2)[0]",
+            "expected": {
+                "type": "int",
+                "value": 3
+            }
+        },
+        {
+            "source": "(1, (2, 3))[-1]",
+            "expected": {
+                "type": "tuple",
+                "items": [
+                    {
+                        "type": "int",
+                        "value": 2
+                    },
+                    {
+                        "type": "int",
+                        "value": 3
+                    }
+                ]
+            }
+        },
+        {
+            "source": "'\u96ea\u00e9'[0]",
+            "expected": {
+                "type": "str",
+                "value": "\u96ea"
+            }
+        },
+        {
+            "source": "'\u96ea\u00e9'[-1]",
+            "expected": {
+                "type": "str",
+                "value": "\u00e9"
+            }
+        },
+        {
+            "source": "'abc'[True]",
+            "expected": {
+                "type": "str",
+                "value": "b"
+            }
+        },
+        {
+            "source": "'\\ud800x'[0]",
+            "expected": {
+                "type": "str",
+                "value": "\ud800"
+            }
+        },
+        {
+            "source": "b'\\xffx'[0]",
+            "expected": {
+                "type": "int",
+                "value": 255
+            }
+        },
+        {
+            "source": "b'abc'[-1]",
+            "expected": {
+                "type": "int",
+                "value": 99
+            }
+        },
+        {
+            "source": "(7) + (3)",
+            "expected": {
+                "type": "int",
+                "value": 10
+            }
+        },
+        {
+            "source": "(7) - (3)",
+            "expected": {
+                "type": "int",
+                "value": 4
+            }
+        },
+        {
+            "source": "(7) * (3)",
+            "expected": {
+                "type": "int",
+                "value": 21
+            }
+        },
+        {
+            "source": "(7) / (3)",
+            "expected": {
+                "type": "float",
+                "bits": "4002aaaaaaaaaaab"
+            }
+        },
+        {
+            "source": "(7) // (3)",
+            "expected": {
+                "type": "int",
+                "value": 2
+            }
+        },
+        {
+            "source": "(7) % (3)",
+            "expected": {
+                "type": "int",
+                "value": 1
+            }
+        },
+        {
+            "source": "(7) & (3)",
+            "expected": {
+                "type": "int",
+                "value": 3
+            }
+        },
+        {
+            "source": "(7) | (3)",
+            "expected": {
+                "type": "int",
+                "value": 7
+            }
+        },
+        {
+            "source": "(7) ^ (3)",
+            "expected": {
+                "type": "int",
+                "value": 4
+            }
+        },
+        {
+            "source": "(-7) + (3)",
+            "expected": {
+                "type": "int",
+                "value": -4
+            }
+        },
+        {
+            "source": "(-7) - (3)",
+            "expected": {
+                "type": "int",
+                "value": -10
+            }
+        },
+        {
+            "source": "(-7) * (3)",
+            "expected": {
+                "type": "int",
+                "value": -21
+            }
+        },
+        {
+            "source": "(-7) / (3)",
+            "expected": {
+                "type": "float",
+                "bits": "c002aaaaaaaaaaab"
+            }
+        },
+        {
+            "source": "(-7) // (3)",
+            "expected": {
+                "type": "int",
+                "value": -3
+            }
+        },
+        {
+            "source": "(-7) % (3)",
+            "expected": {
+                "type": "int",
+                "value": 2
+            }
+        },
+        {
+            "source": "(-7) & (3)",
+            "expected": {
+                "type": "int",
+                "value": 1
+            }
+        },
+        {
+            "source": "(-7) | (3)",
+            "expected": {
+                "type": "int",
+                "value": -5
+            }
+        },
+        {
+            "source": "(-7) ^ (3)",
+            "expected": {
+                "type": "int",
+                "value": -6
+            }
+        },
+        {
+            "source": "(7) + (-3)",
+            "expected": {
+                "type": "int",
+                "value": 4
+            }
+        },
+        {
+            "source": "(7) - (-3)",
+            "expected": {
+                "type": "int",
+                "value": 10
+            }
+        },
+        {
+            "source": "(7) * (-3)",
+            "expected": {
+                "type": "int",
+                "value": -21
+            }
+        },
+        {
+            "source": "(7) / (-3)",
+            "expected": {
+                "type": "float",
+                "bits": "c002aaaaaaaaaaab"
+            }
+        },
+        {
+            "source": "(7) // (-3)",
+            "expected": {
+                "type": "int",
+                "value": -3
+            }
+        },
+        {
+            "source": "(7) % (-3)",
+            "expected": {
+                "type": "int",
+                "value": -2
+            }
+        },
+        {
+            "source": "(7) & (-3)",
+            "expected": {
+                "type": "int",
+                "value": 5
+            }
+        },
+        {
+            "source": "(7) | (-3)",
+            "expected": {
+                "type": "int",
+                "value": -1
+            }
+        },
+        {
+            "source": "(7) ^ (-3)",
+            "expected": {
+                "type": "int",
+                "value": -6
+            }
+        },
+        {
+            "source": "(-7) + (-3)",
+            "expected": {
+                "type": "int",
+                "value": -10
+            }
+        },
+        {
+            "source": "(-7) - (-3)",
+            "expected": {
+                "type": "int",
+                "value": -4
+            }
+        },
+        {
+            "source": "(-7) * (-3)",
+            "expected": {
+                "type": "int",
+                "value": 21
+            }
+        },
+        {
+            "source": "(-7) / (-3)",
+            "expected": {
+                "type": "float",
+                "bits": "4002aaaaaaaaaaab"
+            }
+        },
+        {
+            "source": "(-7) // (-3)",
+            "expected": {
+                "type": "int",
+                "value": 2
+            }
+        },
+        {
+            "source": "(-7) % (-3)",
+            "expected": {
+                "type": "int",
+                "value": -1
+            }
+        },
+        {
+            "source": "(-7) & (-3)",
+            "expected": {
+                "type": "int",
+                "value": -7
+            }
+        },
+        {
+            "source": "(-7) | (-3)",
+            "expected": {
+                "type": "int",
+                "value": -3
+            }
+        },
+        {
+            "source": "(-7) ^ (-3)",
+            "expected": {
+                "type": "int",
+                "value": 4
+            }
+        },
+        {
+            "source": "(0) + (3)",
+            "expected": {
+                "type": "int",
+                "value": 3
+            }
+        },
+        {
+            "source": "(0) - (3)",
+            "expected": {
+                "type": "int",
+                "value": -3
+            }
+        },
+        {
+            "source": "(0) * (3)",
+            "expected": {
+                "type": "int",
+                "value": 0
+            }
+        },
+        {
+            "source": "(0) / (3)",
+            "expected": {
+                "type": "float",
+                "bits": "0000000000000000"
+            }
+        },
+        {
+            "source": "(0) // (3)",
+            "expected": {
+                "type": "int",
+                "value": 0
+            }
+        },
+        {
+            "source": "(0) % (3)",
+            "expected": {
+                "type": "int",
+                "value": 0
+            }
+        },
+        {
+            "source": "(0) & (3)",
+            "expected": {
+                "type": "int",
+                "value": 0
+            }
+        },
+        {
+            "source": "(0) | (3)",
+            "expected": {
+                "type": "int",
+                "value": 3
+            }
+        },
+        {
+            "source": "(0) ^ (3)",
+            "expected": {
+                "type": "int",
+                "value": 3
+            }
+        },
+        {
+            "source": "(1.0) + (0.1)",
+            "expected": {
+                "type": "float",
+                "bits": "3ff199999999999a"
+            }
+        },
+        {
+            "source": "(1.0) - (0.1)",
+            "expected": {
+                "type": "float",
+                "bits": "3feccccccccccccd"
+            }
+        },
+        {
+            "source": "(1.0) * (0.1)",
+            "expected": {
+                "type": "float",
+                "bits": "3fb999999999999a"
+            }
+        },
+        {
+            "source": "(1.0) / (0.1)",
+            "expected": {
+                "type": "float",
+                "bits": "4024000000000000"
+            }
+        },
+        {
+            "source": "(1.0) // (0.1)",
+            "expected": {
+                "type": "float",
+                "bits": "4022000000000000"
+            }
+        },
+        {
+            "source": "(1.0) % (0.1)",
+            "expected": {
+                "type": "float",
+                "bits": "3fb9999999999996"
+            }
+        },
+        {
+            "source": "(-7.5) + (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c016000000000000"
+            }
+        },
+        {
+            "source": "(-7.5) - (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c023000000000000"
+            }
+        },
+        {
+            "source": "(-7.5) * (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c02e000000000000"
+            }
+        },
+        {
+            "source": "(-7.5) / (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c00e000000000000"
+            }
+        },
+        {
+            "source": "(-7.5) // (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c010000000000000"
+            }
+        },
+        {
+            "source": "(-7.5) % (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "3fe0000000000000"
+            }
+        },
+        {
+            "source": "(7.5) + (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "4016000000000000"
+            }
+        },
+        {
+            "source": "(7.5) - (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "4023000000000000"
+            }
+        },
+        {
+            "source": "(7.5) * (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c02e000000000000"
+            }
+        },
+        {
+            "source": "(7.5) / (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c00e000000000000"
+            }
+        },
+        {
+            "source": "(7.5) // (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c010000000000000"
+            }
+        },
+        {
+            "source": "(7.5) % (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "bfe0000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) + (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "4000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) - (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) * (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "8000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) / (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "8000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) // (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "8000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) % (2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "0000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) + (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "c000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) - (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "4000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) * (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "8000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) / (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "8000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) // (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "8000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) % (-2.0)",
+            "expected": {
+                "type": "float",
+                "bits": "8000000000000000"
+            }
+        },
+        {
+            "source": "(7.0) + (2)",
+            "expected": {
+                "type": "float",
+                "bits": "4022000000000000"
+            }
+        },
+        {
+            "source": "(7.0) - (2)",
+            "expected": {
+                "type": "float",
+                "bits": "4014000000000000"
+            }
+        },
+        {
+            "source": "(7.0) * (2)",
+            "expected": {
+                "type": "float",
+                "bits": "402c000000000000"
+            }
+        },
+        {
+            "source": "(7.0) / (2)",
+            "expected": {
+                "type": "float",
+                "bits": "400c000000000000"
+            }
+        },
+        {
+            "source": "(7.0) // (2)",
+            "expected": {
+                "type": "float",
+                "bits": "4008000000000000"
+            }
+        },
+        {
+            "source": "(7.0) % (2)",
+            "expected": {
+                "type": "float",
+                "bits": "3ff0000000000000"
+            }
+        },
+        {
+            "source": "(0.0) + (0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) - (0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) + (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "(0.0) - (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) + (0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) - (0j)",
+            "expected": {
+                "type": "complex",
+                "real": "8000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) + (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "8000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "(-0.0) - (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(0j) + (0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(0j) - (0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(0j) + (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(0j) - (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(-0j) + (0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        },
+        {
+            "source": "(-0j) - (0j)",
+            "expected": {
+                "type": "complex",
+                "real": "8000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "(-0j) + (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "8000000000000000",
+                "imag": "8000000000000000"
+            }
+        },
+        {
+            "source": "(-0j) - (-0j)",
+            "expected": {
+                "type": "complex",
+                "real": "0000000000000000",
+                "imag": "0000000000000000"
+            }
+        }
+    ]
+}

@@ -7,10 +7,12 @@ import { createContext, SourceTextModule } from "node:vm";
 import { gzipSync, brotliCompressSync, constants } from "node:zlib";
 import * as root from "@anvil-works/skulpt-parser";
 import * as core from "@anvil-works/skulpt-parser/core";
+import { optimizeAST } from "@anvil-works/skulpt-parser/optimize";
 
 // Both public entry points share one implementation and exclude the name database.
 assert.strictEqual(root, core);
 assert.equal("runParserFromString" in root, false);
+assert.equal("optimizeAST" in root, false);
 await assert.rejects(import("@anvil-works/skulpt-parser/node"), {
     code: "ERR_PACKAGE_PATH_NOT_EXPORTED",
 });
@@ -25,6 +27,20 @@ await module.link((specifier) => {
     throw new Error(`Unexpected browser dependency: ${specifier}`);
 });
 await module.evaluate();
+// The opt-in compiler pass is independently usable in a browser.
+const optimizerFile = metadata.exports["./optimize"].import;
+const optimizer = new SourceTextModule(readFileSync(optimizerFile, "utf8"), {
+    context: module.context,
+});
+await optimizer.link((specifier) => {
+    throw new Error(`Unexpected optimizer dependency: ${specifier}`);
+});
+await optimizer.evaluate();
+const tree = module.namespace.parseExpression("1 + 2");
+assert.equal(tree.body._type, "BinOp");
+assert.strictEqual(optimizer.namespace.optimizeAST(tree), tree);
+assert.equal(tree.body.value.value, 3);
+assert.equal(optimizeAST(root.parseExpression("1 + 2")).body.value.value, 3);
 for (const [source, options] of [
     ["type Alias[T = int] = list[T]\n", {}],
     ["print 0755L\nasync = 1\n", { pythonVersion: 2, asyncAwaitAsIdentifiers: true }],
@@ -64,18 +80,24 @@ try {
 } finally {
     rmSync(consumer, { recursive: true, force: true });
 }
-const bytes = readFileSync(file);
 console.log(
     JSON.stringify(
         {
             packageSmoke: "passed",
-            sizes: {
-                [file]: {
-                    bytes: bytes.length,
-                    gzip: gzipSync(bytes, { level: 9 }).length,
-                    brotli: brotliCompressSync(bytes, { params: { [constants.BROTLI_PARAM_QUALITY]: 11 } }).length,
-                },
-            },
+            sizes: Object.fromEntries(
+                [file, optimizerFile].map((path) => {
+                    const bytes = readFileSync(path);
+                    return [
+                        path,
+                        {
+                            bytes: bytes.length,
+                            gzip: gzipSync(bytes, { level: 9 }).length,
+                            brotli: brotliCompressSync(bytes, { params: { [constants.BROTLI_PARAM_QUALITY]: 11 } })
+                                .length,
+                        },
+                    ];
+                })
+            ),
         },
         null,
         2

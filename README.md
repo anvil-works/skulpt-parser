@@ -40,6 +40,33 @@ The parser preserves expression structure. `1 + 2` produces a `BinOp`, matching
 CPython's default AST; constant folding belongs to a later compiler pass.
 Adjacent string literals are combined as required by Python's parsing rules.
 
+Compiler consumers can explicitly fold literal expressions with a separate entry point:
+
+```js
+import { parseExpression } from "@anvil-works/skulpt-parser";
+import { optimizeAST } from "@anvil-works/skulpt-parser/optimize";
+
+const tree = parseExpression("1 + 2");
+optimizeAST(tree); // Mutates tree.body into Constant(3); returns the same root.
+```
+
+`optimizeAST` accepts Python 3 module and expression roots. It preserves expression
+spans, statement suites, bindings and control flow. It folds bounded literal
+arithmetic, unary operations, string/bytes concatenation and repetition, tuple
+concatenation/repetition, and literal indexing. Tuples retain the existing `Tuple`
+schema. Unsupported operations and expressions that would raise at runtime remain
+unfolded. The pass does not create docstrings from computed strings. Annotations
+and lazy type definitions retain their original expression text. String indexing
+with surrogate pairs stays unfolded because UTF-16 cannot distinguish astral
+characters from separately escaped surrogate characters.
+
+Integer folding uses a 128-bit budget. Produced strings/bytes are limited to 4096
+UTF-16 code units/bytes and tuples to 256 contained elements, counting nested
+tuples. These limits bound compilation work, not Python runtime values. This is a
+conservative subset of CPython's compiler optimizations, not a promise of identical
+folding choices. Python 2 compilers must skip this pass. Importing the parser root
+or `/core` does not load it. See [optimizer validation](docs/ast-optimizer.md).
+
 The core includes Unicode identifiers and numeric character escapes. Unicode-name
 escapes such as `"\\N{SNOWMAN}"` require the separately loaded name database:
 
@@ -152,7 +179,7 @@ pnpm publish --tag dev --publish-branch dev
 `prepublishOnly` rejects a missing tag, `latest`, and other tags, and requires an
 `X.Y.Z-dev.N` version. Unlike the existing CLI release workflow, this first release
 does not require a previously published stable version. `prepack` rebuilds the
-core and optional Unicode-name bundles. Increment the prerelease number for subsequent publishes.
+core and optional Unicode-name and optimizer bundles. Increment the prerelease number for subsequent publishes.
 Do not bypass lifecycle scripts when publishing.
 
 After publication, consumers can pin `@anvil-works/skulpt-parser@0.0.1-dev.0` and

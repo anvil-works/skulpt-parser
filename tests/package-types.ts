@@ -1,5 +1,6 @@
 import { parseExpression, parseModule } from "@anvil-works/skulpt-parser";
 import { parseModule as parseCoreModule } from "@anvil-works/skulpt-parser/core";
+import { optimizeAST } from "@anvil-works/skulpt-parser/optimize";
 import type {
     AST,
     Module,
@@ -19,6 +20,8 @@ const coreModule: CoreModule = parseCoreModule("answer = 42");
 const tree: AST = module;
 const coreTree: CoreAST = coreModule;
 const expression: Expression = parseExpression("answer + 1");
+const optimizedExpression: Expression = optimizeAST(expression);
+const optimizedModule: Module = optimizeAST(module);
 const body: expr = expression.body;
 const statements: stmt[] = module.body;
 const explicitStrict: Module = parseCoreModule("pass", { pythonVersion: 3 });
@@ -48,6 +51,8 @@ if (body._type === "Constant") {
 module.lineno;
 
 const compatible: CompatibilityModule = parseModule("print 1", { pythonVersion: 2 });
+// @ts-expect-error Constant folding accepts Python 3 ASTs only.
+optimizeAST(compatible);
 const compatibilityTree: CompatibilityAST = compatible;
 const compatibilityStatements: CompatibilityStatement[] = compatible.body;
 // @ts-expect-error Compatibility trees can contain statements absent from CPython's AST.

@@ -1,6 +1,6 @@
 {
     "name": "@anvil-works/skulpt-parser",
-    "version": "0.0.1-dev.5",
+    "version": "0.0.1-dev.6",
     "type": "module",
     "packageManager": "pnpm@10.10.0",
     "engines": {
@@ -45,6 +45,10 @@
         "./unicode-names": {
             "types": "./dist-core/string_names.d.ts",
             "import": "./dist-core/unicode-names.js"
+        },
+        "./optimize": {
+            "types": "./dist-core/optimize_ast.d.ts",
+            "import": "./dist-core/optimize.js"
         }
     },
     "devDependencies": {

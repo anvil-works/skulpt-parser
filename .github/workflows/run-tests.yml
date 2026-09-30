@@ -51,6 +51,7 @@ jobs:
             - run: python tests/fixtures/generate_python314_modules.py
             - run: python tests/fixtures/generate_python314_diagnostics.py
             - run: python tests/fixtures/generate_python314_lexer.py
+            - run: python tests/fixtures/generate_ast_optimizer.py
             - uses: pnpm/action-setup@v4
             - uses: actions/setup-node@v4
               with:
