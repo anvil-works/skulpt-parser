@@ -27,9 +27,25 @@ for method in ast.walk(ast.parse(source)):
                 text = ast.get_source_segment(source, node)
                 if text not in [case["source"] for case in cases]:
                     cases.append({"source": text, "tree": encode(ast.parse(text, mode="eval"))})
+# Upstream unparse round-trips include comment removal beside escaped quotes.
+unparse_source = (cpython / "Lib/test/test_unparse.py").read_text()
+for method in ast.walk(ast.parse(unparse_source)):
+    if isinstance(method, ast.FunctionDef) and method.name == "test_tstrings":
+        for node in ast.walk(method):
+            if (
+                isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Attribute)
+                and node.func.attr == "check_ast_roundtrip"
+                and node.args
+                and isinstance(node.args[0], ast.Constant)
+            ):
+                text = node.args[0].value
+                if text not in [case["source"] for case in cases]:
+                    cases.append({"source": text, "tree": encode(ast.parse(text, mode="eval"))})
 reference = f"CPython 3.14 {REVISION}"
 (ROOT / "template-expression-metadata.json").write_text(
-    json.dumps({"reference": reference + " Lib/test/test_tstring.py", "cases": cases}, indent=4) + "\n"
+    json.dumps({"reference": reference + " Lib/test/test_tstring.py and test_unparse.py", "cases": cases}, indent=4)
+    + "\n"
 )
 
 

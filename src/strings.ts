@@ -251,6 +251,11 @@ function expressionText(p: Parser, startLine: number, startByte: number, end: To
     let result = "";
     for (let i = 0; i < text.length; i++) {
         const ch = text[i];
+        if (ch === "\\") {
+            result += ch;
+            if (++i < text.length) result += text[i];
+            continue;
+        }
         if (ch === "'" || ch === '"') {
             if (!quote) quote = ch;
             else if (quote === ch) quote = "";
