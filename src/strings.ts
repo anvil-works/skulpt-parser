@@ -263,6 +263,22 @@ function expressionText(p: Parser, startLine: number, startByte: number, end: To
     }
     return result;
 }
+/** CPython 3.14 _strip_interpolation_debug_expr: preserve text before "=". */
+function stripInterpolationDebugExpr(text: string): string {
+    // Python whitespace includes U+001C..001F and excludes JavaScript's BOM.
+    const whitespace = /[\u0009-\u000d\u001c-\u0020\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]/;
+    let length = text.length;
+    while (length > 0) {
+        let hasNewline = false;
+        while (length > 0 && whitespace.test(text[length - 1])) {
+            if (text[length - 1] === "\r" || text[length - 1] === "\n") hasNewline = true;
+            length--;
+        }
+        if (!hasNewline || length === 0 || text[length - 1] !== "\\") break;
+        length--;
+    }
+    return length > 0 && text[length - 1] === "=" ? text.slice(0, length - 1) : text;
+}
 function replacement(
     p: Parser,
     isTemplate: boolean,
@@ -276,15 +292,10 @@ function replacement(
     const conversionValue = conv ? conv.result.id.charCodeAt(0) : debug && !format ? 114 : -1;
     const stop = conv?.token ?? format?.token ?? close;
     const text = isTemplate || debug ? expressionText(p, span[0], span[1] + 1, stop) : "";
-    // Python whitespace includes U+001C..001F and excludes JavaScript's BOM.
-    const stripped = text.replace(
-        /[=\u0009-\u000d\u001c-\u0020\u0085\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+$/,
-        ""
-    );
     const value = isTemplate
         ? ast.Interpolation(
               expression,
-              { type: "str", value: stripped },
+              { type: "str", value: debug ? stripInterpolationDebugExpr(text) : text },
               conversionValue,
               format?.result ?? null,
               ...span

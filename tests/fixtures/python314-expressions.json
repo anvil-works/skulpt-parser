@@ -19358,7 +19358,7 @@
                             },
                             "str": {
                                 "type": "str",
-                                "value": "x"
+                                "value": "x "
                             },
                             "conversion": 114,
                             "format_spec": null,
@@ -19410,7 +19410,7 @@
                             },
                             "str": {
                                 "type": "str",
-                                "value": " x"
+                                "value": " x "
                             },
                             "conversion": 115,
                             "format_spec": null,
@@ -22640,7 +22640,7 @@
                             },
                             "str": {
                                 "type": "str",
-                                "value": "x"
+                                "value": "x "
                             },
                             "conversion": 114,
                             "format_spec": null,
@@ -22692,7 +22692,7 @@
                             },
                             "str": {
                                 "type": "str",
-                                "value": " x"
+                                "value": " x "
                             },
                             "conversion": 115,
                             "format_spec": null,
@@ -24221,7 +24221,7 @@
                             },
                             "str": {
                                 "type": "str",
-                                "value": " {'a': x}"
+                                "value": " {'a': x} "
                             },
                             "conversion": -1,
                             "format_spec": null,
@@ -24309,7 +24309,7 @@
                             },
                             "str": {
                                 "type": "str",
-                                "value": "x"
+                                "value": "x \n "
                             },
                             "conversion": -1,
                             "format_spec": null,
@@ -24349,7 +24349,7 @@
                             },
                             "str": {
                                 "type": "str",
-                                "value": "  x"
+                                "value": "  x  "
                             },
                             "conversion": -1,
                             "format_spec": null,
@@ -28057,7 +28057,7 @@
                             },
                             "str": {
                                 "type": "str",
-                                "value": "x \n + y"
+                                "value": "x \n + y \n "
                             },
                             "conversion": -1,
                             "format_spec": null,
@@ -31358,5 +31358,6 @@
             "source": "[x,y for x in xs]",
             "errorName": "SyntaxError"
         }
-    ]
+    ],
+    "templateMetadataReference": "CPython 3.14 18ef0f0cb5278fa6583b753ffaaef7f46e416ab9"
 }
