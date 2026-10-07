@@ -132,7 +132,7 @@ function decode(
             p.stringWarnings.add(key);
             const escape = "\\" + invalid.escape;
             p.onWarning?.({
-                name: "SyntaxWarning",
+                name: p.featureVersion >= 12 ? "SyntaxWarning" : "DeprecationWarning",
                 filename: p.filename,
                 lineno: token.start[0] + body.slice(0, invalid.at).split("\n").length - 1,
                 message: `"${escape}" is an invalid ${

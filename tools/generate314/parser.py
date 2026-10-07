@@ -2,7 +2,7 @@
 
 Selection is explicit. Generation rejects unknown semantic calls rather than emitting
 fallback helpers. CHECK allocation guards disappear because JavaScript allocations
-throw; CHECK_VERSION guards disappear because this backend targets exactly 3.14.
+throw; CHECK_VERSION guards retain CPython's best-effort minor-version grammar checks.
 """
 
 import ast
@@ -184,7 +184,7 @@ def action(text):
             return action(args[1])
         if name == "CHECK_VERSION":
             assert int(args[1]) <= 14
-            return action(args[3])
+            return f"this.checkVersion({args[1]}, {action(args[2])}, {action(args[3])})"
         if name == "RAISE_SYNTAX_ERROR_STARTING_FROM":
             return f"this.raiseStartingFrom({', '.join(action(arg) for arg in args)})"
         if name == "RAISE_SYNTAX_ERROR_ON_NEXT_TOKEN":

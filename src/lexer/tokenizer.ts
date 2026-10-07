@@ -20,7 +20,12 @@ export type Token = {
     startByte: number;
     endByte: number;
 };
-export type LexerWarning = { name: "SyntaxWarning"; message: string; filename: string; lineno: number };
+export type LexerWarning = {
+    name: "SyntaxWarning" | "DeprecationWarning";
+    message: string;
+    filename: string;
+    lineno: number;
+};
 export type LexerOptions = {
     /** CPython tokenize mode: include comments/non-significant newlines and defer parser-level validation. Defaults to true. */
     extraTokens?: boolean;

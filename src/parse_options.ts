@@ -3,6 +3,8 @@
 import type { LexerOptions } from "./lexer/tokenizer.ts";
 
 export type ParseOptions = Omit<LexerOptions, "extraTokens"> & {
+    /** CPython's best-effort Python 3 minor grammar version. Defaults to 14; negative values select the current grammar. */
+    featureVersion?: number;
     /** Treat print as a name in Python 2 mode. */
     printFunction?: boolean;
     /** Treat async/await as ordinary identifiers. Defaults to true in Python 2 mode. */
