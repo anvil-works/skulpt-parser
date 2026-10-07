@@ -72,6 +72,7 @@ export class Parser {
     mark = 0;
     barryAsFlufl = false;
     readonly python2: boolean;
+    readonly featureVersion: number;
     readonly printFunction: boolean;
     readonly asyncAwaitAsIdentifiers: boolean;
     callInvalidRules = false;
@@ -91,6 +92,7 @@ export class Parser {
         readonly mode: "eval" | "exec" | "func_type"
     ) {
         this.python2 = options.pythonVersion === 2;
+        this.featureVersion = options.featureVersion ?? 14;
         this.printFunction = options.printFunction ?? false;
         this.asyncAwaitAsIdentifiers = options.asyncAwaitAsIdentifiers ?? this.python2;
         this.source = source.replace(/\r\n?/g, "\n");
@@ -280,9 +282,29 @@ export class Parser {
         if (token !== null) throw this.error("type comment parsing is not enabled", token);
         return null;
     }
+    // Parser/pegen.h: INVALID_VERSION_CHECK evaluates the semantic node first.
+    checkVersion<T>(version: number, message: string, node: T): T {
+        if (this.featureVersion < version) {
+            const token = this.tokens[this.tokens.length - 1];
+            const error = this.error(`${message} only supported in Python 3.${version} and greater`);
+            // pegen_errors.c uses the tokenizer cursor for unpositioned suite-end tokens.
+            if (token.start[1] === -1) {
+                const offset = this.scanner.done
+                    ? Array.from(token.line).length + (this.scanner.implicit ? 1 : 0)
+                    : this.scanner.count(this.scanner.lineStart, this.scanner.cur);
+                Object.assign(error, { offset });
+            }
+            if (token.end[1] === -1) Object.assign(error, { end_offset: -1 });
+            throw error;
+        }
+        return node;
+    }
     number(): ast.Constant | null {
         const token = this.expect("NUMBER");
         if (!token) return null;
+        if (this.featureVersion < 6 && token.string.includes("_")) {
+            throw this.error("Underscores in numeric literals are only supported in Python 3.6 and greater");
+        }
         try {
             return ast.Constant(
                 parseNumber(token.string, this.python2),

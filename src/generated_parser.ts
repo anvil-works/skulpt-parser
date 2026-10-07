@@ -267,7 +267,7 @@ let literal: any;
 let b: any;
 let c: any;
 if ((a = this.name()) !== null && (literal = this.literal(":")) !== null && (b = this.expression()) !== null && ((c = this._tmp_12()), true)) {
-return ast.AnnAssign(this.setContext(a, ast.Store()), b, c, 1, ...this.span(mark));
+return this.checkVersion(6, "Variable annotation syntax is", ast.AnnAssign(this.setContext(a, ast.Store()), b, c, 1, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -277,7 +277,7 @@ let literal: any;
 let b: any;
 let c: any;
 if ((a = this._tmp_13()) !== null && (literal = this.literal(":")) !== null && (b = this.expression()) !== null && ((c = this._tmp_14()), true)) {
-return ast.AnnAssign(a, b, c, 0, ...this.span(mark));
+return this.checkVersion(6, "Variable annotations syntax is", ast.AnnAssign(a, b, c, 0, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -356,7 +356,7 @@ this.mark = mark;
 {
 let literal: any;
 if ((literal = this.literal("@=")) !== null) {
-return {kind: ast.MatMult()};
+return this.checkVersion(5, "The '@' operator is", {kind: ast.MatMult()});
 }
 this.mark = mark;
 }
@@ -900,7 +900,7 @@ let literal_4: any;
 let tc: any;
 let b: any;
 if ((literal = this.literal("async")) !== null && (literal_1 = this.literal("def")) !== null && (n = this.name()) !== null && ((t = this._tmp_41()), true) && (literal_2 = this.literal("(")) !== null && ((params = this._tmp_42()), true) && (literal_3 = this.literal(")")) !== null && ((a = this._tmp_43()), true) && (literal_4 = this.literal(":")) !== null && ((tc = this._tmp_44()), true) && (b = this.block()) !== null) {
-return ast.AsyncFunctionDef(n.id, (params ?? ast.arguments([], [], null, [], [], null, [])), b, [], a, this.typeComment(tc), (t ?? []), ...this.span(mark));
+return this.checkVersion(5, "Async functions are", ast.AsyncFunctionDef(n.id, (params ?? ast.arguments([], [], null, [], [], null, [])), b, [], a, this.typeComment(tc), (t ?? []), ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -934,7 +934,7 @@ let b: any;
 let c: any;
 let d: any;
 if ((a = this.slash_no_default()) !== null && (b = this._loop0_45()) !== null && (c = this._loop0_46()) !== null && ((d = this._tmp_47()), true)) {
-return makeArguments(a, null, b, c, d);
+return this.checkVersion(8, "Positional-only parameters are", makeArguments(a, null, b, c, d));
 }
 this.mark = mark;
 }
@@ -943,7 +943,7 @@ let a: any;
 let b: any;
 let c: any;
 if ((a = this.slash_with_default()) !== null && (b = this._loop0_48()) !== null && ((c = this._tmp_49()), true)) {
-return makeArguments(null, a, null, b, c);
+return this.checkVersion(8, "Positional-only parameters are", makeArguments(null, a, null, b, c));
 }
 this.mark = mark;
 }
@@ -1402,7 +1402,7 @@ let tc: any;
 let b: any;
 let el: any;
 if ((literal = this.literal("async")) !== null && (literal_1 = this.literal("for")) !== null && (t = this.star_targets()) !== null && (literal_2 = this.literal("in")) !== null && (cut = true) && (ex = this.star_expressions()) !== null && (literal_3 = this.literal(":")) !== null && ((tc = this._tmp_72()), true) && (b = this.block()) !== null && ((el = this._tmp_73()), true)) {
-return ast.AsyncFor(t, ex, b, (el ?? []), this.typeComment(tc), ...this.span(mark));
+return this.checkVersion(5, "Async for loops are", ast.AsyncFor(t, ex, b, (el ?? []), this.typeComment(tc), ...this.span(mark)));
 }
 this.mark = mark;
 if (cut) return null;
@@ -1461,7 +1461,7 @@ let literal_4: any;
 let literal_5: any;
 let b: any;
 if ((literal = this.literal("async")) !== null && (literal_1 = this.literal("with")) !== null && (literal_2 = this.literal("(")) !== null && (a = this._gather_81()) !== null && ((literal_3 = this.literal(",")), true) && (literal_4 = this.literal(")")) !== null && (literal_5 = this.literal(":")) !== null && (b = this.block()) !== null) {
-return ast.AsyncWith(a, b, null, ...this.span(mark));
+return this.checkVersion(5, "Async with statements are", ast.AsyncWith(a, b, null, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -1473,7 +1473,7 @@ let literal_2: any;
 let tc: any;
 let b: any;
 if ((literal = this.literal("async")) !== null && (literal_1 = this.literal("with")) !== null && (a = this._gather_83()) !== null && (literal_2 = this.literal(":")) !== null && ((tc = this._tmp_84()), true) && (b = this.block()) !== null) {
-return ast.AsyncWith(a, b, this.typeComment(tc), ...this.span(mark));
+return this.checkVersion(5, "Async with statements are", ast.AsyncWith(a, b, this.typeComment(tc), ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -1554,7 +1554,7 @@ let ex: any;
 let el: any;
 let f: any;
 if ((literal = this.literal("try")) !== null && (literal_1 = this.forcedLiteral(":")) !== null && (b = this.block()) !== null && (ex = this._loop1_89()) !== null && ((el = this._tmp_90()), true) && ((f = this._tmp_91()), true)) {
-return ast.TryStar(b, (ex ?? []), (el ?? []), (f ?? []), ...this.span(mark));
+return this.checkVersion(11, "Exception groups are", ast.TryStar(b, (ex ?? []), (el ?? []), (f ?? []), ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -1599,7 +1599,7 @@ let e: any;
 let literal_1: any;
 let b: any;
 if ((literal = this.literal("except")) !== null && (e = this.expressions()) !== null && (literal_1 = this.literal(":")) !== null && (b = this.block()) !== null) {
-return ast.ExceptHandler(e, null, b, ...this.span(mark));
+return this.checkVersion(14, "except expressions without parentheses are", ast.ExceptHandler(e, null, b, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -1662,7 +1662,7 @@ let e: any;
 let literal_2: any;
 let b: any;
 if ((literal = this.literal("except")) !== null && (literal_1 = this.literal("*")) !== null && (e = this.expressions()) !== null && (literal_2 = this.literal(":")) !== null && (b = this.block()) !== null) {
-return ast.ExceptHandler(e, null, b, ...this.span(mark));
+return this.checkVersion(14, "except expressions without parentheses are", ast.ExceptHandler(e, null, b, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -1708,7 +1708,7 @@ let indent: any;
 let cases: any;
 let dedent: any;
 if ((literal = this.literal("match")) !== null && (subject = this.subject_expr()) !== null && (literal_1 = this.literal(":")) !== null && (newline = this.expect("NEWLINE")) !== null && (indent = this.expect("INDENT")) !== null && (cases = this._loop1_92()) !== null && (dedent = this.expect("DEDENT")) !== null) {
-return ast.Match(subject, cases, ...this.span(mark));
+return this.checkVersion(10, "Pattern matching is", ast.Match(subject, cases, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -2467,7 +2467,7 @@ let t: any;
 let literal_1: any;
 let b: any;
 if ((literal = this.literal("type")) !== null && (n = this.name()) !== null && ((t = this._tmp_109()), true) && (literal_1 = this.literal("=")) !== null && (b = this.expression()) !== null) {
-return ast.TypeAlias(this.setContext(n, ast.Store()), (t ?? []), b, ...this.span(mark));
+return this.checkVersion(12, "Type statement is", ast.TypeAlias(this.setContext(n, ast.Store()), (t ?? []), b, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -2488,7 +2488,7 @@ let literal: any;
 let t: any;
 let literal_1: any;
 if ((literal = this.literal("[")) !== null && (t = this.type_param_seq()) !== null && (literal_1 = this.literal("]")) !== null) {
-return t;
+return this.checkVersion(12, "Type parameter lists are", t);
 }
 this.mark = mark;
 }
@@ -2567,7 +2567,7 @@ const mark = this.mark;
 let literal: any;
 let e: any;
 if ((literal = this.literal("=")) !== null && (e = this.expression()) !== null) {
-return e;
+return this.checkVersion(13, "Type parameter defaults are", e);
 }
 this.mark = mark;
 }
@@ -2580,7 +2580,7 @@ const mark = this.mark;
 let literal: any;
 let e: any;
 if ((literal = this.literal("=")) !== null && (e = this.star_expression()) !== null) {
-return e;
+return this.checkVersion(13, "Type parameter defaults are", e);
 }
 this.mark = mark;
 }
@@ -2774,7 +2774,7 @@ let literal: any;
 let cut: any;
 let b: any;
 if ((a = this.name()) !== null && (literal = this.literal(":=")) !== null && (cut = true) && (b = this.expression()) !== null) {
-return ast.NamedExpr(this.setContext(a, ast.Store()), b, ...this.span(mark));
+return this.checkVersion(8, "Assignment expressions are", ast.NamedExpr(this.setContext(a, ast.Store()), b, ...this.span(mark)));
 }
 this.mark = mark;
 if (cut) return null;
@@ -3277,7 +3277,7 @@ let a: any;
 let literal: any;
 let b: any;
 if ((a = this.term()) !== null && (literal = this.literal("@")) !== null && (b = this.factor()) !== null) {
-return ast.BinOp(a, ast.MatMult(), b, ...this.span(mark));
+return this.checkVersion(5, "The '@' operator is", ast.BinOp(a, ast.MatMult(), b, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -3363,7 +3363,7 @@ const mark = this.mark;
 let literal: any;
 let a: any;
 if ((literal = this.literal("await")) !== null && (a = this.primary()) !== null) {
-return ast.Await(a, ...this.span(mark));
+return this.checkVersion(5, "Await expressions are", ast.Await(a, ...this.span(mark)));
 }
 this.mark = mark;
 }
@@ -3607,7 +3607,7 @@ let b: any;
 let c: any;
 let d: any;
 if ((a = this.lambda_slash_no_default()) !== null && (b = this._loop0_142()) !== null && (c = this._loop0_143()) !== null && ((d = this._tmp_144()), true)) {
-return makeArguments(a, null, b, c, d);
+return this.checkVersion(8, "Positional-only parameters are", makeArguments(a, null, b, c, d));
 }
 this.mark = mark;
 }
@@ -3616,7 +3616,7 @@ let a: any;
 let b: any;
 let c: any;
 if ((a = this.lambda_slash_with_default()) !== null && (b = this._loop0_145()) !== null && ((c = this._tmp_146()), true)) {
-return makeArguments(null, a, null, b, c);
+return this.checkVersion(8, "Positional-only parameters are", makeArguments(null, a, null, b, c));
 }
 this.mark = mark;
 }
@@ -4037,7 +4037,7 @@ let a: any;
 let b: any;
 let c: any;
 if ((a = this.expect("TSTRING_START")) !== null && (b = this._loop0_171()) !== null && (c = this.expect("TSTRING_END")) !== null) {
-return strings.template(this, a, b, c);
+return this.checkVersion(14, "t-strings are", strings.template(this, a, b, c));
 }
 this.mark = mark;
 }
@@ -4218,7 +4218,7 @@ let cut: any;
 let b: any;
 let c: any;
 if ((literal = this.literal("async")) !== null && (literal_1 = this.literal("for")) !== null && (a = this.star_targets()) !== null && (literal_2 = this.literal("in")) !== null && (cut = true) && (b = this.disjunction()) !== null && (c = this._loop0_181()) !== null) {
-return ast.comprehension(a, b, c, 1);
+return this.checkVersion(6, "Async comprehensions are", ast.comprehension(a, b, c, 1));
 }
 this.mark = mark;
 if (cut) return null;
@@ -6077,7 +6077,7 @@ let literal: any;
 let subject_expr: any;
 let newline: any;
 if ((literal = this.literal("match")) !== null && (subject_expr = this.subject_expr()) !== null && (newline = this.expect("NEWLINE")) !== null) {
-return this.raiseDiagnostic(false, "expected ':'");
+return this.checkVersion(10, "Pattern matching is", this.raiseDiagnostic(false, "expected ':'"));
 }
 this.mark = mark;
 }
