@@ -53,6 +53,7 @@ import_stmt import_name import_from import_from_targets import_from_as_names
 import_from_as_name dotted_as_names dotted_as_name dotted_name
 type_alias type_params type_param_seq type_param type_param_bound
 type_param_default type_param_starred_default
+func_type type_expressions
 eval expressions expression disjunction conjunction inversion comparison
 compare_op_bitwise_or_pair eq_bitwise_or noteq_bitwise_or lte_bitwise_or lt_bitwise_or
 gte_bitwise_or gt_bitwise_or notin_bitwise_or in_bitwise_or isnot_bitwise_or is_bitwise_or
@@ -222,6 +223,8 @@ def action(text):
             if name in {"Try", "TryStar"}:
                 for index in (1, 2, 3):
                     args[index] = "[]" if args[index] == "null" else f"({args[index]} ?? [])"
+            if name == "FunctionType":
+                args[0] = f"({args[0]} ?? [])"
             if name == "MatchSequence":
                 args[0] = f"({args[0]} ?? [])"
             if name == "MatchMapping":
@@ -289,6 +292,7 @@ def action(text):
             "_PyPegen_seq_extract_starred_exprs": lambda a: f"{a[1]}.filter((item: any) => !item.isKeyword).map((item: any) => item.element)",
             "_PyPegen_seq_delete_starred_exprs": lambda a: f"{a[1]}.filter((item: any) => item.isKeyword).map((item: any) => item.element)",
             "_PyPegen_seq_insert_in_front": lambda a: f"[{a[1]}, ...({a[2]} ?? [])]",
+            "_PyPegen_seq_append_to_end": lambda a: f"[...{a[1]}, {a[2]}]",
             "_PyPegen_singleton_seq": lambda a: f"[{a[1]}]",
             "_PyPegen_cmpop_expr_pair": lambda a: f"{{op: {a[1]}, expr: {a[2]}}}",
             "_PyPegen_get_cmpops": lambda a: f"{a[1]}.map((pair: any) => pair.op)",
@@ -546,8 +550,8 @@ class References(GrammarVisitor):
 
 
 def check_complete_rules(grammar):
-    """Do not silently prune rules reachable from either entry point, including diagnostics."""
-    pending, visited = ["eval", "file"], set()
+    """Do not silently prune rules reachable from each entry point, including diagnostics."""
+    pending, visited = ["eval", "file", "func_type"], set()
     while pending:
         name = pending.pop()
         if name in visited or name not in grammar.rules:
@@ -558,12 +562,15 @@ def check_complete_rules(grammar):
         pending.extend(refs.names)
     missing = visited - RULES
     if missing:
-        raise ValueError(f"Unselected eval/file rules: {sorted(missing)}")
+        raise ValueError(f"Unselected entry-point rules: {sorted(missing)}")
 
 
 def generate(grammar, tokens):
     check_complete_rules(grammar)
-    grammar.rules = {name: rule for name, rule in grammar.rules.items() if name in RULES}
+    selected = {name: rule for name, rule in grammar.rules.items() if name in RULES}
+    # Append the new input grammar to limit generated helper-number churn.
+    grammar.rules = {name: rule for name, rule in selected.items() if name not in {"func_type", "type_expressions"}}
+    grammar.rules.update({name: selected[name] for name in ("func_type", "type_expressions")})
     selector = Select()
     for rule in grammar.rules.values():
         if not selector.visit(rule.rhs):

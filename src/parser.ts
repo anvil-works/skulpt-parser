@@ -88,7 +88,7 @@ export class Parser {
     constructor(
         source: string,
         options: ParseOptions,
-        readonly mode: "eval" | "exec"
+        readonly mode: "eval" | "exec" | "func_type"
     ) {
         this.python2 = options.pythonVersion === 2;
         this.printFunction = options.printFunction ?? false;

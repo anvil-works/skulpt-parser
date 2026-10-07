@@ -18,3 +18,7 @@ export function parseModule(source: string, options: Options): Module | Compatib
 export function parseModule(source: string, options: Options = {}): Module | CompatibilityModule {
     return core.parseModule(source, { ...options, resolveUnicodeName: unicodeName });
 }
+
+export function parseFunctionType(source: string, options: Options = {}) {
+    return core.parseFunctionType(source, { ...options, resolveUnicodeName: unicodeName });
+}
