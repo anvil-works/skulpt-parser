@@ -87,3 +87,7 @@ Lambda parameter groups are assembled by `src/parameters.ts`, following the pinn
 ## Module integration
 
 `src/frontend.ts` exposes internal expression and module entry points backed by `GeneratedParser`. The module rules now cover every rule reachable from `file`, including compound statements, pattern matching and second-pass diagnostics. This is grammar coverage, not exhaustive conformance. See `docs/python314-modules.md` for exact scope, default type-comment behavior, EOF/error adaptation and CPython fixture checks. The existing `--parser` generator option emits both entry rules.
+
+## Function-type input
+
+The selected grammar also includes upstream `func_type` and `type_expressions`, exposed by `parseFunctionType`. Its root is a structural FunctionType, with starred argument type expressions represented directly, as in CPython's function-comment grammar. The nine complete source cases from CPython 3.14 `test_type_comments.test_func_type_input` compare valid ASTs and reject invalid starred ordering. The fixture generator reads the sibling CPython checkout. The fixtures use CPython commit `18ef0f0cb5278fa6583b753ffaaef7f46e416ab9`; refresh them with the sibling checkout’s `python.exe tests/fixtures/generate_function_type_input.py`. The dev.9 package version is an unpublished release candidate for review.

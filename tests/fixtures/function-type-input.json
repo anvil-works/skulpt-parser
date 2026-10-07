@@ -1,0 +1,239 @@
+{
+    "reference": "CPython 18ef0f0cb52 Lib/test/test_type_comments.py",
+    "cases": [
+        {
+            "source": "() -> int",
+            "tree": {
+                "_type": "FunctionType",
+                "argtypes": [],
+                "returns": {
+                    "_type": "Name",
+                    "id": "int",
+                    "ctx": {
+                        "_type": "Load"
+                    },
+                    "lineno": 1,
+                    "col_offset": 6,
+                    "end_lineno": 1,
+                    "end_col_offset": 9
+                }
+            }
+        },
+        {
+            "source": "(int) -> List[str]",
+            "tree": {
+                "_type": "FunctionType",
+                "argtypes": [
+                    {
+                        "_type": "Name",
+                        "id": "int",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 1,
+                        "end_lineno": 1,
+                        "end_col_offset": 4
+                    }
+                ],
+                "returns": {
+                    "_type": "Subscript",
+                    "value": {
+                        "_type": "Name",
+                        "id": "List",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 9,
+                        "end_lineno": 1,
+                        "end_col_offset": 13
+                    },
+                    "slice": {
+                        "_type": "Name",
+                        "id": "str",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 14,
+                        "end_lineno": 1,
+                        "end_col_offset": 17
+                    },
+                    "ctx": {
+                        "_type": "Load"
+                    },
+                    "lineno": 1,
+                    "col_offset": 9,
+                    "end_lineno": 1,
+                    "end_col_offset": 18
+                }
+            }
+        },
+        {
+            "source": "(int, *str, **Any) -> float",
+            "tree": {
+                "_type": "FunctionType",
+                "argtypes": [
+                    {
+                        "_type": "Name",
+                        "id": "int",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 1,
+                        "end_lineno": 1,
+                        "end_col_offset": 4
+                    },
+                    {
+                        "_type": "Name",
+                        "id": "str",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 7,
+                        "end_lineno": 1,
+                        "end_col_offset": 10
+                    },
+                    {
+                        "_type": "Name",
+                        "id": "Any",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 14,
+                        "end_lineno": 1,
+                        "end_col_offset": 17
+                    }
+                ],
+                "returns": {
+                    "_type": "Name",
+                    "id": "float",
+                    "ctx": {
+                        "_type": "Load"
+                    },
+                    "lineno": 1,
+                    "col_offset": 22,
+                    "end_lineno": 1,
+                    "end_col_offset": 27
+                }
+            }
+        },
+        {
+            "source": "(*int) -> None",
+            "tree": {
+                "_type": "FunctionType",
+                "argtypes": [
+                    {
+                        "_type": "Name",
+                        "id": "int",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 2,
+                        "end_lineno": 1,
+                        "end_col_offset": 5
+                    }
+                ],
+                "returns": {
+                    "_type": "Constant",
+                    "value": {
+                        "type": "none"
+                    },
+                    "kind": null,
+                    "lineno": 1,
+                    "col_offset": 10,
+                    "end_lineno": 1,
+                    "end_col_offset": 14
+                }
+            }
+        },
+        {
+            "source": "(**int) -> None",
+            "tree": {
+                "_type": "FunctionType",
+                "argtypes": [
+                    {
+                        "_type": "Name",
+                        "id": "int",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 3,
+                        "end_lineno": 1,
+                        "end_col_offset": 6
+                    }
+                ],
+                "returns": {
+                    "_type": "Constant",
+                    "value": {
+                        "type": "none"
+                    },
+                    "kind": null,
+                    "lineno": 1,
+                    "col_offset": 11,
+                    "end_lineno": 1,
+                    "end_col_offset": 15
+                }
+            }
+        },
+        {
+            "source": "(*int, **str) -> None",
+            "tree": {
+                "_type": "FunctionType",
+                "argtypes": [
+                    {
+                        "_type": "Name",
+                        "id": "int",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 2,
+                        "end_lineno": 1,
+                        "end_col_offset": 5
+                    },
+                    {
+                        "_type": "Name",
+                        "id": "str",
+                        "ctx": {
+                            "_type": "Load"
+                        },
+                        "lineno": 1,
+                        "col_offset": 9,
+                        "end_lineno": 1,
+                        "end_col_offset": 12
+                    }
+                ],
+                "returns": {
+                    "_type": "Constant",
+                    "value": {
+                        "type": "none"
+                    },
+                    "kind": null,
+                    "lineno": 1,
+                    "col_offset": 17,
+                    "end_lineno": 1,
+                    "end_col_offset": 21
+                }
+            }
+        },
+        {
+            "source": "(int, *str, *Any) -> float",
+            "invalid": true
+        },
+        {
+            "source": "(int, **str, Any) -> float",
+            "invalid": true
+        },
+        {
+            "source": "(**int, **str) -> float",
+            "invalid": true
+        }
+    ]
+}
