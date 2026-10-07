@@ -129,6 +129,15 @@ hashes live in `tools/upstream/cpython.json`; source directories are not version
 
 ## Development
 
+The baseline generation inputs remain pinned to CPython 3.14.3. Template
+interpolation metadata includes the later 3.14 correction at commit
+`18ef0f0cb5278fa6583b753ffaaef7f46e416ab9` (3.14.8+): preserve expression
+whitespace before a debug marker and strip continuations after it.
+`tests/fixtures/generate_template_expression_metadata.py` regenerates its
+upstream test cases and the affected baseline metadata with that checkout's
+interpreter. Run it after the baseline expression fixture generator; it updates
+only `Interpolation.str` in that fixture.
+
 Use Node 22 or later and pnpm 10.10.0. Fixture generation and live corpus
 comparisons require CPython 3.14.3. Tests use checked-in CPython reference fixtures. The live corpus check also compares
 all 560 retained programs in `tests/corpus/` and ten standard-library files against

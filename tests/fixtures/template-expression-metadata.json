@@ -1,0 +1,1739 @@
+{
+    "reference": "CPython 3.14 18ef0f0cb5278fa6583b753ffaaef7f46e416ab9 Lib/test/test_tstring.py and test_unparse.py",
+    "cases": [
+        {
+            "source": "t\"Value: {value=}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "Value: value="
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 16
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "value",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 10,
+                                "end_lineno": 1,
+                                "end_col_offset": 15
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "value"
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 17
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 18
+                }
+            }
+        },
+        {
+            "source": "t\"Value: {value=:.2f}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "Value: value="
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 16
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "value",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 10,
+                                "end_lineno": 1,
+                                "end_col_offset": 15
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "value"
+                            },
+                            "conversion": -1,
+                            "format_spec": {
+                                "_type": "JoinedStr",
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": ".2f"
+                                        },
+                                        "kind": null,
+                                        "lineno": 1,
+                                        "col_offset": 17,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 20
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 16,
+                                "end_lineno": 1,
+                                "end_col_offset": 20
+                            },
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 21
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 22
+                }
+            }
+        },
+        {
+            "source": "t\"Value: {value=!s}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "Value: value="
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 16
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "value",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 10,
+                                "end_lineno": 1,
+                                "end_col_offset": 15
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "value"
+                            },
+                            "conversion": 115,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 19
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 20
+                }
+            }
+        },
+        {
+            "source": "t\"Value: {value = }\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "Value: value = "
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 18
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "value",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 10,
+                                "end_lineno": 1,
+                                "end_col_offset": 15
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "value "
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 9,
+                            "end_lineno": 1,
+                            "end_col_offset": 19
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 20
+                }
+            }
+        },
+        {
+            "source": "t\"\"\"Value: {value =\\\n}\"\"\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "Value: value =\\\n"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 2,
+                            "end_col_offset": 0
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "value",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 12,
+                                "end_lineno": 1,
+                                "end_col_offset": 17
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "value "
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 11,
+                            "end_lineno": 2,
+                            "end_col_offset": 1
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 2,
+                    "end_col_offset": 4
+                }
+            }
+        },
+        {
+            "source": "t\"\"\"Value: {value =\\\n!r}\"\"\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "Value: value =\\\n"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 2,
+                            "end_col_offset": 0
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "value",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 12,
+                                "end_lineno": 1,
+                                "end_col_offset": 17
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "value "
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 11,
+                            "end_lineno": 2,
+                            "end_col_offset": 3
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 2,
+                    "end_col_offset": 6
+                }
+            }
+        },
+        {
+            "source": "t\"\"\"Value: {value =\\\n:04}\"\"\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "Value: value =\\\n"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 2,
+                            "end_col_offset": 0
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "value",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 12,
+                                "end_lineno": 1,
+                                "end_col_offset": 17
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "value "
+                            },
+                            "conversion": -1,
+                            "format_spec": {
+                                "_type": "JoinedStr",
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": "04"
+                                        },
+                                        "kind": null,
+                                        "lineno": 2,
+                                        "col_offset": 1,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 3
+                                    }
+                                ],
+                                "lineno": 2,
+                                "col_offset": 0,
+                                "end_lineno": 2,
+                                "end_col_offset": 3
+                            },
+                            "lineno": 1,
+                            "col_offset": 11,
+                            "end_lineno": 2,
+                            "end_col_offset": 4
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 2,
+                    "end_col_offset": 7
+                }
+            }
+        },
+        {
+            "source": "t\"\"\"Value: {value =\\\n\\\n}\"\"\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "Value: value =\\\n\\\n"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 3,
+                            "end_col_offset": 0
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "value",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 12,
+                                "end_lineno": 1,
+                                "end_col_offset": 17
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "value "
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 11,
+                            "end_lineno": 3,
+                            "end_col_offset": 1
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 3,
+                    "end_col_offset": 4
+                }
+            }
+        },
+        {
+            "source": "t\"{x}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 3,
+                                "end_lineno": 1,
+                                "end_col_offset": 4
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "x"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 5
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 6
+                }
+            }
+        },
+        {
+            "source": "t\"{x }\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 3,
+                                "end_lineno": 1,
+                                "end_col_offset": 4
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "x "
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 6
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 7
+                }
+            }
+        },
+        {
+            "source": "t\"{ x}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 5
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " x"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 6
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 7
+                }
+            }
+        },
+        {
+            "source": "t\"{ x }\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 5
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " x "
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 7
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 8
+                }
+            }
+        },
+        {
+            "source": "t\"{  x  }\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 5,
+                                "end_lineno": 1,
+                                "end_col_offset": 6
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "  x  "
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 9
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 10
+                }
+            }
+        },
+        {
+            "source": "t\"\"\"{\n  x\n}\"\"\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 2,
+                                "col_offset": 2,
+                                "end_lineno": 2,
+                                "end_col_offset": 3
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "\n  x\n"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 3,
+                            "end_col_offset": 1
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 3,
+                    "end_col_offset": 4
+                }
+            }
+        },
+        {
+            "source": "t\"{ x !r}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 5
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " x "
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 9
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 10
+                }
+            }
+        },
+        {
+            "source": "t\"{ x :.2f}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 5
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " x "
+                            },
+                            "conversion": -1,
+                            "format_spec": {
+                                "_type": "JoinedStr",
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": ".2f"
+                                        },
+                                        "kind": null,
+                                        "lineno": 1,
+                                        "col_offset": 7,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 10
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 6,
+                                "end_lineno": 1,
+                                "end_col_offset": 10
+                            },
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 11
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 12
+                }
+            }
+        },
+        {
+            "source": "t\"{ x = }\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": " x = "
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 8
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 5
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " x "
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 9
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 10
+                }
+            }
+        },
+        {
+            "source": "t\"{ x = !r}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": " x = "
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 8
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 5
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " x "
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 11
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 12
+                }
+            }
+        },
+        {
+            "source": "t\"{ x = :.2f}\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": " x = "
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 8
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "x",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 5
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " x "
+                            },
+                            "conversion": -1,
+                            "format_spec": {
+                                "_type": "JoinedStr",
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": ".2f"
+                                        },
+                                        "kind": null,
+                                        "lineno": 1,
+                                        "col_offset": 9,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 12
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 8,
+                                "end_lineno": 1,
+                                "end_col_offset": 12
+                            },
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 13
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 14
+                }
+            }
+        },
+        {
+            "source": "t\"{x == 42 = }\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "x == 42 = "
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 13
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Compare",
+                                "left": {
+                                    "_type": "Name",
+                                    "id": "x",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 3,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 4
+                                },
+                                "ops": [
+                                    {
+                                        "_type": "Eq"
+                                    }
+                                ],
+                                "comparators": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "int",
+                                            "value": 42
+                                        },
+                                        "kind": null,
+                                        "lineno": 1,
+                                        "col_offset": 8,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 10
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 3,
+                                "end_lineno": 1,
+                                "end_col_offset": 10
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "x == 42 "
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 14
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 15
+                }
+            }
+        },
+        {
+            "source": "t'foo'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "foo"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 5
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 6
+                }
+            }
+        },
+        {
+            "source": "t'foo {bar}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "foo "
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 6
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "bar",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 7,
+                                "end_lineno": 1,
+                                "end_col_offset": 10
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "bar"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 6,
+                            "end_lineno": 1,
+                            "end_col_offset": 11
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 12
+                }
+            }
+        },
+        {
+            "source": "t'foo {bar!s:.2f}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "foo "
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 6
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Name",
+                                "id": "bar",
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 7,
+                                "end_lineno": 1,
+                                "end_col_offset": 10
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "bar"
+                            },
+                            "conversion": 115,
+                            "format_spec": {
+                                "_type": "JoinedStr",
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": ".2f"
+                                        },
+                                        "kind": null,
+                                        "lineno": 1,
+                                        "col_offset": 13,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 16
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 12,
+                                "end_lineno": 1,
+                                "end_col_offset": 16
+                            },
+                            "lineno": 1,
+                            "col_offset": 6,
+                            "end_lineno": 1,
+                            "end_col_offset": 17
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 18
+                }
+            }
+        },
+        {
+            "source": "t'{a +    b}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "BinOp",
+                                "left": {
+                                    "_type": "Name",
+                                    "id": "a",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 3,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 4
+                                },
+                                "op": {
+                                    "_type": "Add"
+                                },
+                                "right": {
+                                    "_type": "Name",
+                                    "id": "b",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 10,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 11
+                                },
+                                "lineno": 1,
+                                "col_offset": 3,
+                                "end_lineno": 1,
+                                "end_col_offset": 11
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "a +    b"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 12
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 13
+                }
+            }
+        },
+        {
+            "source": "t'{a +    b:x}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "BinOp",
+                                "left": {
+                                    "_type": "Name",
+                                    "id": "a",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 3,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 4
+                                },
+                                "op": {
+                                    "_type": "Add"
+                                },
+                                "right": {
+                                    "_type": "Name",
+                                    "id": "b",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 10,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 11
+                                },
+                                "lineno": 1,
+                                "col_offset": 3,
+                                "end_lineno": 1,
+                                "end_col_offset": 11
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "a +    b"
+                            },
+                            "conversion": -1,
+                            "format_spec": {
+                                "_type": "JoinedStr",
+                                "values": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": "x"
+                                        },
+                                        "kind": null,
+                                        "lineno": 1,
+                                        "col_offset": 12,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 13
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 11,
+                                "end_lineno": 1,
+                                "end_col_offset": 13
+                            },
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 14
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 15
+                }
+            }
+        },
+        {
+            "source": "t'{a +    b!s}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "BinOp",
+                                "left": {
+                                    "_type": "Name",
+                                    "id": "a",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 3,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 4
+                                },
+                                "op": {
+                                    "_type": "Add"
+                                },
+                                "right": {
+                                    "_type": "Name",
+                                    "id": "b",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 10,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 11
+                                },
+                                "lineno": 1,
+                                "col_offset": 3,
+                                "end_lineno": 1,
+                                "end_col_offset": 11
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "a +    b"
+                            },
+                            "conversion": 115,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 14
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 15
+                }
+            }
+        },
+        {
+            "source": "t'{ {a}}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Set",
+                                "elts": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "a",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 5,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 6
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 7
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " {a}"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 8
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 9
+                }
+            }
+        },
+        {
+            "source": "t'{ {a}=}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": " {a}="
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 3,
+                            "end_lineno": 1,
+                            "end_col_offset": 8
+                        },
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Set",
+                                "elts": [
+                                    {
+                                        "_type": "Name",
+                                        "id": "a",
+                                        "ctx": {
+                                            "_type": "Load"
+                                        },
+                                        "lineno": 1,
+                                        "col_offset": 5,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 6
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 7
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": " {a}"
+                            },
+                            "conversion": 114,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 9
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 10
+                }
+            }
+        },
+        {
+            "source": "t'{{a}}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Constant",
+                            "value": {
+                                "type": "str",
+                                "value": "{a}"
+                            },
+                            "kind": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 7
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 8
+                }
+            }
+        },
+        {
+            "source": "t''",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 3
+                }
+            }
+        },
+        {
+            "source": "t\"\"",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 3
+                }
+            }
+        },
+        {
+            "source": "t'{(lambda x: x)}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Lambda",
+                                "args": {
+                                    "_type": "arguments",
+                                    "posonlyargs": [],
+                                    "args": [
+                                        {
+                                            "_type": "arg",
+                                            "arg": "x",
+                                            "annotation": null,
+                                            "type_comment": null,
+                                            "lineno": 1,
+                                            "col_offset": 11,
+                                            "end_lineno": 1,
+                                            "end_col_offset": 12
+                                        }
+                                    ],
+                                    "vararg": null,
+                                    "kwonlyargs": [],
+                                    "kw_defaults": [],
+                                    "kwarg": null,
+                                    "defaults": []
+                                },
+                                "body": {
+                                    "_type": "Name",
+                                    "id": "x",
+                                    "ctx": {
+                                        "_type": "Load"
+                                    },
+                                    "lineno": 1,
+                                    "col_offset": 14,
+                                    "end_lineno": 1,
+                                    "end_col_offset": 15
+                                },
+                                "lineno": 1,
+                                "col_offset": 4,
+                                "end_lineno": 1,
+                                "end_col_offset": 15
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "(lambda x: x)"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 17
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 18
+                }
+            }
+        },
+        {
+            "source": "t'{t'{x}'}'",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "TemplateStr",
+                                "values": [
+                                    {
+                                        "_type": "Interpolation",
+                                        "value": {
+                                            "_type": "Name",
+                                            "id": "x",
+                                            "ctx": {
+                                                "_type": "Load"
+                                            },
+                                            "lineno": 1,
+                                            "col_offset": 6,
+                                            "end_lineno": 1,
+                                            "end_col_offset": 7
+                                        },
+                                        "str": {
+                                            "type": "str",
+                                            "value": "x"
+                                        },
+                                        "conversion": -1,
+                                        "format_spec": null,
+                                        "lineno": 1,
+                                        "col_offset": 5,
+                                        "end_lineno": 1,
+                                        "end_col_offset": 8
+                                    }
+                                ],
+                                "lineno": 1,
+                                "col_offset": 3,
+                                "end_lineno": 1,
+                                "end_col_offset": 9
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "t'{x}'"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 2,
+                            "end_lineno": 1,
+                            "end_col_offset": 10
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 1,
+                    "end_col_offset": 11
+                }
+            }
+        },
+        {
+            "source": "t'''{(\n                1,  # Force lexer metadata reconstruction.\n                \"\\\"#\")}'''",
+            "tree": {
+                "_type": "Expression",
+                "body": {
+                    "_type": "TemplateStr",
+                    "values": [
+                        {
+                            "_type": "Interpolation",
+                            "value": {
+                                "_type": "Tuple",
+                                "elts": [
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "int",
+                                            "value": 1
+                                        },
+                                        "kind": null,
+                                        "lineno": 2,
+                                        "col_offset": 16,
+                                        "end_lineno": 2,
+                                        "end_col_offset": 17
+                                    },
+                                    {
+                                        "_type": "Constant",
+                                        "value": {
+                                            "type": "str",
+                                            "value": "\"#"
+                                        },
+                                        "kind": null,
+                                        "lineno": 3,
+                                        "col_offset": 16,
+                                        "end_lineno": 3,
+                                        "end_col_offset": 21
+                                    }
+                                ],
+                                "ctx": {
+                                    "_type": "Load"
+                                },
+                                "lineno": 1,
+                                "col_offset": 5,
+                                "end_lineno": 3,
+                                "end_col_offset": 22
+                            },
+                            "str": {
+                                "type": "str",
+                                "value": "(\n                1,  \n                \"\\\"#\")"
+                            },
+                            "conversion": -1,
+                            "format_spec": null,
+                            "lineno": 1,
+                            "col_offset": 4,
+                            "end_lineno": 3,
+                            "end_col_offset": 23
+                        }
+                    ],
+                    "lineno": 1,
+                    "col_offset": 0,
+                    "end_lineno": 3,
+                    "end_col_offset": 26
+                }
+            }
+        }
+    ]
+}

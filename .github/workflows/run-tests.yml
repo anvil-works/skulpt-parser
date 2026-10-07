@@ -52,6 +52,18 @@ jobs:
             - run: python tests/fixtures/generate_python314_diagnostics.py
             - run: python tests/fixtures/generate_python314_lexer.py
             - run: python tests/fixtures/generate_ast_optimizer.py
+            # Template metadata includes a later 3.14 correction than the baseline oracle.
+            - uses: actions/checkout@v4
+              with:
+                  repository: python/cpython
+                  ref: 18ef0f0cb5278fa6583b753ffaaef7f46e416ab9
+                  path: .cache/cpython-template-metadata
+            - name: Build the template metadata oracle
+              run: |
+                  cd .cache/cpython-template-metadata
+                  ./configure --without-ensurepip
+                  make -j2
+            - run: .cache/cpython-template-metadata/python tests/fixtures/generate_template_expression_metadata.py .cache/cpython-template-metadata
             - uses: pnpm/action-setup@v4
             - uses: actions/setup-node@v4
               with:
