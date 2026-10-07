@@ -92,7 +92,8 @@ export class Parser {
         readonly mode: "eval" | "exec" | "func_type"
     ) {
         this.python2 = options.pythonVersion === 2;
-        this.featureVersion = options.featureVersion ?? 14;
+        const featureVersion = options.featureVersion ?? 14;
+        this.featureVersion = featureVersion < 0 ? 14 : featureVersion;
         this.printFunction = options.printFunction ?? false;
         this.asyncAwaitAsIdentifiers = options.asyncAwaitAsIdentifiers ?? this.python2;
         this.source = source.replace(/\r\n?/g, "\n");

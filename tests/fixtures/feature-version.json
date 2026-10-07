@@ -2300,6 +2300,110 @@
             }
         },
         {
+            "source": "def f[T](): pass",
+            "featureVersion": -1,
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "FunctionDef",
+                        "name": "f",
+                        "args": {
+                            "_type": "arguments",
+                            "posonlyargs": [],
+                            "args": [],
+                            "vararg": null,
+                            "kwonlyargs": [],
+                            "kw_defaults": [],
+                            "kwarg": null,
+                            "defaults": []
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 12,
+                                "end_lineno": 1,
+                                "end_col_offset": 16
+                            }
+                        ],
+                        "decorator_list": [],
+                        "returns": null,
+                        "type_comment": null,
+                        "type_params": [
+                            {
+                                "_type": "TypeVar",
+                                "name": "T",
+                                "bound": null,
+                                "default_value": null,
+                                "lineno": 1,
+                                "col_offset": 6,
+                                "end_lineno": 1,
+                                "end_col_offset": 7
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 16
+                    }
+                ],
+                "type_ignores": []
+            }
+        },
+        {
+            "source": "def f[T](): pass",
+            "featureVersion": -2,
+            "tree": {
+                "_type": "Module",
+                "body": [
+                    {
+                        "_type": "FunctionDef",
+                        "name": "f",
+                        "args": {
+                            "_type": "arguments",
+                            "posonlyargs": [],
+                            "args": [],
+                            "vararg": null,
+                            "kwonlyargs": [],
+                            "kw_defaults": [],
+                            "kwarg": null,
+                            "defaults": []
+                        },
+                        "body": [
+                            {
+                                "_type": "Pass",
+                                "lineno": 1,
+                                "col_offset": 12,
+                                "end_lineno": 1,
+                                "end_col_offset": 16
+                            }
+                        ],
+                        "decorator_list": [],
+                        "returns": null,
+                        "type_comment": null,
+                        "type_params": [
+                            {
+                                "_type": "TypeVar",
+                                "name": "T",
+                                "bound": null,
+                                "default_value": null,
+                                "lineno": 1,
+                                "col_offset": 6,
+                                "end_lineno": 1,
+                                "end_col_offset": 7
+                            }
+                        ],
+                        "lineno": 1,
+                        "col_offset": 0,
+                        "end_lineno": 1,
+                        "end_col_offset": 16
+                    }
+                ],
+                "type_ignores": []
+            }
+        },
+        {
             "source": "42_42_42",
             "featureVersion": 5,
             "error": {

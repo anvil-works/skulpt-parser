@@ -70,6 +70,8 @@ try:
         ("async def f():\n pass\n", 4),
         ('async def f():\n "à漢"', 4),
         ('async def f():\n "à漢"\n', 4),
+        ("def f[T](): pass", -1),
+        ("def f[T](): pass", -2),
         ("42_42_42", 5),
         ("42_42_42", 6),
         (r"'\q'", 11),
